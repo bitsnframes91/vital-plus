@@ -8,3 +8,10 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+# Project rules
+
+- Fairvital Health is a companion app; Shopware (fairvital.com) owns products, prices, cart and checkout — the app only links out to product pages. Why: the shop must not be replaced.
+- Product lookups go through `src/lib/shopware.ts` placeholder so a real Shopware Store API can be dropped in later.
+- Version 1 user data lives in a local browser store (`src/lib/store.tsx`); migrate to Lovable Cloud when accounts are added. Why: prototype without backend.
+- Brand colors/fonts are defined only as tokens in `src/styles.css` so the exact Fairvital CI can be swapped in.

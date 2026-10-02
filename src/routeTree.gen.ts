@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ErnaehrungRouteImport } from './routes/ernaehrung'
+import { Route as GesundheitRouteImport } from './routes/gesundheit'
+import { Route as LaborRouteImport } from './routes/labor'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as PlanRouteImport } from './routes/plan'
+import { Route as ProfilRouteImport } from './routes/profil'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ErnaehrungRoute = ErnaehrungRouteImport.update({
+  id: '/ernaehrung',
+  path: '/ernaehrung',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GesundheitRoute = GesundheitRouteImport.update({
+  id: '/gesundheit',
+  path: '/gesundheit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LaborRoute = LaborRouteImport.update({
+  id: '/labor',
+  path: '/labor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlanRoute = PlanRouteImport.update({
+  id: '/plan',
+  path: '/plan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfilRoute = ProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ernaehrung': typeof ErnaehrungRoute
+  '/gesundheit': typeof GesundheitRoute
+  '/labor': typeof LaborRoute
+  '/onboarding': typeof OnboardingRoute
+  '/plan': typeof PlanRoute
+  '/profil': typeof ProfilRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ernaehrung': typeof ErnaehrungRoute
+  '/gesundheit': typeof GesundheitRoute
+  '/labor': typeof LaborRoute
+  '/onboarding': typeof OnboardingRoute
+  '/plan': typeof PlanRoute
+  '/profil': typeof ProfilRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ernaehrung': typeof ErnaehrungRoute
+  '/gesundheit': typeof GesundheitRoute
+  '/labor': typeof LaborRoute
+  '/onboarding': typeof OnboardingRoute
+  '/plan': typeof PlanRoute
+  '/profil': typeof ProfilRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/ernaehrung'
+    | '/gesundheit'
+    | '/labor'
+    | '/onboarding'
+    | '/plan'
+    | '/profil'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/ernaehrung'
+    | '/gesundheit'
+    | '/labor'
+    | '/onboarding'
+    | '/plan'
+    | '/profil'
+  id:
+    | '__root__'
+    | '/'
+    | '/ernaehrung'
+    | '/gesundheit'
+    | '/labor'
+    | '/onboarding'
+    | '/plan'
+    | '/profil'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ErnaehrungRoute: typeof ErnaehrungRoute
+  GesundheitRoute: typeof GesundheitRoute
+  LaborRoute: typeof LaborRoute
+  OnboardingRoute: typeof OnboardingRoute
+  PlanRoute: typeof PlanRoute
+  ProfilRoute: typeof ProfilRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ernaehrung': {
+      id: '/ernaehrung'
+      path: '/ernaehrung'
+      fullPath: '/ernaehrung'
+      preLoaderRoute: typeof ErnaehrungRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gesundheit': {
+      id: '/gesundheit'
+      path: '/gesundheit'
+      fullPath: '/gesundheit'
+      preLoaderRoute: typeof GesundheitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/labor': {
+      id: '/labor'
+      path: '/labor'
+      fullPath: '/labor'
+      preLoaderRoute: typeof LaborRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plan': {
+      id: '/plan'
+      path: '/plan'
+      fullPath: '/plan'
+      preLoaderRoute: typeof PlanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profil': {
+      id: '/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof ProfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ErnaehrungRoute: ErnaehrungRoute,
+  GesundheitRoute: GesundheitRoute,
+  LaborRoute: LaborRoute,
+  OnboardingRoute: OnboardingRoute,
+  PlanRoute: PlanRoute,
+  ProfilRoute: ProfilRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
