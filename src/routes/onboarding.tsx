@@ -64,7 +64,7 @@ function Onboarding() {
       valid: ok,
     },
   ];
-  const cur = steps[step];
+  const cur = steps[step]!;
 
   const next = () => {
     if (step < steps.length - 1) return setStep(step + 1);

@@ -26,8 +26,8 @@ function Today() {
   const { s, set } = useStore();
   const vitd = s.labs.find((l) => l.id === "vitd")!;
   const vals = vitd.history.map((h) => h.value);
-  const last = vals[vals.length - 1];
-  const diff = last - vals[0];
+  const last = vals[vals.length - 1]!;
+  const diff = last - vals[0]!;
   const done = actions.filter((a) => s.actionsDone[a.id]).length;
   const product = products.find((p) => p.relatedMarker === "vitd")!;
   const today = new Date().toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long" });

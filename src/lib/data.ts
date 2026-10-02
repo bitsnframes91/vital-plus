@@ -106,7 +106,7 @@ export const fmtDate = (d: string) =>
   new Date(d).toLocaleDateString("de-DE", { day: "2-digit", month: "short", year: "numeric" });
 
 export const status = (m: LabMarker) => {
-  const v = m.history[m.history.length - 1].value;
+  const v = m.history[m.history.length - 1]!.value;
   if (v < m.target[0]) return { label: "Niedrig", tone: "warn" as const };
   if (v > m.target[1]) return { label: "Hoch", tone: "warn" as const };
   return { label: "Optimal", tone: "ok" as const };

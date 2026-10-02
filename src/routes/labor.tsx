@@ -18,7 +18,7 @@ export const Route = createFileRoute("/labor")({
 
 function Labs() {
   const { s, set } = useStore();
-  const [marker, setMarker] = useState(s.labs[0].id);
+  const [marker, setMarker] = useState(s.labs[0]!.id);
   const [value, setValue] = useState("");
 
   const add = (e: React.FormEvent) => {
@@ -36,7 +36,7 @@ function Labs() {
       <div className="space-y-3 px-4 pt-4">
         {s.labs.map((m) => {
           const vals = m.history.map((h) => h.value);
-          const last = m.history[m.history.length - 1];
+          const last = m.history[m.history.length - 1]!;
           const st = status(m);
           return (
             <div key={m.id} className="card-surface p-5">
