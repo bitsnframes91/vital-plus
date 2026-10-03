@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
+import { useServerFn } from "@tanstack/react-start";
+import { shopLogout } from "@/lib/shop-account.functions";
 
 export const Route = createFileRoute("/profil")({
   head: () => ({
@@ -30,6 +32,7 @@ function Toggle({ on, onClick, label, sub }: { on: boolean; onClick: () => void;
 
 function Profile() {
   const { s, set } = useStore();
+  const logout = useServerFn(shopLogout);
   return (
     <AppShell>
       <PageHeader eyebrow="Profil" title={s.name} sub="Deine Daten gehören dir." />
@@ -45,7 +48,22 @@ function Profile() {
         </div>
         <div className="card-surface p-5 text-[12px] text-ink/55">
           <div className="eyebrow mb-1">Fairvital Kundenkonto</div>
-          Verknüpfung mit deinem Konto auf fairvital.com folgt.
+          {s.account ? (
+            <>
+              Angemeldet als <span className="font-medium text-ink">{s.account.email}</span>
+              <button
+                onClick={() => { const t = s.account!.contextToken; set({ account: null }); void logout({ data: { contextToken: t } }); }}
+                className="mt-3 block text-[12px] font-medium text-fv-deep"
+              >
+                Abmelden
+              </button>
+            </>
+          ) : (
+            <>
+              Melde dich mit deinem Konto von fairvital.com an.
+              <Link to="/login" className="mt-3 block text-[12px] font-medium text-fv-deep">Anmelden oder Konto anlegen →</Link>
+            </>
+          )}
         </div>
         <button onClick={() => { localStorage.removeItem("fv-health-v1"); location.reload(); }} className="w-full rounded-full py-2.5 text-sm text-destructive ring-1 ring-border">
           Alle Daten löschen

@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ErnaehrungRouteImport } from './routes/ernaehrung'
 import { Route as GesundheitRouteImport } from './routes/gesundheit'
 import { Route as LaborRouteImport } from './routes/labor'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PlanRouteImport } from './routes/plan'
 import { Route as ProfilRouteImport } from './routes/profil'
@@ -36,6 +37,11 @@ const GesundheitRoute = GesundheitRouteImport.update({
 const LaborRoute = LaborRouteImport.update({
   id: '/labor',
   path: '/labor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/ernaehrung': typeof ErnaehrungRoute
   '/gesundheit': typeof GesundheitRoute
   '/labor': typeof LaborRoute
+  '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/ernaehrung': typeof ErnaehrungRoute
   '/gesundheit': typeof GesundheitRoute
   '/labor': typeof LaborRoute
+  '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/ernaehrung': typeof ErnaehrungRoute
   '/gesundheit': typeof GesundheitRoute
   '/labor': typeof LaborRoute
+  '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/ernaehrung'
     | '/gesundheit'
     | '/labor'
+    | '/login'
     | '/onboarding'
     | '/plan'
     | '/profil'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/ernaehrung'
     | '/gesundheit'
     | '/labor'
+    | '/login'
     | '/onboarding'
     | '/plan'
     | '/profil'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/ernaehrung'
     | '/gesundheit'
     | '/labor'
+    | '/login'
     | '/onboarding'
     | '/plan'
     | '/profil'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   ErnaehrungRoute: typeof ErnaehrungRoute
   GesundheitRoute: typeof GesundheitRoute
   LaborRoute: typeof LaborRoute
+  LoginRoute: typeof LoginRoute
   OnboardingRoute: typeof OnboardingRoute
   PlanRoute: typeof PlanRoute
   ProfilRoute: typeof ProfilRoute
@@ -162,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/labor'
       fullPath: '/labor'
       preLoaderRoute: typeof LaborRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   ErnaehrungRoute: ErnaehrungRoute,
   GesundheitRoute: GesundheitRoute,
   LaborRoute: LaborRoute,
+  LoginRoute: LoginRoute,
   OnboardingRoute: OnboardingRoute,
   PlanRoute: PlanRoute,
   ProfilRoute: ProfilRoute,
