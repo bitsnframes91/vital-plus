@@ -173,6 +173,15 @@ export const products: Product[] = [
   },
 ];
 
+// A verified catalog item for general browsing when no measured deficiency matches.
+// This is not a recommendation based on the user's lab results.
+export const catalogSpotlight: Product = {
+  shopwareId: "98106",
+  name: "Acerola mit Hesperidin · 60 Kapseln",
+  short: "Mit Vitamin C · im Fairvital Sortiment entdecken.",
+  url: "https://fairvital.com/Acerola-mit-Hesperidin-60-Kapseln-Schluckfreundlich-Mit-Vitamin-C-Fuer-Immunsystem-Kollagenbildung-uvm.-Vegan-Fairvital-98106",
+};
+
 export type Meal = {
   id: string;
   label: string;

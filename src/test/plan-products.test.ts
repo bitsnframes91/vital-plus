@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { suggestedProducts, reportMarkers, todaySuggestion } from "@/lib/plan-products";
-import { labMarkers, type LabMarker } from "@/lib/data";
+import { catalogSpotlight, labMarkers, type LabMarker } from "@/lib/data";
 import { routineTips } from "@/lib/deficiency-routines";
 
 describe("Fairvital plan suggestions", () => {
@@ -52,5 +52,10 @@ describe("Fairvital plan suggestions", () => {
   });
   it("does not display a personal recommendation before an analysis", () => {
     expect(todaySuggestion(null, labMarkers)).toBeUndefined();
+  });
+  it("keeps the general catalog spotlight separate from measured-value suggestions", () => {
+    expect(catalogSpotlight.shopwareId).toBe("98106");
+    expect(catalogSpotlight.relatedMarker).toBeUndefined();
+    expect(catalogSpotlight.url).toContain("fairvital.com/Acerola-mit-Hesperidin");
   });
 });
