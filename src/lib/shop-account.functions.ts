@@ -25,7 +25,7 @@ async function sw(c: { url: string; key: string }, path: string, body?: unknown,
     },
     body: body === undefined ? undefined : JSON.stringify(body),
   });
-  const json = (await res.json().catch(() => ({}))) as Record<string, any>;
+  const json = (await res.json().catch(() => ({}))) as any;
   return { res, json, token: res.headers.get("sw-context-token") ?? json.contextToken ?? token };
 }
 
