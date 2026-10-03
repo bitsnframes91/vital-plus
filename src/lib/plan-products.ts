@@ -47,3 +47,14 @@ export function suggestedProducts(plan: { items: unknown[] } | null, labs: LabMa
     return product ? [{ marker, product }] : [];
   });
 }
+
+// The daily recommendation must come from this analyzed report, not the seeded example values.
+export function reportMarkers(plan: { date: string } | null, labs: LabMarker[]): LabMarker[] {
+  if (!plan) return [];
+  return labs.filter((marker) => marker.history.at(-1)?.date === plan.date);
+}
+
+export function todaySuggestion(plan: { date: string; items: unknown[] } | null, labs: LabMarker[]) {
+  if (!plan) return undefined;
+  return suggestedProducts(plan, reportMarkers(plan, labs))[0];
+}

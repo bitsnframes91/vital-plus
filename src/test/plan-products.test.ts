@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { suggestedProducts } from "@/lib/plan-products";
+import { suggestedProducts, reportMarkers, todaySuggestion } from "@/lib/plan-products";
 import { labMarkers, type LabMarker } from "@/lib/data";
 import { routineTips } from "@/lib/deficiency-routines";
 
@@ -40,5 +40,17 @@ describe("Fairvital plan suggestions", () => {
     expect(routineTips(ferritin).map((tip) => tip.title)).toEqual([
       "Eisen und Vitamin C kombinieren", "Kaffee und Tee versetzt trinken",
     ]);
+  });
+  it("chooses a low value from the analyzed report rather than an older example", () => {
+    const labs = labMarkers.map((m) => m.id === "ferritin" ? { ...m, history: [...m.history, { date: "2026-10-03", value: 16 }] } : m);
+    expect(todaySuggestion({ date: "2026-10-03", items: [{}] }, labs)?.product.name).toBe("Eisen");
+    expect(reportMarkers({ date: "2026-10-03" }, labs).map((m) => m.id)).toEqual(["ferritin"]);
+  });
+  it("does not recommend supplements for a report with only normal values", () => {
+    const labs = labMarkers.map((m) => m.id === "vitd" ? { ...m, history: [...m.history, { date: "2026-10-03", value: 45 }] } : m);
+    expect(todaySuggestion({ date: "2026-10-03", items: [{}] }, labs)).toBeUndefined();
+  });
+  it("does not display a personal recommendation before an analysis", () => {
+    expect(todaySuggestion(null, labMarkers)).toBeUndefined();
   });
 });
