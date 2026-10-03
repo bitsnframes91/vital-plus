@@ -55,6 +55,7 @@
   --home-green: oklch(0.39 0.075 145);
   --home-warm: oklch(0.95 0.09 88);
   --home-image-overlay: linear-gradient(180deg, oklch(0.13 0 0 / 0.35) 0%, oklch(0.13 0 0 / 0.3) 42%, oklch(0.13 0 0 / 0.57) 100%);
+  --today-image-overlay: linear-gradient(180deg, oklch(0.13 0 0 / 0.62), oklch(0.13 0 0 / 0.68));
   --background: var(--mist);
   --foreground: var(--ink);
   --card: oklch(1 0 0);
@@ -98,6 +99,7 @@
 
 @utility hero-glow { background-image: var(--gradient-hero); }
 @utility home-image-overlay { background-image: var(--home-image-overlay); }
+@utility today-image-overlay { background-image: var(--today-image-overlay); }
 @utility card-surface {
   background: var(--card);
   border-radius: 20px;
