@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useStore } from "@/lib/store";
 import { status } from "@/lib/data";
+import { dailyGoals } from "@/lib/daily-goals";
 
 export const Route = createFileRoute("/uhr")({
   head: () => ({
@@ -15,21 +16,17 @@ export const Route = createFileRoute("/uhr")({
   component: Watch,
 });
 
-const actions = [
-  { id: "protein", title: "Protein-Frühstück" },
-  { id: "omega", title: "Omega-3" },
-  { id: "move", title: "30 Min Bewegung" },
-];
 
 function Watch() {
   const { s, set } = useStore();
   const [shape, setShape] = useState<"apple" | "wear">("apple");
   const [screen, setScreen] = useState(0);
-  const done = actions.filter((a) => s.actionsDone[a.id]).length;
+  const actions = dailyGoals(s.aiPlan).goals;
+  const done = actions.filter((a) => s.actionsDone[a.key]).length;
   const vitd = s.labs.find((l) => l.id === "vitd")!;
   const last = vitd.history[vitd.history.length - 1]!.value;
-  const next = actions.find((a) => !s.actionsDone[a.id]);
-  const pct = done / actions.length;
+  const next = actions.find((a) => !s.actionsDone[a.key]);
+  const pct = actions.length ? done / actions.length : 0;
   const C = 2 * Math.PI * 44;
 
   const screens = [
@@ -48,7 +45,7 @@ function Watch() {
       <div className="font-data text-[9px] uppercase tracking-[0.2em] text-fv">Als Nächstes</div>
       <div className="mt-2 text-[17px] font-semibold leading-tight text-on-ink">{next ? next.title : "Alles erledigt"}</div>
       {next && (
-        <button onClick={(e) => { e.stopPropagation(); set({ actionsDone: { ...s.actionsDone, [next.id]: true } }); }}
+        <button onClick={(e) => { e.stopPropagation(); set({ actionsDone: { ...s.actionsDone, [next.key]: true } }); }}
           className="mt-4 rounded-full bg-fv px-6 py-2 text-[13px] font-medium text-ink">
           Erledigt
         </button>

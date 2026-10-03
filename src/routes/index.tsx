@@ -3,6 +3,7 @@ import { AppShell, Icon, Sparkbars } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
 import { products, status } from "@/lib/data";
 import productImg from "@/assets/product-d3k2.jpg";
+import { dailyGoals } from "@/lib/daily-goals";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -16,19 +17,14 @@ export const Route = createFileRoute("/")({
   component: Today,
 });
 
-const actions = [
-  { id: "protein", title: "Proteinreiches Frühstück", sub: "Ziel 30 g Protein" },
-  { id: "omega", title: "Omega-3 einnehmen", sub: "2 Kapseln · morgens" },
-  { id: "move", title: "30 Minuten Bewegung", sub: "Spaziergang oder Rad" },
-];
-
 function Today() {
   const { s, set } = useStore();
   const vitd = s.labs.find((l) => l.id === "vitd")!;
   const vals = vitd.history.map((h) => h.value);
   const last = vals[vals.length - 1]!;
   const diff = last - vals[0]!;
-  const done = actions.filter((a) => s.actionsDone[a.id]).length;
+  const { fromPlan, goals: actions } = dailyGoals(s.aiPlan);
+  const done = actions.filter((a) => s.actionsDone[a.key]).length;
   const product = products.find((p) => p.relatedMarker === "vitd")!;
   const today = new Date().toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long" });
 
@@ -76,16 +72,26 @@ function Today() {
 
       <section className="mt-4 px-4">
         <div className="flex items-baseline justify-between px-1 pb-2">
-          <span className="eyebrow">Tagesziele</span>
+          <span className="eyebrow">Tagesziele{fromPlan ? " · aus deinem Plan" : ""}</span>
           <span className="font-data text-[11px] text-fv-deep">{done}/{actions.length}</span>
         </div>
+        {!fromPlan && (
+          <Link to="/labor" className="mb-2 block rounded-[16px] border border-dashed px-4 py-3 text-[12px] text-ink/55">
+            Beispielziele. Lade deinen Laborbefund hoch – dann entstehen deine Tagesziele aus deinem persönlichen Plan →
+          </Link>
+        )}
+        {fromPlan && actions.length === 0 && (
+          <Link to="/plan" className="mb-2 block rounded-[16px] border border-dashed px-4 py-3 text-[12px] text-ink/55">
+            Keine Schritte für heute ausgewählt. Wähle sie in deinem Plan aus →
+          </Link>
+        )}
         <div className="space-y-2">
           {actions.map((a) => {
-            const ok = s.actionsDone[a.id];
+            const ok = s.actionsDone[a.key];
             return (
               <button
-                key={a.id}
-                onClick={() => set({ actionsDone: { ...s.actionsDone, [a.id]: !ok } })}
+                key={a.key}
+                onClick={() => set({ actionsDone: { ...s.actionsDone, [a.key]: !ok } })}
                 className="card-surface flex w-full items-center gap-3 rounded-[16px] px-4 py-3 text-left"
               >
                 <span className={`grid size-8 shrink-0 place-items-center rounded-full ${ok ? "bg-fv/10 text-fv-deep" : "bg-ink/5 text-ink/40"}`}>
@@ -93,7 +99,7 @@ function Today() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="text-[14px] font-medium">{a.title}</div>
-                  <div className="mt-0.5 font-data text-[11px] text-ink/45">{a.sub} · {ok ? "erreicht" : "ausstehend"}</div>
+                  <div className="mt-0.5 line-clamp-2 text-[11px] text-ink/45">{a.sub} · {ok ? "erreicht" : "ausstehend"}</div>
                 </div>
                 {!ok && <span className="rounded-full bg-ink px-3 py-1.5 text-sm text-on-ink">Erledigt</span>}
               </button>
@@ -101,6 +107,7 @@ function Today() {
           })}
         </div>
       </section>
+
 
       <section className="mt-4 px-4">
         <Link to="/labor" className="card-surface block p-5">
