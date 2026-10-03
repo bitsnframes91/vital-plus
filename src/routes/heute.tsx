@@ -38,7 +38,7 @@ function Today() {
 
   return (
     <AppShell>
-      <div className="relative overflow-hidden bg-ink px-6 pb-24 pt-9">
+      <div className="relative overflow-hidden bg-header px-6 pb-24 pt-9">
         <img src={forestHero} alt="Nebeliger Weg zwischen Bäumen" width={1920} height={960} className="absolute inset-0 size-full object-cover object-center" />
         <div className="today-image-overlay pointer-events-none absolute inset-0" aria-hidden="true" />
         <div className="relative">

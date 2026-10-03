@@ -77,8 +77,7 @@ function Onboarding() {
   return (
     <div className="min-h-screen w-full bg-mist sm:grid sm:place-items-center sm:p-4">
       <div className="mx-auto flex min-h-screen w-full max-w-[440px] flex-col bg-background sm:min-h-[860px] sm:overflow-hidden sm:rounded-[28px] sm:ring-1 sm:ring-border">
-        <div className="relative overflow-hidden bg-ink px-6 pb-10 pt-10">
-          <div className="pointer-events-none absolute inset-0 hero-glow" />
+        <div className="relative overflow-hidden bg-header px-6 pb-10 pt-10">
           <div className="relative">
             <div className="font-data text-[12px] uppercase tracking-normal text-on-ink/40">Fairvital Health · Schritt {step + 1}/{steps.length}</div>
             <div className="mt-3 flex gap-1">
