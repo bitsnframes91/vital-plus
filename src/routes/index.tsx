@@ -40,9 +40,12 @@ function Today() {
         <div className="relative">
           <div className="flex items-center justify-between">
             <span className="font-data text-[10px] uppercase tracking-[0.22em] text-on-ink/40">{today}</span>
-            <Link to="/profil" className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] text-on-ink/70 ring-1 ring-on-ink/15">
-              <span className="size-1.5 rounded-full bg-fv" />Profil
-            </Link>
+            <div className="flex gap-1.5">
+              <Link to="/uhr" className="rounded-full px-2.5 py-1 text-[11px] text-on-ink/70 ring-1 ring-on-ink/15">Uhr</Link>
+              <Link to="/profil" className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] text-on-ink/70 ring-1 ring-on-ink/15">
+                <span className="size-1.5 rounded-full bg-fv" />Profil
+              </Link>
+            </div>
           </div>
           <h1 className="mt-5 text-balance text-[34px] font-semibold leading-[1.05] text-on-ink">
             Guten Morgen,<br />{s.name}.
