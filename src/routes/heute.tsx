@@ -5,7 +5,7 @@ import { products, status } from "@/lib/data";
 import productImg from "@/assets/product-d3k2.jpg";
 import { dailyGoals } from "@/lib/daily-goals";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/heute")({
   head: () => ({
     meta: [
       { title: "Heute — Fairvital Health" },
