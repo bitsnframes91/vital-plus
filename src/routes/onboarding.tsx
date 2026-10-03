@@ -80,11 +80,11 @@ function Onboarding() {
         <div className="relative overflow-hidden bg-ink px-6 pb-10 pt-10">
           <div className="pointer-events-none absolute inset-0 hero-glow" />
           <div className="relative">
-            <div className="font-data text-[10px] uppercase tracking-[0.22em] text-on-ink/40">Fairvital Health · Schritt {step + 1}/{steps.length}</div>
+            <div className="font-data text-[12px] uppercase tracking-normal text-on-ink/40">Fairvital Health · Schritt {step + 1}/{steps.length}</div>
             <div className="mt-3 flex gap-1">
               {steps.map((_, i) => <span key={i} className={`h-1 flex-1 rounded-full ${i <= step ? "bg-fv" : "bg-on-ink/15"}`} />)}
             </div>
-            <h1 className="mt-6 text-[30px] font-semibold leading-[1.05] text-on-ink">{cur.t}</h1>
+            <h1 className="mt-6 text-[32px] font-semibold leading-[1.05] text-on-ink">{cur.t}</h1>
           </div>
         </div>
         <div className="flex-1 px-6 pt-6">{cur.body}</div>

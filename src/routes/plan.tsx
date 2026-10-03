@@ -41,16 +41,16 @@ function Plan() {
       <div className="space-y-3 px-4 pt-4">
         {!s.aiPlan && (
           <Link to="/labor" className="card-surface block p-5">
-            <div className="text-[15px] font-semibold">Noch kein persönlicher Plan</div>
-            <p className="mt-1 text-[13px] text-ink/60">Lade deinen Laborbefund als PDF hoch. Daraus erstellen wir deinen Plan und deine Tagesziele.</p>
-            <span className="mt-2 inline-block text-[13px] font-semibold text-fv-deep">Befund hochladen →</span>
+            <div className="text-[16px] font-semibold">Noch kein persönlicher Plan</div>
+            <p className="mt-1 text-[14px] text-ink/60">Lade deinen Laborbefund als PDF hoch. Daraus erstellen wir deinen Plan und deine Tagesziele.</p>
+            <span className="mt-2 inline-block text-[14px] font-semibold text-fv-deep">Befund hochladen →</span>
           </Link>
         )}
         {s.aiPlan && (
           <div className="card-surface p-5">
             <div className="flex items-baseline justify-between">
               <div className="eyebrow">Befund vom {new Date(s.aiPlan.date).toLocaleDateString("de-DE")}</div>
-              <span className="font-data text-[11px] text-fv-deep">heute {doneCount}/{items.length}</span>
+              <span className="font-data text-[12px] text-fv-deep">heute {doneCount}/{items.length}</span>
             </div>
             <div className="mt-2 h-2 overflow-hidden rounded-full bg-ink/10">
               <div className="h-full rounded-full bg-fv transition-all" style={{ width: `${items.length ? (doneCount / items.length) * 100 : 0}%` }} />
@@ -67,14 +67,14 @@ function Plan() {
                         <Icon d="M4 12l5 5L20 6" className="size-4" />
                       </button>
                       <button onClick={() => setOpen(open === i ? null : i)} className="min-w-0 flex-1 text-left">
-                        <div className={`text-[14px] font-medium ${done ? "text-ink/45 line-through" : ""}`}>{it.title}</div>
+                        <div className={`text-[15px] font-medium ${done ? "text-ink/45 line-through" : ""}`}>{it.title}</div>
                       </button>
                       <span className="text-ink/30">{open === i ? "–" : "+"}</span>
                     </div>
                     {open === i && (
                       <div className="border-t px-3 py-3">
-                        <p className="text-[13px] text-ink/65">{it.detail}</p>
-                        <label className="mt-3 flex items-center justify-between text-[12px]">
+                        <p className="text-[14px] text-ink/65">{it.detail}</p>
+                        <label className="mt-3 flex items-center justify-between text-[13px]">
                           <span>In meinen Tageszielen anzeigen</span>
                           <button onClick={() => toggleDaily(i)} role="switch" aria-checked={daily}
                             className={`h-6 w-11 rounded-full p-0.5 transition ${daily ? "bg-fv" : "bg-ink/15"}`}>
@@ -87,34 +87,34 @@ function Plan() {
                 );
               })}
             </ul>
-            <p className="mt-3 border-t pt-3 text-[11px] text-ink/40">Automatisch erstellt – keine Diagnose. Bitte mit deiner Ärztin oder deinem Arzt besprechen.</p>
+            <p className="mt-3 border-t pt-3 text-[12px] text-ink/40">Automatisch erstellt – keine Diagnose. Bitte mit deiner Ärztin oder deinem Arzt besprechen.</p>
           </div>
         )}
         {s.aiPlan && (
           <section className="pt-3" aria-label="Fairvital Ergänzungen">
-            <h2 className="px-1 text-[17px] font-semibold">Passende Fairvital Ergänzungen</h2>
-            <p className="mb-3 px-1 text-[12px] text-ink/55">Optional zu Werten unter dem Zielbereich. Bitte die Einnahme ärztlich abklären.</p>
+            <h2 className="px-1 text-[18px] font-semibold">Passende Fairvital Ergänzungen</h2>
+            <p className="mb-3 px-1 text-[13px] text-ink/55">Optional zu Werten unter dem Zielbereich. Bitte die Einnahme ärztlich abklären.</p>
             {suggestions.length ? (
               <div className="space-y-2">
                 {suggestions.map(({ marker, product }) => (
                   <div key={marker.id} className="card-surface p-4">
                     <div className="eyebrow">Zu deinem Wert: {marker.name}</div>
-                    <div className="mt-1 text-[15px] font-semibold">{product.name}</div>
-                    <p className="mt-1 text-[12px] text-ink/55">{product.short}</p>
-                    <a href={product.url} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-[13px] font-semibold text-fv-deep">Im Fairvital Shop ansehen →</a>
+                    <div className="mt-1 text-[16px] font-semibold">{product.name}</div>
+                    <p className="mt-1 text-[13px] text-ink/55">{product.short}</p>
+                    <a href={product.url} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-[14px] font-semibold text-fv-deep">Im Fairvital Shop ansehen →</a>
                   </div>
                 ))}
               </div>
-            ) : <p className="px-1 text-[12px] text-ink/55">Derzeit keine passende Ergänzung zu deinen Werten.</p>}
+            ) : <p className="px-1 text-[13px] text-ink/55">Derzeit keine passende Ergänzung zu deinen Werten.</p>}
           </section>
         )}
         {recs.map(({ m, st }) => (
           <div key={m.id} className="card-surface p-5">
             <div className="flex items-center justify-between">
-              <div className="text-[14px] font-medium">{m.name}</div>
-              <span className="font-data text-[10px] uppercase tracking-[0.14em] text-ink/45">{st.label}</span>
+              <div className="text-[15px] font-medium">{m.name}</div>
+              <span className="font-data text-[12px] uppercase tracking-normal text-ink/45">{st.label}</span>
             </div>
-            <ul className="mt-3 space-y-1.5 text-[13px] text-ink/70">
+            <ul className="mt-3 space-y-1.5 text-[14px] text-ink/70">
               <li>· Ernährung: {m.id === "omega" ? "2× pro Woche fetten Seefisch oder Leinöl" : m.id === "ferritin" ? "Hülsenfrüchte mit Vitamin-C-Quelle kombinieren" : "Regelmäßig Zeit im Tageslicht verbringen"}</li>
               <li>· Nachkontrolle in {m.retestWeeks} Wochen</li>
             </ul>

@@ -102,15 +102,15 @@ function Nutrition() {
           {statCards.map((c) => (
             <div key={c.label} className="card-surface p-4">
               <div className="eyebrow">{c.label}</div>
-              <div className="font-data mt-1 text-[22px] font-medium">{c.value}</div>
-              <div className="text-[11px] text-ink/45">Heute erfasst · ca.</div>
+              <div className="font-data mt-1 text-[24px] font-medium">{c.value}</div>
+              <div className="text-[12px] text-ink/45">Heute erfasst · ca.</div>
             </div>
           ))}
           <div className="card-surface p-4">
             <div className="eyebrow">Protein-Ziel</div>
             <div className="mt-1 flex items-baseline gap-1.5">
-              <span className="font-data text-[22px] font-medium">{totals.protein}</span>
-              <span className="font-data text-[12px] text-ink/45">/ {proteinGoal} g</span>
+              <span className="font-data text-[24px] font-medium">{totals.protein}</span>
+              <span className="font-data text-[13px] text-ink/45">/ {proteinGoal} g</span>
             </div>
             <div className="mt-2 h-2 overflow-hidden rounded-full bg-ink/10">
               <div className="h-full rounded-full bg-fv" style={{ width: `${Math.min(100, (totals.protein / proteinGoal) * 100)}%` }} />
@@ -124,30 +124,30 @@ function Nutrition() {
             <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
           </span>
           <div className="min-w-0 flex-1">
-            <div className="text-[14px] font-medium">{vs === "rec" ? "Ich höre zu… tippen zum Beenden" : vs === "busy" ? "Wird verarbeitet…" : "Erzähl mir, was du gegessen hast"}</div>
-            <div className="text-[11px] text-ink/45">z. B. „Mittags hatte ich Nudeln mit Hähnchen und einen Apfel“</div>
+            <div className="text-[15px] font-medium">{vs === "rec" ? "Ich höre zu… tippen zum Beenden" : vs === "busy" ? "Wird verarbeitet…" : "Erzähl mir, was du gegessen hast"}</div>
+            <div className="text-[12px] text-ink/45">z. B. „Mittags hatte ich Nudeln mit Hähnchen und einen Apfel“</div>
           </div>
         </button>
-        {vmsg && <p className="rounded-xl bg-muted px-4 py-3 text-[12px] text-ink/70">{vmsg}</p>}
+        {vmsg && <p className="rounded-xl bg-muted px-4 py-3 text-[13px] text-ink/70">{vmsg}</p>}
 
         <div className="space-y-4">
           <div className="eyebrow px-1">Ernährungstagebuch</div>
-          {days.length === 0 && <p className="text-[13px] text-ink/50">Noch keine Einträge. Sprich oder tippe deine erste Mahlzeit.</p>}
+          {days.length === 0 && <p className="text-[14px] text-ink/50">Noch keine Einträge. Sprich oder tippe deine erste Mahlzeit.</p>}
           {days.map((day) => {
             const meals = s.meals.filter((m) => m.date === day);
             const dayKcal = meals.reduce((a, m) => a + (m.kcal || 0), 0);
             return (
               <div key={day} className="card-surface overflow-hidden">
                 <div className="flex items-baseline justify-between border-b border-border px-4 py-3">
-                  <div className="text-[13px] font-medium">{day === today ? "Heute" : fmtDay(day)}</div>
-                  <div className="font-data text-[11px] text-ink/45">ca. {dayKcal} kcal</div>
+                  <div className="text-[14px] font-medium">{day === today ? "Heute" : fmtDay(day)}</div>
+                  <div className="font-data text-[12px] text-ink/45">ca. {dayKcal} kcal</div>
                 </div>
                 {meals.map((m) => (
                   <div key={m.id} className="flex items-center gap-3 border-b border-border px-4 py-3 last:border-0">
                     <div className="min-w-0 flex-1">
-                      <div className="font-data text-[10px] uppercase tracking-[0.14em] text-fv-deep">{m.label} · {m.time}</div>
-                      <div className="text-[14px] font-medium">{m.name}</div>
-                      <div className="font-data text-[11px] text-ink/45">
+                      <div className="font-data text-[12px] uppercase tracking-normal text-fv-deep">{m.label} · {m.time}</div>
+                      <div className="text-[15px] font-medium">{m.name}</div>
+                      <div className="font-data text-[12px] text-ink/45">
                         {m.kcal} kcal · {m.protein} g Protein · {m.carbs} g KH · {m.fat} g Fett · {m.fiber} g Ballaststoffe
                       </div>
                     </div>
@@ -163,7 +163,7 @@ function Nutrition() {
           <div className="eyebrow">Mahlzeit hinzufügen</div>
           <div className="flex flex-wrap gap-1.5">
             {labels.map((l) => (
-              <button type="button" key={l} onClick={() => setLabel(l)} className={`rounded-full px-3 py-1 text-[12px] ring-1 ring-border ${label === l ? "bg-ink text-on-ink" : ""}`}>{l}</button>
+              <button type="button" key={l} onClick={() => setLabel(l)} className={`rounded-full px-3 py-1 text-[13px] ring-1 ring-border ${label === l ? "bg-ink text-on-ink" : ""}`}>{l}</button>
             ))}
           </div>
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="z. B. Lachs mit Ofengemüse" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />

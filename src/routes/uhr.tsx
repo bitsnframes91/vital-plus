@@ -39,26 +39,26 @@ function Watch() {
         <circle cx="50" cy="50" r="44" fill="none" strokeWidth="8" strokeLinecap="round" className="stroke-fv transition-all"
           strokeDasharray={C} strokeDashoffset={C * (1 - pct)} />
       </svg>
-      <div className="-mt-[78px] font-data text-[26px] font-medium text-on-ink">{done}/{actions.length}</div>
-      <div className="mt-8 text-[11px] text-on-ink/55">Tagesziele</div>
+      <div className="-mt-[78px] font-data text-[30px] font-medium text-on-ink">{done}/{actions.length}</div>
+      <div className="mt-8 text-[12px] text-on-ink/55">Tagesziele</div>
     </div>,
     // Next action
     <div key="next" className="flex h-full flex-col items-center justify-center px-4 text-center">
-      <div className="font-data text-[9px] uppercase tracking-[0.2em] text-fv">Als Nächstes</div>
-      <div className="mt-2 text-[17px] font-semibold leading-tight text-on-ink">{next ? next.title : "Alles erledigt"}</div>
+      <div className="font-data text-[11px] uppercase tracking-normal text-fv">Als Nächstes</div>
+      <div className="mt-2 text-[18px] font-semibold leading-tight text-on-ink">{next ? next.title : "Alles erledigt"}</div>
       {next && (
         <button onClick={(e) => { e.stopPropagation(); set({ actionsDone: { ...s.actionsDone, [next.key]: true } }); }}
-          className="mt-4 rounded-full bg-fv px-6 py-2 text-[13px] font-medium text-ink">
+          className="mt-4 rounded-full bg-fv px-6 py-2 text-[14px] font-medium text-ink">
           Erledigt
         </button>
       )}
     </div>,
     // Vitamin D
     <div key="vitd" className="flex h-full flex-col items-center justify-center text-center">
-      <div className="font-data text-[9px] uppercase tracking-[0.2em] text-on-ink/50">Vitamin D</div>
-      <div className="mt-1 font-data text-[38px] font-medium leading-none text-on-ink">{last}</div>
-      <div className="font-data text-[10px] text-on-ink/45">{vitd.unit}</div>
-      <div className="mt-3 rounded-full bg-fv/20 px-3 py-1 font-data text-[9px] uppercase tracking-[0.14em] text-fv">{status(vitd).label}</div>
+      <div className="font-data text-[11px] uppercase tracking-normal text-on-ink/50">Vitamin D</div>
+      <div className="mt-1 font-data text-[40px] font-medium leading-none text-on-ink">{last}</div>
+      <div className="font-data text-[12px] text-on-ink/45">{vitd.unit}</div>
+      <div className="mt-3 rounded-full bg-fv/20 px-3 py-1 font-data text-[11px] uppercase tracking-normal text-fv">{status(vitd).label}</div>
     </div>,
   ];
 

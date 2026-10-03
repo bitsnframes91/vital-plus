@@ -64,7 +64,7 @@ function NumInput({ value, onSave, placeholder, unit }: { value: number | null; 
         placeholder={placeholder}
         className="w-full rounded-xl bg-muted px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
       />
-      <button className="shrink-0 rounded-full bg-ink px-4 text-[12px] font-medium text-on-ink">{unit}</button>
+      <button className="shrink-0 rounded-full bg-ink px-4 text-[13px] font-medium text-on-ink">{unit}</button>
     </form>
   );
 }
@@ -79,30 +79,30 @@ function Health() {
       <PageHeader eyebrow="Gesundheit" title="Deine Messwerte" sub="Messwerte und Verläufe verständlich an einem Ort." />
       <div className="grid grid-cols-1 gap-3 px-4 pt-4">
         <div className="card-surface p-5">
-          <div className="text-[17px] font-semibold">Blutwerte</div>
-          <p className="mt-1 text-[13px] text-ink/55">Laborwerte manuell erfassen und zeitlich vergleichen.</p>
-          <Link to="/labor" className="mt-2 inline-block text-[14px] font-semibold text-fv-deep">Meine Blutwerte →</Link>
+          <div className="text-[18px] font-semibold">Blutwerte</div>
+          <p className="mt-1 text-[14px] text-ink/55">Laborwerte manuell erfassen und zeitlich vergleichen.</p>
+          <Link to="/labor" className="mt-2 inline-block text-[15px] font-semibold text-fv-deep">Meine Blutwerte →</Link>
         </div>
 
         <div className="card-surface p-5">
           <div className="flex justify-center"><IconScale /></div>
-          <div className="mt-2 text-[17px] font-semibold">Gewicht</div>
-          <p className="mt-1 text-[13px] text-ink/55">{b.weightKg ? `Aktuell: ${b.weightKg} kg` : "Noch keine Messung"}</p>
+          <div className="mt-2 text-[18px] font-semibold">Gewicht</div>
+          <p className="mt-1 text-[14px] text-ink/55">{b.weightKg ? `Aktuell: ${b.weightKg} kg` : "Noch keine Messung"}</p>
           <NumInput value={b.weightKg} onSave={(v) => setBody({ weightKg: v })} placeholder="z. B. 72,5" unit="kg" />
         </div>
 
         <div className="card-surface p-5">
           <div className="flex justify-center"><IconBody /></div>
-          <div className="mt-2 text-[17px] font-semibold">Körperdaten</div>
-          <p className="mt-1 text-[13px] text-ink/55">
+          <div className="mt-2 text-[18px] font-semibold">Körperdaten</div>
+          <p className="mt-1 text-[14px] text-ink/55">
             {b.waistCm ? `Taillenumfang: ${b.waistCm} cm` : "Gewicht, Taillenumfang und weitere manuelle Messwerte."}
           </p>
           <NumInput value={b.waistCm} onSave={(v) => setBody({ waistCm: v })} placeholder="Taillenumfang" unit="cm" />
         </div>
 
         <div className="card-surface p-5">
-          <div className="text-[17px] font-semibold">Schlaf letzte Nacht</div>
-          <p className="mt-1 text-[13px] text-ink/55">
+          <div className="text-[18px] font-semibold">Schlaf letzte Nacht</div>
+          <p className="mt-1 text-[14px] text-ink/55">
             {b.sleepHours ? `Erfasst: ${b.sleepHours} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}
           </p>
           <NumInput value={b.sleepHours} onSave={(v) => setBody({ sleepHours: v })} placeholder="Stunden, z. B. 7,5" unit="h" />
@@ -110,8 +110,8 @@ function Health() {
 
         <div className="card-surface p-5">
           <div className="flex justify-center"><IconSteps /></div>
-          <div className="mt-2 text-[17px] font-semibold">Schritte heute</div>
-          <p className="mt-1 text-[13px] text-ink/55">
+          <div className="mt-2 text-[18px] font-semibold">Schritte heute</div>
+          <p className="mt-1 text-[14px] text-ink/55">
             {b.steps ? `Heute: ${b.steps.toLocaleString("de-DE")} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}
           </p>
           <NumInput value={b.steps} onSave={(v) => setBody({ steps: v })} placeholder="z. B. 8000" unit="Speichern" />
@@ -119,11 +119,11 @@ function Health() {
 
         <div className="card-surface p-5">
           <div className="flex justify-center"><IconTrend /></div>
-          <div className="mt-2 text-[17px] font-semibold">Trends</div>
-          <p className="mt-1 text-[13px] text-ink/55">Entwicklungen über Zeit – sachlich, ohne Ursachenbehauptung.</p>
+          <div className="mt-2 text-[18px] font-semibold">Trends</div>
+          <p className="mt-1 text-[14px] text-ink/55">Entwicklungen über Zeit – sachlich, ohne Ursachenbehauptung.</p>
         </div>
 
-        <div className="rounded-[20px] border border-dashed p-5 text-[12px] text-ink/50">
+        <div className="rounded-[20px] border border-dashed p-5 text-[13px] text-ink/50">
           <div className="eyebrow mb-1">Bald verfügbar</div>
           Apple Health, Google Health Connect und Wearables als automatische Datenquellen.
         </div>
