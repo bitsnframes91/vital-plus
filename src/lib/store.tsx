@@ -13,6 +13,7 @@ type State = {
   consent: { practitioner: boolean; analytics: boolean };
   account: { email: string; firstName: string; lastName: string; contextToken: string } | null;
   aiPlan: { date: string; items: { title: string; detail: string }[] } | null;
+  body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null };
 };
 
 const initial: State = {
@@ -26,6 +27,7 @@ const initial: State = {
   consent: { practitioner: false, analytics: false },
   account: null,
   aiPlan: null,
+  body: { weightKg: null, waistCm: null, sleepHours: null, steps: null },
 };
 
 type CtxValue = { s: State; set: (p: Partial<State>) => void } | null;
