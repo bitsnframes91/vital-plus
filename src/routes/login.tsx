@@ -6,6 +6,7 @@ import { useStore } from "@/lib/store";
 import { shopLogin, shopRegister } from "@/lib/shop-account.functions";
 
 export const Route = createFileRoute("/login")({
+  validateSearch: (search: Record<string, unknown>) => ({ mode: search['mode'] === "register" ? "register" as const : "login" as const }),
   head: () => ({
     meta: [
       { title: "Anmelden — Fairvital Health" },
@@ -22,11 +23,12 @@ export const Route = createFileRoute("/login")({
 const field = "w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring";
 
 function Login() {
+  const { mode: initialMode } = Route.useSearch();
   const { set } = useStore();
   const navigate = useNavigate();
   const login = useServerFn(shopLogin);
   const register = useServerFn(shopRegister);
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [f, setF] = useState({ email: "", password: "", firstName: "", lastName: "", street: "", zipcode: "", city: "" });
   const [msg, setMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -40,7 +42,7 @@ function Login() {
       const r = mode === "login" ? await login({ data: { email: f.email, password: f.password } }) : await register({ data: f });
       if (r.ok) {
         set({ account: { email: r.email, firstName: r.firstName, lastName: r.lastName, contextToken: r.contextToken }, name: r.firstName });
-        navigate({ to: "/" });
+        navigate({ to: "/heute" });
       } else {
         setMsg(r.error);
         if (r.pendingConfirmation) setMode("login");

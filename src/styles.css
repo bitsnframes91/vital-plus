@@ -40,6 +40,8 @@
   --color-mist: var(--mist);
   --color-warn: var(--warn);
   --color-on-ink: var(--on-ink);
+  --color-home-green: var(--home-green);
+  --color-home-warm: var(--home-warm);
 }
 
 :root {
@@ -50,6 +52,9 @@
   --mist: oklch(0.94 0.01 210);
   --warn: oklch(0.72 0.15 65);
   --on-ink: oklch(0.99 0 0);
+  --home-green: oklch(0.39 0.075 145);
+  --home-warm: oklch(0.95 0.09 88);
+  --home-image-overlay: linear-gradient(180deg, oklch(0.13 0 0 / 0.35) 0%, oklch(0.13 0 0 / 0.3) 42%, oklch(0.13 0 0 / 0.57) 100%);
   --background: var(--mist);
   --foreground: var(--ink);
   --card: oklch(1 0 0);
@@ -89,6 +94,7 @@
 }
 
 @utility hero-glow { background-image: var(--gradient-hero); }
+@utility home-image-overlay { background-image: var(--home-image-overlay); }
 @utility card-surface {
   background: var(--card);
   border-radius: 20px;

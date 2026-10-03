@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ErnaehrungRouteImport } from './routes/ernaehrung'
 import { Route as GesundheitRouteImport } from './routes/gesundheit'
+import { Route as HeuteRouteImport } from './routes/heute'
 import { Route as LaborRouteImport } from './routes/labor'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
@@ -32,6 +33,11 @@ const ErnaehrungRoute = ErnaehrungRouteImport.update({
 const GesundheitRoute = GesundheitRouteImport.update({
   id: '/gesundheit',
   path: '/gesundheit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeuteRoute = HeuteRouteImport.update({
+  id: '/heute',
+  path: '/heute',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LaborRoute = LaborRouteImport.update({
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ernaehrung': typeof ErnaehrungRoute
   '/gesundheit': typeof GesundheitRoute
+  '/heute': typeof HeuteRoute
   '/labor': typeof LaborRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ernaehrung': typeof ErnaehrungRoute
   '/gesundheit': typeof GesundheitRoute
+  '/heute': typeof HeuteRoute
   '/labor': typeof LaborRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ernaehrung': typeof ErnaehrungRoute
   '/gesundheit': typeof GesundheitRoute
+  '/heute': typeof HeuteRoute
   '/labor': typeof LaborRoute
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ernaehrung'
     | '/gesundheit'
+    | '/heute'
     | '/labor'
     | '/login'
     | '/onboarding'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ernaehrung'
     | '/gesundheit'
+    | '/heute'
     | '/labor'
     | '/login'
     | '/onboarding'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/ernaehrung'
     | '/gesundheit'
+    | '/heute'
     | '/labor'
     | '/login'
     | '/onboarding'
@@ -139,6 +151,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ErnaehrungRoute: typeof ErnaehrungRoute
   GesundheitRoute: typeof GesundheitRoute
+  HeuteRoute: typeof HeuteRoute
   LaborRoute: typeof LaborRoute
   LoginRoute: typeof LoginRoute
   OnboardingRoute: typeof OnboardingRoute
@@ -168,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/gesundheit'
       fullPath: '/gesundheit'
       preLoaderRoute: typeof GesundheitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/heute': {
+      id: '/heute'
+      path: '/heute'
+      fullPath: '/heute'
+      preLoaderRoute: typeof HeuteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/labor': {
@@ -219,6 +239,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ErnaehrungRoute: ErnaehrungRoute,
   GesundheitRoute: GesundheitRoute,
+  HeuteRoute: HeuteRoute,
   LaborRoute: LaborRoute,
   LoginRoute: LoginRoute,
   OnboardingRoute: OnboardingRoute,

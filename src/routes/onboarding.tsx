@@ -71,7 +71,7 @@ function Onboarding() {
   const next = () => {
     if (step < steps.length - 1) return setStep(step + 1);
     set({ name, goals, onboarded: true });
-    nav({ to: "/" });
+    nav({ to: "/heute" });
   };
 
   return (

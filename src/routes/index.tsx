@@ -1,154 +1,61 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AppShell, Icon, Sparkbars } from "@/components/AppShell";
+import forestHero from "@/assets/forest-mist-hero.jpg";
 import { useStore } from "@/lib/store";
-import { products, status } from "@/lib/data";
-import productImg from "@/assets/product-d3k2.jpg";
-import { dailyGoals } from "@/lib/daily-goals";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Heute — Fairvital Health" },
-      { name: "description", content: "Dein persönliches Tages-Dashboard für Ernährung, Vitalstoffe und Laborwerte." },
-      { property: "og:title", content: "Heute — Fairvital Health" },
-      { property: "og:description", content: "Messen, verstehen, handeln, überprüfen – dein Gesundheitsbegleiter von Fairvital." },
+      { title: "Fairvital Health — Gesundheit verstehen. Vernünftig ergänzen." },
+      { name: "description", content: "Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern. Gesundheit verstehen und vernünftig ergänzen mit Fairvital Health." },
+      { property: "og:title", content: "Fairvital Health — Gesundheit verstehen. Vernünftig ergänzen." },
+      { property: "og:description", content: "Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Today,
+  component: Home,
 });
 
-function Today() {
-  const { s, set } = useStore();
-  const vitd = s.labs.find((l) => l.id === "vitd")!;
-  const vals = vitd.history.map((h) => h.value);
-  const last = vals[vals.length - 1]!;
-  const diff = last - vals[0]!;
-  const { fromPlan, goals: actions } = dailyGoals(s.aiPlan);
-  const done = actions.filter((a) => s.actionsDone[a.key]).length;
-  const product = products.find((p) => p.relatedMarker === "vitd")!;
-  const today = new Date().toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long" });
-
+function Home() {
+  const { s } = useStore();
   return (
-    <AppShell>
-      <div className="relative overflow-hidden bg-ink px-6 pb-24 pt-9">
-        <div className="pointer-events-none absolute inset-0 hero-glow" />
-        <div className="pointer-events-none absolute -right-16 -top-10 size-56 rounded-full bg-fv/25 blur-3xl" />
-        <div className="relative">
-          <div className="flex items-center justify-between">
-            <span className="font-data text-[10px] uppercase tracking-[0.22em] text-on-ink/40">{today}</span>
-            <div className="flex gap-1.5">
-              <Link to="/uhr" className="rounded-full px-2.5 py-1 text-[11px] text-on-ink/70 ring-1 ring-on-ink/15">Uhr</Link>
-              <Link to="/profil" className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] text-on-ink/70 ring-1 ring-on-ink/15">
-                <span className="size-1.5 rounded-full bg-fv" />Profil
-              </Link>
-            </div>
-          </div>
-          <h1 className="mt-5 text-balance text-[34px] font-semibold leading-[1.05] text-on-ink">
-            Guten Morgen,<br />{s.name}.
-          </h1>
-          <p className="mt-2 max-w-[34ch] text-pretty text-sm text-on-ink/55">
-            Deine Werte bewegen sich in die richtige Richtung. Heute warten {actions.length - done} Aktionen auf dich.
-          </p>
-          {!s.onboarded && (
-            <Link to="/onboarding" className="mt-4 inline-flex rounded-full bg-fv px-4 py-2 text-sm font-medium text-ink">
-              Gesundheitsprofil anlegen →
-            </Link>
+    <div className="min-h-screen bg-card font-sans text-foreground">
+      <header className="mx-auto flex h-[76px] max-w-[1600px] items-center justify-between gap-4 px-5 sm:h-[92px] sm:px-8">
+        <div className="flex min-w-0 items-center gap-5 sm:gap-7">
+          <Link to="/" className="shrink-0 text-xl font-bold text-home-green sm:text-[23px]">Fairvital Health</Link>
+          <a href="#philosophie" className="hidden text-lg font-medium text-foreground sm:inline">Philosophie</a>
+        </div>
+        <div className="flex shrink-0 items-center gap-2 sm:gap-5">
+          {s.account ? (
+            <Link to="/heute" className="rounded-md bg-home-green px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-6 sm:text-base">Zu Heute</Link>
+          ) : (
+            <>
+              <Link to="/login" search={{ mode: "login" }} className="rounded-md border border-border px-3 py-2.5 text-sm font-semibold text-home-green transition-colors hover:bg-muted sm:px-6 sm:text-base">Log in</Link>
+              <Link to="/login" search={{ mode: "register" }} className="rounded-md bg-home-green px-3 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-7 sm:text-base">Sign up</Link>
+            </>
           )}
         </div>
-      </div>
+      </header>
 
-      <div className="relative -mt-14 px-4">
-        <div className="glass rounded-[20px] px-5 py-4">
-          <div className="grid grid-cols-4 gap-1.5 text-center">
-            {["Messen", "Verstehen", "Handeln", "Prüfen"].map((w, i) => (
-              <div key={w}>
-                <div className={`font-data text-[9px] tracking-[0.12em] ${i === 2 ? "text-fv" : "text-on-ink/45"}`}>0{i + 1}</div>
-                <div className="mt-0.5 text-[11px] font-medium text-on-ink/85">{w}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <section className="mt-4 px-4">
-        <div className="flex items-baseline justify-between px-1 pb-2">
-          <span className="eyebrow">Tagesziele{fromPlan ? " · aus deinem Plan" : ""}</span>
-          <span className="font-data text-[11px] text-fv-deep">{done}/{actions.length}</span>
-        </div>
-        {!fromPlan && (
-          <Link to="/labor" className="mb-2 block rounded-[16px] border border-dashed px-4 py-3 text-[12px] text-ink/55">
-            Beispielziele. Lade deinen Laborbefund hoch – dann entstehen deine Tagesziele aus deinem persönlichen Plan →
-          </Link>
-        )}
-        {fromPlan && actions.length === 0 && (
-          <Link to="/plan" className="mb-2 block rounded-[16px] border border-dashed px-4 py-3 text-[12px] text-ink/55">
-            Keine Schritte für heute ausgewählt. Wähle sie in deinem Plan aus →
-          </Link>
-        )}
-        <div className="space-y-2">
-          {actions.map((a) => {
-            const ok = s.actionsDone[a.key];
-            return (
-              <button
-                key={a.key}
-                onClick={() => set({ actionsDone: { ...s.actionsDone, [a.key]: !ok } })}
-                className="card-surface flex w-full items-center gap-3 rounded-[16px] px-4 py-3 text-left"
-              >
-                <span className={`grid size-8 shrink-0 place-items-center rounded-full ${ok ? "bg-fv/10 text-fv-deep" : "bg-ink/5 text-ink/40"}`}>
-                  <Icon d={ok ? "M4 12l5 5L20 6" : "M12 6v6l4 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18"} className="size-4" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="text-[14px] font-medium">{a.title}</div>
-                  <div className="mt-0.5 line-clamp-2 text-[11px] text-ink/45">{a.sub} · {ok ? "erreicht" : "ausstehend"}</div>
-                </div>
-                {!ok && <span className="rounded-full bg-ink px-3 py-1.5 text-sm text-on-ink">Erledigt</span>}
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
-
-      <section className="mt-4 px-4">
-        <Link to="/labor" className="card-surface block p-5">
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="eyebrow">Vitamin D</div>
-              <div className="mt-1 flex items-baseline gap-1.5">
-                <span className="font-data text-[26px] font-medium">{last}</span>
-                <span className="font-data text-[12px] text-ink/45">{vitd.unit}</span>
-                <span className="ml-1 font-data text-[11px] text-fv-deep">↑ {diff}</span>
-              </div>
-              <div className="mt-0.5 max-w-[26ch] text-[11px] text-ink/45">Von {vals[0]} → {last} · Zielbereich {vitd.target[0]}–{vitd.target[1]}</div>
+      <main className="px-3 pb-10 sm:px-5">
+        <section id="philosophie" className="relative mx-auto flex min-h-[540px] max-w-[1600px] flex-col items-center justify-center overflow-hidden rounded-[26px] px-5 py-16 text-center sm:min-h-[540px] sm:rounded-[30px]">
+          <img src={forestHero} alt="Nebeliger Weg zwischen Bäumen" width={1920} height={960} fetchPriority="high" className="absolute inset-0 size-full object-cover object-center" />
+          <div className="home-image-overlay absolute inset-0" aria-hidden="true" />
+          <div className="relative z-10 flex w-full max-w-[1000px] flex-col items-center">
+            <p className="text-xs font-semibold uppercase text-on-ink sm:text-sm">MESSEN → VERSTEHEN → HANDELN → ÜBERPRÜFEN</p>
+            <h1 className="mt-7 max-w-[1000px] text-balance text-[clamp(35px,4.4vw,58px)] font-bold leading-[1.03] text-on-ink sm:mt-8">Gesundheit verstehen. Vernünftig ergänzen.</h1>
+            <p className="mt-7 max-w-[700px] text-pretty text-base font-medium text-on-ink sm:mt-8 sm:text-lg">Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern.</p>
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-3 sm:mt-8 sm:gap-4">
+              <Link to="/login" search={{ mode: "register" }} className="rounded-md bg-home-green px-5 py-3 text-base font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-7 sm:text-lg">Kostenlos registrieren</Link>
+              <Link to="/login" search={{ mode: "login" }} className="rounded-md bg-card px-5 py-3 text-base font-semibold text-home-green transition-colors hover:bg-muted sm:px-7 sm:text-lg">Einloggen</Link>
             </div>
-            <span className="rounded-full bg-fv/10 px-2.5 py-1 font-data text-[10px] uppercase tracking-[0.14em] text-fv-deep">{status(vitd).label}</span>
+            <Link to="/login" search={{ mode: "login" }} className="mt-6 max-w-full rounded-md bg-home-warm px-5 py-3 text-sm font-semibold text-home-green transition-opacity hover:opacity-90 sm:text-lg">Mit meinem Fairvital-Konto anmelden</Link>
           </div>
-          <div className="mt-4"><Sparkbars values={vals} max={vitd.target[1]} /></div>
-          <div className="mt-3 flex items-center gap-2 border-t pt-3 text-[12px] text-ink/55">
-            <Icon d="M12 8v4l3 2M3 12a9 9 0 1 0 3-6.7" className="size-4 text-ink/40" />
-            Nachkontrolle empfohlen in {vitd.retestWeeks} Wochen.
-          </div>
-        </Link>
-      </section>
-
-      <section className="mt-4 px-4">
-        <div className="card-surface overflow-hidden">
-          <div className="flex gap-3 p-3">
-            <img src={productImg} alt={product.name} width={62} height={62} loading="lazy" className="size-[62px] shrink-0 rounded-[12px] object-cover" />
-            <div className="min-w-0 flex-1">
-              <div className="font-data text-[9px] uppercase tracking-[0.16em] text-fv-deep">Passend zu deinem Wert</div>
-              <div className="mt-0.5 text-[14px] font-medium">{product.name}</div>
-              <div className="mt-0.5 text-[11px] text-ink/45">{product.short}</div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between border-t px-4 py-2.5">
-            <span className="text-[11px] text-ink/40">Optional · kein Muss</span>
-            <a href={product.url} target="_blank" rel="noreferrer" className="text-[11px] font-medium text-fv-deep">Im Fairvital Shop ansehen →</a>
-          </div>
+        </section>
+        <div className="mx-auto mt-5 max-w-[1600px] text-center">
+          <Link to="/heute" className="text-sm font-semibold text-home-green underline underline-offset-4">Heute ansehen →</Link>
         </div>
-      </section>
-    </AppShell>
+      </main>
+    </div>
   );
 }

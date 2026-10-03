@@ -18,3 +18,4 @@
 - Brand colors/fonts are defined only as tokens in `src/styles.css` so the exact Fairvital CI can be swapped in.
 - Customer login/registration goes through the Shopware Store API via server functions in `src/lib/shop-account.functions.ts` (secrets SHOPWARE_URL, SHOPWARE_ACCESS_KEY). Why: the shop owns customer accounts; the app never stores passwords.
 - AI features (lab PDF reading, voice meal logging) run via server functions in `src/lib/ai.functions.ts` calling the Lovable AI Gateway. Why: keeps the API key server-side.
+- The public introduction is `/`, while the existing interactive daily dashboard lives at `/heute`; sign-in continues into `/heute`. Why: preserve the health workflow alongside the requested public home screen.
