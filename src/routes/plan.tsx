@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Check, ChevronDown, Clock3, ExternalLink, HeartPulse, Salad, Sun, Footprints } from "lucide-react";
+import { ChevronDown, Clock3, ExternalLink, HeartPulse, Salad, Sun, Footprints } from "lucide-react";
 import { AppShell, Icon, PageHeader } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/lib/store";
