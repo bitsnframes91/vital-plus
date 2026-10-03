@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { suggestedProducts } from "@/lib/plan-products";
 import { labMarkers, type LabMarker } from "@/lib/data";
+import { routineTips } from "@/lib/deficiency-routines";
 
 describe("Fairvital plan suggestions", () => {
   it("does not recommend products before a personal plan exists", () => {
@@ -30,5 +31,14 @@ describe("Fairvital plan suggestions", () => {
       { id: "pdf-calcium", name: "Calcium", unit: "mmol/l", target: [2.1, 2.6], history: [{ date: "2026-10-03", value: 3 }], retestWeeks: 12, note: "" },
     ];
     expect(suggestedProducts({ items: [{}] }, imported)).toEqual([]);
+  });
+  it("offers ferritin-specific daily practices alongside the iron match", () => {
+    const ferritin = labMarkers.find((m) => m.id === "ferritin");
+    expect(ferritin).toBeDefined();
+    if (!ferritin) return;
+    expect(suggestedProducts({ items: [{}] }, [ferritin])[0]?.product.name).toBe("Eisen");
+    expect(routineTips(ferritin).map((tip) => tip.title)).toEqual([
+      "Eisen und Vitamin C kombinieren", "Kaffee und Tee versetzt trinken",
+    ]);
   });
 });

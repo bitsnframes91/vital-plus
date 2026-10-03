@@ -1,18 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { ChevronDown, Clock3, ExternalLink, HeartPulse, Salad, Sun, Footprints } from "lucide-react";
 import { AppShell, Icon, PageHeader } from "@/components/AppShell";
+import { Button } from "@/components/ui/button";
 import { useStore } from "@/lib/store";
 import { status } from "@/lib/data";
 import { todayKey } from "@/lib/daily-goals";
 import { suggestedProducts } from "@/lib/plan-products";
+import { routineTips, type RoutineTip } from "@/lib/deficiency-routines";
 
 export const Route = createFileRoute("/plan")({
   head: () => ({
     meta: [
       { title: "Mein Plan — Fairvital Health" },
-      { name: "description", content: "Dein persönlicher Plan mit Empfehlungen und Nachkontrollen." },
+      { name: "description", content: "Dein persönlicher Plan mit Schritten für heute und Empfehlungen zu niedrigen Laborwerten." },
       { property: "og:title", content: "Mein Plan — Fairvital Health" },
-      { property: "og:description", content: "Praktische Schritte und Nachkontrollen, auf dich abgestimmt." },
+      { property: "og:description", content: "Praktische Schritte und Empfehlungen zu niedrigen Laborwerten, auf dich abgestimmt." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -23,8 +26,10 @@ export const Route = createFileRoute("/plan")({
 function Plan() {
   const { s, set } = useStore();
   const [open, setOpen] = useState<number | null>(0);
-  const recs = s.labs.map((m) => ({ m, st: status(m) }));
+  const [openRoutine, setOpenRoutine] = useState<string | null>(null);
+  const deficient = s.labs.filter((m) => m.history.length && status(m).label === "Niedrig");
   const suggestions = suggestedProducts(s.aiPlan, s.labs);
+  const icons = { food: Salad, sun: Sun, walk: Footprints, clock: Clock3, heart: HeartPulse } satisfies Record<RoutineTip["icon"], typeof Salad>;
   const d = todayKey();
   const items = s.aiPlan?.items ?? [];
   const doneCount = items.filter((_, i) => s.actionsDone[`${d}:plan-${i}`]).length;
@@ -62,13 +67,13 @@ function Plan() {
                 return (
                   <li key={i} className="rounded-[14px] ring-1 ring-border">
                     <div className="flex items-center gap-3 px-3 py-3">
-                      <button onClick={() => toggleDone(i)} aria-label="Heute erledigt"
-                        className={`grid size-7 shrink-0 place-items-center rounded-full ${done ? "bg-fv text-ink" : "ring-1 ring-border text-ink/30"}`}>
+                      <Button variant="ghost" size="icon" onClick={() => toggleDone(i)} aria-label="Heute erledigt"
+                        className={`size-7 shrink-0 rounded-full ${done ? "bg-fv text-ink" : "ring-1 ring-border text-ink/30"}`}>
                         <Icon d="M4 12l5 5L20 6" className="size-4" />
-                      </button>
-                      <button onClick={() => setOpen(open === i ? null : i)} className="min-w-0 flex-1 text-left">
+                      </Button>
+                      <Button variant="ghost" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className="h-auto min-w-0 flex-1 justify-start whitespace-normal px-0 text-left hover:bg-transparent">
                         <div className={`text-[15px] font-medium ${done ? "text-ink/45 line-through" : ""}`}>{it.title}</div>
-                      </button>
+                      </Button>
                       <span className="text-ink/30">{open === i ? "–" : "+"}</span>
                     </div>
                     {open === i && (
@@ -76,10 +81,10 @@ function Plan() {
                         <p className="text-[14px] text-ink/65">{it.detail}</p>
                         <label className="mt-3 flex items-center justify-between text-[13px]">
                           <span>In meinen Tageszielen anzeigen</span>
-                          <button onClick={() => toggleDaily(i)} role="switch" aria-checked={daily}
+                          <Button variant="ghost" size="icon" onClick={() => toggleDaily(i)} role="switch" aria-label="In meinen Tageszielen anzeigen" aria-checked={daily}
                             className={`h-6 w-11 rounded-full p-0.5 transition ${daily ? "bg-fv" : "bg-ink/15"}`}>
                             <span className={`block size-5 rounded-full bg-card transition ${daily ? "translate-x-5" : ""}`} />
-                          </button>
+                          </Button>
                         </label>
                       </div>
                     )}
@@ -91,35 +96,47 @@ function Plan() {
           </div>
         )}
         {s.aiPlan && (
-          <section className="pt-3" aria-label="Fairvital Ergänzungen">
-            <h2 className="px-1 text-[18px] font-semibold">Passende Fairvital Ergänzungen</h2>
-            <p className="mb-3 px-1 text-[13px] text-ink/55">Optional zu Werten unter dem Zielbereich. Bitte die Einnahme ärztlich abklären.</p>
-            {suggestions.length ? (
-              <div className="space-y-2">
-                {suggestions.map(({ marker, product }) => (
-                  <div key={marker.id} className="card-surface p-4">
-                    <div className="eyebrow">Zu deinem Wert: {marker.name}</div>
-                    <div className="mt-1 text-[16px] font-semibold">{product.name}</div>
-                    <p className="mt-1 text-[13px] text-ink/55">{product.short}</p>
-                    <a href={product.url} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-[14px] font-semibold text-fv-deep">Im Fairvital Shop ansehen →</a>
+          <section className="pt-5" aria-label="Empfehlungen bei niedrigen Werten">
+            <h2 className="px-1 text-[18px] font-semibold">Deine niedrigen Werte</h2>
+            <p className="mb-3 px-1 text-[13px] text-ink/55">Ergänzungen und Alltagstipps passend zu deinen gemessenen Werten.</p>
+            {deficient.length ? <div className="space-y-3">
+              {deficient.map((marker) => {
+                const product = suggestions.find((entry) => entry.marker.id === marker.id)?.product;
+                const expanded = openRoutine === marker.id;
+                return <article key={marker.id} className="card-surface overflow-hidden p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="min-w-0 text-[17px] font-semibold">{marker.name}</h3>
+                    <span className="shrink-0 rounded-full bg-warn/15 px-2.5 py-1 text-[11px] font-semibold uppercase text-ink">Niedrig</span>
                   </div>
-                ))}
-              </div>
-            ) : <p className="px-1 text-[13px] text-ink/55">Derzeit keine passende Ergänzung zu deinen Werten.</p>}
+                  <p className="mt-1 text-[13px] text-ink/55">Zuletzt gemessen: {marker.history[marker.history.length - 1]?.value} {marker.unit}</p>
+                  <div className="mt-5 border-t border-border pt-4">
+                    <div className="eyebrow">Fairvital Ergänzung</div>
+                    {product ? <a href={product.url} target="_blank" rel="noopener noreferrer" className="mt-2 flex items-center justify-between gap-2 text-[15px] font-semibold text-fv-deep underline underline-offset-4">
+                      <span>{product.name} im Fairvital Shop ansehen</span><ExternalLink className="size-4 shrink-0" aria-hidden="true" />
+                    </a> : <p className="mt-2 text-[14px] text-ink/55">Keine passende Ergänzung zugeordnet.</p>}
+                    <p className="mt-2 text-[12px] text-ink/55">Einnahme und mögliche Ursache bitte ärztlich abklären.</p>
+                  </div>
+                  <div className="mt-4 border-t border-border pt-3">
+                    <Button variant="ghost" onClick={() => setOpenRoutine(expanded ? null : marker.id)} aria-expanded={expanded} aria-controls={`routine-${marker.id}`}
+                      className="h-auto w-full justify-between whitespace-normal px-0 py-2 text-left text-[14px] font-semibold text-fv-deep hover:bg-transparent">
+                      Tipps für deinen Alltag <ChevronDown className={`size-4 transition-transform ${expanded ? "rotate-180" : ""}`} aria-hidden="true" />
+                    </Button>
+                    {expanded && <div id={`routine-${marker.id}`} className="space-y-4 pb-1 pt-3">
+                      {routineTips(marker).map((tip) => {
+                        const TipIcon = icons[tip.icon];
+                        return <div key={tip.title} className="flex items-start gap-3">
+                          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-fv/10 text-fv-deep"><TipIcon className="size-5" aria-hidden="true" /></span>
+                          <div className="min-w-0"><div className="text-[14px] font-semibold">{tip.title}</div><p className="mt-1 text-[13px] leading-relaxed text-ink/65">{tip.text}</p></div>
+                        </div>;
+                      })}
+                      <p className="border-t border-border pt-3 text-[12px] text-ink/50">Nachkontrolle in {marker.retestWeeks} Wochen – Zeitpunkt mit deiner Praxis abstimmen.</p>
+                    </div>}
+                  </div>
+                </article>;
+              })}
+            </div> : <p className="px-1 text-[13px] text-ink/55">Aktuell keine Werte unter dem Zielbereich.</p>}
           </section>
         )}
-        {recs.map(({ m, st }) => (
-          <div key={m.id} className="card-surface p-5">
-            <div className="flex items-center justify-between">
-              <div className="text-[15px] font-medium">{m.name}</div>
-              <span className="font-data text-[12px] uppercase tracking-normal text-ink/45">{st.label}</span>
-            </div>
-            <ul className="mt-3 space-y-1.5 text-[14px] text-ink/70">
-              <li>· Ernährung: {m.id === "omega" ? "2× pro Woche fetten Seefisch oder Leinöl" : m.id === "ferritin" ? "Hülsenfrüchte mit Vitamin-C-Quelle kombinieren" : "Regelmäßig Zeit im Tageslicht verbringen"}</li>
-              <li>· Nachkontrolle in {m.retestWeeks} Wochen</li>
-            </ul>
-          </div>
-        ))}
       </div>
     </AppShell>
   );

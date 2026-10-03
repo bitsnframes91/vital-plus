@@ -24,12 +24,15 @@ const normalize = (value: string) => value
   .replace(/[^a-z0-9]+/g, " ")
   .trim();
 
-function productForMarker(marker: LabMarker) {
+export function markerCategory(marker: LabMarker) {
   const markerText = normalize(`${marker.id} ${marker.name}`);
-  const productKey = Object.entries(markerAliases).find(([, aliases]) =>
+  return Object.entries(markerAliases).find(([, aliases]) =>
     aliases.some((alias) => markerText.includes(normalize(alias))),
   )?.[0];
-  return products.find((candidate) => candidate.relatedMarker === productKey);
+}
+
+function productForMarker(marker: LabMarker) {
+  return products.find((candidate) => candidate.relatedMarker === markerCategory(marker));
 }
 
 // Offer only catalog matches for a measured value below range, never for a normal or high value.
