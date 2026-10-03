@@ -1,5 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { AppShell, Icon, Sparkbars } from "@/components/AppShell";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useStore } from "@/lib/store";
 import { products, status } from "@/lib/data";
 import productImg from "@/assets/product-d3k2.jpg";
@@ -22,11 +25,13 @@ export const Route = createFileRoute("/heute")({
 
 function Today() {
   const { s, set } = useStore();
+  const [selectedGoalKey, setSelectedGoalKey] = useState<string | null>(null);
   const vitd = s.labs.find((l) => l.id === "vitd")!;
   const vals = vitd.history.map((h) => h.value);
   const last = vals[vals.length - 1]!;
   const diff = last - vals[0]!;
   const { fromPlan, goals: actions } = dailyGoals(s.aiPlan);
+  const selectedGoal = actions.find((a) => a.key === selectedGoalKey);
   const done = actions.filter((a) => s.actionsDone[a.key]).length;
   const product = products.find((p) => p.relatedMarker === "vitd")!;
   const today = new Date().toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long" });
@@ -92,10 +97,13 @@ function Today() {
           {actions.map((a) => {
             const ok = s.actionsDone[a.key];
             return (
-              <button
+              <Button
                 key={a.key}
-                onClick={() => set({ actionsDone: { ...s.actionsDone, [a.key]: !ok } })}
-                className="card-surface flex w-full items-center gap-3 rounded-[16px] px-4 py-3 text-left"
+                type="button"
+                variant="ghost"
+                onClick={() => setSelectedGoalKey(a.key)}
+                aria-label={`${a.title} – Details öffnen`}
+                className="card-surface h-auto min-h-[72px] w-full justify-start gap-3 whitespace-normal rounded-[16px] px-4 py-3 text-left hover:bg-card"
               >
                 <span className={`grid size-8 shrink-0 place-items-center rounded-full ${ok ? "bg-fv/10 text-fv-deep" : "bg-ink/5 text-ink/40"}`}>
                   <Icon d={ok ? "M4 12l5 5L20 6" : "M12 6v6l4 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18"} className="size-4" />
@@ -104,12 +112,37 @@ function Today() {
                   <div className="text-[15px] font-medium">{a.title}</div>
                   <div className="mt-0.5 line-clamp-2 text-[12px] text-ink/45">{a.sub} · {ok ? "erreicht" : "ausstehend"}</div>
                 </div>
-                {!ok && <span className="rounded-full bg-ink px-3 py-1.5 text-sm text-on-ink">Erledigt</span>}
-              </button>
+                <Icon d="m9 18 6-6-6-6" className="size-4 shrink-0 text-ink/40" />
+              </Button>
             );
           })}
         </div>
       </section>
+
+      <Dialog open={selectedGoalKey !== null && !!selectedGoal} onOpenChange={(open) => { if (!open) setSelectedGoalKey(null); }}>
+        <DialogContent className="w-[calc(100%-2rem)] max-h-[85dvh] max-w-[420px] overflow-y-auto rounded-lg border-border bg-card p-6">
+          {selectedGoal && (
+            <>
+              <DialogHeader className="pr-5 text-left">
+                <span className="eyebrow">Tagesziel{fromPlan ? " · aus deinem Plan" : ""}</span>
+                <DialogTitle className="mt-2 text-[22px] leading-snug tracking-normal text-foreground">{selectedGoal.title}</DialogTitle>
+                <DialogDescription className="pt-3 text-[16px] leading-relaxed text-muted-foreground">{selectedGoal.sub}</DialogDescription>
+              </DialogHeader>
+              <Button
+                type="button"
+                className="mt-4 w-full whitespace-normal py-3"
+                variant={s.actionsDone[selectedGoal.key] ? "outline" : "default"}
+                onClick={() => {
+                  set({ actionsDone: { ...s.actionsDone, [selectedGoal.key]: !s.actionsDone[selectedGoal.key] } });
+                  setSelectedGoalKey(null);
+                }}
+              >
+                {s.actionsDone[selectedGoal.key] ? "Erledigung zurücknehmen" : "Als erledigt markieren"}
+              </Button>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
 
       <section className="mt-4 px-4">
