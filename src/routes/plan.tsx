@@ -23,6 +23,20 @@ function Plan() {
     <AppShell>
       <PageHeader eyebrow="Plan" title="Dein persönlicher Plan" sub="Beispielhafte Empfehlungen auf Basis deiner Werte – keine medizinische Beratung." />
       <div className="space-y-3 px-4 pt-4">
+        {s.aiPlan && (
+          <div className="card-surface p-5">
+            <div className="eyebrow">Aus deinem Befund vom {new Date(s.aiPlan.date).toLocaleDateString("de-DE")}</div>
+            <ul className="mt-3 space-y-3">
+              {s.aiPlan.items.map((it, i) => (
+                <li key={i}>
+                  <div className="text-[14px] font-medium">{it.title}</div>
+                  <div className="text-[13px] text-ink/65">{it.detail}</div>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 border-t pt-3 text-[11px] text-ink/40">Automatisch erstellt – keine Diagnose. Bitte mit deiner Ärztin oder deinem Arzt besprechen.</p>
+          </div>
+        )}
         {recs.map(({ m, st, p }) => (
           <div key={m.id} className="card-surface p-5">
             <div className="flex items-center justify-between">

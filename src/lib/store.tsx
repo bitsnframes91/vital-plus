@@ -25,6 +25,7 @@ const initial: State = {
   actionsDone: { protein: true, omega: true, move: false },
   consent: { practitioner: false, analytics: false },
   account: null,
+  aiPlan: null,
 };
 
 const Ctx = createContext<{ s: State; set: (p: Partial<State>) => void } | null>(null);

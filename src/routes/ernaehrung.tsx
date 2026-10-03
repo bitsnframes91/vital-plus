@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useRef, useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
+import { mealFromVoice } from "@/lib/ai.functions";
+import { blobToBase64, recordWav } from "@/lib/record-wav";
 
 export const Route = createFileRoute("/ernaehrung")({
   head: () => ({
@@ -24,6 +27,34 @@ function Nutrition() {
   const [protein, setProtein] = useState("");
   const total = s.meals.reduce((a, m) => a + m.protein, 0);
   const goal = 90;
+  const voice = useServerFn(mealFromVoice);
+  const rec = useRef<{ stop: () => Promise<Blob> } | null>(null);
+  const [vs, setVs] = useState<"idle" | "rec" | "busy">("idle");
+  const [vmsg, setVmsg] = useState<string | null>(null);
+
+  const toggleVoice = async () => {
+    setVmsg(null);
+    if (vs === "idle") {
+      try { rec.current = await recordWav(); setVs("rec"); }
+      catch { setVmsg("Mikrofon nicht verfügbar. Bitte Zugriff erlauben."); }
+      return;
+    }
+    if (vs !== "rec" || !rec.current) return;
+    setVs("busy");
+    try {
+      const blob = await rec.current.stop();
+      const r = await voice({ data: { base64: await blobToBase64(blob) } });
+      if (!r.ok) { setVmsg(r.error); return; }
+      const time = new Date().toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+      set({ meals: [...s.meals, ...r.meals.map((m) => ({ ...m, id: crypto.randomUUID(), time }))] });
+      setVmsg(`„${r.transcript}“ – ${r.meals.length} Mahlzeit${r.meals.length > 1 ? "en" : ""} hinzugefügt.`);
+    } catch (e) {
+      setVmsg(e instanceof Error ? e.message : "Aufnahme fehlgeschlagen.");
+    } finally {
+      rec.current = null;
+      setVs("idle");
+    }
+  };
 
   const add = (e: React.FormEvent) => {
     e.preventDefault();
