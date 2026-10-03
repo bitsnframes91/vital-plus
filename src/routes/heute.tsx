@@ -4,7 +4,9 @@ import { AppShell, Icon, Sparkbars } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useStore } from "@/lib/store";
-import { products, status } from "@/lib/data";
+import { fmtDate, status } from "@/lib/data";
+import { reportMarkers, todaySuggestion } from "@/lib/plan-products";
+import { Package } from "lucide-react";
 import productImg from "@/assets/product-d3k2.jpg";
 import forestHero from "@/assets/forest-mist-hero.jpg";
 import { dailyGoals } from "@/lib/daily-goals";
@@ -26,14 +28,14 @@ export const Route = createFileRoute("/heute")({
 function Today() {
   const { s, set } = useStore();
   const [selectedGoalKey, setSelectedGoalKey] = useState<string | null>(null);
-  const vitd = s.labs.find((l) => l.id === "vitd")!;
-  const vals = vitd.history.map((h) => h.value);
-  const last = vals[vals.length - 1]!;
-  const diff = last - vals[0]!;
+  const suggestion = todaySuggestion(s.aiPlan, s.labs);
+  const measured = reportMarkers(s.aiPlan, s.labs);
+  const featured = suggestion?.marker ?? measured[0];
+  const vals = featured?.history.map((h) => h.value) ?? [];
+  const last = featured?.history.at(-1);
   const { fromPlan, goals: actions } = dailyGoals(s.aiPlan);
   const selectedGoal = actions.find((a) => a.key === selectedGoalKey);
   const done = actions.filter((a) => s.actionsDone[a.key]).length;
-  const product = products.find((p) => p.relatedMarker === "vitd")!;
   const today = new Date().toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long" });
 
   return (
@@ -145,43 +147,46 @@ function Today() {
       </Dialog>
 
 
-      <section className="mt-4 px-4">
+      {featured && last && <section className="mt-4 px-4">
         <Link to="/labor" className="card-surface block p-5">
           <div className="flex items-start justify-between">
             <div>
-              <div className="eyebrow">Vitamin D</div>
+              <div className="eyebrow">{featured.name}</div>
               <div className="mt-1 flex items-baseline gap-1.5">
-                <span className="font-data text-[30px] font-medium">{last}</span>
-                <span className="font-data text-[13px] text-ink/45">{vitd.unit}</span>
-                <span className="ml-1 font-data text-[12px] text-fv-deep">↑ {diff}</span>
+                <span className="font-data text-[30px] font-medium">{last.value}</span>
+                <span className="font-data text-[13px] text-ink/45">{featured.unit}</span>
               </div>
-              <div className="mt-0.5 max-w-[26ch] text-[12px] text-ink/45">Von {vals[0]} → {last} · Zielbereich {vitd.target[0]}–{vitd.target[1]}</div>
+              <div className="mt-0.5 max-w-[26ch] text-[12px] text-ink/45">Vom {fmtDate(last.date)} · Zielbereich {featured.target[0]}–{featured.target[1]}</div>
             </div>
-            <span className="rounded-full bg-fv/10 px-2.5 py-1 font-data text-[12px] uppercase tracking-normal text-fv-deep">{status(vitd).label}</span>
+            <span className="rounded-full bg-fv/10 px-2.5 py-1 font-data text-[12px] uppercase tracking-normal text-fv-deep">{status(featured).label}</span>
           </div>
-          <div className="mt-4"><Sparkbars values={vals} max={vitd.target[1]} /></div>
+          <div className="mt-4"><Sparkbars values={vals} max={featured.target[1]} /></div>
           <div className="mt-3 flex items-center gap-2 border-t pt-3 text-[13px] text-ink/55">
             <Icon d="M12 8v4l3 2M3 12a9 9 0 1 0 3-6.7" className="size-4 text-ink/40" />
-            Nachkontrolle empfohlen in {vitd.retestWeeks} Wochen.
+            Nachkontrolle empfohlen in {featured.retestWeeks} Wochen.
           </div>
         </Link>
-      </section>
+      </section>}
 
       <section className="mt-4 px-4">
-        <div className="card-surface overflow-hidden">
+        {suggestion ? <div className="card-surface overflow-hidden">
           <div className="flex gap-3 p-3">
-            <img src={productImg} alt={product.name} width={62} height={62} loading="lazy" className="size-[62px] shrink-0 rounded-[12px] object-cover" />
+            {suggestion.product.relatedMarker === "vitd"
+              ? <img src={productImg} alt="" width={62} height={62} loading="lazy" className="size-[62px] shrink-0 rounded-[12px] object-cover" />
+              : <span className="grid size-[62px] shrink-0 place-items-center rounded-[12px] bg-fv/10 text-fv-deep"><Package aria-hidden="true" className="size-7" /></span>}
             <div className="min-w-0 flex-1">
-              <div className="font-data text-[11px] uppercase tracking-normal text-fv-deep">Passend zu deinem Wert</div>
-              <div className="mt-0.5 text-[15px] font-medium">{product.name}</div>
-              <div className="mt-0.5 text-[12px] text-ink/45">{product.short}</div>
+              <div className="font-data text-[11px] uppercase tracking-normal text-fv-deep">Passend zu {suggestion.marker.name}</div>
+              <div className="mt-0.5 text-[15px] font-medium">{suggestion.product.name}</div>
+              <div className="mt-0.5 text-[12px] text-ink/45">{suggestion.product.short}</div>
             </div>
           </div>
           <div className="flex items-center justify-between border-t px-4 py-2.5">
             <span className="text-[12px] text-ink/40">Optional · kein Muss</span>
-            <a href={product.url} target="_blank" rel="noreferrer" className="text-[12px] font-medium text-fv-deep">Im Fairvital Shop ansehen →</a>
+            <a href={suggestion.product.url} target="_blank" rel="noreferrer" className="text-[12px] font-medium text-fv-deep">Im Fairvital Shop ansehen →</a>
           </div>
-        </div>
+        </div> : <Link to={s.aiPlan ? "/plan" : "/labor"} className="card-surface block p-5 text-[14px] text-ink/60">
+          {s.aiPlan ? "Keine passende Ergänzung für deine gemessenen Werte nötig. Deinen Plan ansehen →" : "Lade deinen Laborbefund hoch, um passende Ergänzungen zu sehen →"}
+        </Link>}
       </section>
     </AppShell>
   );
