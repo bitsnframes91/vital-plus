@@ -6,7 +6,7 @@ import { useStore } from "@/lib/store";
 import { shopLogin, shopRegister } from "@/lib/shop-account.functions";
 
 export const Route = createFileRoute("/login")({
-  validateSearch: (search: Record<string, unknown>) => ({ mode: search.mode === "register" ? "register" as const : "login" as const }),
+  validateSearch: (search: Record<string, unknown>) => ({ mode: search['mode'] === "register" ? "register" as const : "login" as const }),
   head: () => ({
     meta: [
       { title: "Anmelden — Fairvital Health" },

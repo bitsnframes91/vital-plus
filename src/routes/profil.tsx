@@ -63,7 +63,7 @@ function Profile() {
           ) : (
             <>
               Melde dich mit deinem Konto von fairvital.com an.
-              <Link to="/login" className="mt-3 block text-[12px] font-medium text-fv-deep">Anmelden oder Konto anlegen →</Link>
+              <Link to="/login" search={{ mode: "login" }} className="mt-3 block text-[12px] font-medium text-fv-deep">Anmelden oder Konto anlegen →</Link>
             </>
           )}
         </div>
