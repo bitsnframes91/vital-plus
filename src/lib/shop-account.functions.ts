@@ -23,7 +23,7 @@ async function sw(c: { url: string; key: string }, path: string, body?: unknown,
       accept: "application/json",
       ...(token ? { "sw-context-token": token } : {}),
     },
-    body: body === undefined ? undefined : JSON.stringify(body),
+    body: body === undefined ? null : JSON.stringify(body),
   });
   const json = (await res.json().catch(() => ({}))) as any;
   return { res, json, token: res.headers.get("sw-context-token") ?? json.contextToken ?? token };
