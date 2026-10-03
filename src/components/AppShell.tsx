@@ -60,15 +60,16 @@ export function PageHeader({ eyebrow, title, sub, right }: { eyebrow: string; ti
 }
 
 export function Sparkbars({ values, max }: { values: number[]; max: number }) {
+  const scale = Math.max(1, max, ...values.filter(Number.isFinite));
   return (
-    <div className="flex h-[52px] items-end gap-1.5">
+    <div className="flex h-[52px] items-end gap-1.5 overflow-hidden">
       {values.map((v, i) => {
         const last = i === values.length - 1;
         return (
           <div
             key={i}
             className={`flex-1 rounded-t-[4px] ${last ? "bg-fv" : i >= values.length - 2 ? "bg-fv/50" : "bg-ink/10"}`}
-            style={{ height: `${Math.max(12, (v / max) * 100)}%` }}
+            style={{ height: `${Number.isFinite(v) ? Math.min(100, Math.max(12, (v / scale) * 100)) : 12}%` }}
           />
         );
       })}

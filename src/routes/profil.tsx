@@ -11,6 +11,8 @@ export const Route = createFileRoute("/profil")({
       { name: "description", content: "Profil, Freigaben für Behandler und Datenschutz-Einstellungen verwalten." },
       { property: "og:title", content: "Profil & Datenschutz — Fairvital Health" },
       { property: "og:description", content: "Du entscheidest, wer deine Gesundheitsdaten sieht." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Profile,

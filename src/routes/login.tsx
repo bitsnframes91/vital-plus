@@ -12,6 +12,8 @@ export const Route = createFileRoute("/login")({
       { name: "description", content: "Mit deinem Fairvital Shop-Konto anmelden oder ein neues Konto anlegen." },
       { property: "og:title", content: "Anmelden — Fairvital Health" },
       { property: "og:description", content: "Ein Konto für Shop und Gesundheits-App." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Login,

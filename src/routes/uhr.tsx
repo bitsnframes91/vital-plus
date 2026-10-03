@@ -11,6 +11,8 @@ export const Route = createFileRoute("/uhr")({
       { name: "description", content: "Fairvital Health auf der Smartwatch: Tagesziele und Vitamin D auf einen Blick." },
       { property: "og:title", content: "Uhr — Fairvital Health" },
       { property: "og:description", content: "Glanceable Watch-Screens für Apple Watch und Wear OS." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Watch,

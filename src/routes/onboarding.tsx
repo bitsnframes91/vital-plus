@@ -9,6 +9,8 @@ export const Route = createFileRoute("/onboarding")({
       { name: "description", content: "Lege in wenigen Schritten dein Gesundheitsprofil an." },
       { property: "og:title", content: "Willkommen — Fairvital Health" },
       { property: "og:description", content: "Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Onboarding,
