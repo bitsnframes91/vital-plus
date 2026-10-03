@@ -7,8 +7,8 @@
 /* Fairvital Health design system — adapt brand tokens here to match the exact Fairvital CI. */
 
 @theme inline {
-  --font-display: "Archivo", sans-serif;
-  --font-sans: "IBM Plex Sans", sans-serif;
+  --font-display: "Source Sans 3", sans-serif;
+  --font-sans: "Source Sans 3", sans-serif;
   --font-data: "IBM Plex Mono", monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
