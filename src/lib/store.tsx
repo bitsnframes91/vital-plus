@@ -11,6 +11,7 @@ type State = {
   labs: LabMarker[];
   actionsDone: Record<string, boolean>;
   consent: { practitioner: boolean; analytics: boolean };
+  account: { email: string; firstName: string; lastName: string; contextToken: string } | null;
 };
 
 const initial: State = {
@@ -22,6 +23,7 @@ const initial: State = {
   labs: seedLabs,
   actionsDone: { protein: true, omega: true, move: false },
   consent: { practitioner: false, analytics: false },
+  account: null,
 };
 
 const Ctx = createContext<{ s: State; set: (p: Partial<State>) => void } | null>(null);
