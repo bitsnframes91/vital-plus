@@ -153,7 +153,7 @@ function Today() {
             <div>
               <div className="eyebrow">{featured.name}</div>
               <div className="mt-1 flex items-baseline gap-1.5">
-                <span className="font-data text-[30px] font-medium">{last}</span>
+                <span className="font-data text-[30px] font-medium">{last.value}</span>
                 <span className="font-data text-[13px] text-ink/45">{featured.unit}</span>
               </div>
               <div className="mt-0.5 max-w-[26ch] text-[12px] text-ink/45">Vom {fmtDate(last.date)} · Zielbereich {featured.target[0]}–{featured.target[1]}</div>
