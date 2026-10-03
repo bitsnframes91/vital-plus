@@ -12,6 +12,7 @@ type State = {
   actionsDone: Record<string, boolean>;
   consent: { practitioner: boolean; analytics: boolean };
   account: { email: string; firstName: string; lastName: string; contextToken: string } | null;
+  aiPlan: { date: string; items: { title: string; detail: string }[] } | null;
 };
 
 const initial: State = {
