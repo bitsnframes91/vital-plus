@@ -28,7 +28,10 @@ const initial: State = {
   aiPlan: null,
 };
 
-const Ctx = createContext<{ s: State; set: (p: Partial<State>) => void } | null>(null);
+type CtxValue = { s: State; set: (p: Partial<State>) => void } | null;
+// Keep one context instance across hot reloads so provider and consumers always match.
+const g = globalThis as unknown as { __fvStoreCtx?: React.Context<CtxValue> };
+const Ctx = g.__fvStoreCtx ?? (g.__fvStoreCtx = createContext<CtxValue>(null));
 const KEY = "fv-health-v1";
 
 export function StoreProvider({ children }: { children: ReactNode }) {
