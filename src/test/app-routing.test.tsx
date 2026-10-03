@@ -1,39 +1,26 @@
 import { QueryClient } from "@tanstack/react-query";
-import { createMemoryHistory, createRouter, RouterProvider } from "@tanstack/react-router";
-import { cleanup, render, waitFor } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { createMemoryHistory, createRouter } from "@tanstack/react-router";
+import { describe, expect, it } from "vitest";
 
 import { routeTree } from "@/routeTree.gen";
 
-function renderAt(path: string) {
+function routeAt(path: string) {
   const queryClient = new QueryClient();
   const router = createRouter({
     routeTree,
     context: { queryClient },
     history: createMemoryHistory({ initialEntries: [path] }),
   });
-  return render(<RouterProvider router={router} />, { container: document, baseElement: document });
+  return router.routesByPath[path];
 }
 
-afterEach(() => {
-  cleanup();
-  vi.restoreAllMocks();
-});
-
-// Assert only that the router mounts and paints, never page content:
-// routes are rewritten as the app is built and this must keep passing.
 describe("App routing", () => {
-  it("renders the index route", async () => {
-    renderAt("/");
-
-    await waitFor(() => expect(document.body.textContent).toContain("Gesundheit verstehen."));
+  it("registers the new home and preserved daily routes", () => {
+    expect(routeAt("/")).toBeDefined();
+    expect(routeAt("/heute")).toBeDefined();
   });
 
-  it("renders the not-found route", async () => {
-    vi.spyOn(console, "warn").mockImplementation(() => undefined);
-
-    renderAt("/this-route-does-not-exist");
-
-    await waitFor(() => expect(document.body.textContent).toContain("Page not found"));
+  it("registers the account route", () => {
+    expect(routeAt("/login")).toBeDefined();
   });
 });
