@@ -75,16 +75,16 @@ export type Product = {
 export const products: Product[] = [
   {
     shopwareId: "sw-placeholder-d3k2",
-    name: "Vitamin D3 + K2 Tropfen",
-    short: "Hilft, deinen Zielbereich stabil zu halten.",
-    url: "https://www.fairvital.com",
+    name: "Vitamin D3 + K2",
+    short: "Fairvital-Produkte zu Vitamin D ansehen.",
+    url: "https://fairvital.com/search?s=Vitamin%20D3%20K2",
     relatedMarker: "vitd",
   },
   {
     shopwareId: "sw-placeholder-omega",
-    name: "Omega-3 Algenöl",
-    short: "Pflanzliche Quelle für EPA und DHA.",
-    url: "https://www.fairvital.com",
+    name: "Omega-3",
+    short: "Fairvital-Produkte zu Omega-3 ansehen.",
+    url: "https://fairvital.com/search?s=Omega-3",
     relatedMarker: "omega",
   },
 ];

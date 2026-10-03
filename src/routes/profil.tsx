@@ -37,7 +37,7 @@ function Profile() {
   const logout = useServerFn(shopLogout);
   return (
     <AppShell>
-      <PageHeader eyebrow="Profil" title={s.name} sub="Deine Daten gehören dir." />
+      <PageHeader eyebrow="Einstellungen" title={s.name} sub="Deine Daten gehören dir." />
       <div className="space-y-4 px-4 pt-4">
         <div className="card-surface p-5">
           <div className="eyebrow">Name</div>

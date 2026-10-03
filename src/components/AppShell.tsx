@@ -6,7 +6,8 @@ const tabs = [
   { to: "/ernaehrung", label: "Ernährung", d: "M12 3a9 9 0 1 0 9 9M12 12l4-2M12 3v9" },
   { to: "/gesundheit", label: "Gesundheit", d: "M12 20s-7-4.5-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.5-7 10-7 10z" },
   { to: "/labor", label: "Labor", d: "M9 3v6l-4 8a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-4-8V3M8 3h8" },
-  { to: "/plan", label: "Plan", d: "M4 6h16M4 12h16M4 18h10" },
+  { to: "/plan", label: "Plan", d: "M9 4h6M9 2h6v4H9zM7 4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2M7 12l2 2 4-4M7 18h10" },
+  { to: "/profil", label: "Einstellungen", d: "M4 6h16M4 12h16M4 18h10" },
 ] as const;
 
 export function Icon({ d, className = "size-5" }: { d: string; className?: string }) {
@@ -23,17 +24,17 @@ export function AppShell({ children }: { children: ReactNode }) {
       <div className="relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col overflow-hidden bg-background sm:min-h-[860px] sm:rounded-[28px] sm:ring-1 sm:ring-border">
         <main className="flex-1 pb-28">{children}</main>
         <nav className="fixed bottom-3 left-1/2 z-30 w-[calc(100%-1.5rem)] max-w-[416px] -translate-x-1/2 rounded-[22px] bg-card/90 px-1 py-2 ring-1 ring-border backdrop-blur-md">
-          <div className="grid grid-cols-5">
+          <div className="grid grid-cols-6">
             {tabs.map((t) => (
               <Link
                 key={t.to}
                 to={t.to}
                 activeOptions={{ exact: true }}
-                className="flex flex-col items-center gap-1 text-ink/40"
+                className="flex min-w-0 flex-col items-center gap-1 text-ink/40"
                 activeProps={{ className: "text-fv-deep" }}
               >
                 <Icon d={t.d} />
-                <span className="text-[10px] font-medium">{t.label}</span>
+                <span className="text-[clamp(8px,2.2vw,10px)] font-medium">{t.label}</span>
               </Link>
             ))}
           </div>

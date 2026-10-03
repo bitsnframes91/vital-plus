@@ -2,8 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, Icon, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
-import { products, status } from "@/lib/data";
+import { status } from "@/lib/data";
 import { todayKey } from "@/lib/daily-goals";
+import { suggestedProducts } from "@/lib/plan-products";
 
 export const Route = createFileRoute("/plan")({
   head: () => ({
@@ -22,7 +23,8 @@ export const Route = createFileRoute("/plan")({
 function Plan() {
   const { s, set } = useStore();
   const [open, setOpen] = useState<number | null>(0);
-  const recs = s.labs.map((m) => ({ m, st: status(m), p: products.find((p) => p.relatedMarker === m.id) }));
+  const recs = s.labs.map((m) => ({ m, st: status(m) }));
+  const suggestions = suggestedProducts(s.aiPlan, s.labs);
   const d = todayKey();
   const items = s.aiPlan?.items ?? [];
   const doneCount = items.filter((_, i) => s.actionsDone[`${d}:plan-${i}`]).length;
@@ -88,7 +90,25 @@ function Plan() {
             <p className="mt-3 border-t pt-3 text-[11px] text-ink/40">Automatisch erstellt – keine Diagnose. Bitte mit deiner Ärztin oder deinem Arzt besprechen.</p>
           </div>
         )}
-        {recs.map(({ m, st, p }) => (
+        {s.aiPlan && (
+          <section className="pt-3" aria-label="Fairvital Ergänzungen">
+            <h2 className="px-1 text-[17px] font-semibold">Passende Fairvital Ergänzungen</h2>
+            <p className="mb-3 px-1 text-[12px] text-ink/55">Optional zu Werten unter dem Zielbereich. Bitte die Einnahme ärztlich abklären.</p>
+            {suggestions.length ? (
+              <div className="space-y-2">
+                {suggestions.map(({ marker, product }) => (
+                  <div key={marker.id} className="card-surface p-4">
+                    <div className="eyebrow">Zu deinem Wert: {marker.name}</div>
+                    <div className="mt-1 text-[15px] font-semibold">{product.name}</div>
+                    <p className="mt-1 text-[12px] text-ink/55">{product.short}</p>
+                    <a href={product.url} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-[13px] font-semibold text-fv-deep">Im Fairvital Shop ansehen →</a>
+                  </div>
+                ))}
+              </div>
+            ) : <p className="px-1 text-[12px] text-ink/55">Derzeit keine passende Ergänzung zu deinen Werten.</p>}
+          </section>
+        )}
+        {recs.map(({ m, st }) => (
           <div key={m.id} className="card-surface p-5">
             <div className="flex items-center justify-between">
               <div className="text-[14px] font-medium">{m.name}</div>
@@ -98,12 +118,6 @@ function Plan() {
               <li>· Ernährung: {m.id === "omega" ? "2× pro Woche fetten Seefisch oder Leinöl" : m.id === "ferritin" ? "Hülsenfrüchte mit Vitamin-C-Quelle kombinieren" : "Regelmäßig Zeit im Tageslicht verbringen"}</li>
               <li>· Nachkontrolle in {m.retestWeeks} Wochen</li>
             </ul>
-            {p && (
-              <div className="mt-3 flex items-center justify-between border-t pt-3">
-                <span className="text-[11px] text-ink/45">Optional: {p.name}</span>
-                <a href={p.url} target="_blank" rel="noreferrer" className="text-[11px] font-medium text-fv-deep">fairvital.com →</a>
-              </div>
-            )}
           </div>
         ))}
       </div>
