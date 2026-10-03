@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as ErnaehrungRouteImport } from './routes/ernaehrung'
 import { Route as GesundheitRouteImport } from './routes/gesundheit'
 import { Route as HeuteRouteImport } from './routes/heute'
@@ -19,6 +20,11 @@ import { Route as PlanRouteImport } from './routes/plan'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as UhrRouteImport } from './routes/uhr'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ErnaehrungRoute = ErnaehrungRouteImport.update({
   id: '/ernaehrung',
   path: '/ernaehrung',
@@ -66,6 +72,7 @@ const UhrRoute = UhrRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/ernaehrung': typeof ErnaehrungRoute
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
@@ -77,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/uhr': typeof UhrRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/ernaehrung': typeof ErnaehrungRoute
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
@@ -89,6 +97,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/ernaehrung': typeof ErnaehrungRoute
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
@@ -102,6 +111,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/ernaehrung'
     | '/gesundheit'
     | '/heute'
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
     | '/uhr'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/ernaehrung'
     | '/gesundheit'
     | '/heute'
@@ -124,6 +135,7 @@ export interface FileRouteTypes {
     | '/uhr'
   id:
     | '__root__'
+    | '/'
     | '/ernaehrung'
     | '/gesundheit'
     | '/heute'
@@ -136,6 +148,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   ErnaehrungRoute: typeof ErnaehrungRoute
   GesundheitRoute: typeof GesundheitRoute
   HeuteRoute: typeof HeuteRoute
@@ -149,6 +162,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ernaehrung': {
       id: '/ernaehrung'
       path: '/ernaehrung'
@@ -216,6 +236,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   ErnaehrungRoute: ErnaehrungRoute,
   GesundheitRoute: GesundheitRoute,
   HeuteRoute: HeuteRoute,
