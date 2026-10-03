@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useRef, useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
+import { mealFromVoice } from "@/lib/ai.functions";
+import { blobToBase64, recordWav } from "@/lib/record-wav";
 
 export const Route = createFileRoute("/ernaehrung")({
   head: () => ({
@@ -24,6 +27,34 @@ function Nutrition() {
   const [protein, setProtein] = useState("");
   const total = s.meals.reduce((a, m) => a + m.protein, 0);
   const goal = 90;
+  const voice = useServerFn(mealFromVoice);
+  const rec = useRef<{ stop: () => Promise<Blob> } | null>(null);
+  const [vs, setVs] = useState<"idle" | "rec" | "busy">("idle");
+  const [vmsg, setVmsg] = useState<string | null>(null);
+
+  const toggleVoice = async () => {
+    setVmsg(null);
+    if (vs === "idle") {
+      try { rec.current = await recordWav(); setVs("rec"); }
+      catch { setVmsg("Mikrofon nicht verfügbar. Bitte Zugriff erlauben."); }
+      return;
+    }
+    if (vs !== "rec" || !rec.current) return;
+    setVs("busy");
+    try {
+      const blob = await rec.current.stop();
+      const r = await voice({ data: { base64: await blobToBase64(blob) } });
+      if (!r.ok) { setVmsg(r.error); return; }
+      const time = new Date().toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+      set({ meals: [...s.meals, ...r.meals.map((m) => ({ ...m, id: crypto.randomUUID(), time }))] });
+      setVmsg(`„${r.transcript}“ – ${r.meals.length} Mahlzeit${r.meals.length > 1 ? "en" : ""} hinzugefügt.`);
+    } catch (e) {
+      setVmsg(e instanceof Error ? e.message : "Aufnahme fehlgeschlagen.");
+    } finally {
+      rec.current = null;
+      setVs("idle");
+    }
+  };
 
   const add = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,6 +78,18 @@ function Nutrition() {
             <div className="h-full rounded-full bg-fv" style={{ width: `${Math.min(100, (total / goal) * 100)}%` }} />
           </div>
         </div>
+
+        <button onClick={() => void toggleVoice()} disabled={vs === "busy"}
+          className={`card-surface flex w-full items-center gap-3 p-5 text-left disabled:opacity-60 ${vs === "rec" ? "ring-2 ring-fv" : ""}`}>
+          <span className={`grid size-11 shrink-0 place-items-center rounded-full ${vs === "rec" ? "animate-pulse bg-fv text-ink" : "bg-ink text-on-ink"}`}>
+            <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="text-[14px] font-medium">{vs === "rec" ? "Ich höre zu… tippen zum Beenden" : vs === "busy" ? "Wird verarbeitet…" : "Erzähl mir, was du gegessen hast"}</div>
+            <div className="text-[11px] text-ink/45">z. B. „Mittags hatte ich Nudeln mit Hähnchen und einen Apfel“</div>
+          </div>
+        </button>
+        {vmsg && <p className="rounded-xl bg-muted px-4 py-3 text-[12px] text-ink/70">{vmsg}</p>}
 
         <div className="space-y-2">
           {s.meals.map((m) => (

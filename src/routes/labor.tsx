@@ -1,8 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { AppShell, PageHeader, Sparkbars } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
-import { fmtDate, status } from "@/lib/data";
+import { fmtDate, status, type LabMarker } from "@/lib/data";
+import { analyzeLabPdf } from "@/lib/ai.functions";
+import { blobToBase64 } from "@/lib/record-wav";
 
 export const Route = createFileRoute("/labor")({
   head: () => ({
@@ -20,6 +23,42 @@ function Labs() {
   const { s, set } = useStore();
   const [marker, setMarker] = useState(s.labs[0]!.id);
   const [value, setValue] = useState("");
+  const analyze = useServerFn(analyzeLabPdf);
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+
+  const upload = async (file: File | undefined) => {
+    if (!file) return;
+    if (file.type !== "application/pdf") return setMsg({ ok: false, text: "Bitte eine PDF-Datei wählen." });
+    if (file.size > 10 * 1024 * 1024) return setMsg({ ok: false, text: "Die PDF ist größer als 10 MB." });
+    setBusy(true);
+    setMsg(null);
+    try {
+      const r = await analyze({ data: { filename: file.name, base64: await blobToBase64(file), knownIds: s.labs.map((l) => l.id) } });
+      if (!r.ok) return setMsg({ ok: false, text: r.error });
+      let labs: LabMarker[] = [...s.labs];
+      for (const m of r.markers) {
+        const idx = labs.findIndex((l) => l.id === m.id || l.name.toLowerCase() === m.name.toLowerCase());
+        const point = { date: r.date, value: m.value };
+        if (idx >= 0) {
+          labs[idx] = { ...labs[idx]!, history: [...labs[idx]!.history.filter((h) => h.date !== r.date), point].sort((a, b) => a.date.localeCompare(b.date)) };
+        } else {
+          labs = [...labs, {
+            id: `pdf-${m.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+            name: m.name, unit: m.unit,
+            target: [m.targetLow ?? 0, m.targetHigh ?? Math.max(m.value * 1.5, 1)],
+            history: [point], retestWeeks: 12, note: "Aus deinem Laborbefund übernommen.",
+          }];
+        }
+      }
+      set({ labs, aiPlan: r.plan.length ? { date: r.date, items: r.plan } : s.aiPlan });
+      setMsg({ ok: true, text: `${r.markers.length} Werte vom ${fmtDate(r.date)} übernommen. Dein Plan wurde aktualisiert.` });
+    } catch {
+      setMsg({ ok: false, text: "Die PDF konnte nicht gelesen werden." });
+    } finally {
+      setBusy(false);
+    }
+  };
 
   const add = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +73,20 @@ function Labs() {
     <AppShell>
       <PageHeader eyebrow="Labor" title="Deine Laborwerte" sub="Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen." />
       <div className="space-y-3 px-4 pt-4">
+        <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
+          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv/10 font-data text-[11px] text-fv-deep">PDF</span>
+          <div className="min-w-0 flex-1">
+            <div className="text-[14px] font-medium">{busy ? "Befund wird gelesen…" : "Laborbefund hochladen"}</div>
+            <div className="text-[11px] text-ink/45">Die App liest deine Werte aus und erstellt deinen Plan.</div>
+          </div>
+          <input type="file" accept="application/pdf" className="sr-only" disabled={busy}
+            onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
+        </label>
+        {msg && (
+          <div className={`rounded-xl px-4 py-3 text-[12px] ${msg.ok ? "bg-fv/10 text-fv-deep" : "bg-warn/15"}`}>
+            {msg.text} {msg.ok && <Link to="/plan" className="font-medium underline">Zum Plan →</Link>}
+          </div>
+        )}
         {s.labs.map((m) => {
           const vals = m.history.map((h) => h.value);
           const last = m.history[m.history.length - 1]!;
