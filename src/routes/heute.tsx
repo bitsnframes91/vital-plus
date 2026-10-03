@@ -3,6 +3,7 @@ import { AppShell, Icon, Sparkbars } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
 import { products, status } from "@/lib/data";
 import productImg from "@/assets/product-d3k2.jpg";
+import forestHero from "@/assets/forest-mist-hero.jpg";
 import { dailyGoals } from "@/lib/daily-goals";
 
 export const Route = createFileRoute("/heute")({
@@ -33,8 +34,8 @@ function Today() {
   return (
     <AppShell>
       <div className="relative overflow-hidden bg-ink px-6 pb-24 pt-9">
-        <div className="pointer-events-none absolute inset-0 hero-glow" />
-        <div className="pointer-events-none absolute -right-16 -top-10 size-56 rounded-full bg-fv/25 blur-3xl" />
+        <img src={forestHero} alt="Nebeliger Weg zwischen Bäumen" width={1920} height={960} className="absolute inset-0 size-full object-cover object-center" />
+        <div className="today-image-overlay pointer-events-none absolute inset-0" aria-hidden="true" />
         <div className="relative">
           <div className="flex items-center justify-between">
             <span className="font-data text-[12px] uppercase tracking-normal text-on-ink/40">{today}</span>
