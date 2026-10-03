@@ -79,6 +79,18 @@ function Nutrition() {
           </div>
         </div>
 
+        <button onClick={() => void toggleVoice()} disabled={vs === "busy"}
+          className={`card-surface flex w-full items-center gap-3 p-5 text-left disabled:opacity-60 ${vs === "rec" ? "ring-2 ring-fv" : ""}`}>
+          <span className={`grid size-11 shrink-0 place-items-center rounded-full ${vs === "rec" ? "animate-pulse bg-fv text-ink" : "bg-ink text-on-ink"}`}>
+            <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="text-[14px] font-medium">{vs === "rec" ? "Ich höre zu… tippen zum Beenden" : vs === "busy" ? "Wird verarbeitet…" : "Erzähl mir, was du gegessen hast"}</div>
+            <div className="text-[11px] text-ink/45">z. B. „Mittags hatte ich Nudeln mit Hähnchen und einen Apfel“</div>
+          </div>
+        </button>
+        {vmsg && <p className="rounded-xl bg-muted px-4 py-3 text-[12px] text-ink/70">{vmsg}</p>}
+
         <div className="space-y-2">
           {s.meals.map((m) => (
             <div key={m.id} className="card-surface flex items-center gap-3 rounded-[16px] px-4 py-3">
