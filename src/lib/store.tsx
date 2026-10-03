@@ -38,7 +38,15 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [s, setS] = useState<State>(initial);
   useEffect(() => {
     const raw = localStorage.getItem(KEY);
-    if (raw) try { setS({ ...initial, ...JSON.parse(raw) }); } catch { /* ignore */ }
+    if (raw) try {
+      const parsed = JSON.parse(raw);
+      // Migrate older meals that lack nutrient fields or a date.
+      if (Array.isArray(parsed.meals)) {
+        const today = new Date().toISOString().slice(0, 10);
+        parsed.meals = parsed.meals.map((m: any) => ({ kcal: 0, fiber: 0, carbs: 0, fat: 0, date: today, ...m }));
+      }
+      setS({ ...initial, ...parsed });
+    } catch { /* ignore */ }
   }, []);
   const set = (p: Partial<State>) =>
     setS((prev) => {

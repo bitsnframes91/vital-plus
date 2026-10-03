@@ -83,15 +83,16 @@ export const mealFromVoice = createServerFn({ method: "POST" })
       {
         type: "input_text",
         text: `Jemand beschreibt, was er gegessen hat: "${transcript}"
-Teile das in Mahlzeiten auf. Schätze das Protein in Gramm realistisch. label ist eine von: Frühstück, Mittagessen, Abendessen, Snack.
-Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number}]}`,
+Teile das in Mahlzeiten auf. Schätze pro Mahlzeit realistisch: protein, kcal, fiber (Ballaststoffe), carbs (Kohlenhydrate), fat (Fett) – jeweils in Gramm bzw. kcal. label ist eine von: Frühstück, Mittagessen, Abendessen, Snack.
+Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,"kcal":number,"fiber":number,"carbs":number,"fat":number}]}`,
       },
     ]);
     if (!r.ok) return r;
     const labels = ["Frühstück", "Mittagessen", "Abendessen", "Snack"];
+    const num = (v: any) => Math.max(0, Math.round(Number(v) || 0));
     const meals = (Array.isArray(r.data.meals) ? r.data.meals : [])
       .filter((m: any) => typeof m?.name === "string")
-      .map((m: any) => ({ label: labels.includes(m.label) ? m.label : "Snack", name: m.name.slice(0, 120), protein: Math.max(0, Math.round(Number(m.protein) || 0)) }));
+      .map((m: any) => ({ label: labels.includes(m.label) ? m.label : "Snack", name: m.name.slice(0, 120), protein: num(m.protein), kcal: num(m.kcal), fiber: num(m.fiber), carbs: num(m.carbs), fat: num(m.fat) }));
     if (!meals.length) return { ok: false as const, error: `Verstanden: „${transcript}“ – aber keine Mahlzeit erkannt.` };
-    return { ok: true as const, transcript, meals: meals as { label: string; name: string; protein: number }[] };
+    return { ok: true as const, transcript, meals: meals as { label: string; name: string; protein: number; kcal: number; fiber: number; carbs: number; fat: number }[] };
   });
