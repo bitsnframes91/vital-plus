@@ -90,7 +90,7 @@ function Watch() {
       </div>
 
       <p className="max-w-[32ch] text-center text-sm text-ink/55">Tippe auf das Display, um zum nächsten Bildschirm zu wechseln.</p>
-      <Link to="/" className="text-sm font-medium text-fv-deep">← Zur Handy-App</Link>
+      <Link to="/heute" className="text-sm font-medium text-fv-deep">← Zur Handy-App</Link>
     </div>
   );
 }
