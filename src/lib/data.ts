@@ -89,10 +89,21 @@ export const products: Product[] = [
   },
 ];
 
-export type Meal = { id: string; label: string; name: string; protein: number; time: string };
+export type Meal = {
+  id: string;
+  label: string;
+  name: string;
+  protein: number;
+  kcal: number;
+  fiber: number;
+  carbs: number;
+  fat: number;
+  time: string;
+  date: string; // ISO day, e.g. 2026-10-03
+};
 export const initialMeals: Meal[] = [
-  { id: "m1", label: "Frühstück", name: "Skyr mit Beeren & Walnüssen", protein: 32, time: "07:40" },
-  { id: "m2", label: "Mittagessen", name: "Linsen-Bowl mit Gemüse", protein: 22, time: "12:40" },
+  { id: "m1", label: "Frühstück", name: "Skyr mit Beeren & Walnüssen", protein: 32, kcal: 380, fiber: 6, carbs: 34, fat: 14, time: "07:40", date: new Date().toISOString().slice(0, 10) },
+  { id: "m2", label: "Mittagessen", name: "Linsen-Bowl mit Gemüse", protein: 22, kcal: 460, fiber: 12, carbs: 58, fat: 12, time: "12:40", date: new Date().toISOString().slice(0, 10) },
 ];
 
 export type Supplement = { id: string; name: string; dose: string; time: string; fairvital: boolean };
