@@ -12,7 +12,7 @@ type State = {
   actionsDone: Record<string, boolean>;
   consent: { practitioner: boolean; analytics: boolean };
   account: { email: string; firstName: string; lastName: string; contextToken: string } | null;
-  aiPlan: { date: string; items: { title: string; detail: string }[] } | null;
+  aiPlan: { date: string; items: { title: string; detail: string; daily?: boolean }[] } | null;
   body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null };
 };
 
