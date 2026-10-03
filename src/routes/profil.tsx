@@ -22,8 +22,8 @@ function Toggle({ on, onClick, label, sub }: { on: boolean; onClick: () => void;
   return (
     <button onClick={onClick} className="flex w-full items-center gap-3 py-3 text-left">
       <div className="flex-1">
-        <div className="text-[14px] font-medium">{label}</div>
-        <div className="text-[11px] text-ink/45">{sub}</div>
+        <div className="text-[15px] font-medium">{label}</div>
+        <div className="text-[12px] text-ink/45">{sub}</div>
       </div>
       <span className={`flex h-6 w-11 items-center rounded-full p-0.5 transition ${on ? "bg-fv" : "bg-ink/15"}`}>
         <span className={`size-5 rounded-full bg-card transition ${on ? "translate-x-5" : ""}`} />
@@ -42,20 +42,20 @@ function Profile() {
         <div className="card-surface p-5">
           <div className="eyebrow">Name</div>
           <input value={s.name} onChange={(e) => set({ name: e.target.value })} className="mt-2 w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none" />
-          <Link to="/onboarding" className="mt-3 inline-block text-[12px] font-medium text-fv-deep">Gesundheitsprofil bearbeiten →</Link>
+          <Link to="/onboarding" className="mt-3 inline-block text-[13px] font-medium text-fv-deep">Gesundheitsprofil bearbeiten →</Link>
         </div>
         <div className="card-surface divide-y px-5">
           <Toggle on={s.consent.practitioner} onClick={() => set({ consent: { ...s.consent, practitioner: !s.consent.practitioner } })} label="Behandler-Freigabe" sub="Ausgewählte Werte mit Ärztin/Therapeut teilen" />
           <Toggle on={s.consent.analytics} onClick={() => set({ consent: { ...s.consent, analytics: !s.consent.analytics } })} label="Anonyme Nutzungsstatistik" sub="Hilft uns, die App zu verbessern" />
         </div>
-        <div className="card-surface p-5 text-[12px] text-ink/55">
+        <div className="card-surface p-5 text-[13px] text-ink/55">
           <div className="eyebrow mb-1">Fairvital Kundenkonto</div>
           {s.account ? (
             <>
               Angemeldet als <span className="font-medium text-ink">{s.account.email}</span>
               <button
                 onClick={() => { const t = s.account!.contextToken; set({ account: null }); void logout({ data: { contextToken: t } }); }}
-                className="mt-3 block text-[12px] font-medium text-fv-deep"
+                className="mt-3 block text-[13px] font-medium text-fv-deep"
               >
                 Abmelden
               </button>
@@ -63,7 +63,7 @@ function Profile() {
           ) : (
             <>
               Melde dich mit deinem Konto von fairvital.com an.
-              <Link to="/login" search={{ mode: "login" }} className="mt-3 block text-[12px] font-medium text-fv-deep">Anmelden oder Konto anlegen →</Link>
+              <Link to="/login" search={{ mode: "login" }} className="mt-3 block text-[13px] font-medium text-fv-deep">Anmelden oder Konto anlegen →</Link>
             </>
           )}
         </div>

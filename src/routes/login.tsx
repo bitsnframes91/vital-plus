@@ -80,15 +80,15 @@ function Login() {
               <input required placeholder="PLZ" value={f.zipcode} onChange={up("zipcode")} className={field} />
               <input required placeholder="Ort" value={f.city} onChange={up("city")} className={field} />
             </div>
-            <p className="text-[11px] text-ink/45">Dein Konto wird auch im Fairvital Shop angelegt. Mit der Registrierung akzeptierst du die Datenschutzerklärung von fairvital.com.</p>
+            <p className="text-[12px] text-ink/45">Dein Konto wird auch im Fairvital Shop angelegt. Mit der Registrierung akzeptierst du die Datenschutzerklärung von fairvital.com.</p>
           </>
         )}
-        {msg && <p className="rounded-xl bg-warn/15 px-3 py-2 text-[12px]">{msg}</p>}
+        {msg && <p className="rounded-xl bg-warn/15 px-3 py-2 text-[13px]">{msg}</p>}
         <button disabled={busy} className="w-full rounded-full bg-ink py-2.5 text-sm font-medium text-on-ink disabled:opacity-50">
           {busy ? "Bitte warten…" : mode === "login" ? "Mit Shop-Konto anmelden" : "Konto anlegen"}
         </button>
         {mode === "login" && (
-          <a href="https://www.fairvital.com/account/recover" target="_blank" rel="noreferrer" className="block text-center text-[12px] text-fv-deep">Passwort vergessen?</a>
+          <a href="https://www.fairvital.com/account/recover" target="_blank" rel="noreferrer" className="block text-center text-[13px] text-fv-deep">Passwort vergessen?</a>
         )}
       </form>
     </AppShell>

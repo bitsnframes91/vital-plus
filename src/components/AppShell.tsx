@@ -34,7 +34,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 activeProps={{ className: "text-fv-deep" }}
               >
                 <Icon d={t.d} />
-                <span className="text-[clamp(8px,2.2vw,10px)] font-medium">{t.label}</span>
+                <span className="text-[clamp(9px,2.3vw,10px)] font-medium">{t.label}</span>
               </Link>
             ))}
           </div>
@@ -50,10 +50,10 @@ export function PageHeader({ eyebrow, title, sub, right }: { eyebrow: string; ti
       <div className="pointer-events-none absolute inset-0 hero-glow" />
       <div className="relative">
         <div className="flex items-center justify-between">
-          <span className="font-data text-[10px] uppercase tracking-[0.22em] text-on-ink/40">{eyebrow}</span>
+          <span className="font-data text-[12px] uppercase tracking-normal text-on-ink/40">{eyebrow}</span>
           {right}
         </div>
-        <h1 className="mt-4 text-balance text-[30px] font-semibold leading-[1.05] text-on-ink">{title}</h1>
+        <h1 className="mt-4 text-balance text-[32px] font-semibold leading-[1.05] text-on-ink">{title}</h1>
         {sub && <p className="mt-2 max-w-[34ch] text-pretty text-sm text-on-ink/55">{sub}</p>}
       </div>
     </header>

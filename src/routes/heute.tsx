@@ -37,15 +37,15 @@ function Today() {
         <div className="pointer-events-none absolute -right-16 -top-10 size-56 rounded-full bg-fv/25 blur-3xl" />
         <div className="relative">
           <div className="flex items-center justify-between">
-            <span className="font-data text-[10px] uppercase tracking-[0.22em] text-on-ink/40">{today}</span>
+            <span className="font-data text-[12px] uppercase tracking-normal text-on-ink/40">{today}</span>
             <div className="flex gap-1.5">
-              <Link to="/uhr" className="rounded-full px-2.5 py-1 text-[11px] text-on-ink/70 ring-1 ring-on-ink/15">Uhr</Link>
-              <Link to="/profil" className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] text-on-ink/70 ring-1 ring-on-ink/15">
+              <Link to="/uhr" className="rounded-full px-2.5 py-1 text-[12px] text-on-ink/70 ring-1 ring-on-ink/15">Uhr</Link>
+              <Link to="/profil" className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] text-on-ink/70 ring-1 ring-on-ink/15">
                 <span className="size-1.5 rounded-full bg-fv" />Profil
               </Link>
             </div>
           </div>
-          <h1 className="mt-5 text-balance text-[34px] font-semibold leading-[1.05] text-on-ink">
+          <h1 className="mt-5 text-balance text-[36px] font-semibold leading-[1.05] text-on-ink">
             Guten Morgen,<br />{s.name}.
           </h1>
           <p className="mt-2 max-w-[34ch] text-pretty text-sm text-on-ink/55">
@@ -64,8 +64,8 @@ function Today() {
           <div className="grid grid-cols-4 gap-1.5 text-center">
             {["Messen", "Verstehen", "Handeln", "Prüfen"].map((w, i) => (
               <div key={w}>
-                <div className={`font-data text-[9px] tracking-[0.12em] ${i === 2 ? "text-fv" : "text-on-ink/45"}`}>0{i + 1}</div>
-                <div className="mt-0.5 text-[11px] font-medium text-on-ink/85">{w}</div>
+                <div className={`font-data text-[11px] tracking-normal ${i === 2 ? "text-fv" : "text-on-ink/45"}`}>0{i + 1}</div>
+                <div className="mt-0.5 text-[12px] font-medium text-on-ink/85">{w}</div>
               </div>
             ))}
           </div>
@@ -75,15 +75,15 @@ function Today() {
       <section className="mt-4 px-4">
         <div className="flex items-baseline justify-between px-1 pb-2">
           <span className="eyebrow">Tagesziele{fromPlan ? " · aus deinem Plan" : ""}</span>
-          <span className="font-data text-[11px] text-fv-deep">{done}/{actions.length}</span>
+          <span className="font-data text-[12px] text-fv-deep">{done}/{actions.length}</span>
         </div>
         {!fromPlan && (
-          <Link to="/labor" className="mb-2 block rounded-[16px] border border-dashed px-4 py-3 text-[12px] text-ink/55">
+          <Link to="/labor" className="mb-2 block rounded-[16px] border border-dashed px-4 py-3 text-[13px] text-ink/55">
             Beispielziele. Lade deinen Laborbefund hoch – dann entstehen deine Tagesziele aus deinem persönlichen Plan →
           </Link>
         )}
         {fromPlan && actions.length === 0 && (
-          <Link to="/plan" className="mb-2 block rounded-[16px] border border-dashed px-4 py-3 text-[12px] text-ink/55">
+          <Link to="/plan" className="mb-2 block rounded-[16px] border border-dashed px-4 py-3 text-[13px] text-ink/55">
             Keine Schritte für heute ausgewählt. Wähle sie in deinem Plan aus →
           </Link>
         )}
@@ -100,8 +100,8 @@ function Today() {
                   <Icon d={ok ? "M4 12l5 5L20 6" : "M12 6v6l4 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18"} className="size-4" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <div className="text-[14px] font-medium">{a.title}</div>
-                  <div className="mt-0.5 line-clamp-2 text-[11px] text-ink/45">{a.sub} · {ok ? "erreicht" : "ausstehend"}</div>
+                  <div className="text-[15px] font-medium">{a.title}</div>
+                  <div className="mt-0.5 line-clamp-2 text-[12px] text-ink/45">{a.sub} · {ok ? "erreicht" : "ausstehend"}</div>
                 </div>
                 {!ok && <span className="rounded-full bg-ink px-3 py-1.5 text-sm text-on-ink">Erledigt</span>}
               </button>
@@ -117,16 +117,16 @@ function Today() {
             <div>
               <div className="eyebrow">Vitamin D</div>
               <div className="mt-1 flex items-baseline gap-1.5">
-                <span className="font-data text-[26px] font-medium">{last}</span>
-                <span className="font-data text-[12px] text-ink/45">{vitd.unit}</span>
-                <span className="ml-1 font-data text-[11px] text-fv-deep">↑ {diff}</span>
+                <span className="font-data text-[30px] font-medium">{last}</span>
+                <span className="font-data text-[13px] text-ink/45">{vitd.unit}</span>
+                <span className="ml-1 font-data text-[12px] text-fv-deep">↑ {diff}</span>
               </div>
-              <div className="mt-0.5 max-w-[26ch] text-[11px] text-ink/45">Von {vals[0]} → {last} · Zielbereich {vitd.target[0]}–{vitd.target[1]}</div>
+              <div className="mt-0.5 max-w-[26ch] text-[12px] text-ink/45">Von {vals[0]} → {last} · Zielbereich {vitd.target[0]}–{vitd.target[1]}</div>
             </div>
-            <span className="rounded-full bg-fv/10 px-2.5 py-1 font-data text-[10px] uppercase tracking-[0.14em] text-fv-deep">{status(vitd).label}</span>
+            <span className="rounded-full bg-fv/10 px-2.5 py-1 font-data text-[12px] uppercase tracking-normal text-fv-deep">{status(vitd).label}</span>
           </div>
           <div className="mt-4"><Sparkbars values={vals} max={vitd.target[1]} /></div>
-          <div className="mt-3 flex items-center gap-2 border-t pt-3 text-[12px] text-ink/55">
+          <div className="mt-3 flex items-center gap-2 border-t pt-3 text-[13px] text-ink/55">
             <Icon d="M12 8v4l3 2M3 12a9 9 0 1 0 3-6.7" className="size-4 text-ink/40" />
             Nachkontrolle empfohlen in {vitd.retestWeeks} Wochen.
           </div>
@@ -138,14 +138,14 @@ function Today() {
           <div className="flex gap-3 p-3">
             <img src={productImg} alt={product.name} width={62} height={62} loading="lazy" className="size-[62px] shrink-0 rounded-[12px] object-cover" />
             <div className="min-w-0 flex-1">
-              <div className="font-data text-[9px] uppercase tracking-[0.16em] text-fv-deep">Passend zu deinem Wert</div>
-              <div className="mt-0.5 text-[14px] font-medium">{product.name}</div>
-              <div className="mt-0.5 text-[11px] text-ink/45">{product.short}</div>
+              <div className="font-data text-[11px] uppercase tracking-normal text-fv-deep">Passend zu deinem Wert</div>
+              <div className="mt-0.5 text-[15px] font-medium">{product.name}</div>
+              <div className="mt-0.5 text-[12px] text-ink/45">{product.short}</div>
             </div>
           </div>
           <div className="flex items-center justify-between border-t px-4 py-2.5">
-            <span className="text-[11px] text-ink/40">Optional · kein Muss</span>
-            <a href={product.url} target="_blank" rel="noreferrer" className="text-[11px] font-medium text-fv-deep">Im Fairvital Shop ansehen →</a>
+            <span className="text-[12px] text-ink/40">Optional · kein Muss</span>
+            <a href={product.url} target="_blank" rel="noreferrer" className="text-[12px] font-medium text-fv-deep">Im Fairvital Shop ansehen →</a>
           </div>
         </div>
       </section>

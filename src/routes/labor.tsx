@@ -76,16 +76,16 @@ function Labs() {
       <PageHeader eyebrow="Labor" title="Deine Laborwerte" sub="Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen." />
       <div className="space-y-3 px-4 pt-4">
         <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
-          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv/10 font-data text-[11px] text-fv-deep">PDF</span>
+          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv/10 font-data text-[12px] text-fv-deep">PDF</span>
           <div className="min-w-0 flex-1">
-            <div className="text-[14px] font-medium">{busy ? "Befund wird gelesen…" : "Laborbefund hochladen"}</div>
-            <div className="text-[11px] text-ink/45">Die App liest deine Werte aus und erstellt deinen Plan.</div>
+            <div className="text-[15px] font-medium">{busy ? "Befund wird gelesen…" : "Laborbefund hochladen"}</div>
+            <div className="text-[12px] text-ink/45">Die App liest deine Werte aus und erstellt deinen Plan.</div>
           </div>
           <input type="file" accept="application/pdf" className="sr-only" disabled={busy}
             onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
         </label>
         {msg && (
-          <div className={`rounded-xl px-4 py-3 text-[12px] ${msg.ok ? "bg-fv/10 text-fv-deep" : "bg-warn/15"}`}>
+          <div className={`rounded-xl px-4 py-3 text-[13px] ${msg.ok ? "bg-fv/10 text-fv-deep" : "bg-warn/15"}`}>
             {msg.text} {msg.ok && <Link to="/plan" className="font-medium underline">Zum Plan →</Link>}
           </div>
         )}
@@ -99,15 +99,15 @@ function Labs() {
                 <div>
                   <div className="eyebrow">{m.name}</div>
                   <div className="mt-1 flex items-baseline gap-1.5">
-                    <span className="font-data text-[24px] font-medium">{last.value}</span>
-                    <span className="font-data text-[12px] text-ink/45">{m.unit}</span>
+                    <span className="font-data text-[28px] font-medium">{last.value}</span>
+                    <span className="font-data text-[13px] text-ink/45">{m.unit}</span>
                   </div>
-                  <div className="text-[11px] text-ink/45">Ziel {m.target[0]}–{m.target[1]} · {fmtDate(last.date)}</div>
+                  <div className="text-[12px] text-ink/45">Ziel {m.target[0]}–{m.target[1]} · {fmtDate(last.date)}</div>
                 </div>
-                <span className={`rounded-full px-2.5 py-1 font-data text-[10px] uppercase tracking-[0.14em] ${st.tone === "ok" ? "bg-fv/10 text-fv-deep" : "bg-warn/15 text-ink"}`}>{st.label}</span>
+                <span className={`rounded-full px-2.5 py-1 font-data text-[12px] uppercase tracking-normal ${st.tone === "ok" ? "bg-fv/10 text-fv-deep" : "bg-warn/15 text-ink"}`}>{st.label}</span>
               </div>
               <div className="mt-4"><Sparkbars values={vals} max={m.target[1]} /></div>
-              <p className="mt-3 border-t pt-3 text-[12px] text-ink/55">{m.note} Nachkontrolle in {m.retestWeeks} Wochen.</p>
+              <p className="mt-3 border-t pt-3 text-[13px] text-ink/55">{m.note} Nachkontrolle in {m.retestWeeks} Wochen.</p>
             </div>
           );
         })}
@@ -121,7 +121,7 @@ function Labs() {
           <button className="w-full rounded-full bg-ink py-2.5 text-sm font-medium text-on-ink">Speichern</button>
         </form>
 
-        <p className="px-1 text-[11px] text-ink/40">Hinweis: Fairvital Health stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.</p>
+        <p className="px-1 text-[12px] text-ink/40">Hinweis: Fairvital Health stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.</p>
       </div>
     </AppShell>
   );
