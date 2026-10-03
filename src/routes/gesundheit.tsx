@@ -10,6 +10,8 @@ export const Route = createFileRoute("/gesundheit")({
       { name: "description", content: "Messwerte und Verläufe verständlich an einem Ort: Blutwerte, Gewicht, Körperdaten, Schlaf, Schritte und Trends." },
       { property: "og:title", content: "Gesundheit — Fairvital Health" },
       { property: "og:description", content: "Messwerte und Verläufe verständlich an einem Ort." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Health,

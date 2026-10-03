@@ -12,6 +12,8 @@ export const Route = createFileRoute("/plan")({
       { name: "description", content: "Dein persönlicher Plan mit Empfehlungen und Nachkontrollen." },
       { property: "og:title", content: "Mein Plan — Fairvital Health" },
       { property: "og:description", content: "Praktische Schritte und Nachkontrollen, auf dich abgestimmt." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Plan,

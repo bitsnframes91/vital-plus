@@ -14,6 +14,8 @@ export const Route = createFileRoute("/labor")({
       { name: "description", content: "Laborwerte erfassen, Verlauf verstehen und Nachkontrollen planen." },
       { property: "og:title", content: "Laborwerte — Fairvital Health" },
       { property: "og:description", content: "Deine Blutwerte im Verlauf – verständlich erklärt." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Labs,
