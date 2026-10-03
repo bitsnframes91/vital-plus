@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import { routeTree } from "@/routeTree.gen";
 
-function routeAt(path: string) {
+function routeAt(path: "/" | "/heute" | "/login") {
   const queryClient = new QueryClient();
   const router = createRouter({
     routeTree,
