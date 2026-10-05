@@ -100,7 +100,7 @@ function Labs() {
       <PageHeader eyebrow="Labor" title="Deine Laborwerte" sub="Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen." image={laborLab.url} imageAlt="Forschende im weißen Kittel arbeiten im Labor an einem Mikroskop" imageOverlay="labor-image-overlay" />
       <div className="space-y-3 px-4 pt-4">
         <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
-          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv/10 font-data text-[12px] text-fv-deep">PDF</span>
+          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv/10 text-fv-deep"><Upload size={20} strokeWidth={2.2} aria-hidden="true" /></span>
           <div className="min-w-0 flex-1">
             <div className="text-[15px] font-medium">{busy ? "Befund wird gelesen…" : "Laborbefund hochladen"}</div>
             <div className="text-[12px] text-ink/45">Die App liest deine Werte aus und erstellt deinen Plan.</div>
