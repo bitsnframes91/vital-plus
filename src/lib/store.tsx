@@ -22,7 +22,7 @@ type State = {
 };
 
 const initial: State = {
-  name: "Jonas",
+  name: "",
   goals: ["Gesund altern", "Mehr Energie"],
   onboarded: false,
   meals: initialMeals,
@@ -78,20 +78,35 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const raw = localStorage.getItem(KEY);
-    if (raw) try { setS({ ...initial, ...migrate(JSON.parse(raw)) }); } catch { /* ignore */ }
+    let hadAccountCache = false;
+    if (raw) try {
+      const cached = migrate(JSON.parse(raw));
+      hadAccountCache = Boolean(cached.account);
+      // Account data is restored only after the current identity is verified.
+      if (!cached.account) setS({ ...initial, ...cached });
+    } catch { /* ignore */ }
 
-    const onUser = async (user: { id: string; email?: string } | null) => {
+    const onUser = async (user: { id: string; email?: string } | null, signedOut = false) => {
       if (!user) {
         userRef.current = null;
-        setS((p) => ({ ...p, account: null }));
+        if (timer.current) clearTimeout(timer.current);
+        setS((p) => {
+          if (signedOut || p.account || hadAccountCache) {
+            localStorage.removeItem(KEY);
+            return { ...initial };
+          }
+          return { ...p, account: null };
+        });
         return;
       }
       if (userRef.current === user.id) return;
+      if (timer.current) clearTimeout(timer.current);
       userRef.current = user.id;
       const account = { email: user.email ?? "", userId: user.id };
       const { data } = await supabase.from("user_data").select("state").eq("user_id", user.id).maybeSingle();
+      if (userRef.current !== user.id) return;
       setS((p) => {
-        const next = data?.state ? { ...initial, ...migrate(data.state as any), account } : { ...p, account };
+        const next = data?.state ? { ...initial, ...migrate(data.state as any), account } : { ...(p.account ? initial : p), account };
         localStorage.setItem(KEY, JSON.stringify(next));
         if (!data) push(next);
         return next;
@@ -100,9 +115,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
     supabase.auth.getUser().then(({ data }) => onUser(data.user));
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT") void onUser(session?.user ?? null);
+      if (event === "SIGNED_IN" || event === "SIGNED_OUT") void onUser(session?.user ?? null, event === "SIGNED_OUT");
     });
-    return () => sub.subscription.unsubscribe();
+    return () => {
+      sub.subscription.unsubscribe();
+      if (timer.current) clearTimeout(timer.current);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
