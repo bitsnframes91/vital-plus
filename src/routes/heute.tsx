@@ -108,11 +108,6 @@ function Today() {
               </span>
               <span className="mt-1 block text-[15px] font-bold leading-snug">{tip.tip.title}</span>
               <span className={`mt-1.5 block text-[11px] font-medium leading-relaxed text-muted-foreground ${tipOpen ? "" : "line-clamp-2"}`}>{tip.tip.text}</span>
-              {tipOpen && (
-                <span className="mt-3 block border-t border-border pt-3 text-[11px] leading-relaxed text-muted-foreground">
-                  Morgen um 01:00 Uhr gibt es einen neuen Tipp.
-                </span>
-              )}
             </span>
             <span className={`my-auto grid size-7 shrink-0 place-items-center rounded-full bg-muted text-fv-deep transition-transform ${tipOpen ? "rotate-90" : ""}`}><ChevronRight /></span>
           </button>
