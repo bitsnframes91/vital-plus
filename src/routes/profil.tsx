@@ -1,8 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
-import { useServerFn } from "@tanstack/react-start";
-import { shopLogout } from "@/lib/shop-account.functions";
+import { supabase } from "@/integrations/supabase/client";
 import profileDesk from "@/assets/profil-desk.jpg.asset.json";
 
 export const Route = createFileRoute("/profil")({
@@ -35,7 +34,6 @@ function Toggle({ on, onClick, label, sub }: { on: boolean; onClick: () => void;
 
 function Profile() {
   const { s, set } = useStore();
-  const logout = useServerFn(shopLogout);
   return (
     <AppShell>
       <PageHeader
@@ -77,20 +75,17 @@ function Profile() {
           <Toggle on={s.consent.analytics} onClick={() => set({ consent: { ...s.consent, analytics: !s.consent.analytics } })} label="Anonyme Nutzungsstatistik" sub="Hilft uns, die App zu verbessern" />
         </div>
         <div className="card-surface p-5 text-[13px] text-ink/55">
-          <div className="eyebrow mb-1">Fairvital Kundenkonto</div>
+          <div className="eyebrow mb-1">Vivo Konto</div>
           {s.account ? (
             <>
-              Angemeldet als <span className="font-medium text-ink">{s.account.email}</span>
-              <button
-                onClick={() => { const t = s.account!.contextToken; set({ account: null }); void logout({ data: { contextToken: t } }); }}
-                className="mt-3 block text-[13px] font-medium text-fv-deep"
-              >
+              Angemeldet als <span className="font-medium text-ink">{s.account.email}</span>. Deine Daten werden automatisch gesichert.
+              <button onClick={() => void supabase.auth.signOut()} className="mt-3 block text-[13px] font-medium text-fv-deep">
                 Abmelden
               </button>
             </>
           ) : (
             <>
-              Melde dich mit deinem Konto von fairvital.com an.
+              Lege ein Konto mit E-Mail, Google oder Apple an, um deine Werte auf allen Geräten zu sichern.
               <Link to="/login" search={{ mode: "login" }} className="mt-3 block text-[13px] font-medium text-fv-deep">Anmelden oder Konto anlegen →</Link>
             </>
           )}
