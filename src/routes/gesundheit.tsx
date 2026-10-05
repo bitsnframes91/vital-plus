@@ -170,7 +170,7 @@ function Health() {
           <p className="mt-1 text-[14px] text-ink/55">
             {b.steps ? `Heute: ${b.steps.toLocaleString("de-DE")} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}
           </p>
-          {b.stepGoal ? <p className="mt-1 text-[14px] text-ink/55">Dein Tagesziel: {b.stepGoal.toLocaleString("de-DE")} Schritte (aus deinem BMI)</p> : null}
+          {(goal ?? b.stepGoal) ? <p className="mt-1 text-[14px] text-ink/55">Dein Tagesziel: {(goal ?? b.stepGoal)!.toLocaleString("de-DE")} Schritte (aus deinem BMI)</p> : null}
           <NumInput value={b.steps ?? b.stepGoal ?? null} onSave={(v) => setBody({ steps: v })} placeholder="z. B. 8000" unit="Speichern" />
         </div>
 
