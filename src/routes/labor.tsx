@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { useEffect } from "react";
-import { AppShell, PageHeader, Sparkbars } from "@/components/AppShell";
+import { AppShell, PageHeader } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
 import { useStore } from "@/lib/store";
 import { fmtDate, status, type LabMarker } from "@/lib/data";
@@ -113,7 +113,6 @@ function Labs() {
           </div>
         )}
         {s.labs.map((m) => {
-          const vals = m.history.map((h) => h.value);
           const last = m.history[m.history.length - 1]!;
           const st = status(m);
           return (
