@@ -36,7 +36,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 to={t.to}
                 activeOptions={{ exact: true }}
                 className="flex min-w-0 flex-col items-center gap-1 text-ink/40"
-                activeProps={{ className: "text-fv-deep" }}
+                activeProps={{ className: "text-fresh" }}
               >
                 {NavIcon && <NavIcon className="size-5" strokeWidth={1.7} />}
                 <span className="text-[9px] font-medium">{t.to === "/profil" ? "Profil" : t.label}</span>
