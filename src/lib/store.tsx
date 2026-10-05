@@ -1,7 +1,9 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import type React from "react";
 import { initialMeals, initialSupplements, labMarkers as seedLabs, type Meal, type Supplement, type LabMarker } from "./data";
+import { supabase } from "@/integrations/supabase/client";
 
-// Local demo state (persisted in the browser). Will move to Lovable Cloud once accounts are added.
+// Health state: kept in the browser and synced to the signed-in user's Lovable Cloud account.
 type State = {
   name: string;
   goals: string[];
@@ -11,7 +13,7 @@ type State = {
   labs: LabMarker[];
   actionsDone: Record<string, boolean>;
   consent: { practitioner: boolean; analytics: boolean };
-  account: { email: string; firstName: string; lastName: string; contextToken: string } | null;
+  account: { email: string; userId: string } | null;
   aiPlan: { date: string; items: { title: string; detail: string; daily?: boolean }[] } | null;
   body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null };
 };
@@ -31,29 +33,69 @@ const initial: State = {
 };
 
 type CtxValue = { s: State; set: (p: Partial<State>) => void } | null;
-// Keep one context instance across hot reloads so provider and consumers always match.
 const g = globalThis as unknown as { __fvStoreCtx?: React.Context<CtxValue> };
 const Ctx = g.__fvStoreCtx ?? (g.__fvStoreCtx = createContext<CtxValue>(null));
 const KEY = "fv-health-v1";
 
+function migrate(parsed: any) {
+  if (Array.isArray(parsed.meals)) {
+    const today = new Date().toISOString().slice(0, 10);
+    parsed.meals = parsed.meals.map((m: any) => ({ kcal: 0, fiber: 0, carbs: 0, fat: 0, date: today, ...m }));
+  }
+  if (parsed.account && !parsed.account.userId) parsed.account = null;
+  return parsed;
+}
+
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [s, setS] = useState<State>(initial);
+  const userRef = useRef<string | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const push = (next: State) => {
+    const uid = userRef.current;
+    if (!uid) return;
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      const { account: _a, ...state } = next;
+      void supabase.from("user_data").upsert({ user_id: uid, state: state as any, updated_at: new Date().toISOString() });
+    }, 800);
+  };
+
   useEffect(() => {
     const raw = localStorage.getItem(KEY);
-    if (raw) try {
-      const parsed = JSON.parse(raw);
-      // Migrate older meals that lack nutrient fields or a date.
-      if (Array.isArray(parsed.meals)) {
-        const today = new Date().toISOString().slice(0, 10);
-        parsed.meals = parsed.meals.map((m: any) => ({ kcal: 0, fiber: 0, carbs: 0, fat: 0, date: today, ...m }));
+    if (raw) try { setS({ ...initial, ...migrate(JSON.parse(raw)) }); } catch { /* ignore */ }
+
+    const onUser = async (user: { id: string; email?: string } | null) => {
+      if (!user) {
+        userRef.current = null;
+        setS((p) => ({ ...p, account: null }));
+        return;
       }
-      setS({ ...initial, ...parsed });
-    } catch { /* ignore */ }
+      if (userRef.current === user.id) return;
+      userRef.current = user.id;
+      const account = { email: user.email ?? "", userId: user.id };
+      const { data } = await supabase.from("user_data").select("state").eq("user_id", user.id).maybeSingle();
+      setS((p) => {
+        const next = data?.state ? { ...initial, ...migrate(data.state as any), account } : { ...p, account };
+        localStorage.setItem(KEY, JSON.stringify(next));
+        if (!data) push(next);
+        return next;
+      });
+    };
+
+    supabase.auth.getUser().then(({ data }) => onUser(data.user));
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" || event === "SIGNED_OUT") void onUser(session?.user ?? null);
+    });
+    return () => sub.subscription.unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const set = (p: Partial<State>) =>
     setS((prev) => {
       const next = { ...prev, ...p };
       localStorage.setItem(KEY, JSON.stringify(next));
+      push(next);
       return next;
     });
   return <Ctx.Provider value={{ s, set }}>{children}</Ctx.Provider>;
