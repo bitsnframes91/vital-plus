@@ -129,7 +129,7 @@ function Labs() {
                 </div>
                 <span className={`rounded-full px-2.5 py-1 font-data text-[12px] uppercase tracking-normal ${st.tone === "ok" ? "bg-fv/10 text-fv-deep" : "bg-warn/15 text-ink"}`}>{st.label}</span>
               </div>
-              <div className="mt-4"><Sparkbars values={vals} max={m.target[1]} /></div>
+              <div className="mt-4"><RangeBar marker={m} /></div>
               <p className="mt-3 border-t pt-3 text-[13px] text-ink/55">{m.note} Nachkontrolle in {m.retestWeeks} Wochen.</p>
             </div>
           );
