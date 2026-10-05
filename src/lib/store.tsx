@@ -106,7 +106,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const { data } = await supabase.from("user_data").select("state").eq("user_id", user.id).maybeSingle();
       if (userRef.current !== user.id) return;
       setS((p) => {
-        const next = data?.state ? { ...initial, ...migrate(data.state as any), account } : { ...(p.account ? initial : p), account };
+        // A new account never inherits data held on this device (privacy: shared devices / previous accounts).
+        const next = data?.state ? { ...initial, ...migrate(data.state as any), account } : { ...initial, account };
         localStorage.setItem(KEY, JSON.stringify(next));
         if (!data) push(next);
         return next;
