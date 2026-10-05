@@ -47,6 +47,8 @@ function migrate(parsed: any) {
     parsed.meals = parsed.meals.map((m: any) => ({ kcal: 0, fiber: 0, carbs: 0, fat: 0, date: today, ...m }));
   }
   if (parsed.account && !parsed.account.userId) parsed.account = null;
+  parsed.weekLog = typeof parsed.weekLog === "object" && parsed.weekLog !== null ? parsed.weekLog : {};
+  parsed.weightLog = typeof parsed.weightLog === "object" && parsed.weightLog !== null ? parsed.weightLog : {};
   return parsed;
 }
 
