@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
+import { Smile, Meh, Angry } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
 import { mealFromVoice, mealNutrition } from "@/lib/ai.functions";
@@ -125,9 +126,9 @@ function Nutrition() {
     { label: "Fett", key: "fat", unit: "g" },
   ] as const;
   const feedback = {
-    good: { color: "text-bmi-good", emoji: "🙂", label: "Unter 80 % des Richtwerts" },
-    near: { color: "text-nutrition-near", emoji: "😐", label: "Richtwert fast erreicht" },
-    over: { color: "text-bmi-bad", emoji: "😠", label: "Richtwert überschritten" },
+    good: { color: "text-bmi-good", Face: Smile, label: "Unter 80 % des Richtwerts" },
+    near: { color: "text-nutrition-near", Face: Meh, label: "Richtwert fast erreicht" },
+    over: { color: "text-bmi-bad", Face: Angry, label: "Richtwert überschritten" },
   };
   const format = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 1 });
 
@@ -140,7 +141,7 @@ function Nutrition() {
             const target = targets?.[c.key];
             const state = target ? feedback[nutritionStatus(totals[c.key], target)] : null;
             return <div key={c.key} data-nutrition={c.key} className="card-surface min-w-0 p-4">
-              <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words">{c.label}</div>{state && <span role="img" aria-label={state.label} className="text-xl">{state.emoji}</span>}</div>
+              <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words">{c.label}</div>{state && <state.Face role="img" aria-label={state.label} className={`size-5 shrink-0 ${state.color}`} />}</div>
               <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${state?.color ?? "text-foreground"}`}>
                 <span className="text-[23px] font-semibold">{format(totals[c.key])} {c.unit}</span>
                 <span className="text-[13px]">/ {target ? `${format(target)} ${c.unit}` : "—"}</span>

@@ -8,5 +8,6 @@
 - [x] Verify the detail page and return navigation.
 
 # Nutrition recommendations
-- [ ] Include logged meals when preparing the plan, reinforcing balanced choices and suggesting improvements.
-- [ ] Show consumed / recommended amounts on all five nutrition cards, with green smiling, orange neutral near-limit, and red angry over-limit indicators. Awaiting target-calculation choice.
+- [x] Include logged meals when preparing the plan, reinforcing balanced choices and suggesting improvements.
+- [x] Ask age, sex and activity in onboarding and calculate daily maintenance estimates.
+- [x] Show consumed / recommended amounts on all five nutrition cards, with green smiling, orange neutral from 80%, and red angry over-limit indicators; verified food saves and account persistence.
