@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Home, Salad, HeartPulse, FlaskConical, ClipboardList, UserRound } from "lucide-react";
+import { ConfirmBanner } from "./ConfirmBanner";
 
 const tabs = [
   { to: "/heute", label: "Heute", d: "M3 11l9-8 9 8M5 10v10h14V10" },
@@ -24,7 +25,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen w-full bg-mist sm:grid sm:place-items-start sm:p-4">
       <div className="relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col overflow-hidden bg-background sm:h-[calc(100dvh-2rem)] sm:min-h-0 sm:rounded-[28px] sm:ring-1 sm:ring-border">
-        <main className="flex-1 pb-28 sm:min-h-0 sm:overflow-y-auto">{children}</main>
+        <main className="flex-1 pb-28 sm:min-h-0 sm:overflow-y-auto"><ConfirmBanner />{children}</main>
         <nav aria-label="Hauptnavigation" className="fixed bottom-0 left-1/2 z-30 w-full max-w-[440px] -translate-x-1/2 border-t border-border bg-card/95 px-2 pb-5 pt-3 backdrop-blur-md sm:absolute">
           <div className="grid grid-cols-6">
             {tabs.map((t, i) => {
