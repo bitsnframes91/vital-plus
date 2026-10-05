@@ -165,7 +165,8 @@ function Today() {
               </Button>
             );
           })}
-        </div>
+          </div>
+        )}
       </section>
 
       <Dialog open={selectedGoalKey !== null && !!selectedGoal} onOpenChange={(open) => { if (!open) setSelectedGoalKey(null); }}>
