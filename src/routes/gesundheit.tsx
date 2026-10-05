@@ -111,8 +111,19 @@ function Health() {
   const { s, set } = useStore();
   const b = s.body;
   const setBody = (p: Partial<typeof b>) => set({ body: { ...b, ...p } });
-  const bmi = calcBmi(b.weightKg, b.heightCm ?? null);
+  // Live drafts so BMI and its color react while typing, before saving.
+  const [weightDraft, setWeightDraft] = useState<string | null>(null);
+  const [heightDraft, setHeightDraft] = useState<string | null>(null);
+  const toNum = (t: string | null, stored: number | null): number | null => {
+    if (t == null) return stored;
+    const n = Number(t.replace(",", "."));
+    return t.trim() && !isNaN(n) && n > 0 ? n : null;
+  };
+  const liveWeight = toNum(weightDraft, b.weightKg);
+  const liveHeight = toNum(heightDraft, b.heightCm ?? null);
+  const bmi = calcBmi(liveWeight, liveHeight);
   const cat = bmi != null ? bmiCategory(bmi) : null;
+  const goal = stepGoalFor(bmi);
 
   return (
     <AppShell>
