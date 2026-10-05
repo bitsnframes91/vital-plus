@@ -9,6 +9,9 @@ describe("nutrition targets", () => {
     expect(nutritionTargets({ weightKg: 70, heightCm: 165 })).toBeNull();
     expect(nutritionTargets({ age: 16, sex: "female", activity: "light", weightKg: 70, heightCm: 165 })).toBeNull();
   });
+  it("treats diverse as a valid sex for maintenance targets", () => {
+    expect(nutritionTargets({ age: 35, sex: "diverse", activity: "moderate", weightKg: 70, heightCm: 165 })).toEqual({ kcal: 2163, protein: 70, fiber: 30, fat: 72, carbs: 309 });
+  });
   it("updates targets when weight changes", () => {
     const profile = { age: 35, sex: "female" as const, activity: "moderate", heightCm: 165 };
     expect(nutritionTargets({ ...profile, weightKg: 80 })?.kcal).toBe(2318);

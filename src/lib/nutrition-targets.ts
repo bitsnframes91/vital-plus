@@ -4,7 +4,7 @@ export const activityLevels = [
   { value: "moderate", label: "Aktiv · Sport 3–5 Tage/Woche", factor: 1.55 },
   { value: "high", label: "Sehr aktiv · Sport 6–7 Tage/Woche", factor: 1.725 },
 ] as const;
-export type NutritionProfile = { age?: number | null; sex?: "female" | "male" | "unspecified" | null; activity?: string | null };
+export type NutritionProfile = { age?: number | null; sex?: "female" | "male" | "diverse" | "unspecified" | null; activity?: string | null };
 export function nutritionTargets(body: NutritionProfile & { weightKg?: number | null; heightCm?: number | null }) {
   const { age, sex, weightKg, heightCm } = body;
   const activity = activityLevels.find((a) => a.value === body.activity);
