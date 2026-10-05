@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useStore } from "@/lib/store";
+import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
@@ -27,6 +28,13 @@ function Onboarding() {
   const [goals, setGoals] = useState<string[]>(s.goals);
   const [diet, setDiet] = useState("Mischkost");
   const [ok, setOk] = useState(false);
+  const [weight, setWeight] = useState(s.body.weightKg?.toString() ?? "");
+  const [height, setHeight] = useState(s.body.heightCm?.toString() ?? "");
+  const w = Number(weight.replace(",", "."));
+  const h = Number(height.replace(",", "."));
+  const bmi = w >= 20 && w <= 400 && h >= 100 && h <= 250 ? calcBmi(w, h) : null;
+  const cat = bmi != null ? bmiCategory(bmi) : null;
+  const field = "w-full rounded-xl bg-card px-4 py-3 text-base outline-none ring-1 ring-border focus:ring-2 focus:ring-ring";
 
   const steps = [
     {
@@ -56,6 +64,31 @@ function Onboarding() {
       valid: true,
     },
     {
+      t: "Gewicht und Größe",
+      body: (
+        <div className="space-y-3">
+          <label className="block text-sm text-ink/70">Gewicht (kg)
+            <input inputMode="decimal" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="z. B. 72,5" className={`mt-1 ${field}`} />
+          </label>
+          <label className="block text-sm text-ink/70">Größe (cm)
+            <input inputMode="numeric" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="z. B. 175" className={`mt-1 ${field}`} />
+          </label>
+          <div className="rounded-2xl bg-card p-4 ring-1 ring-border">
+            <div className="eyebrow">Dein BMI</div>
+            {bmi != null && cat ? (
+              <>
+                <div className={`mt-1 text-[32px] font-semibold ${cat.className}`}>{bmi.toFixed(1).replace(".", ",")}</div>
+                <div className={`text-[15px] font-semibold ${cat.className}`}>{cat.label}</div>
+              </>
+            ) : (
+              <div className="mt-1 text-sm text-ink/55">Gib Gewicht und Größe ein, um deinen BMI zu sehen.</div>
+            )}
+          </div>
+        </div>
+      ),
+      valid: bmi != null,
+    },
+    {
       t: "Deine Daten, deine Entscheidung.",
       body: (
         <label className="flex items-start gap-3 rounded-2xl bg-card p-4 text-sm ring-1 ring-border">
@@ -70,7 +103,7 @@ function Onboarding() {
 
   const next = () => {
     if (step < steps.length - 1) return setStep(step + 1);
-    set({ name, goals, onboarded: true });
+    set({ name, goals, onboarded: true, body: { ...s.body, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? stepGoalFor(bmi) } });
     nav({ to: "/heute" });
   };
 

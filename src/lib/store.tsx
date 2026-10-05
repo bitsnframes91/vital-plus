@@ -15,7 +15,7 @@ type State = {
   consent: { practitioner: boolean; analytics: boolean };
   account: { email: string; userId: string } | null;
   aiPlan: { date: string; items: { title: string; detail: string; daily?: boolean }[] } | null;
-  body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null };
+  body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null; heightCm?: number | null; stepGoal?: number | null };
   weekLog: Record<string, number>;
   weightLog: Record<string, number>;
   fullDays: Record<string, boolean>;
