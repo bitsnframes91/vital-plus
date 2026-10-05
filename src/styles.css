@@ -71,6 +71,7 @@
   --home-image-overlay: linear-gradient(180deg, oklch(0.13 0 0 / 0.35) 0%, oklch(0.13 0 0 / 0.3) 42%, oklch(0.13 0 0 / 0.57) 100%);
   --today-image-overlay: linear-gradient(90deg, var(--mist) 0%, transparent 85%), linear-gradient(0deg, var(--mist), transparent 70%);
   --page-image-overlay: linear-gradient(180deg, oklch(0.99 0 0 / 0.85) 0%, oklch(0.99 0 0 / 0.62) 55%, oklch(0.99 0 0 / 0.3) 100%);
+  --labor-image-overlay: radial-gradient(125% 140% at 0% 0%, oklch(0.99 0 0 / 0.92) 0%, oklch(0.99 0 0 / 0.7) 45%, oklch(0.99 0 0 / 0.28) 100%);
   --background: var(--mist);
   --foreground: var(--ink);
   --card: oklch(1 0 0);
@@ -116,6 +117,7 @@
 @utility home-image-overlay { background-image: var(--home-image-overlay); }
 @utility today-image-overlay { background-image: var(--today-image-overlay); }
 @utility page-image-overlay { background-image: var(--page-image-overlay); }
+@utility labor-image-overlay { background-image: var(--labor-image-overlay); }
 @utility card-surface {
   background: var(--card);
   border-radius: 20px;
