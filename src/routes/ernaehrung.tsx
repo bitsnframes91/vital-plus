@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
-import { mealFromVoice } from "@/lib/ai.functions";
+import { mealFromVoice, mealNutrition } from "@/lib/ai.functions";
 import { blobToBase64, recordWav } from "@/lib/record-wav";
 import type { Meal } from "@/lib/data";
 import ernaehrungVeg from "@/assets/ernaehrung-veg.jpg.asset.json";
@@ -35,6 +35,29 @@ function Nutrition() {
   const [protein, setProtein] = useState("");
   const [kcal, setKcal] = useState("");
   const voice = useServerFn(mealFromVoice);
+  const estimate = useServerFn(mealNutrition);
+  type Est = { name: string; kcal: number; protein: number; fiber: number; carbs: number; fat: number };
+  const [est, setEst] = useState<Est | null>(null);
+  const [estBusy, setEstBusy] = useState(false);
+  const [estErr, setEstErr] = useState<string | null>(null);
+  const runEstimate = async (n: string): Promise<Est | null> => {
+    setEstBusy(true); setEstErr(null);
+    try {
+      const r = await estimate({ data: { name: n } });
+      if (!r.ok) { setEstErr(r.error); return null; }
+      const e: Est = { name: n, kcal: r.kcal, protein: r.protein, fiber: r.fiber, carbs: r.carbs, fat: r.fat };
+      setEst(e); setKcal(String(e.kcal)); setProtein(String(e.protein));
+      return e;
+    } catch { setEstErr("Nährwerte konnten nicht berechnet werden."); return null; }
+    finally { setEstBusy(false); }
+  };
+  useEffect(() => {
+    const n = name.trim();
+    if (n.length < 3 || est?.name === n) return;
+    const t = setTimeout(() => { void runEstimate(n); }, 900);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name]);
   const rec = useRef<{ stop: () => Promise<Blob> } | null>(null);
   const [vs, setVs] = useState<"idle" | "rec" | "busy">("idle");
   const [vmsg, setVmsg] = useState<string | null>(null);
@@ -72,17 +95,20 @@ function Nutrition() {
     }
   };
 
-  const add = (e: React.FormEvent) => {
+  const add = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim()) return;
+    const n = name.trim();
+    if (!n || estBusy) return;
+    let e2 = est?.name === n ? est : null;
+    if (!e2 && !kcal && !protein) e2 = await runEstimate(n);
     const meal: Meal = {
-      id: crypto.randomUUID(), label, name: name.trim(),
-      protein: Number(protein) || 0, kcal: Number(kcal) || 0,
-      fiber: 0, carbs: 0, fat: 0,
+      id: crypto.randomUUID(), label, name: n,
+      protein: Number(protein.replace(",", ".")) || e2?.protein || 0, kcal: Number(kcal.replace(",", ".")) || e2?.kcal || 0,
+      fiber: e2?.fiber ?? 0, carbs: e2?.carbs ?? 0, fat: e2?.fat ?? 0,
       time: nowTime(), date: today,
     };
     set({ meals: [...s.meals, meal] });
-    setName(""); setProtein(""); setKcal("");
+    setName(""); setProtein(""); setKcal(""); setEst(null);
   };
 
   const removeMeal = (id: string) => set({ meals: s.meals.filter((x) => x.id !== id) });
@@ -121,7 +147,7 @@ function Nutrition() {
 
         <button onClick={() => void toggleVoice()} disabled={vs === "busy"}
           className={`card-surface flex w-full items-center gap-3 p-5 text-left disabled:opacity-60 ${vs === "rec" ? "ring-2 ring-fv" : ""}`}>
-          <span className={`grid size-11 shrink-0 place-items-center rounded-full ${vs === "rec" ? "animate-pulse bg-fv text-ink" : "bg-ink text-on-ink"}`}>
+          <span className={`grid size-11 shrink-0 place-items-center rounded-full ${vs === "rec" ? "animate-pulse bg-fresh text-ink" : "bg-fresh text-ink"}`}>
             <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
           </span>
           <div className="min-w-0 flex-1">
@@ -160,7 +186,7 @@ function Nutrition() {
           })}
         </div>
 
-        <form onSubmit={add} className="card-surface space-y-3 p-5">
+        <form onSubmit={(e) => void add(e)} className="card-surface space-y-3 p-5">
           <div className="eyebrow">Mahlzeit hinzufügen</div>
           <div className="flex flex-wrap gap-1.5">
             {labels.map((l) => (
@@ -169,10 +195,13 @@ function Nutrition() {
           </div>
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="z. B. Lachs mit Ofengemüse" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
           <div className="flex gap-2">
-            <input value={kcal} onChange={(e) => setKcal(e.target.value)} inputMode="numeric" placeholder="kcal (optional)" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
-            <input value={protein} onChange={(e) => setProtein(e.target.value)} inputMode="numeric" placeholder="Protein in g (optional)" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
+            <input value={kcal} onChange={(e) => setKcal(e.target.value)} inputMode="numeric" placeholder="kcal (automatisch)" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
+            <input value={protein} onChange={(e) => setProtein(e.target.value)} inputMode="numeric" placeholder="Protein in g (automatisch)" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
           </div>
-          <button className="w-full rounded-full bg-ink py-2.5 text-sm font-medium text-on-ink">Speichern</button>
+          {estBusy && <p className="text-[12px] text-ink/55">Nährwerte werden berechnet…</p>}
+          {!estBusy && est?.name === name.trim() && <p className="text-[12px] text-ink/55">Geschätzt: ca. {est.kcal} kcal · {est.protein} g Protein · {est.carbs} g KH · {est.fat} g Fett · {est.fiber} g Ballaststoffe</p>}
+          {estErr && <p className="text-[12px] text-destructive">{estErr}</p>}
+          <button disabled={estBusy} className="w-full rounded-full bg-fresh py-2.5 text-sm font-semibold text-ink disabled:opacity-60">{estBusy ? "Berechne…" : "Speichern"}</button>
         </form>
       </div>
     </AppShell>
