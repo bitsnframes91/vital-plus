@@ -182,35 +182,7 @@ function Today() {
       </section>}
 
       <section className="mt-4 px-4">
-        {suggestion ? <div className="card-surface overflow-hidden">
-          <div className="flex gap-3 p-3">
-            {suggestion.product.relatedMarker === "vitd"
-              ? <img src={productImg} alt="" width={62} height={62} loading="lazy" className="size-[62px] shrink-0 rounded-[12px] object-cover" />
-              : <span className="grid size-[62px] shrink-0 place-items-center rounded-[12px] bg-fv/10 text-fv-deep"><Package aria-hidden="true" className="size-7" /></span>}
-            <div className="min-w-0 flex-1">
-              <div className="font-data text-[11px] uppercase tracking-normal text-fv-deep">Passend zu {suggestion.marker.name}</div>
-              <div className="mt-0.5 text-[15px] font-medium">{suggestion.product.name}</div>
-              <div className="mt-0.5 text-[12px] text-ink/45">{suggestion.product.short}</div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between border-t px-4 py-2.5">
-            <span className="text-[12px] text-ink/40">Optional · kein Muss</span>
-            <a href={suggestion.product.url} target="_blank" rel="noreferrer" className="text-[12px] font-medium text-fv-deep">Im Fairvital Shop ansehen →</a>
-          </div>
-        </div> : <div className="card-surface overflow-hidden">
-          <div className="flex gap-3 p-3">
-            <img src={acerolaImg.url} alt="Acerola mit Hesperidin von Fairvital" width={62} height={62} loading="lazy" className="size-[62px] shrink-0 rounded-[12px] object-contain" />
-            <div className="min-w-0 flex-1">
-              <div className="font-data text-[11px] uppercase tracking-normal text-fv-deep">Aus dem Fairvital Sortiment</div>
-              <div className="mt-0.5 text-[15px] font-medium">{catalogSpotlight.name}</div>
-              <div className="mt-0.5 text-[12px] text-ink/45">{catalogSpotlight.short}</div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between gap-2 border-t px-4 py-2.5">
-            <span className="text-[12px] text-ink/40">Kein Bezug zu deinen Laborwerten</span>
-            <a href={catalogSpotlight.url} target="_blank" rel="noreferrer" className="shrink-0 text-[12px] font-medium text-fv-deep">Im Shop ansehen →</a>
-          </div>
-        </div>}
+        <WeekRecap />
       </section>
     </AppShell>
   );
