@@ -4,11 +4,8 @@ import { AppShell, Icon, Sparkbars } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useStore } from "@/lib/store";
-import { catalogSpotlight, fmtDate, status } from "@/lib/data";
-import { reportMarkers, todaySuggestion } from "@/lib/plan-products";
-import { Package } from "lucide-react";
-import productImg from "@/assets/product-d3k2.jpg";
-import acerolaImg from "@/assets/fairvital-acerola.webp.asset.json";
+import { fmtDate, status } from "@/lib/data";
+import { reportMarkers } from "@/lib/plan-products";
 import lakeHero from "@/assets/vivo-lake.jpg";
 import { VivoBrand } from "@/components/VivoBrand";
 import { Activity, ChevronRight, Footprints, Heart, Leaf, Moon, Plus, Salad, UserRound, Watch } from "lucide-react";
@@ -33,9 +30,8 @@ function Today() {
   const goTo = useNavigate();
   useEffect(() => { if (s.account && !s.onboarded) goTo({ to: "/onboarding" }); }, [s.account, s.onboarded]);
   const [selectedGoalKey, setSelectedGoalKey] = useState<string | null>(null);
-  const suggestion = todaySuggestion(s.aiPlan, s.labs);
   const measured = reportMarkers(s.aiPlan, s.labs);
-  const featured = suggestion?.marker ?? measured[0];
+  const featured = measured[0];
   const vals = featured?.history.map((h) => h.value) ?? [];
   const last = featured?.history.at(-1);
   const { fromPlan, goals: actions } = dailyGoals(s.aiPlan);
@@ -182,35 +178,7 @@ function Today() {
       </section>}
 
       <section className="mt-4 px-4">
-        {suggestion ? <div className="card-surface overflow-hidden">
-          <div className="flex gap-3 p-3">
-            {suggestion.product.relatedMarker === "vitd"
-              ? <img src={productImg} alt="" width={62} height={62} loading="lazy" className="size-[62px] shrink-0 rounded-[12px] object-cover" />
-              : <span className="grid size-[62px] shrink-0 place-items-center rounded-[12px] bg-fv/10 text-fv-deep"><Package aria-hidden="true" className="size-7" /></span>}
-            <div className="min-w-0 flex-1">
-              <div className="font-data text-[11px] uppercase tracking-normal text-fv-deep">Passend zu {suggestion.marker.name}</div>
-              <div className="mt-0.5 text-[15px] font-medium">{suggestion.product.name}</div>
-              <div className="mt-0.5 text-[12px] text-ink/45">{suggestion.product.short}</div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between border-t px-4 py-2.5">
-            <span className="text-[12px] text-ink/40">Optional · kein Muss</span>
-            <a href={suggestion.product.url} target="_blank" rel="noreferrer" className="text-[12px] font-medium text-fv-deep">Im Fairvital Shop ansehen →</a>
-          </div>
-        </div> : <div className="card-surface overflow-hidden">
-          <div className="flex gap-3 p-3">
-            <img src={acerolaImg.url} alt="Acerola mit Hesperidin von Fairvital" width={62} height={62} loading="lazy" className="size-[62px] shrink-0 rounded-[12px] object-contain" />
-            <div className="min-w-0 flex-1">
-              <div className="font-data text-[11px] uppercase tracking-normal text-fv-deep">Aus dem Fairvital Sortiment</div>
-              <div className="mt-0.5 text-[15px] font-medium">{catalogSpotlight.name}</div>
-              <div className="mt-0.5 text-[12px] text-ink/45">{catalogSpotlight.short}</div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between gap-2 border-t px-4 py-2.5">
-            <span className="text-[12px] text-ink/40">Kein Bezug zu deinen Laborwerten</span>
-            <a href={catalogSpotlight.url} target="_blank" rel="noreferrer" className="shrink-0 text-[12px] font-medium text-fv-deep">Im Shop ansehen →</a>
-          </div>
-        </div>}
+        <WeekRecap />
       </section>
     </AppShell>
   );
@@ -221,3 +189,75 @@ function MiniBars({ tone }: { tone: "teal" | "fresh" | "sky" }) {
     {[12, 22, 16, 30, 21, 26, 35, 43, 52].map((height, i) => <span key={i} style={{ height: `${height}%` }} />)}
   </div>;
 }
+
+const WEEKDAY_SHORT = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+
+function WeekRecap() {
+  const { s } = useStore();
+  const days: string[] = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    days.push(d.toISOString().slice(0, 10));
+  }
+  const goalCount = days.reduce((sum, d) => sum + (s.weekLog[d] ?? 0), 0);
+  const meals = s.meals.filter((m) => days.includes(m.date));
+  const weights = Object.entries(s.weightLog).sort(([a], [b]) => a.localeCompare(b));
+  const latestW = weights.at(-1);
+  const prevW = weights.length > 1 ? weights[weights.length - 2] : null;
+  const diff = latestW && prevW ? +(latestW[1] - prevW[1]).toFixed(1) : null;
+  const maxDay = Math.max(...days.map((d) => s.weekLog[d] ?? 0), 1);
+
+  return (
+    <Link to="/gesundheit" className="card-surface block p-5">
+      <div className="eyebrow">Die letzten 7 Tage</div>
+      <h2 className="mt-1 text-[18px] font-semibold tracking-tight">Woche im Rückblick</h2>
+
+      <div aria-hidden="true" className="mt-4 flex h-16 items-end justify-between gap-2">
+        {days.map((d, i) => {
+          const count = s.weekLog[d] ?? 0;
+          return (
+            <div key={d} className="flex flex-1 flex-col items-center gap-1">
+              <div className="flex h-12 w-full items-end justify-center">
+                <span
+                  className={`w-full max-w-[26px] rounded-t-[6px] transition-all ${count > 0 ? (i === days.length - 1 ? "bg-fv-deep" : "bg-fv/30") : "bg-ink/10"}`}
+                  style={{ height: `${Math.max(count, 0.2) / maxDay * 100}%` }}
+                />
+              </div>
+              <span className={`font-data text-[10px] ${i === days.length - 1 ? "text-fv-deep" : "text-ink/35"}`}>
+                {WEEKDAY_SHORT[new Date(d + "T00:00:00").getDay()]}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 grid grid-cols-3 border-t pt-4">
+        <div className="border-r pr-3">
+          <div className="font-data text-[20px] font-medium">{goalCount}</div>
+          <div className="mt-0.5 text-[11px] leading-snug text-ink/45">Tagesziele erledigt</div>
+        </div>
+        <div className="border-r px-3">
+          <div className="font-data text-[20px] font-medium">{meals.length}</div>
+          <div className="mt-0.5 text-[11px] leading-snug text-ink/45">Mahlzeiten erfasst</div>
+        </div>
+        <div className="pl-3">
+          {latestW ? (
+            <>
+              <div className="font-data text-[20px] font-medium">{latestW[1]}<span className="text-[13px] text-ink/45"> kg</span></div>
+              <div className="mt-0.5 text-[11px] leading-snug text-ink/45">
+                {diff === null ? "Gewicht erfasst" : diff === 0 ? "konstant" : diff > 0 ? `▲ ${diff} kg` : `▼ ${Math.abs(diff)} kg`}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="font-data text-[20px] font-medium text-ink/25">—</div>
+              <div className="mt-0.5 text-[11px] leading-snug text-ink/45">Gewicht erfassen</div>
+            </>
+          )}
+        </div>
+      </div>
+    </Link>
+  );
+}
+

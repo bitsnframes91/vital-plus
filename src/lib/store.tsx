@@ -16,6 +16,8 @@ type State = {
   account: { email: string; userId: string } | null;
   aiPlan: { date: string; items: { title: string; detail: string; daily?: boolean }[] } | null;
   body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null };
+  weekLog: Record<string, number>;
+  weightLog: Record<string, number>;
 };
 
 const initial: State = {
@@ -30,6 +32,8 @@ const initial: State = {
   account: null,
   aiPlan: null,
   body: { weightKg: null, waistCm: null, sleepHours: null, steps: null },
+  weekLog: {},
+  weightLog: {},
 };
 
 type CtxValue = { s: State; set: (p: Partial<State>) => void } | null;
@@ -43,6 +47,14 @@ function migrate(parsed: any) {
     parsed.meals = parsed.meals.map((m: any) => ({ kcal: 0, fiber: 0, carbs: 0, fat: 0, date: today, ...m }));
   }
   if (parsed.account && !parsed.account.userId) parsed.account = null;
+  parsed.weekLog = typeof parsed.weekLog === "object" && parsed.weekLog !== null ? parsed.weekLog : {};
+  parsed.weightLog = typeof parsed.weightLog === "object" && parsed.weightLog !== null ? parsed.weightLog : {};
+  if (parsed.actionsDone) {
+    const today = new Date().toISOString().slice(0, 10);
+    if (parsed.weekLog[today] === undefined) {
+      parsed.weekLog[today] = Object.entries(parsed.actionsDone).filter(([k, v]) => (k.startsWith(today) || !k.includes(":")) && v).length;
+    }
+  }
   return parsed;
 }
 
@@ -94,6 +106,13 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const set = (p: Partial<State>) =>
     setS((prev) => {
       const next = { ...prev, ...p };
+      const today = new Date().toISOString().slice(0, 10);
+      if (p.actionsDone) {
+        next.weekLog = { ...prev.weekLog, [today]: Object.entries(p.actionsDone).filter(([k, v]) => (k.startsWith(today) || !k.includes(":")) && v).length };
+      }
+      if (p.body && p.body.weightKg != null) {
+        next.weightLog = { ...prev.weightLog, [today]: p.body.weightKg };
+      }
       localStorage.setItem(KEY, JSON.stringify(next));
       push(next);
       return next;
