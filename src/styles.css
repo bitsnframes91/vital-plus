@@ -64,6 +64,7 @@
   --ink: oklch(0.28 0.027 251);
   --mist: oklch(0.979 0.004 230);
   --warn: oklch(0.72 0.15 65);
+  --on-ink: oklch(0.99 0 0);
   --home-green: var(--fv-deep);
   --home-warm: oklch(0.904 0.029 85);
   --header: var(--teal-soft);
@@ -130,3 +131,14 @@
   letter-spacing: 0;
   color: var(--muted-foreground);
 }
+
+.bg-header { --on-ink: var(--ink); }
+.vivo-today-header { min-height: 348px; }
+.vivo-focus { box-shadow: 0 6px 22px var(--border); }
+.vivo-progress { display: block; min-width: 0; border-radius: 12px; padding: 15px 6px 8px; text-align: center; }
+.vivo-mini-bars { display: flex; height: 28px; align-items: end; justify-content: center; gap: 4px; margin-top: 6px; }
+.vivo-mini-bars span { width: 3px; border-radius: 2px; background: currentColor; opacity: .5; }
+.vivo-mini-bars span:last-child { opacity: 1; }
+.vivo-quick { display: flex; flex-direction: column; align-items: center; gap: 7px; font-size: 10px; color: var(--muted-foreground); }
+.vivo-quick > span:first-child { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; }
+.vivo-quick svg { width: 25px; height: 25px; }
