@@ -4,6 +4,9 @@ import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
 import healthRidge from "@/assets/gesundheit-ridge.jpg.asset.json";
+import { ChevronRight, Minus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/gesundheit")({
   head: () => ({
@@ -40,11 +43,47 @@ function IconSteps() {
     </svg>
   );
 }
-function IconTrend() {
+function HealthTrends() {
+  const metrics = [
+    { name: "Bewegung", unit: "kcal/Tag", color: "text-trend-move" },
+    { name: "Distanz", unit: "km/Tag", color: "text-trend-distance" },
+    { name: "Gehtempo", unit: "min/km", color: "text-trend-walk" },
+    { name: "Lauftempo", unit: "min/km", color: "text-trend-run" },
+  ];
   return (
-    <svg className="size-6 text-fv-deep" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 17l6-6 4 4 8-8M15 7h6v6" />
-    </svg>
+    <section aria-labelledby="health-trends-title" className="rounded-[20px] bg-trend-surface p-5 text-trend-foreground sm:p-6">
+      <div className="flex items-center justify-between gap-4">
+        <h2 id="health-trends-title" className="text-[26px] font-bold">Trends</h2>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="ghost" size="icon" aria-label="Details zu Trends" className="rounded-full bg-trend-control text-trend-foreground hover:bg-trend-control/80 hover:text-trend-foreground">
+              <ChevronRight className="!size-6" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-[calc(100%-2rem)] sm:max-w-lg">
+            <DialogTitle>Deine Aktivitätstrends</DialogTitle>
+            <DialogDescription>Für Bewegung, Distanz, Geh- und Lauftempo liegen noch keine Messdaten vor. Apple Health und Google Health Connect sind noch nicht verbunden.</DialogDescription>
+            <p className="text-sm text-muted-foreground">Manuell erfasste Schritte sind keine gemessene Distanz oder Geschwindigkeit. Sobald eine Gesundheitsdaten-Verbindung verfügbar ist, können hier deine tatsächlichen Trends erscheinen.</p>
+          </DialogContent>
+        </Dialog>
+      </div>
+      <div className="mt-6 space-y-7">
+        {metrics.map((metric) => (
+          <div key={metric.name} className="flex items-center gap-4">
+            <span aria-hidden="true" className={`grid size-12 shrink-0 place-items-center rounded-full bg-trend-icon ${metric.color}`}>
+              <Minus className="size-7" strokeWidth={4} />
+            </span>
+            <div className="min-w-0">
+              <h3 className="text-[22px] font-medium leading-tight">{metric.name}</h3>
+              <p aria-label={`${metric.name}: noch keine Daten`} className={`mt-1 flex flex-wrap items-baseline gap-1.5 ${metric.color}`}>
+                <span className="text-[30px] font-semibold leading-tight">–/–</span>
+                <span className="text-[18px] font-semibold">{metric.unit}</span>
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -127,11 +166,7 @@ function Health() {
           <NumInput value={b.steps ?? b.stepGoal ?? null} onSave={(v) => setBody({ steps: v })} placeholder="z. B. 8000" unit="Speichern" />
         </div>
 
-        <div className="card-surface p-5">
-          <div className="flex justify-center"><IconTrend /></div>
-          <div className="mt-2 text-[18px] font-semibold">Trends</div>
-          <p className="mt-1 text-[14px] text-ink/55">Entwicklungen über Zeit – sachlich, ohne Ursachenbehauptung.</p>
-        </div>
+        <HealthTrends />
 
         <div className="rounded-[20px] border border-dashed p-5 text-[13px] text-ink/50">
           <div className="eyebrow mb-1">Bald verfügbar</div>

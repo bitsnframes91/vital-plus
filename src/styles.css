@@ -52,9 +52,25 @@
   --color-fresh-soft: var(--fresh-soft);
   --color-sky-soft: var(--sky-soft);
   --color-warm-soft: var(--warm-soft);
+  --color-trend-surface: var(--trend-surface);
+  --color-trend-foreground: var(--trend-foreground);
+  --color-trend-icon: var(--trend-icon);
+  --color-trend-control: var(--trend-control);
+  --color-trend-move: var(--trend-move);
+  --color-trend-distance: var(--trend-distance);
+  --color-trend-walk: var(--trend-walk);
+  --color-trend-run: var(--trend-run);
 }
 
 :root {
+  --trend-surface: oklch(0.235 0 0);
+  --trend-foreground: oklch(0.985 0 0);
+  --trend-icon: oklch(0.265 0 0);
+  --trend-control: oklch(0.44 0 0);
+  --trend-move: oklch(0.65 0.25 8);
+  --trend-distance: oklch(0.76 0.15 226);
+  --trend-walk: oklch(0.73 0.14 298);
+  --trend-run: oklch(0.76 0.15 333);
   --radius: 1rem;
   --fv: oklch(0.742 0.119 184);
   --fv-deep: oklch(0.49 0.095 190);
