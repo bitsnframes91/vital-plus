@@ -16,9 +16,9 @@ export function dailyTip(plan: { date: string; items: unknown[] } | null, labs: 
   if (plan) {
     const low = reportMarkers(plan, labs).filter((m) => status(m).label === "Niedrig");
     if (low.length) {
-      const marker = low[dayIndex % low.length];
-      const tips = routineTips(marker);
-      return { marker, tip: tips[dayIndex % tips.length] };
+    const marker = low[dayIndex % low.length]!;
+    const tips = routineTips(marker);
+    return { marker, tip: tips[dayIndex % tips.length]! };
     }
     return { tip: generalTips[dayIndex % generalTips.length] };
   }
