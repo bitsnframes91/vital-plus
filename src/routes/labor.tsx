@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
 import { useStore } from "@/lib/store";
-import { fmtDate, status, type LabMarker } from "@/lib/data";
+import { fmtDate, status, labMarkers as catalog, type LabMarker } from "@/lib/data";
 import { analyzeLabPdf } from "@/lib/ai.functions";
 import { blobToBase64 } from "@/lib/record-wav";
 import laborLab from "@/assets/labor-lab.jpg.asset.json";
@@ -26,7 +26,9 @@ export const Route = createFileRoute("/labor")({
 
 function Labs() {
   const { s, set } = useStore();
-  const [marker, setMarker] = useState(s.labs[0]!.id);
+  // New accounts start without lab values; offer the standard markers for manual entry.
+  const options: LabMarker[] = [...s.labs, ...catalog.filter((c) => !s.labs.some((l) => l.id === c.id)).map((c) => ({ ...c, history: [] }))];
+  const [marker, setMarker] = useState(options[0]?.id ?? "");
   const [value, setValue] = useState("");
   const analyze = useServerFn(analyzeLabPdf);
   const [busy, setBusy] = useState(false);
