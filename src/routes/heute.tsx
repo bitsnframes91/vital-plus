@@ -230,24 +230,37 @@ function Today() {
 
 
       {featured && last && <section className="mt-4 px-4">
-        <Link to="/labor" className="card-surface block p-5">
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="eyebrow">{featured.name}</div>
-              <div className="mt-1 flex items-baseline gap-1.5">
-                <span className="font-data text-[30px] font-medium">{last.value}</span>
-                <span className="font-data text-[13px] text-ink/45">{featured.unit}</span>
+        <div className="card-surface p-5">
+          <Link to="/labor" className="block">
+            <div className="flex items-start justify-between">
+              <div>
+                <div className="eyebrow">{featured.name}</div>
+                <div className="mt-1 flex items-baseline gap-1.5">
+                  <span className="font-data text-[30px] font-medium">{last.value}</span>
+                  <span className="font-data text-[13px] text-ink/45">{featured.unit}</span>
+                </div>
+                <div className="mt-0.5 max-w-[26ch] text-[12px] text-ink/45">Vom {fmtDate(last.date)} · Zielbereich {featured.target[0]}–{featured.target[1]}</div>
               </div>
-              <div className="mt-0.5 max-w-[26ch] text-[12px] text-ink/45">Vom {fmtDate(last.date)} · Zielbereich {featured.target[0]}–{featured.target[1]}</div>
+              <span className="rounded-full bg-fv/10 px-2.5 py-1 font-data text-[12px] uppercase tracking-normal text-fv-deep">{status(featured).label}</span>
             </div>
-            <span className="rounded-full bg-fv/10 px-2.5 py-1 font-data text-[12px] uppercase tracking-normal text-fv-deep">{status(featured).label}</span>
-          </div>
-          <div className="mt-4"><Sparkbars values={vals} max={featured.target[1]} /></div>
+            <div className="mt-4"><RangeBar marker={featured} /></div>
+          </Link>
+          {featuredProduct && (
+            <a href={featuredProduct.url} target="_blank" rel="noopener noreferrer" className="mt-4 flex items-center gap-3 rounded-2xl border bg-background p-3">
+              <img src={featuredProduct.image} alt={featuredProduct.name} className="size-14 shrink-0 rounded-xl object-contain" loading="lazy" />
+              <div className="min-w-0 flex-1">
+                <div className="eyebrow">Fairvital Ergänzung</div>
+                <div className="truncate text-[14px] font-semibold text-ink">{featuredProduct.name}</div>
+                <div className="text-[12px] text-ink/50">{featuredProduct.short}</div>
+              </div>
+              <span className="text-[12px] font-semibold text-fv-deep">Im Shop →</span>
+            </a>
+          )}
           <div className="mt-3 flex items-center gap-2 border-t pt-3 text-[13px] text-ink/55">
             <Icon d="M12 8v4l3 2M3 12a9 9 0 1 0 3-6.7" className="size-4 text-ink/40" />
             Nachkontrolle empfohlen in {featured.retestWeeks} Wochen.
           </div>
-        </Link>
+        </div>
       </section>}
 
       <section className="mt-4 px-4">
