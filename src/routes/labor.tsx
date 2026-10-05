@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
+import { useEffect } from "react";
 import { AppShell, PageHeader, Sparkbars } from "@/components/AppShell";
+import { Progress } from "@/components/ui/progress";
 import { useStore } from "@/lib/store";
 import { fmtDate, status, type LabMarker } from "@/lib/data";
 import { analyzeLabPdf } from "@/lib/ai.functions";
@@ -28,17 +30,25 @@ function Labs() {
   const [value, setValue] = useState("");
   const analyze = useServerFn(analyzeLabPdf);
   const [busy, setBusy] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+
+  useEffect(() => {
+    if (!busy) return;
+    const t = setInterval(() => setProgress((p) => Math.min(p + Math.random() * 7 + 2, 88)), 400);
+    return () => clearInterval(t);
+  }, [busy]);
 
   const upload = async (file: File | undefined) => {
     if (!file) return;
     if (file.type !== "application/pdf") return setMsg({ ok: false, text: "Bitte eine PDF-Datei wählen." });
     if (file.size > 10 * 1024 * 1024) return setMsg({ ok: false, text: "Die PDF ist größer als 10 MB." });
     setBusy(true);
+    setProgress(4);
     setMsg(null);
     try {
       const r = await analyze({ data: { filename: file.name, base64: await blobToBase64(file), knownIds: s.labs.map((l) => l.id) } });
-      if (!r.ok) return setMsg({ ok: false, text: r.error });
+      if (!r.ok) { setProgress(0); return setMsg({ ok: false, text: r.error }); }
       let labs: LabMarker[] = [...s.labs];
       for (const m of r.markers) {
         const idx = labs.findIndex((l) => l.id === m.id || l.name.toLowerCase() === m.name.toLowerCase());
@@ -56,8 +66,11 @@ function Labs() {
       }
       set({ labs, aiPlan: r.plan.length ? { date: r.date, items: r.plan } : s.aiPlan });
       setMsg({ ok: true, text: `${r.markers.length} Werte vom ${fmtDate(r.date)} übernommen. Dein Plan wurde aktualisiert.` });
+      setProgress(100);
+      setTimeout(() => setProgress(0), 4000);
     } catch {
       setMsg({ ok: false, text: "Die PDF konnte nicht gelesen werden." });
+      setProgress(0);
     } finally {
       setBusy(false);
     }
@@ -85,6 +98,15 @@ function Labs() {
           <input type="file" accept="application/pdf" className="sr-only" disabled={busy}
             onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
         </label>
+        {(busy || progress === 100) && (
+          <div className="card-surface space-y-2 p-4">
+            <div className="flex items-center justify-between text-[12px]">
+              <span className="text-ink/55">{progress === 100 ? "Fertig – Werte übernommen" : "Befund wird hochgeladen und gelesen…"}</span>
+              <span className="font-data text-fv-deep">{Math.round(progress)}%</span>
+            </div>
+            <Progress value={progress} className="h-2 bg-fv/10 [&_[data-slot=progress-indicator]]:bg-fresh" />
+          </div>
+        )}
         {msg && (
           <div className={`rounded-xl px-4 py-3 text-[13px] ${msg.ok ? "bg-fv/10 text-fv-deep" : "bg-warn/15"}`}>
             {msg.text} {msg.ok && <Link to="/plan" className="font-medium underline">Zum Plan →</Link>}
