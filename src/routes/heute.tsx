@@ -1,5 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { AppShell, Icon, Sparkbars } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -30,6 +30,8 @@ export const Route = createFileRoute("/heute")({
 
 function Today() {
   const { s, set } = useStore();
+  const goTo = useNavigate();
+  useEffect(() => { if (s.account && !s.onboarded) goTo({ to: "/onboarding" }); }, [s.account, s.onboarded]);
   const [selectedGoalKey, setSelectedGoalKey] = useState<string | null>(null);
   const suggestion = todaySuggestion(s.aiPlan, s.labs);
   const measured = reportMarkers(s.aiPlan, s.labs);
