@@ -7,6 +7,9 @@
 /* Fairvital Health design system — adapt brand tokens here to match the exact Fairvital CI. */
 
 @theme inline {
+  --color-bmi-good: #3f9a2c;
+  --color-bmi-mid: #c99a00;
+  --color-bmi-bad: #d93a2b;
   --font-display: "Plus Jakarta Sans", sans-serif;
   --font-sans: "Plus Jakarta Sans", sans-serif;
   --font-data: "Plus Jakarta Sans", sans-serif;
