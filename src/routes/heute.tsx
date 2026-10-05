@@ -8,6 +8,7 @@ import { fmtDate, status } from "@/lib/data";
 import { reportMarkers } from "@/lib/plan-products";
 import { dailyTip } from "@/lib/daily-tip";
 import lakeHero from "@/assets/vivo-lake.jpg";
+import { MovementDialog } from "@/components/MovementDialog";
 import { VivoBrand } from "@/components/VivoBrand";
 import { Activity, ChevronRight, Clock, Footprints, Heart, Leaf, Moon, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
 import { dailyGoals, todayKey } from "@/lib/daily-goals";
@@ -37,6 +38,7 @@ export const Route = createFileRoute("/heute")({
 
 function Today() {
   const { s, set } = useStore();
+  const [moveOpen, setMoveOpen] = useState(false);
   const goTo = useNavigate();
   useEffect(() => { if (s.account && !s.onboarded) goTo({ to: "/onboarding" }); }, [s.account, s.onboarded]);
   const [selectedGoalKey, setSelectedGoalKey] = useState<string | null>(null);
@@ -120,7 +122,7 @@ function Today() {
       <section className="px-6 pt-6 pb-3">
         <h2 className="mb-3 text-[14px] font-bold">Schnellzugriff</h2>
         <div className="grid grid-cols-4 gap-3 text-center">
-          <Link to="/gesundheit" className="vivo-quick"><span className="bg-teal-soft text-fv-deep"><Activity /></span><span>Bewegung</span></Link>
+          <button type="button" onClick={() => setMoveOpen(true)} className="vivo-quick"><span className="bg-teal-soft text-fv-deep"><Activity /></span><span>Bewegung</span></button>
           <Link to="/plan" className="vivo-quick"><span className="bg-fresh-soft text-fresh"><Leaf /></span><span>Mein Plan</span></Link>
           <Link to="/ernaehrung" className="vivo-quick"><span className="bg-fresh-soft text-fresh"><Salad /></span><span>Ernährung</span></Link>
           <Link to="/labor" className="vivo-quick"><span className="bg-sky-soft text-sky"><Plus /></span><span>Labor</span></Link>
@@ -187,6 +189,7 @@ function Today() {
         )}
       </section>
 
+      <MovementDialog open={moveOpen} onOpenChange={setMoveOpen} />
       <Dialog open={selectedGoalKey !== null && !!selectedGoal} onOpenChange={(open) => { if (!open) setSelectedGoalKey(null); }}>
         <DialogContent className="w-[calc(100%-2rem)] max-h-[85dvh] max-w-[420px] overflow-y-auto rounded-lg border-border bg-card p-6">
           {selectedGoal && (
