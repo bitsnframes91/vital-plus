@@ -151,7 +151,7 @@ function Labs() {
             {s.labs.map((l) => <option key={l.id} value={l.id}>{l.name} ({l.unit})</option>)}
           </select>
           <input value={value} onChange={(e) => setValue(e.target.value)} inputMode="decimal" placeholder="Wert" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
-          <button className="w-full rounded-full bg-ink py-2.5 text-sm font-medium text-on-ink">Speichern</button>
+          <button className="w-full rounded-full bg-fresh py-2.5 text-sm font-medium text-ink">Speichern</button>
         </form>
 
         <p className="px-1 text-[12px] text-ink/40">Hinweis: Vivo stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.</p>
