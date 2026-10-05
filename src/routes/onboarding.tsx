@@ -30,7 +30,7 @@ function Onboarding() {
   const [name, setName] = useState(s.name);
   const [goals, setGoals] = useState<string[]>(s.goals);
   const [diet, setDiet] = useState("Mischkost");
-  const [profile, setProfile] = useState<NutritionProfile>({ age: s.body.age, sex: s.body.sex, activity: s.body.activity });
+  const [profile, setProfile] = useState<NutritionProfile>({ age: s.body.age ?? null, sex: s.body.sex ?? null, activity: s.body.activity ?? null });
   const [ok, setOk] = useState(false);
   const [weight, setWeight] = useState(s.body.weightKg?.toString() ?? "");
   const [height, setHeight] = useState(s.body.heightCm?.toString() ?? "");

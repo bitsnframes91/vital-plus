@@ -33,7 +33,7 @@ const fmtDay = (iso: string) =>
 
 function Nutrition() {
   const { s, set } = useStore();
-  const [profile, setProfile] = useState<NutritionProfile>({ age: s.body.age, sex: s.body.sex, activity: s.body.activity });
+  const [profile, setProfile] = useState<NutritionProfile>({ age: s.body.age ?? null, sex: s.body.sex ?? null, activity: s.body.activity ?? null });
   const [name, setName] = useState("");
   const [label, setLabel] = useState("Abendessen");
   const [protein, setProtein] = useState("");
