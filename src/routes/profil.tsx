@@ -54,7 +54,26 @@ function Profile() {
           <Link to="/onboarding" className="mt-3 inline-block text-[13px] font-medium text-fv-deep">Gesundheitsprofil bearbeiten →</Link>
         </div>
         <div className="card-surface divide-y px-5">
-          <Toggle on={s.consent.practitioner} onClick={() => set({ consent: { ...s.consent, practitioner: !s.consent.practitioner } })} label="Behandler-Freigabe" sub="Ausgewählte Werte mit Ärztin/Therapeut teilen" />
+          <a
+            href={(() => {
+              const lines = s.labs
+                .filter((m) => m.history.length)
+                .map((m) => {
+                  const p = m.history[m.history.length - 1]!;
+                  const st = p.value < m.target[0] ? "niedrig" : p.value > m.target[1] ? "hoch" : "im Zielbereich";
+                  return `- ${m.name}: ${p.value} ${m.unit} (Ziel ${m.target[0]}–${m.target[1]}, ${st}) – gemessen am ${p.date}`;
+                });
+              const body = `Guten Tag,\n\nhier sind meine aktuellen Blutwerte:\n\n${lines.join("\n")}\n\nViele Grüße\n${s.name}`;
+              return `mailto:?subject=${encodeURIComponent(`Meine Blutwerte – ${s.name}`)}&body=${encodeURIComponent(body)}`;
+            })()}
+            className="flex w-full items-center gap-3 py-3 text-left"
+          >
+            <div className="flex-1">
+              <div className="text-[15px] font-medium">Behandler-Freigabe</div>
+              <div className="text-[12px] text-ink/45">Werte per E-Mail an Ärztin/Therapeut senden</div>
+            </div>
+            <span className="text-fv-deep">→</span>
+          </a>
           <Toggle on={s.consent.analytics} onClick={() => set({ consent: { ...s.consent, analytics: !s.consent.analytics } })} label="Anonyme Nutzungsstatistik" sub="Hilft uns, die App zu verbessern" />
         </div>
         <div className="card-surface p-5 text-[13px] text-ink/55">
