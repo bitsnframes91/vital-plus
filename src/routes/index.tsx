@@ -21,12 +21,10 @@ function Home() {
   const { s } = useStore();
   return (
     <div className="min-h-screen bg-card font-sans text-foreground">
-      <header className="mx-auto flex h-[76px] max-w-[1600px] items-center justify-between gap-4 px-5 sm:h-[92px] sm:px-8">
-        <div className="flex min-w-0 items-center gap-5 sm:gap-7">
-          <Link to="/" aria-label="Vivo Startseite" className="shrink-0"><VivoBrand /></Link>
-          <a href="#philosophie" className="hidden text-lg font-medium text-foreground sm:inline">Philosophie</a>
-        </div>
-        <div className="flex shrink-0 items-center gap-2 sm:gap-5">
+      <header className="mx-auto grid h-[76px] max-w-[1600px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 sm:h-[92px] sm:px-8">
+        <span aria-hidden="true" />
+        <Link to="/" aria-label="Vivo Startseite" className="justify-self-center"><VivoBrand /></Link>
+        <div className="flex shrink-0 items-center justify-self-end gap-2 sm:gap-5">
           {s.account ? (
             <Link to="/heute" className="rounded-md bg-home-green px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-6 sm:text-base">Zu Heute</Link>
           ) : (
@@ -47,10 +45,6 @@ function Home() {
             <h1 className="mt-7 max-w-[1000px] text-balance text-[36px] font-bold leading-[1.1] text-foreground sm:mt-8 sm:text-[56px]">Vivo</h1>
             <p className="mt-4 text-[24px] font-semibold text-foreground">Gesünder leben. Glücklicher sein.</p>
             <p className="mt-5 max-w-[700px] text-pretty text-base font-medium text-foreground sm:text-lg">Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern.</p>
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-3 sm:mt-8 sm:gap-4">
-              <Link to="/login" search={{ mode: "register" }} className="rounded-md bg-home-green px-5 py-3 text-base font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-7 sm:text-lg">Kostenlos registrieren</Link>
-              <Link to="/login" search={{ mode: "login" }} className="rounded-md bg-card px-5 py-3 text-base font-semibold text-home-green transition-colors hover:bg-muted sm:px-7 sm:text-lg">Einloggen</Link>
-            </div>
           </div>
         </section>
         <div className="mx-auto mt-5 max-w-[1600px] text-center">
