@@ -62,12 +62,46 @@ const routines: Record<string, RoutineTip[]> = {
   ],
 };
 
+// Common markers that PDF analyses import but that have no nutrient product match.
+// They get their own actionable tips instead of falling through to general advice.
+const hemoglobinTips: RoutineTip[] = [
+  { icon: "food", title: "Eisenreiche Mahlzeiten wählen", text: "Hülsenfrüchte, Vollkornprodukte oder je nach Ernährungsweise mageres Fleisch liefern Eisen aus dem Essen." },
+  { icon: "food", title: "Mit Vitamin C kombinieren", text: "Paprika, Zitrusfrüchte oder Beeren zur Mahlzeit können die Eisenaufnahme aus der Nahrung unterstützen." },
+  { icon: "clock", title: "Kaffee und Tee versetzt trinken", text: "Kaffee und schwarzer Tee mit etwas Abstand zu den Mahlzeiten genießen." },
+  { icon: "heart", title: "Ursache ärztlich einordnen", text: "Ein Hämoglobinwert unter dem Zielbereich kann verschiedene Ursachen haben. Lass ihn ärztlich abklären, besonders bei Müdigkeit oder Schwindel." },
+];
+const lipidTips: RoutineTip[] = [
+  { icon: "walk", title: "Bewegung in den Alltag einbauen", text: "Zügiges Gehen, Radfahren oder Treppensteigen an den meisten Tagen wirken sich günstig auf die Blutfette aus." },
+  { icon: "food", title: "Gute Fette wählen", text: "Olivenöl, Nüsse und fetter Seefisch statt vielen gehärteten und gesättigten Fetten einsetzen." },
+  { icon: "food", title: "Ballaststoffe ergänzen", text: "Haferflocken, Hülsenfrüchte und Gemüse liefern Ballaststoffe, die zur Blutfettbalance beitragen können." },
+];
+const glucoseTips: RoutineTip[] = [
+  { icon: "clock", title: "Regelmäßige Mahlzeiten einnehmen", text: "Ausgewogene Mahlzeiten mit Protein und Ballaststoffen halten die Energie über den Tag gleichmäßiger." },
+  { icon: "food", title: "Ballaststoffe bevorzugen", text: "Vollkorn, Hülsenfrüchte und Gemüse statt stark verarbeiteten Kohlenhydraten wählen." },
+  { icon: "walk", title: "Nach dem Essen bewegen", text: "Ein kurzer Spaziergang nach der Mahlzeit kann den Blutzuckerverlauf unterstützen." },
+];
+const thyroidTips: RoutineTip[] = [
+  { icon: "food", title: "Selen und Jod beachten", text: "Seefisch, Eier und Nüsse liefern Nährstoffe, die für die Schilddrüse relevant sind." },
+  { icon: "heart", title: "Werte im Zusammenhang besprechen", text: "Schilddrüsenwerte werden immer im Gesamtbild betrachtet. Nimm deine Ergebnisse zum nächsten Arzttermin mit." },
+];
+
+const specialRoutines: { pattern: RegExp; tips: RoutineTip[] }[] = [
+  { pattern: /h[aä]moglobin|hemoglobin|\bhb\b/i, tips: hemoglobinTips },
+  { pattern: /cholesterin|cholesterol|\bldl\b|\bhdl\b|triglyzerid|triglycerid/i, tips: lipidTips },
+  { pattern: /hba1c|blutzucker|glucose|glukose/i, tips: glucoseTips },
+  { pattern: /\btsh\b|\bft3\b|\bft4\b|schilddr/i, tips: thyroidTips },
+];
+
 export function routineTips(marker: LabMarker): RoutineTip[] {
+  const text = `${marker.id} ${marker.name}`;
+  const special = specialRoutines.find((entry) => entry.pattern.test(text));
+  if (special) return special.tips;
   const category = markerCategory(marker);
   return category ? routines[category] ?? generalTips : generalTips;
 }
 
 export const generalTips: RoutineTip[] = [
-  { icon: "heart", title: "Befund einordnen lassen", text: "Besprich den niedrigen Wert und mögliche Ursachen mit deiner Ärztin oder deinem Arzt." },
-  { icon: "walk", title: "Gesunde Routinen beibehalten", text: "Regelmäßige Mahlzeiten, Bewegung und ausreichender Schlaf unterstützen dein allgemeines Wohlbefinden." },
+  { icon: "food", title: "Bunt und ausgewogen essen", text: "Gemüse, Vollkornprodukte und eine Proteinquelle in jeder Mahlzeit decken viele Nährstoffe ab." },
+  { icon: "walk", title: "Täglich in Bewegung bleiben", text: "Etwa 30 Minuten Bewegung am Tag – gerne in kleinen Etappen wie Treppensteigen oder Gehen." },
+  { icon: "clock", title: "Schlaf ernst nehmen", text: "Regelmäßige Schlafzeiten unterstützen Erholung und allgemeines Wohlbefinden." },
 ];
