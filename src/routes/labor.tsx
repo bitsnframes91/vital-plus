@@ -10,9 +10,9 @@ import { blobToBase64 } from "@/lib/record-wav";
 export const Route = createFileRoute("/labor")({
   head: () => ({
     meta: [
-      { title: "Laborwerte — Fairvital Health" },
+      { title: "Laborwerte — Vivo" },
       { name: "description", content: "Laborwerte erfassen, Verlauf verstehen und Nachkontrollen planen." },
-      { property: "og:title", content: "Laborwerte — Fairvital Health" },
+      { property: "og:title", content: "Laborwerte — Vivo" },
       { property: "og:description", content: "Deine Blutwerte im Verlauf – verständlich erklärt." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -121,7 +121,7 @@ function Labs() {
           <button className="w-full rounded-full bg-ink py-2.5 text-sm font-medium text-on-ink">Speichern</button>
         </form>
 
-        <p className="px-1 text-[12px] text-ink/40">Hinweis: Fairvital Health stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.</p>
+        <p className="px-1 text-[12px] text-ink/40">Hinweis: Vivo stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.</p>
       </div>
     </AppShell>
   );

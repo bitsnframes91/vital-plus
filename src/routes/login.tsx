@@ -9,9 +9,9 @@ export const Route = createFileRoute("/login")({
   validateSearch: (search: Record<string, unknown>) => ({ mode: search['mode'] === "register" ? "register" as const : "login" as const }),
   head: () => ({
     meta: [
-      { title: "Anmelden — Fairvital Health" },
+      { title: "Anmelden — Vivo" },
       { name: "description", content: "Mit deinem Fairvital Shop-Konto anmelden oder ein neues Konto anlegen." },
-      { property: "og:title", content: "Anmelden — Fairvital Health" },
+      { property: "og:title", content: "Anmelden — Vivo" },
       { property: "og:description", content: "Ein Konto für Shop und Gesundheits-App." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

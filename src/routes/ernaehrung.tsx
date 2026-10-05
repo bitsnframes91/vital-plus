@@ -10,9 +10,9 @@ import type { Meal } from "@/lib/data";
 export const Route = createFileRoute("/ernaehrung")({
   head: () => ({
     meta: [
-      { title: "Ernährung — Fairvital Health" },
+      { title: "Ernährung — Vivo" },
       { name: "description", content: "Ernährungstagebuch: Mahlzeiten erfassen und Kalorien, Protein, Ballaststoffe, Kohlenhydrate und Fett im Blick behalten." },
-      { property: "og:title", content: "Ernährung — Fairvital Health" },
+      { property: "og:title", content: "Ernährung — Vivo" },
       { property: "og:description", content: "Mahlzeiten einfach erfassen und Nährwerte verstehen." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

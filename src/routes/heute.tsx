@@ -9,15 +9,17 @@ import { reportMarkers, todaySuggestion } from "@/lib/plan-products";
 import { Package } from "lucide-react";
 import productImg from "@/assets/product-d3k2.jpg";
 import acerolaImg from "@/assets/fairvital-acerola.webp.asset.json";
-import forestHero from "@/assets/forest-mist-hero.jpg";
+import lakeHero from "@/assets/vivo-lake.jpg";
+import { VivoBrand } from "@/components/VivoBrand";
+import { Activity, ChevronRight, Footprints, Heart, Leaf, Moon, Plus, Salad, UserRound, Watch } from "lucide-react";
 import { dailyGoals } from "@/lib/daily-goals";
 
 export const Route = createFileRoute("/heute")({
   head: () => ({
     meta: [
-      { title: "Heute — Fairvital Health" },
+      { title: "Heute — Vivo" },
       { name: "description", content: "Dein persönliches Tages-Dashboard für Ernährung, Vitalstoffe und Laborwerte." },
-      { property: "og:title", content: "Heute — Fairvital Health" },
+      { property: "og:title", content: "Heute — Vivo" },
       { property: "og:description", content: "Messen, verstehen, handeln, überprüfen – dein Gesundheitsbegleiter von Fairvital." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -37,49 +39,57 @@ function Today() {
   const { fromPlan, goals: actions } = dailyGoals(s.aiPlan);
   const selectedGoal = actions.find((a) => a.key === selectedGoalKey);
   const done = actions.filter((a) => s.actionsDone[a.key]).length;
-  const today = new Date().toLocaleDateString("de-DE", { weekday: "short", day: "numeric", month: "long" });
 
   return (
     <AppShell>
-      <div className="relative overflow-hidden bg-header px-6 pb-24 pt-9">
-        <img src={forestHero} alt="Nebeliger Weg zwischen Bäumen" width={1920} height={960} className="absolute inset-0 size-full object-cover object-center" />
-        <div className="today-image-overlay pointer-events-none absolute inset-0" aria-hidden="true" />
+      <header className="vivo-today-header relative px-6 pt-8 pb-7">
+        <img src={lakeHero} alt="Morgensonne über einem ruhigen Bergsee" width={1536} height={768} fetchPriority="high" className="absolute inset-0 size-full object-cover object-center" />
+        <div className="today-image-overlay absolute inset-0" aria-hidden="true" />
         <div className="relative">
           <div className="flex items-center justify-between">
-            <span className="font-data text-[12px] uppercase tracking-normal text-on-ink/40">{today}</span>
-            <div className="flex gap-1.5">
-              <Link to="/uhr" className="rounded-full px-2.5 py-1 text-[12px] text-on-ink/70 ring-1 ring-on-ink/15">Uhr</Link>
-              <Link to="/profil" className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] text-on-ink/70 ring-1 ring-on-ink/15">
-                <span className="size-1.5 rounded-full bg-fv" />Profil
-              </Link>
+            <Link to="/" aria-label="Vivo Startseite"><VivoBrand /></Link>
+            <div className="flex gap-2">
+              <Button asChild variant="ghost" size="icon" className="rounded-full text-muted-foreground" title="Uhr"><Link to="/uhr"><Watch /></Link></Button>
+              <Button asChild variant="ghost" size="icon" className="rounded-full bg-warm-soft text-muted-foreground" title="Profil"><Link to="/profil"><UserRound /></Link></Button>
             </div>
           </div>
-          <h1 className="mt-5 text-balance text-[36px] font-semibold leading-[1.05] text-on-ink">
-            Guten Morgen,<br />{s.name}.
-          </h1>
-          <p className="mt-2 max-w-[34ch] text-pretty text-sm text-on-ink/55">
-            Deine Werte bewegen sich in die richtige Richtung. Heute warten {actions.length - done} Aktionen auf dich.
-          </p>
-          {!s.onboarded && (
-            <Link to="/onboarding" className="mt-4 inline-flex rounded-full bg-fv px-4 py-2 text-sm font-medium text-ink">
-              Gesundheitsprofil anlegen →
-            </Link>
-          )}
+          <p className="mt-8 text-[13px] font-medium text-foreground">Guten Morgen, {s.name}.</p>
+          <h1 className="mt-1 max-w-[280px] text-[29px] font-bold leading-[1.15] text-foreground">Gesünder leben.<br />Glücklicher sein.</h1>
+          <Button type="button" variant="ghost" onClick={() => { if (actions[0]) setSelectedGoalKey(actions[0].key); }} disabled={!actions.length} className="vivo-focus mt-6 h-auto min-h-[116px] w-full items-start justify-start gap-3 whitespace-normal rounded-2xl bg-card/95 px-4 py-4 text-left hover:bg-card">
+            <span className="grid size-12 shrink-0 place-items-center rounded-full bg-teal-soft text-fresh"><Leaf className="size-7" /></span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[10px] font-medium text-muted-foreground">Dein Fokus heute</span>
+              <span className="mt-1 block text-[15px] font-bold leading-snug">Kleine Schritte.<br />Große Veränderung.</span>
+              <span className="mt-1.5 block text-[11px] font-medium leading-relaxed text-muted-foreground">Bewegen, bewusst essen<br />und zur Ruhe kommen.</span>
+            </span>
+            <span className="my-auto grid size-7 shrink-0 place-items-center rounded-full bg-muted text-fv-deep"><ChevronRight /></span>
+          </Button>
         </div>
-      </div>
+      </header>
 
-      <div className="relative -mt-14 px-4">
-        <div className="glass rounded-[20px] px-5 py-4">
-          <div className="grid grid-cols-4 gap-1.5 text-center">
-            {["Messen", "Verstehen", "Handeln", "Prüfen"].map((w, i) => (
-              <div key={w}>
-                <div className={`font-data text-[11px] tracking-normal ${i === 2 ? "text-fv" : "text-on-ink/45"}`}>0{i + 1}</div>
-                <div className="mt-0.5 text-[12px] font-medium text-on-ink/85">{w}</div>
-              </div>
-            ))}
-          </div>
+      <section className="px-6 pt-1">
+        <div className="mb-3 flex items-center justify-between"><h2 className="text-[14px] font-bold">Dein Fortschritt</h2><Link to="/gesundheit" className="text-[11px] text-fv-deep">Alle ansehen</Link></div>
+        <div className="grid grid-cols-3 gap-3">
+          <Link to="/gesundheit" className="vivo-progress bg-teal-soft text-fv-deep">
+            <Footprints className="mx-auto size-6" /><div className="mt-2 text-[20px] font-bold text-foreground">{s.body?.steps != null ? s.body.steps.toLocaleString("de-DE") : "—"}</div><div className="text-[10px] text-muted-foreground">Schritte</div><MiniBars tone="teal" />
+          </Link>
+          <Link to="/plan" className="vivo-progress bg-fresh-soft text-fresh">
+            <Heart className="mx-auto size-6 fill-current" /><div className="mt-2 text-[20px] font-bold text-foreground">{done}/{actions.length}</div><div className="text-[10px] text-muted-foreground">Tagesziele</div><MiniBars tone="fresh" />
+          </Link>
+          <Link to="/gesundheit" className="vivo-progress bg-sky-soft text-sky">
+            <Moon className="mx-auto size-6 fill-current" /><div className="mt-2 text-[20px] font-bold text-foreground">{s.body?.sleepHours != null ? `${s.body.sleepHours.toLocaleString("de-DE")} h` : "—"}</div><div className="text-[10px] text-muted-foreground">Schlaf</div><MiniBars tone="sky" />
+          </Link>
         </div>
-      </div>
+      </section>
+      <section className="px-6 pt-6 pb-3">
+        <h2 className="mb-3 text-[14px] font-bold">Schnellzugriff</h2>
+        <div className="grid grid-cols-4 gap-3 text-center">
+          <Link to="/gesundheit" className="vivo-quick"><span className="bg-teal-soft text-fv-deep"><Activity /></span><span>Bewegung</span></Link>
+          <Link to="/plan" className="vivo-quick"><span className="bg-fresh-soft text-fresh"><Leaf /></span><span>Mein Plan</span></Link>
+          <Link to="/ernaehrung" className="vivo-quick"><span className="bg-fresh-soft text-fresh"><Salad /></span><span>Ernährung</span></Link>
+          <Link to="/labor" className="vivo-quick"><span className="bg-sky-soft text-sky"><Plus /></span><span>Labor</span></Link>
+        </div>
+      </section>
 
       <section className="mt-4 px-4">
         <div className="flex items-baseline justify-between px-1 pb-2">
@@ -202,4 +212,10 @@ function Today() {
       </section>
     </AppShell>
   );
+}
+
+function MiniBars({ tone }: { tone: "teal" | "fresh" | "sky" }) {
+  return <div aria-hidden="true" className={`vivo-mini-bars vivo-mini-bars-${tone}`}>
+    {[12, 22, 16, 30, 21, 26, 35, 43, 52].map((height, i) => <span key={i} style={{ height: `${height}%` }} />)}
+  </div>;
 }
