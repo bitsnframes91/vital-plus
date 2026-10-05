@@ -51,8 +51,8 @@ function Profile() {
     if (error) {
       const m = error.message.toLowerCase();
       const secs = m.match(/after (\d+) seconds?/)?.[1];
-      if (secs) return setErr(`Ein Code wurde gerade erst gesendet. Bitte warte ${secs} Sekunden und versuche es dann erneut – oder nutze den letzten Code aus deinem Postfach.`);
-      if (error.status === 429 || m.includes("rate limit")) return setErr("Es wurden in kurzer Zeit zu viele E-Mails gesendet. Bitte versuche es in etwa einer Stunde erneut – oder nutze den letzten Code aus deinem Postfach.");
+      if (secs) { setStep("code"); return setErr(`Ein Code wurde gerade erst gesendet. Bitte warte ${secs} Sekunden und versuche es dann erneut – oder nutze den letzten Code aus deinem Postfach.`); }
+      if (error.status === 429 || m.includes("rate limit")) { setStep("code"); return setErr("Es wurden in kurzer Zeit zu viele E-Mails gesendet. Bitte versuche es in etwa einer Stunde erneut – oder nutze den letzten Code aus deinem Postfach."); }
       return setErr("Code konnte nicht gesendet werden. Bitte später erneut versuchen.");
     }
     setStep("code");
