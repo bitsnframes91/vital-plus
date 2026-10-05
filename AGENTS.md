@@ -23,3 +23,6 @@
 - The public introduction is `/`, while the existing interactive daily dashboard lives at `/heute`; sign-in continues into `/heute`. Why: preserve the health workflow alongside the requested public home screen.
 - The Gesundheit activity summary renders unavailable measurements as empty states, independently of manually entered steps. Why: step totals cannot establish measured activity energy, distance, or pace.
 - Expanded activity trends live on a dedicated `/trends` route reached from Gesundheit. Why: detailed metric explanations need a full page with a clear return path rather than a popup.
+
+- Nutrition targets are computed centrally from saved adult body and activity data using maintenance estimates, never BMI-based calorie restriction. Why: targets must update with profile changes without implying a medical limit.
+- Lab plan preparation passes bounded meal-log context to the AI alongside the report. Why: dietary advice should reflect logged choices without diagnosing deficiencies from meals alone.

@@ -51,7 +51,7 @@ function Labs() {
     setProgress(4);
     setMsg(null);
     try {
-      const r = await analyze({ data: { filename: file.name, base64: await blobToBase64(file), knownIds: s.labs.map((l) => l.id) } });
+      const r = await analyze({ data: { filename: file.name, base64: await blobToBase64(file), knownIds: s.labs.map((l) => l.id), meals: s.meals.slice(-100).map(({ name, date, kcal, protein, fiber, carbs, fat }) => ({ name, date, kcal, protein, fiber, carbs, fat })) } });
       if (!r.ok) { setProgress(0); return setMsg({ ok: false, text: r.error }); }
       let labs: LabMarker[] = [...s.labs];
       for (const m of r.markers) {
