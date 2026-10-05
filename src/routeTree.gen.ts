@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BestaetigtRouteImport } from './routes/bestaetigt'
 import { Route as ErnaehrungRouteImport } from './routes/ernaehrung'
 import { Route as GesundheitRouteImport } from './routes/gesundheit'
 import { Route as HeuteRouteImport } from './routes/heute'
@@ -23,6 +24,11 @@ import { Route as UhrRouteImport } from './routes/uhr'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BestaetigtRoute = BestaetigtRouteImport.update({
+  id: '/bestaetigt',
+  path: '/bestaetigt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ErnaehrungRoute = ErnaehrungRouteImport.update({
@@ -73,6 +79,7 @@ const UhrRoute = UhrRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bestaetigt': typeof BestaetigtRoute
   '/ernaehrung': typeof ErnaehrungRoute
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bestaetigt': typeof BestaetigtRoute
   '/ernaehrung': typeof ErnaehrungRoute
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
@@ -98,6 +106,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/bestaetigt': typeof BestaetigtRoute
   '/ernaehrung': typeof ErnaehrungRoute
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
@@ -112,6 +121,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/bestaetigt'
     | '/ernaehrung'
     | '/gesundheit'
     | '/heute'
@@ -124,6 +134,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/bestaetigt'
     | '/ernaehrung'
     | '/gesundheit'
     | '/heute'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/bestaetigt'
     | '/ernaehrung'
     | '/gesundheit'
     | '/heute'
@@ -149,6 +161,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BestaetigtRoute: typeof BestaetigtRoute
   ErnaehrungRoute: typeof ErnaehrungRoute
   GesundheitRoute: typeof GesundheitRoute
   HeuteRoute: typeof HeuteRoute
@@ -167,6 +180,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bestaetigt': {
+      id: '/bestaetigt'
+      path: '/bestaetigt'
+      fullPath: '/bestaetigt'
+      preLoaderRoute: typeof BestaetigtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ernaehrung': {
@@ -237,6 +257,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BestaetigtRoute: BestaetigtRoute,
   ErnaehrungRoute: ErnaehrungRoute,
   GesundheitRoute: GesundheitRoute,
   HeuteRoute: HeuteRoute,
