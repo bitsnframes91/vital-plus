@@ -1,11 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { AppShell, Icon, Sparkbars } from "@/components/AppShell";
+import { AppShell, Icon } from "@/components/AppShell";
+import { RangeBar } from "@/components/RangeBar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useStore } from "@/lib/store";
 import { fmtDate, status } from "@/lib/data";
-import { reportMarkers } from "@/lib/plan-products";
+import { productForMarker, reportMarkers } from "@/lib/plan-products";
 import { dailyTip, msUntilNextTip } from "@/lib/daily-tip";
 import lakeHero from "@/assets/vivo-lake.jpg";
 import { MovementDialog } from "@/components/MovementDialog";
@@ -44,7 +45,7 @@ function Today() {
   const [selectedGoalKey, setSelectedGoalKey] = useState<string | null>(null);
   const measured = reportMarkers(s.aiPlan, s.labs);
   const featured = measured[0];
-  const vals = featured?.history.map((h) => h.value) ?? [];
+  const featuredProduct = featured ? productForMarker(featured) : undefined;
   const last = featured?.history.at(-1);
   const { fromPlan, goals: actions } = dailyGoals(s.aiPlan);
   const selectedGoal = actions.find((a) => a.key === selectedGoalKey);
