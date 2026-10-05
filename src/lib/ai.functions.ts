@@ -96,3 +96,18 @@ Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,
     if (!meals.length) return { ok: false as const, error: `Verstanden: „${transcript}“ – aber keine Mahlzeit erkannt.` };
     return { ok: true as const, transcript, meals: meals as { label: string; name: string; protein: number; kcal: number; fiber: number; carbs: number; fat: number }[] };
   });
+
+export const mealNutrition = createServerFn({ method: "POST" })
+  .inputValidator((d) => z.object({ name: z.string().trim().min(2).max(200) }).parse(d))
+  .handler(async ({ data }) => {
+    const r = await askJson([
+      {
+        type: "input_text",
+        text: `Schätze realistische Nährwerte für eine übliche Portion dieser Mahlzeit: "${data.name.replace(/"/g, "'")}".
+Antworte NUR mit JSON: {"kcal":number,"protein":number,"fiber":number,"carbs":number,"fat":number} (kcal bzw. Gramm).`,
+      },
+    ]);
+    if (!r.ok) return r;
+    const num = (v: any) => Math.max(0, Math.round(Number(v) || 0));
+    return { ok: true as const, kcal: num(r.data.kcal), protein: num(r.data.protein), fiber: num(r.data.fiber), carbs: num(r.data.carbs), fat: num(r.data.fat) };
+  });
