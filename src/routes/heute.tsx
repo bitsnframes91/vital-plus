@@ -114,7 +114,7 @@ function Today() {
           <span className="eyebrow">Tagesziele{fromPlan ? " · aus deinem Plan" : ""}</span>
           <span className="font-data text-[12px] text-fv-deep">{done}/{actions.length}</span>
         </div>
-        {!fromPlan && (
+        {!fromPlan && !allDone && (
           <Link to="/labor" className="mb-2 block rounded-[16px] border border-dashed px-4 py-3 text-[13px] text-ink/55">
             Beispielziele. Lade deinen Laborbefund hoch – dann entstehen deine Tagesziele aus deinem persönlichen Plan →
           </Link>
@@ -124,9 +124,27 @@ function Today() {
             Keine Schritte für heute ausgewählt. Wähle sie in deinem Plan aus →
           </Link>
         )}
-        <div className="space-y-2">
-          {actions.map((a) => {
-            const ok = s.actionsDone[a.key];
+        {allDone ? (
+          <Link
+            to="/plan"
+            aria-label="Alle Tagesziele erreicht – Tag abgeschlossen"
+            className="card-surface flex w-full items-center gap-3 rounded-[16px] bg-fresh-soft/60 p-4 text-left"
+          >
+            <span className="grid size-12 shrink-0 place-items-center rounded-full bg-fresh text-foreground">
+              <Icon d="M4 12l5 5L20 6" className="size-6" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[16px] font-bold leading-snug">Alle Tagesziele erreicht</span>
+              <span className="mt-0.5 block text-[12px] leading-snug text-ink/45">
+                Tag abgeschlossen · {streakN === 1 ? "Tag 1 in Folge" : `${streakN} Tage in Folge`} · morgen starten neue Ziele
+              </span>
+            </span>
+            <Icon d="m9 18 6-6-6-6" className="size-4 shrink-0 text-ink/40" />
+          </Link>
+        ) : (
+          <div className="space-y-2">
+            {actions.map((a) => {
+              const ok = s.actionsDone[a.key];
             return (
               <Button
                 key={a.key}
