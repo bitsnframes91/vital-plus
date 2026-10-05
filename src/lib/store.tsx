@@ -52,7 +52,7 @@ function migrate(parsed: any) {
   if (parsed.actionsDone) {
     const today = new Date().toISOString().slice(0, 10);
     if (parsed.weekLog[today] === undefined) {
-      parsed.weekLog[today] = Object.entries(parsed.actionsDone).filter(([k, v]) => k.startsWith(today) && v).length;
+      parsed.weekLog[today] = Object.entries(parsed.actionsDone).filter(([k, v]) => (k.startsWith(today) || !k.includes(":")) && v).length;
     }
   }
   return parsed;
@@ -108,7 +108,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const next = { ...prev, ...p };
       const today = new Date().toISOString().slice(0, 10);
       if (p.actionsDone) {
-        next.weekLog = { ...prev.weekLog, [today]: Object.entries(p.actionsDone).filter(([k, v]) => k.startsWith(today) && v).length };
+        next.weekLog = { ...prev.weekLog, [today]: Object.entries(p.actionsDone).filter(([k, v]) => (k.startsWith(today) || !k.includes(":")) && v).length };
       }
       if (p.body && p.body.weightKg != null) {
         next.weightLog = { ...prev.weightLog, [today]: p.body.weightKg };
