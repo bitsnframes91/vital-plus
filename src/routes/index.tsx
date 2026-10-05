@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import forestHero from "@/assets/vivo-lake.jpg";
 import mark from "@/assets/vivo-mark.png";
-import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/")({
   head: () => ({
