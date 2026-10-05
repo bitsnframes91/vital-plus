@@ -74,6 +74,7 @@
   --labor-image-overlay: linear-gradient(90deg, oklch(0.99 0 0 / 0.96) 0%, oklch(0.99 0 0 / 0.9) 38%, oklch(0.99 0 0 / 0.55) 72%, oklch(0.99 0 0 / 0.3) 100%);
   --ridge-image-overlay: linear-gradient(90deg, oklch(0.99 0 0 / 0.96) 0%, oklch(0.99 0 0 / 0.92) 40%, oklch(0.99 0 0 / 0.78) 62%, oklch(0.99 0 0 / 0.45) 85%, oklch(0.99 0 0 / 0.25) 100%), linear-gradient(0deg, oklch(0.99 0 0 / 0.3) 0%, transparent 45%);
   --citrus-image-overlay: linear-gradient(90deg, oklch(0.99 0 0 / 0.94) 0%, oklch(0.99 0 0 / 0.86) 40%, oklch(0.99 0 0 / 0.6) 70%, oklch(0.99 0 0 / 0.22) 100%);
+  --profile-image-overlay: linear-gradient(90deg, oklch(0.99 0 0 / 0.96) 0%, oklch(0.99 0 0 / 0.92) 34%, oklch(0.99 0 0 / 0.72) 56%, oklch(0.99 0 0 / 0.34) 80%, oklch(0.99 0 0 / 0.18) 100%), linear-gradient(0deg, oklch(0.99 0 0 / 0.3) 0%, transparent 48%);
   --background: var(--mist);
   --foreground: var(--ink);
   --card: oklch(1 0 0);
@@ -122,6 +123,7 @@
 @utility labor-image-overlay { background-image: var(--labor-image-overlay); }
 @utility ridge-image-overlay { background-image: var(--ridge-image-overlay); }
 @utility citrus-image-overlay { background-image: var(--citrus-image-overlay); }
+@utility profile-image-overlay { background-image: var(--profile-image-overlay); }
 @utility card-surface {
   background: var(--card);
   border-radius: 20px;
