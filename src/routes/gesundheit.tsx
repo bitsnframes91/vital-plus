@@ -81,7 +81,7 @@ function HealthTrends() {
   );
 }
 
-function NumInput({ value, onSave, placeholder, unit }: { value: number | null; onSave: (v: number | null) => void; placeholder: string; unit: string }) {
+function NumInput({ value, onSave, placeholder, unit, onDraftChange }: { value: number | null; onSave: (v: number | null) => void; placeholder: string; unit: string; onDraftChange?: (text: string) => void }) {
   const [text, setText] = useState(value?.toString() ?? "");
   return (
     <form
@@ -94,7 +94,10 @@ function NumInput({ value, onSave, placeholder, unit }: { value: number | null; 
     >
       <input
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => {
+          setText(e.target.value);
+          onDraftChange?.(e.target.value);
+        }}
         inputMode="decimal"
         placeholder={placeholder}
         className="w-full rounded-xl bg-muted px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
@@ -108,8 +111,19 @@ function Health() {
   const { s, set } = useStore();
   const b = s.body;
   const setBody = (p: Partial<typeof b>) => set({ body: { ...b, ...p } });
-  const bmi = calcBmi(b.weightKg, b.heightCm ?? null);
+  // Live drafts so BMI and its color react while typing, before saving.
+  const [weightDraft, setWeightDraft] = useState<string | null>(null);
+  const [heightDraft, setHeightDraft] = useState<string | null>(null);
+  const toNum = (t: string | null, stored: number | null): number | null => {
+    if (t == null) return stored;
+    const n = Number(t.replace(",", "."));
+    return t.trim() && !isNaN(n) && n > 0 ? n : null;
+  };
+  const liveWeight = toNum(weightDraft, b.weightKg);
+  const liveHeight = toNum(heightDraft, b.heightCm ?? null);
+  const bmi = calcBmi(liveWeight, liveHeight);
   const cat = bmi != null ? bmiCategory(bmi) : null;
+  const goal = stepGoalFor(bmi);
 
   return (
     <AppShell>
@@ -125,7 +139,7 @@ function Health() {
           <div className="flex justify-center"><IconScale /></div>
           <div className="mt-2 text-[18px] font-semibold">Gewicht</div>
           <p className="mt-1 text-[14px] text-ink/55">{b.weightKg ? `Aktuell: ${b.weightKg} kg` : "Noch keine Messung"}</p>
-          <NumInput value={b.weightKg} onSave={(v) => setBody({ weightKg: v, stepGoal: stepGoalFor(calcBmi(v, b.heightCm ?? null)) })} placeholder="z. B. 72,5" unit="kg" />
+          <NumInput value={b.weightKg} onDraftChange={setWeightDraft} onSave={(v) => setBody({ weightKg: v, stepGoal: stepGoalFor(calcBmi(v, liveHeight)) })} placeholder="z. B. 72,5" unit="kg" />
         </div>
 
         <div className="card-surface p-5">
@@ -138,7 +152,7 @@ function Health() {
           {bmi != null && cat && (
             <p className={`mt-1 text-[15px] font-semibold ${cat.className}`}>BMI {bmi.toFixed(1).replace(".", ",")} · {cat.label}</p>
           )}
-          <NumInput value={b.heightCm ?? null} onSave={(v) => setBody({ heightCm: v, stepGoal: stepGoalFor(calcBmi(b.weightKg, v)) })} placeholder="Größe" unit="cm" />
+          <NumInput value={b.heightCm ?? null} onDraftChange={setHeightDraft} onSave={(v) => setBody({ heightCm: v, stepGoal: stepGoalFor(calcBmi(liveWeight, v)) })} placeholder="Größe" unit="cm" />
           <NumInput value={b.waistCm} onSave={(v) => setBody({ waistCm: v })} placeholder="Taillenumfang" unit="cm" />
         </div>
 
@@ -156,7 +170,7 @@ function Health() {
           <p className="mt-1 text-[14px] text-ink/55">
             {b.steps ? `Heute: ${b.steps.toLocaleString("de-DE")} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}
           </p>
-          {b.stepGoal ? <p className="mt-1 text-[14px] text-ink/55">Dein Tagesziel: {b.stepGoal.toLocaleString("de-DE")} Schritte (aus deinem BMI)</p> : null}
+          {(goal ?? b.stepGoal) ? <p className="mt-1 text-[14px] text-ink/55">Dein Tagesziel: {(goal ?? b.stepGoal)!.toLocaleString("de-DE")} Schritte (aus deinem BMI)</p> : null}
           <NumInput value={b.steps ?? b.stepGoal ?? null} onSave={(v) => setBody({ steps: v })} placeholder="z. B. 8000" unit="Speichern" />
         </div>
 
