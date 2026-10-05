@@ -6,6 +6,7 @@ import { useStore } from "@/lib/store";
 import { mealFromVoice } from "@/lib/ai.functions";
 import { blobToBase64, recordWav } from "@/lib/record-wav";
 import type { Meal } from "@/lib/data";
+import ernaehrungVeg from "@/assets/ernaehrung-veg.jpg.asset.json";
 
 export const Route = createFileRoute("/ernaehrung")({
   head: () => ({
@@ -96,7 +97,7 @@ function Nutrition() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow="Ernährung" title="Was hast du heute gegessen?" sub="Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett." />
+      <PageHeader eyebrow="Ernährung" title="Was hast du heute gegessen?" sub="Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett." subClass="max-w-[26ch]" image={ernaehrungVeg.url} imageAlt="Angeschnittene Orangenscheibe in leuchtend orangefarbenem Saft mit schwebenden Tropfen" imageOverlay="citrus-image-overlay" />
       <div className="space-y-4 px-4 pt-4">
         <div className="grid grid-cols-2 gap-3">
           {statCards.map((c) => (
