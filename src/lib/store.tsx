@@ -78,8 +78,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const raw = localStorage.getItem(KEY);
+    let hadAccountCache = false;
     if (raw) try {
       const cached = migrate(JSON.parse(raw));
+      hadAccountCache = Boolean(cached.account);
       // Account data is restored only after the current identity is verified.
       if (!cached.account) setS({ ...initial, ...cached });
     } catch { /* ignore */ }
@@ -89,7 +91,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         userRef.current = null;
         if (timer.current) clearTimeout(timer.current);
         setS((p) => {
-          if (signedOut || p.account || (raw && JSON.parse(raw)?.account)) {
+          if (signedOut || p.account || hadAccountCache) {
             localStorage.removeItem(KEY);
             return { ...initial };
           }
