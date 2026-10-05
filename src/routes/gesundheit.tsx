@@ -45,13 +45,13 @@ function IconSteps() {
 }
 function HealthTrends() {
   const metrics = [
-    { name: "Bewegung", unit: "kcal/Tag", color: "text-trend-move" },
-    { name: "Distanz", unit: "km/Tag", color: "text-trend-distance" },
-    { name: "Gehtempo", unit: "min/km", color: "text-trend-walk" },
-    { name: "Lauftempo", unit: "min/km", color: "text-trend-run" },
+    { name: "Bewegung", unit: "kcal/Tag", color: "text-trend-move", soft: "bg-trend-move-soft" },
+    { name: "Distanz", unit: "km/Tag", color: "text-trend-distance", soft: "bg-trend-distance-soft" },
+    { name: "Gehtempo", unit: "min/km", color: "text-trend-walk", soft: "bg-trend-walk-soft" },
+    { name: "Lauftempo", unit: "min/km", color: "text-trend-run", soft: "bg-trend-run-soft" },
   ];
   return (
-    <section aria-labelledby="health-trends-title" className="rounded-[20px] bg-trend-surface p-5 text-trend-foreground sm:p-6">
+    <section aria-labelledby="health-trends-title" className="card-surface p-5 text-trend-foreground sm:p-6">
       <div className="flex items-center justify-between gap-4">
         <h2 id="health-trends-title" className="text-[26px] font-bold">Trends</h2>
         <Dialog>
@@ -70,7 +70,7 @@ function HealthTrends() {
       <div className="mt-6 space-y-7">
         {metrics.map((metric) => (
           <div key={metric.name} className="flex items-center gap-4">
-            <span aria-hidden="true" className={`grid size-12 shrink-0 place-items-center rounded-full bg-trend-icon ${metric.color}`}>
+            <span aria-hidden="true" className={`grid size-12 shrink-0 place-items-center rounded-full ${metric.soft} ${metric.color}`}>
               <Minus className="size-7" strokeWidth={4} />
             </span>
             <div className="min-w-0">
