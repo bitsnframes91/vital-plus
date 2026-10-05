@@ -23,9 +23,9 @@ export function AppShell({ children }: { children: ReactNode }) {
   const navIcons = [Home, Salad, HeartPulse, FlaskConical, ClipboardList, UserRound];
   return (
     <div className="min-h-screen w-full bg-mist sm:grid sm:place-items-start sm:p-4">
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col overflow-hidden bg-background sm:min-h-[860px] sm:rounded-[28px] sm:ring-1 sm:ring-border">
-        <main className="flex-1 pb-28">{children}</main>
-        <nav aria-label="Hauptnavigation" className="fixed bottom-0 left-1/2 z-30 w-full max-w-[440px] -translate-x-1/2 border-t border-border bg-card/95 px-2 pb-5 pt-3 backdrop-blur-md">
+      <div className="relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col overflow-hidden bg-background sm:h-[calc(100dvh-2rem)] sm:min-h-0 sm:rounded-[28px] sm:ring-1 sm:ring-border">
+        <main className="flex-1 pb-28 sm:min-h-0 sm:overflow-y-auto">{children}</main>
+        <nav aria-label="Hauptnavigation" className="fixed bottom-0 left-1/2 z-30 w-full max-w-[440px] -translate-x-1/2 border-t border-border bg-card/95 px-2 pb-5 pt-3 backdrop-blur-md sm:absolute">
           <div className="grid grid-cols-6">
             {tabs.map((t, i) => {
               const NavIcon = navIcons[i];
