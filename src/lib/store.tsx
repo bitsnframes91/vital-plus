@@ -72,7 +72,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       const { account: _a, ...state } = next;
-      void supabase.from("user_data").upsert({ user_id: uid, state: state as any, updated_at: new Date().toISOString() });
+      // Query builders are lazy: the request is only sent once the promise is consumed.
+      supabase
+        .from("user_data")
+        .upsert({ user_id: uid, state: state as any, updated_at: new Date().toISOString() })
+        .then(({ error }) => { if (error) console.error("Vivo: saving account data failed", error.message); });
     }, 800);
   };
 
