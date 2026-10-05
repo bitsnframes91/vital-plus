@@ -4,6 +4,7 @@ const markerAliases: Record<string, string[]> = {
   vitd: ["vitd", "vitamin d", "25 oh vitamin d", "25 hydroxy vitamin d", "calcidiol"],
   omega: ["omega", "omega 3", "omega 3 index", "epa dha"],
   hematocrit: ["hamatokrit", "hematocrit", "hct", "pcv"],
+  glucose: ["blutzucker", "glucose", "glukose", "fbs"],
   ferritin: ["ferritin", "iron", "eisen", "transferrin saturation", "transferrinsattigung", "hamoglobin", "hemoglobin"],
   b12: ["b12", "vitamin b12", "holo tc", "holotranscobalamin", "cobalamin"],
   folate: ["folate", "folsaure", "folic acid", "vitamin b9"],
@@ -32,16 +33,20 @@ export function markerCategory(marker: LabMarker) {
   )?.[0];
 }
 
-function productForMarker(marker: LabMarker) {
-  return products.find((candidate) => candidate.relatedMarker === markerCategory(marker));
+// A product supports a value outside range in its own direction (most help low values; e.g. Chrom helps high blood sugar).
+export function productForMarker(marker: LabMarker): Product | undefined {
+  if (!marker.history.length) return undefined;
+  const label = status(marker).label;
+  const category = markerCategory(marker);
+  return products.find((candidate) => candidate.relatedMarker === category
+    && label === ((candidate.helpsWhen ?? "low") === "low" ? "Niedrig" : "Hoch"));
 }
 
-// Offer only catalog matches for a measured value below range, never for a normal or high value.
+// Offer only catalog matches for a measured value outside range in the product's direction, never for a normal value.
 export function suggestedProducts(plan: { items: unknown[] } | null, labs: LabMarker[]): { marker: LabMarker; product: Product }[] {
   if (!plan?.items.length) return [];
   const seen = new Set<string>();
   return labs.flatMap((marker) => {
-    if (!marker.history.length || status(marker).label !== "Niedrig") return [];
     const product = productForMarker(marker);
     if (!product || seen.has(product.shopwareId)) return [];
     seen.add(product.shopwareId);

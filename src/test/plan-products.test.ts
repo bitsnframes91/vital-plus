@@ -64,3 +64,9 @@ describe("Fairvital plan suggestions", () => {
     expect(catalogSpotlight.url).toContain("fairvital.com/Acerola-mit-Hesperidin");
   });
 });
+import { productForMarker } from "@/lib/plan-products";
+describe("blood sugar product", () => {
+  const fbs = (value: number) => ({ id: "pdf-fbs", name: "Nüchternblutzucker (FBS)", unit: "mg/dl", target: [60, 110] as [number, number], history: [{ date: "2025-01-25", value }], retestWeeks: 12, note: "" });
+  it("suggests Chrom for high Nüchternblutzucker", () => expect(productForMarker(fbs(118))?.name).toBe("Chrom 200 µg"));
+  it("suggests nothing for normal Nüchternblutzucker", () => expect(productForMarker(fbs(90))).toBeUndefined());
+});

@@ -16,6 +16,7 @@ import imgVitc from "@/assets/products/vitc.webp.asset.json";
 import imgVite from "@/assets/products/vite.webp.asset.json";
 import imgVitk from "@/assets/products/vitk.webp.asset.json";
 import imgSpirulina from "@/assets/products/spirulina.webp.asset.json";
+import imgChrom from "@/assets/products/chrom.webp.asset.json";
 
 export type LabPoint = { date: string; value: number };
 export type LabMarker = {
@@ -87,6 +88,8 @@ export type Product = {
   url: string;
   image: string;
   relatedMarker?: string;
+  /** Which out-of-range direction this product supports; defaults to "low". */
+  helpsWhen?: "low" | "high";
 };
 
 export const products: Product[] = [
@@ -113,6 +116,15 @@ export const products: Product[] = [
     url: "https://fairvital.com/Eisen-20mg-C-240-Tabletten-Schluckfreundlich-Fuer-Energie-Immunsystem-uvm.-Vegan-Fairvital-79824",
     image: imgFerritin.url,
     relatedMarker: "ferritin",
+  },
+  {
+    shopwareId: "87809",
+    name: "Chrom 200 µg",
+    short: "90 Tabletten · für den Blutzuckerspiegel",
+    url: "https://fairvital.com/Chrom-200-g-90-Tabletten-Schluckfreundlich-Fuer-Blutzuckerspiegel-und-Makronaehrstoff-Stoffwechsel-Hochdosiert-und-Vegan-Fairvital-87809",
+    image: imgChrom.url,
+    relatedMarker: "glucose",
+    helpsWhen: "high",
   },
   {
     shopwareId: "83150",
