@@ -39,9 +39,6 @@ function Home() {
             <p className="mt-5 max-w-[700px] text-pretty text-base font-medium text-foreground sm:text-lg">Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern.</p>
           </div>
         </section>
-        <div className="mx-auto mt-5 max-w-[1600px] text-center">
-          <Link to="/heute" className="text-sm font-semibold text-home-green underline underline-offset-4">Heute ansehen →</Link>
-        </div>
       </main>
     </div>
   );
