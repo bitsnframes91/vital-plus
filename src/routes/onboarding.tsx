@@ -30,8 +30,16 @@ function Onboarding() {
   const [ok, setOk] = useState(false);
   const [weight, setWeight] = useState(s.body.weightKg?.toString() ?? "");
   const [height, setHeight] = useState(s.body.heightCm?.toString() ?? "");
-  const w = Number(weight.replace(",", "."));
-  const h = Number(height.replace(",", "."));
+  const parseDe = (v: string) => {
+    const clean = v.trim().replace(/\s/g, "").replace(/[^\d,.]/g, "");
+    const last = Math.max(clean.lastIndexOf(","), clean.lastIndexOf("."));
+    if (last < 0) return Number(clean);
+    const int = clean.slice(0, last).replace(/[^\d]/g, "");
+    const dec = clean.slice(last + 1).replace(/[^\d]/g, "");
+    return Number(`${int}.${dec}`);
+  };
+  const w = parseDe(weight);
+  const h = parseDe(height);
   const bmi = w >= 20 && w <= 400 && h >= 100 && h <= 250 ? calcBmi(w, h) : null;
   const cat = bmi != null ? bmiCategory(bmi) : null;
   const field = "w-full rounded-xl bg-card px-4 py-3 text-base outline-none ring-1 ring-border focus:ring-2 focus:ring-ring";
