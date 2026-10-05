@@ -3,6 +3,7 @@ import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
 import { useServerFn } from "@tanstack/react-start";
 import { shopLogout } from "@/lib/shop-account.functions";
+import profileDesk from "@/assets/profil-desk.jpg.asset.json";
 
 export const Route = createFileRoute("/profil")({
   head: () => ({
@@ -37,7 +38,15 @@ function Profile() {
   const logout = useServerFn(shopLogout);
   return (
     <AppShell>
-      <PageHeader eyebrow="Einstellungen" title={s.name} sub="Deine Daten gehören dir." />
+      <PageHeader
+        eyebrow="Einstellungen"
+        title={s.name}
+        sub="Deine Daten gehören dir."
+        image={profileDesk.url}
+        imageAlt="Ärztin am Schreibtisch mit Laptop, Klemmbrett und Pflanzen"
+        imageOverlay="profile-image-overlay"
+        subClass="max-w-[20ch]"
+      />
       <div className="space-y-4 px-4 pt-4">
         <div className="card-surface p-5">
           <div className="eyebrow">Name</div>
