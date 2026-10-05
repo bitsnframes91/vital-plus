@@ -51,7 +51,6 @@ function Home() {
               <Link to="/login" search={{ mode: "register" }} className="rounded-md bg-home-green px-5 py-3 text-base font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-7 sm:text-lg">Kostenlos registrieren</Link>
               <Link to="/login" search={{ mode: "login" }} className="rounded-md bg-card px-5 py-3 text-base font-semibold text-home-green transition-colors hover:bg-muted sm:px-7 sm:text-lg">Einloggen</Link>
             </div>
-            <Link to="/login" search={{ mode: "login" }} className="mt-6 max-w-full rounded-md bg-home-warm px-5 py-3 text-sm font-semibold text-home-green transition-opacity hover:opacity-90 sm:text-lg">Mit meinem Fairvital-Konto anmelden</Link>
           </div>
         </section>
         <div className="mx-auto mt-5 max-w-[1600px] text-center">
