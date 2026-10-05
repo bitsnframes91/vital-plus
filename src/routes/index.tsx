@@ -17,7 +17,6 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { s } = useStore();
   return (
     <div className="min-h-screen bg-card font-sans text-foreground">
       <header className="mx-auto grid h-[76px] max-w-[1600px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 sm:h-[92px] sm:px-8">
