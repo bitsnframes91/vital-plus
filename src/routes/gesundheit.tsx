@@ -139,7 +139,7 @@ function Health() {
           <div className="flex justify-center"><IconScale /></div>
           <div className="mt-2 text-[18px] font-semibold">Gewicht</div>
           <p className="mt-1 text-[14px] text-ink/55">{b.weightKg ? `Aktuell: ${b.weightKg} kg` : "Noch keine Messung"}</p>
-          <NumInput value={b.weightKg} onSave={(v) => setBody({ weightKg: v, stepGoal: stepGoalFor(calcBmi(v, b.heightCm ?? null)) })} placeholder="z. B. 72,5" unit="kg" />
+          <NumInput value={b.weightKg} onDraftChange={setWeightDraft} onSave={(v) => setBody({ weightKg: v, stepGoal: stepGoalFor(calcBmi(v, liveHeight)) })} placeholder="z. B. 72,5" unit="kg" />
         </div>
 
         <div className="card-surface p-5">
@@ -152,7 +152,7 @@ function Health() {
           {bmi != null && cat && (
             <p className={`mt-1 text-[15px] font-semibold ${cat.className}`}>BMI {bmi.toFixed(1).replace(".", ",")} · {cat.label}</p>
           )}
-          <NumInput value={b.heightCm ?? null} onSave={(v) => setBody({ heightCm: v, stepGoal: stepGoalFor(calcBmi(b.weightKg, v)) })} placeholder="Größe" unit="cm" />
+          <NumInput value={b.heightCm ?? null} onDraftChange={setHeightDraft} onSave={(v) => setBody({ heightCm: v, stepGoal: stepGoalFor(calcBmi(liveWeight, v)) })} placeholder="Größe" unit="cm" />
           <NumInput value={b.waistCm} onSave={(v) => setBody({ waistCm: v })} placeholder="Taillenumfang" unit="cm" />
         </div>
 
