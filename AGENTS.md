@@ -13,7 +13,7 @@
 
 - Fairvital Health is a companion app; Shopware (fairvital.com) owns products, prices, cart and checkout — the app only links out to product pages. Why: the shop must not be replaced.
 - Product lookups go through `src/lib/shopware.ts` placeholder so a real Shopware Store API can be dropped in later.
-- Plan supplement suggestions use measured below-range markers with catalog matches, and link to Fairvital search until verified product URLs are available. Why: avoid suggesting supplements for high values or inventing product pages.
+- Supplement suggestions (Plan and Heute) use measured out-of-range markers matched to catalog products in the product's own direction (`helpsWhen`, default low). Why: never suggest for normal values or the wrong direction.
 - Deficiency-specific routine tips live in `src/lib/deficiency-routines.ts` and share the supplement marker categories. Why: each measured low value needs relevant, maintainable advice rather than generic tips.
 - Brand colors/fonts are defined only as tokens in `src/styles.css` so the exact Fairvital CI can be swapped in.
 - App identity uses a shared VivoBrand component and global semantic tokens; partner-shop references remain separate. Why: keep rebranding consistent without changing shop ownership.
