@@ -204,7 +204,7 @@ function Nutrition() {
           <div className="eyebrow">Mahlzeit hinzufügen</div>
           <div className="flex flex-wrap gap-1.5">
             {labels.map((l) => (
-              <button type="button" key={l} onClick={() => setLabel(l)} className={`rounded-full px-3 py-1 text-[13px] ring-1 ring-border ${label === l ? "bg-ink text-on-ink" : ""}`}>{l}</button>
+              <button type="button" key={l} onClick={() => setLabel(l)} className={`rounded-full px-3 py-1 text-[13px] ring-1 ring-border ${label === l ? "bg-fresh text-ink" : ""}`}>{l}</button>
             ))}
           </div>
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="z. B. Lachs mit Ofengemüse" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />

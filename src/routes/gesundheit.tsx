@@ -102,7 +102,7 @@ function NumInput({ value, onSave, placeholder, unit, onDraftChange }: { value: 
         placeholder={placeholder}
         className="w-full rounded-xl bg-muted px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
       />
-      <button className="shrink-0 rounded-full bg-ink px-4 text-[13px] font-medium text-on-ink">{unit}</button>
+      <button className="shrink-0 rounded-full bg-fresh px-4 text-[13px] font-medium text-ink">{unit}</button>
     </form>
   );
 }

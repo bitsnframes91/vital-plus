@@ -60,7 +60,7 @@ function Onboarding() {
         <div className="flex flex-wrap gap-2">
           {goalOptions.map((g) => {
             const on = goals.includes(g);
-            return <Button variant="outline" key={g} onClick={() => setGoals(on ? goals.filter((x) => x !== g) : [...goals, g])} className={`rounded-full px-4 py-2 text-sm ring-1 ring-border ${on ? "bg-ink text-on-ink hover:bg-ink hover:text-on-ink" : "bg-card text-ink"}`}>{g}</Button>;
+            return <Button variant="outline" key={g} onClick={() => setGoals(on ? goals.filter((x) => x !== g) : [...goals, g])} className={`rounded-full px-4 py-2 text-sm ring-1 ring-border ${on ? "bg-fresh text-ink hover:bg-fresh hover:text-ink" : "bg-card text-ink"}`}>{g}</Button>;
           })}
         </div>
       ),
@@ -70,7 +70,7 @@ function Onboarding() {
       t: "Wie ernährst du dich?",
       body: (
         <div className="grid grid-cols-2 gap-2">
-          {dietOptions.map((d) => <Button variant="outline" key={d} onClick={() => setDiet(d)} className={`rounded-2xl px-4 py-4 text-sm ring-1 ring-border ${diet === d ? "bg-ink text-on-ink hover:bg-ink hover:text-on-ink" : "bg-card text-ink"}`}>{d}</Button>)}
+          {dietOptions.map((d) => <Button variant="outline" key={d} onClick={() => setDiet(d)} className={`rounded-2xl px-4 py-4 text-sm ring-1 ring-border ${diet === d ? "bg-fresh text-ink hover:bg-fresh hover:text-ink" : "bg-card text-ink"}`}>{d}</Button>)}
         </div>
       ),
       valid: true,
@@ -140,7 +140,7 @@ function Onboarding() {
         <div className="flex-1 px-6 pt-6">{cur.body}</div>
         <div className="flex gap-2 px-6 pb-8 pt-6">
           {step > 0 && <Button onClick={() => setStep(step - 1)} className="rounded-full px-5 py-3 text-sm ring-1 ring-border">Zurück</Button>}
-          <Button disabled={!cur.valid} onClick={next} className="flex-1 rounded-full bg-ink py-3 text-sm font-medium text-on-ink disabled:opacity-40">
+          <Button disabled={!cur.valid} onClick={next} className="flex-1 rounded-full bg-fresh py-3 text-sm font-medium text-ink disabled:opacity-40">
             {step === steps.length - 1 ? "Los geht's" : "Weiter"}
           </Button>
         </div>
