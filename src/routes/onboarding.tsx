@@ -60,7 +60,7 @@ function Onboarding() {
         <div className="flex flex-wrap gap-2">
           {goalOptions.map((g) => {
             const on = goals.includes(g);
-            return <Button key={g} onClick={() => setGoals(on ? goals.filter((x) => x !== g) : [...goals, g])} className={`rounded-full px-4 py-2 text-sm ring-1 ring-border ${on ? "bg-ink text-on-ink" : "bg-card"}`}>{g}</Button>;
+            return <Button variant="outline" key={g} onClick={() => setGoals(on ? goals.filter((x) => x !== g) : [...goals, g])} className={`rounded-full px-4 py-2 text-sm ring-1 ring-border ${on ? "bg-ink text-on-ink hover:bg-ink hover:text-on-ink" : "bg-card text-ink"}`}>{g}</Button>;
           })}
         </div>
       ),
@@ -70,7 +70,7 @@ function Onboarding() {
       t: "Wie ernährst du dich?",
       body: (
         <div className="grid grid-cols-2 gap-2">
-          {dietOptions.map((d) => <Button key={d} onClick={() => setDiet(d)} className={`rounded-2xl px-4 py-4 text-sm ring-1 ring-border ${diet === d ? "bg-ink text-on-ink" : "bg-card"}`}>{d}</Button>)}
+          {dietOptions.map((d) => <Button variant="outline" key={d} onClick={() => setDiet(d)} className={`rounded-2xl px-4 py-4 text-sm ring-1 ring-border ${diet === d ? "bg-ink text-on-ink hover:bg-ink hover:text-on-ink" : "bg-card text-ink"}`}>{d}</Button>)}
         </div>
       ),
       valid: true,
