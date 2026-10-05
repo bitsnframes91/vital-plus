@@ -1,6 +1,21 @@
 // Mock data for version 1. Products/prices will later come from the Fairvital Shopware API
 // (see src/lib/shopware.ts); lab values will later come from a laboratory API.
 
+import imgVitd from "@/assets/products/vitd.webp.asset.json";
+import imgOmega from "@/assets/products/omega.webp.asset.json";
+import imgFerritin from "@/assets/products/ferritin.webp.asset.json";
+import imgB12 from "@/assets/products/b12.webp.asset.json";
+import imgFolate from "@/assets/products/folate.webp.asset.json";
+import imgMagnesium from "@/assets/products/magnesium.webp.asset.json";
+import imgZinc from "@/assets/products/zinc.webp.asset.json";
+import imgSelenium from "@/assets/products/selenium.webp.asset.json";
+import imgCalcium from "@/assets/products/calcium.webp.asset.json";
+import imgCopper from "@/assets/products/copper.webp.asset.json";
+import imgVita from "@/assets/products/vita.webp.asset.json";
+import imgVitc from "@/assets/products/vitc.webp.asset.json";
+import imgVite from "@/assets/products/vite.webp.asset.json";
+import imgVitk from "@/assets/products/vitk.webp.asset.json";
+
 export type LabPoint = { date: string; value: number };
 export type LabMarker = {
   id: string;
