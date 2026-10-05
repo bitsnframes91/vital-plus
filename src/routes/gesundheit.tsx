@@ -1,3 +1,4 @@
+import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
@@ -74,6 +75,8 @@ function Health() {
   const { s, set } = useStore();
   const b = s.body;
   const setBody = (p: Partial<typeof b>) => set({ body: { ...b, ...p } });
+  const bmi = calcBmi(b.weightKg, b.heightCm ?? null);
+  const cat = bmi != null ? bmiCategory(bmi) : null;
 
   return (
     <AppShell>
@@ -89,7 +92,7 @@ function Health() {
           <div className="flex justify-center"><IconScale /></div>
           <div className="mt-2 text-[18px] font-semibold">Gewicht</div>
           <p className="mt-1 text-[14px] text-ink/55">{b.weightKg ? `Aktuell: ${b.weightKg} kg` : "Noch keine Messung"}</p>
-          <NumInput value={b.weightKg} onSave={(v) => setBody({ weightKg: v })} placeholder="z. B. 72,5" unit="kg" />
+          <NumInput value={b.weightKg} onSave={(v) => setBody({ weightKg: v, stepGoal: stepGoalFor(calcBmi(v, b.heightCm ?? null)) })} placeholder="z. B. 72,5" unit="kg" />
         </div>
 
         <div className="card-surface p-5">
@@ -98,6 +101,11 @@ function Health() {
           <p className="mt-1 text-[14px] text-ink/55">
             {b.waistCm ? `Taillenumfang: ${b.waistCm} cm` : "Gewicht, Taillenumfang und weitere manuelle Messwerte."}
           </p>
+          <p className="mt-1 text-[14px] text-ink/55">{b.heightCm ? `Größe: ${b.heightCm} cm` : "Größe noch nicht erfasst"}</p>
+          {bmi != null && cat && (
+            <p className={`mt-1 text-[15px] font-semibold ${cat.className}`}>BMI {bmi.toFixed(1).replace(".", ",")} · {cat.label}</p>
+          )}
+          <NumInput value={b.heightCm ?? null} onSave={(v) => setBody({ heightCm: v, stepGoal: stepGoalFor(calcBmi(b.weightKg, v)) })} placeholder="Größe" unit="cm" />
           <NumInput value={b.waistCm} onSave={(v) => setBody({ waistCm: v })} placeholder="Taillenumfang" unit="cm" />
         </div>
 
@@ -115,7 +123,8 @@ function Health() {
           <p className="mt-1 text-[14px] text-ink/55">
             {b.steps ? `Heute: ${b.steps.toLocaleString("de-DE")} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}
           </p>
-          <NumInput value={b.steps} onSave={(v) => setBody({ steps: v })} placeholder="z. B. 8000" unit="Speichern" />
+          {b.stepGoal ? <p className="mt-1 text-[14px] text-ink/55">Dein Tagesziel: {b.stepGoal.toLocaleString("de-DE")} Schritte (aus deinem BMI)</p> : null}
+          <NumInput value={b.steps ?? b.stepGoal ?? null} onSave={(v) => setBody({ steps: v })} placeholder="z. B. 8000" unit="Speichern" />
         </div>
 
         <div className="card-surface p-5">
