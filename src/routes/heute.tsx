@@ -9,7 +9,7 @@ import { reportMarkers } from "@/lib/plan-products";
 import lakeHero from "@/assets/vivo-lake.jpg";
 import { VivoBrand } from "@/components/VivoBrand";
 import { Activity, ChevronRight, Footprints, Heart, Leaf, Moon, Plus, Salad, UserRound, Watch } from "lucide-react";
-import { dailyGoals } from "@/lib/daily-goals";
+import { dailyGoals, todayKey } from "@/lib/daily-goals";
 
 export const Route = createFileRoute("/heute")({
   head: () => ({
@@ -37,6 +37,26 @@ function Today() {
   const { fromPlan, goals: actions } = dailyGoals(s.aiPlan);
   const selectedGoal = actions.find((a) => a.key === selectedGoalKey);
   const done = actions.filter((a) => s.actionsDone[a.key]).length;
+  const allDone = actions.length > 0 && done === actions.length;
+  const today = todayKey();
+
+  useEffect(() => {
+    if (!!s.fullDays[today] === allDone) return;
+    set({ fullDays: { ...s.fullDays, [today]: allDone } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allDone]);
+
+  const streakN = (() => {
+    let n = 0;
+    const d = new Date();
+    if (!allDone) d.setDate(d.getDate() - 1);
+    for (;;) {
+      if (!s.fullDays[d.toISOString().slice(0, 10)]) break;
+      n += 1;
+      d.setDate(d.getDate() - 1);
+    }
+    return n;
+  })();
 
   return (
     <AppShell>
