@@ -3,7 +3,8 @@ import { products, status, type LabMarker, type Product } from "./data";
 const markerAliases: Record<string, string[]> = {
   vitd: ["vitd", "vitamin d", "25 oh vitamin d", "25 hydroxy vitamin d", "calcidiol"],
   omega: ["omega", "omega 3", "omega 3 index", "epa dha"],
-  ferritin: ["ferritin", "iron", "eisen", "transferrin saturation", "transferrinsattigung", "hamoglobin", "hemoglobin", "hamatokrit", "hematocrit"],
+  hematocrit: ["hamatokrit", "hematocrit", "hct", "pcv"],
+  ferritin: ["ferritin", "iron", "eisen", "transferrin saturation", "transferrinsattigung", "hamoglobin", "hemoglobin"],
   b12: ["b12", "vitamin b12", "holo tc", "holotranscobalamin", "cobalamin"],
   folate: ["folate", "folsaure", "folic acid", "vitamin b9"],
   magnesium: ["magnesium"],

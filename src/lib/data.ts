@@ -15,6 +15,7 @@ import imgVita from "@/assets/products/vita.webp.asset.json";
 import imgVitc from "@/assets/products/vitc.webp.asset.json";
 import imgVite from "@/assets/products/vite.webp.asset.json";
 import imgVitk from "@/assets/products/vitk.webp.asset.json";
+import imgSpirulina from "@/assets/products/spirulina.webp.asset.json";
 
 export type LabPoint = { date: string; value: number };
 export type LabMarker = {
@@ -112,6 +113,14 @@ export const products: Product[] = [
     url: "https://fairvital.com/Eisen-20mg-C-240-Tabletten-Schluckfreundlich-Fuer-Energie-Immunsystem-uvm.-Vegan-Fairvital-79824",
     image: imgFerritin.url,
     relatedMarker: "ferritin",
+  },
+  {
+    shopwareId: "83150",
+    name: "Spirulina 500mg",
+    short: "500 Tabletten · vegan",
+    url: "https://fairvital.com/Spirulina-500mg-500-Tabletten-Spirulina-platensis-Hochdosiert-und-Vegan-Fairvital-83150",
+    image: imgSpirulina.url,
+    relatedMarker: "hematocrit",
   },
   {
     shopwareId: "82609",
