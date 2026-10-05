@@ -25,14 +25,8 @@ function Home() {
         <span aria-hidden="true" />
         <Link to="/" aria-label="Vivo Startseite" className="justify-self-center"><img src={mark} width={48} height={48} alt="Vivo" className="size-[48px] object-contain" /></Link>
         <div className="flex shrink-0 items-center justify-self-end gap-2 sm:gap-5">
-          {s.account ? (
-            <Link to="/heute" className="rounded-md bg-home-green px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-6 sm:text-base">Zu Heute</Link>
-          ) : (
-            <>
-              <Link to="/login" search={{ mode: "login" }} className="rounded-md border border-border px-3 py-2.5 text-sm font-semibold text-home-green transition-colors hover:bg-muted sm:px-6 sm:text-base">Log in</Link>
-              <Link to="/login" search={{ mode: "register" }} className="rounded-md bg-home-green px-3 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-7 sm:text-base">Sign up</Link>
-            </>
-          )}
+          <Link to="/login" search={{ mode: "login" }} className="rounded-md border border-border px-3 py-2.5 text-sm font-semibold text-home-green transition-colors hover:bg-muted sm:px-6 sm:text-base">Einloggen</Link>
+          <Link to="/login" search={{ mode: "register" }} className="rounded-md bg-home-green px-3 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-7 sm:text-base">Kostenlos Registrieren</Link>
         </div>
       </header>
 
