@@ -20,8 +20,8 @@ export function dailyTip(plan: { date: string; items: unknown[] } | null, labs: 
     const tips = routineTips(marker);
     return { marker, tip: tips[dayIndex % tips.length]! };
     }
-    return { tip: generalTips[dayIndex % generalTips.length] };
+    return { tip: generalTips[dayIndex % generalTips.length]! };
   }
 
-  return { tip: generalTips[dayIndex % generalTips.length] };
+  return { tip: generalTips[dayIndex % generalTips.length]! };
 }
