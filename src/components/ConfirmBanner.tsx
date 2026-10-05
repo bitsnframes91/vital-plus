@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
-// Google/Apple sign-ups must additionally confirm their email via a link sent by Vivo.
-export function needsConfirm(u: User | null) {
+// Apple identity is confirmed by Apple; only Google keeps Vivo's additional link.
+export function needsConfirm(u: Pick<User, "email" | "app_metadata" | "user_metadata"> | null) {
   if (!u?.email) return false;
   const p = u.app_metadata?.provider;
-  const social = p === "google" || p === "apple";
+  const social = p === "google";
   return social && !u.user_metadata?.["vivo_confirmed"];
 }
 
@@ -25,19 +25,20 @@ export function ConfirmBanner() {
   }, []);
 
   useEffect(() => {
-    if (!user || !needsConfirm(user) || user.user_metadata?.["vivo_confirm_sent"]) return;
-    sendLink(user.email!).then(() => supabase.auth.updateUser({ data: { vivo_confirm_sent: true } }));
+    if (!user?.email || !needsConfirm(user) || user.user_metadata?.["vivo_confirm_sent"]) return;
+    sendLink(user.email).then(() => supabase.auth.updateUser({ data: { vivo_confirm_sent: true } }));
   }, [user]);
 
-  if (!needsConfirm(user)) return null;
+  if (!user?.email || !needsConfirm(user)) return null;
+  const email = user.email;
   const resend = async () => {
-    const { error } = await sendLink(user!.email!);
+    const { error } = await sendLink(email);
     setInfo(error ? "Senden nicht möglich – bitte in einer Minute erneut versuchen." : "Neuer Link wurde gesendet.");
   };
   return (
     <div role="alert" className="sticky top-0 z-40 border-b border-destructive/30 bg-destructive/10 px-4 py-3 text-[13px] text-ink">
       <p className="font-semibold text-destructive">Konto noch nicht bestätigt</p>
-      <p className="mt-0.5">Wir haben dir einen Bestätigungslink an <b>{user!.email}</b> gesendet. Bitte öffne dein Postfach und klicke auf den Link, um dein Profil zu aktivieren.</p>
+      <p className="mt-0.5">Wir haben dir einen Bestätigungslink an <b>{email}</b> gesendet. Bitte öffne dein Postfach und klicke auf den Link, um dein Profil zu aktivieren.</p>
       <button onClick={resend} className="mt-1 font-semibold underline">Link erneut senden</button>
       {info && <span className="ml-2 text-ink/60">{info}</span>}
     </div>
