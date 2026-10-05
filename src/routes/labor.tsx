@@ -66,10 +66,12 @@ function Labs() {
       }
       set({ labs, aiPlan: r.plan.length ? { date: r.date, items: r.plan } : s.aiPlan });
       setMsg({ ok: true, text: `${r.markers.length} Werte vom ${fmtDate(r.date)} übernommen. Dein Plan wurde aktualisiert.` });
+      setProgress(100);
+      setTimeout(() => setProgress(0), 4000);
     } catch {
       setMsg({ ok: false, text: "Die PDF konnte nicht gelesen werden." });
+      setProgress(0);
     } finally {
-      setProgress(100);
       setBusy(false);
     }
   };
