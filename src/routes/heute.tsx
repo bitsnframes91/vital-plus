@@ -108,14 +108,8 @@ function Today() {
               <span className="mt-1 block text-[15px] font-bold leading-snug">{tip.tip.title}</span>
               <span className={`mt-1.5 block text-[11px] font-medium leading-relaxed text-muted-foreground ${tipOpen ? "" : "line-clamp-2"}`}>{tip.tip.text}</span>
               {tipOpen && (
-                <span className="mt-3 block border-t border-border pt-3 text-[11px] leading-relaxed text-foreground/80">
-                  <span className="block font-semibold text-foreground">Warum dieser Tipp?</span>
-                  <span className="mt-1 block">
-                    {tip.marker
-                      ? `Dein Wert für ${tip.marker.name} liegt unter dem Zielbereich. Kleine Gewohnheiten im Alltag können helfen – sprich Auffälligkeiten mit deiner Ärztin oder deinem Arzt ab.`
-                      : "Ein allgemeiner Tipp für mehr Wohlbefinden im Alltag."}
-                  </span>
-                  <span className="mt-2 block text-muted-foreground">Morgen um 01:00 Uhr gibt es einen neuen Tipp.</span>
+                <span className="mt-3 block border-t border-border pt-3 text-[11px] leading-relaxed text-muted-foreground">
+                  Morgen um 01:00 Uhr gibt es einen neuen Tipp.
                 </span>
               )}
             </span>
