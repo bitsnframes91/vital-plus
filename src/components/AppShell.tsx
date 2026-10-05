@@ -22,6 +22,7 @@ export function Icon({ d, className = "size-5" }: { d: string; className?: strin
 
 export function AppShell({ children }: { children: ReactNode }) {
   const navIcons = [Home, Salad, HeartPulse, FlaskConical, ClipboardList, UserRound];
+  const pathname = useLocation({ select: (s) => s.pathname });
   return (
     <div className="min-h-screen w-full bg-mist sm:grid sm:place-items-start sm:p-4">
       <div className="relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col overflow-hidden bg-background sm:h-[calc(100dvh-2rem)] sm:min-h-0 sm:rounded-[28px] sm:ring-1 sm:ring-border">
