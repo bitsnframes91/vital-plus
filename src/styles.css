@@ -60,17 +60,25 @@
   --color-trend-distance: var(--trend-distance);
   --color-trend-walk: var(--trend-walk);
   --color-trend-run: var(--trend-run);
+  --color-trend-move-soft: var(--trend-move-soft);
+  --color-trend-distance-soft: var(--trend-distance-soft);
+  --color-trend-walk-soft: var(--trend-walk-soft);
+  --color-trend-run-soft: var(--trend-run-soft);
 }
 
 :root {
-  --trend-surface: oklch(0.235 0 0);
-  --trend-foreground: oklch(0.985 0 0);
-  --trend-icon: oklch(0.265 0 0);
-  --trend-control: oklch(0.44 0 0);
-  --trend-move: oklch(0.65 0.25 8);
-  --trend-distance: oklch(0.76 0.15 226);
-  --trend-walk: oklch(0.73 0.14 298);
-  --trend-run: oklch(0.76 0.15 333);
+  --trend-surface: oklch(1 0 0);
+  --trend-foreground: var(--ink);
+  --trend-icon: oklch(0.96 0.006 210);
+  --trend-control: oklch(0.96 0.006 210);
+  --trend-move: oklch(0.6 0.21 8);
+  --trend-distance: oklch(0.58 0.13 226);
+  --trend-walk: oklch(0.55 0.14 298);
+  --trend-run: oklch(0.58 0.14 333);
+  --trend-move-soft: oklch(0.958 0.03 8);
+  --trend-distance-soft: oklch(0.958 0.028 226);
+  --trend-walk-soft: oklch(0.958 0.028 298);
+  --trend-run-soft: oklch(0.958 0.028 333);
   --radius: 1rem;
   --fv: oklch(0.742 0.119 184);
   --fv-deep: oklch(0.49 0.095 190);
