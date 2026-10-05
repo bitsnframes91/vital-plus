@@ -16,6 +16,8 @@ type State = {
   account: { email: string; userId: string } | null;
   aiPlan: { date: string; items: { title: string; detail: string; daily?: boolean }[] } | null;
   body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null };
+  weekLog: Record<string, number>;
+  weightLog: Record<string, number>;
 };
 
 const initial: State = {
@@ -30,6 +32,8 @@ const initial: State = {
   account: null,
   aiPlan: null,
   body: { weightKg: null, waistCm: null, sleepHours: null, steps: null },
+  weekLog: {},
+  weightLog: {},
 };
 
 type CtxValue = { s: State; set: (p: Partial<State>) => void } | null;
