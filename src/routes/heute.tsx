@@ -96,9 +96,8 @@ function Today() {
           <h1 className="mt-1 max-w-[280px] text-[29px] font-bold leading-[1.15] text-foreground">Gesünder leben.<br />Glücklicher sein.</h1>
           <button
             type="button"
-            onClick={() => setTipOpen((o) => !o)}
-            aria-expanded={tipOpen}
-            aria-label={tipOpen ? "Tipp des Tages einklappen" : "Tipp des Tages aufklappen"}
+            onClick={() => setTipOpen(true)}
+            aria-label="Tipp des Tages öffnen"
             className="vivo-focus mt-6 flex h-auto min-h-[116px] w-full items-start gap-3 whitespace-normal rounded-2xl bg-card/95 px-4 py-4 text-left hover:bg-card"
           >
             <span className="grid size-12 shrink-0 place-items-center rounded-full bg-teal-soft text-fresh"><TipIcon className="size-7" /></span>
@@ -107,10 +106,24 @@ function Today() {
                 {tip.marker ? `Tipp des Tages · ${tip.marker.name}` : "Tipp des Tages"}
               </span>
               <span className="mt-1 block text-[15px] font-bold leading-snug">{tip.tip.title}</span>
-              <span className={`mt-1.5 block text-[11px] font-medium leading-relaxed text-muted-foreground ${tipOpen ? "" : "line-clamp-2"}`}>{tip.tip.text}</span>
+              <span className="mt-1.5 block text-[11px] font-medium leading-relaxed text-muted-foreground line-clamp-2">{tip.tip.text}</span>
             </span>
-            <span className={`my-auto grid size-7 shrink-0 place-items-center rounded-full bg-muted text-fv-deep transition-transform ${tipOpen ? "rotate-90" : ""}`}><ChevronRight /></span>
+            <span className="my-auto grid size-7 shrink-0 place-items-center rounded-full bg-muted text-fv-deep"><ChevronRight /></span>
           </button>
+          <Dialog open={tipOpen} onOpenChange={setTipOpen}>
+            <DialogContent className="rounded-3xl sm:max-w-sm">
+              <DialogHeader>
+                <span className="mx-auto grid size-14 place-items-center rounded-full bg-teal-soft text-fresh"><TipIcon className="size-8" /></span>
+                <span className="text-[10px] font-medium text-muted-foreground">
+                  {tip.marker ? `Tipp des Tages · ${tip.marker.name}` : "Tipp des Tages"}
+                </span>
+                <DialogTitle className="text-center text-[19px] font-bold leading-snug">{tip.tip.title}</DialogTitle>
+                <DialogDescription className="text-center text-[14px] font-medium leading-relaxed text-foreground/80">
+                  {tip.tip.text}
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </div>
       </header>
 
