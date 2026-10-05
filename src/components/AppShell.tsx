@@ -48,13 +48,13 @@ export function AppShell({ children }: { children: ReactNode }) {
   );
 }
 
-export function PageHeader({ eyebrow, title, sub, right, image, imageAlt }: { eyebrow: string; title: string; sub?: string; right?: ReactNode; image?: string; imageAlt?: string }) {
+export function PageHeader({ eyebrow, title, sub, right, image, imageAlt, imageOverlay = "page-image-overlay" }: { eyebrow: string; title: string; sub?: string; right?: ReactNode; image?: string; imageAlt?: string; imageOverlay?: string }) {
   return (
     <header className="relative overflow-hidden bg-header px-6 pb-10 pt-9">
       {image && (
         <>
           <img src={image} alt={imageAlt ?? ""} aria-hidden={!imageAlt} className="absolute inset-0 size-full object-cover object-center" />
-          <div className="page-image-overlay absolute inset-0" aria-hidden="true" />
+          <div className={`${imageOverlay} absolute inset-0`} aria-hidden="true" />
         </>
       )}
       <div className="relative">
