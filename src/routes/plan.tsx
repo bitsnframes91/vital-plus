@@ -112,8 +112,13 @@ function Plan() {
                   <p className="mt-1 text-[13px] text-ink/55">Zuletzt gemessen: {marker.history[marker.history.length - 1]?.value} {marker.unit}</p>
                   <div className="mt-5 border-t border-border pt-4">
                     <div className="eyebrow">Fairvital Ergänzung</div>
-                    {product ? <a href={product.url} target="_blank" rel="noopener noreferrer" className="mt-2 flex items-center justify-between gap-2 text-[15px] font-semibold text-fv-deep underline underline-offset-4">
-                      <span>{product.name} im Fairvital Shop ansehen</span><ExternalLink className="size-4 shrink-0" aria-hidden="true" />
+                    {product ? <a href={product.url} target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center gap-3">
+                      <img src={product.image} alt={product.name} className="size-16 shrink-0 rounded-xl bg-white object-contain p-1 ring-1 ring-border" loading="lazy" />
+                      <span className="min-w-0">
+                        <span className="block text-[15px] font-semibold text-fv-deep underline underline-offset-4">{product.name}</span>
+                        <span className="mt-0.5 block text-[12px] text-ink/55">{product.short}</span>
+                        <span className="mt-1 inline-flex items-center gap-1 text-[12px] font-medium text-fv-deep">Im Fairvital Shop ansehen <ExternalLink className="size-3.5" aria-hidden="true" /></span>
+                      </span>
                     </a> : <p className="mt-2 text-[14px] text-ink/55">Keine passende Ergänzung zugeordnet.</p>}
                     <p className="mt-2 text-[12px] text-ink/55">Einnahme und mögliche Ursache bitte ärztlich abklären.</p>
                   </div>
