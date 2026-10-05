@@ -48,9 +48,15 @@ export function AppShell({ children }: { children: ReactNode }) {
   );
 }
 
-export function PageHeader({ eyebrow, title, sub, right }: { eyebrow: string; title: string; sub?: string; right?: ReactNode }) {
+export function PageHeader({ eyebrow, title, sub, right, image, imageAlt }: { eyebrow: string; title: string; sub?: string; right?: ReactNode; image?: string; imageAlt?: string }) {
   return (
     <header className="relative overflow-hidden bg-header px-6 pb-10 pt-9">
+      {image && (
+        <>
+          <img src={image} alt={imageAlt ?? ""} aria-hidden={!imageAlt} className="absolute inset-0 size-full object-cover object-center" />
+          <div className="page-image-overlay absolute inset-0" aria-hidden="true" />
+        </>
+      )}
       <div className="relative">
         <div className="flex items-center justify-between">
           <span className="font-data text-[12px] uppercase tracking-normal text-fv-deep">{eyebrow}</span>
