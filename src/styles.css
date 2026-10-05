@@ -115,6 +115,7 @@
 @utility hero-glow { background-image: var(--gradient-hero); }
 @utility home-image-overlay { background-image: var(--home-image-overlay); }
 @utility today-image-overlay { background-image: var(--today-image-overlay); }
+@utility page-image-overlay { background-image: var(--page-image-overlay); }
 @utility card-surface {
   background: var(--card);
   border-radius: 20px;
