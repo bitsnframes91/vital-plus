@@ -49,6 +49,12 @@ function migrate(parsed: any) {
   if (parsed.account && !parsed.account.userId) parsed.account = null;
   parsed.weekLog = typeof parsed.weekLog === "object" && parsed.weekLog !== null ? parsed.weekLog : {};
   parsed.weightLog = typeof parsed.weightLog === "object" && parsed.weightLog !== null ? parsed.weightLog : {};
+  if (parsed.actionsDone) {
+    const today = new Date().toISOString().slice(0, 10);
+    if (parsed.weekLog[today] === undefined) {
+      parsed.weekLog[today] = Object.entries(parsed.actionsDone).filter(([k, v]) => k.startsWith(today) && v).length;
+    }
+  }
   return parsed;
 }
 
