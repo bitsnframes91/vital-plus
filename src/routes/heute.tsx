@@ -218,10 +218,12 @@ function WeekRecap() {
           const count = s.weekLog[d] ?? 0;
           return (
             <div key={d} className="flex flex-1 flex-col items-center gap-1">
-              <span
-                className={`w-full max-w-[26px] rounded-t-[6px] transition-all ${count > 0 ? (i === days.length - 1 ? "bg-fv-deep" : "bg-fv/30") : "bg-ink/10"}`}
-                style={{ height: `${Math.max(count, 0.2) / maxDay * 100}%` }}
-              />
+              <div className="flex h-12 w-full items-end justify-center">
+                <span
+                  className={`w-full max-w-[26px] rounded-t-[6px] transition-all ${count > 0 ? (i === days.length - 1 ? "bg-fv-deep" : "bg-fv/30") : "bg-ink/10"}`}
+                  style={{ height: `${Math.max(count, 0.2) / maxDay * 100}%` }}
+                />
+              </div>
               <span className={`font-data text-[10px] ${i === days.length - 1 ? "text-fv-deep" : "text-ink/35"}`}>
                 {WEEKDAY_SHORT[new Date(d + "T00:00:00").getDay()]}
               </span>
