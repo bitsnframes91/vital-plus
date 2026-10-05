@@ -16,9 +16,12 @@ export function dailyTip(plan: { date: string; items: unknown[] } | null, labs: 
   if (plan) {
     const low = reportMarkers(plan, labs).filter((m) => status(m).label === "Niedrig");
     if (low.length) {
-    const marker = low[dayIndex % low.length]!;
-    const tips = routineTips(marker);
-    return { marker, tip: tips[dayIndex % tips.length]! };
+      // Flatten all (marker, tip) pairs so each day shows a genuinely different
+      // tip, cycling through every low marker and every tip of that marker.
+      const pool: DailyTip[] = low.flatMap((marker) =>
+        routineTips(marker).map((tip) => ({ marker, tip })),
+      );
+      return pool[dayIndex % pool.length]!;
     }
     return { tip: generalTips[dayIndex % generalTips.length]! };
   }

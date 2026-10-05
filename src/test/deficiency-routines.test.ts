@@ -39,9 +39,12 @@ describe("Routine tips for PDF-imported markers", () => {
       "Bunt und ausgewogen essen",
       "Täglich in Bewegung bleiben",
       "Schlaf ernst nehmen",
+      "Tageslicht am Vormittag",
+      "Kleine Pausen einplanen",
+      "Ausreichend trinken",
     ]);
     for (const tip of generalTips) {
-      expect(["food", "walk", "clock"]).toContain(tip.icon);
+      expect(["food", "walk", "clock", "sun", "heart"]).toContain(tip.icon);
       expect(tip.title).not.toContain("Befund");
     }
   });

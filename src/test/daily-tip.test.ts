@@ -8,7 +8,7 @@ describe("Tipp des Tages", () => {
     const labs = labMarkers.map((m) => m.id === "ferritin" ? { ...m, history: [...m.history, { date: "2026-10-03", value: 16 }] } : m);
     const tip = dailyTip({ date: "2026-10-03", items: [{}] }, labs);
     expect(tip.marker?.id).toBe("ferritin");
-    expect(["Eisen und Vitamin C kombinieren", "Kaffee und Tee versetzt trinken"]).toContain(tip.tip.title);
+    expect(["Eisen und Vitamin C kombinieren", "Kaffee und Tee versetzt trinken", "Eisenquellen abwechseln"]).toContain(tip.tip.title);
   });
 
   it("does not tie the tip to a marker whose value is in range", () => {
