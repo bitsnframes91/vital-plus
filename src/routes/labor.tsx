@@ -44,6 +44,7 @@ function Labs() {
     if (file.type !== "application/pdf") return setMsg({ ok: false, text: "Bitte eine PDF-Datei wählen." });
     if (file.size > 10 * 1024 * 1024) return setMsg({ ok: false, text: "Die PDF ist größer als 10 MB." });
     setBusy(true);
+    setProgress(4);
     setMsg(null);
     try {
       const r = await analyze({ data: { filename: file.name, base64: await blobToBase64(file), knownIds: s.labs.map((l) => l.id) } });
@@ -68,6 +69,7 @@ function Labs() {
     } catch {
       setMsg({ ok: false, text: "Die PDF konnte nicht gelesen werden." });
     } finally {
+      setProgress(100);
       setBusy(false);
     }
   };
@@ -94,6 +96,15 @@ function Labs() {
           <input type="file" accept="application/pdf" className="sr-only" disabled={busy}
             onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
         </label>
+        {(busy || progress === 100) && (
+          <div className="card-surface space-y-2 p-4">
+            <div className="flex items-center justify-between text-[12px]">
+              <span className="text-ink/55">{progress === 100 ? "Fertig – Werte übernommen" : "Befund wird hochgeladen und gelesen…"}</span>
+              <span className="font-data text-fv-deep">{Math.round(progress)}%</span>
+            </div>
+            <Progress value={progress} className="h-2 bg-fv/10 [&_[data-slot=progress-indicator]]:bg-fresh" />
+          </div>
+        )}
         {msg && (
           <div className={`rounded-xl px-4 py-3 text-[13px] ${msg.ok ? "bg-fv/10 text-fv-deep" : "bg-warn/15"}`}>
             {msg.text} {msg.ok && <Link to="/plan" className="font-medium underline">Zum Plan →</Link>}
