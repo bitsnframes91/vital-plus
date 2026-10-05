@@ -6,7 +6,6 @@ import { useStore } from "@/lib/store";
 import healthRidge from "@/assets/gesundheit-ridge.jpg.asset.json";
 import { ChevronRight, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/gesundheit")({
   head: () => ({
@@ -17,6 +16,8 @@ export const Route = createFileRoute("/gesundheit")({
       { property: "og:description", content: "Messwerte und Verläufe verständlich an einem Ort." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: healthRidge.url },
+      { name: "twitter:image", content: healthRidge.url },
     ],
   }),
   component: Health,
@@ -54,18 +55,11 @@ function HealthTrends() {
     <section aria-labelledby="health-trends-title" className="card-surface p-5 text-trend-foreground sm:p-6">
       <div className="flex items-center justify-between gap-4">
         <h2 id="health-trends-title" className="text-[26px] font-bold">Trends</h2>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="ghost" size="icon" aria-label="Details zu Trends" className="rounded-full bg-trend-control text-trend-foreground hover:bg-trend-control/80 hover:text-trend-foreground">
+            <Button asChild variant="ghost" size="icon" className="rounded-full bg-trend-control text-trend-foreground hover:bg-trend-control/80 hover:text-trend-foreground">
+              <Link to="/trends" aria-label="Details zu Trends">
               <ChevronRight className="!size-6" />
+              </Link>
             </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-[calc(100%-2rem)] sm:max-w-lg">
-            <DialogTitle>Deine Aktivitätstrends</DialogTitle>
-            <DialogDescription>Für Bewegung, Distanz, Geh- und Lauftempo liegen noch keine Messdaten vor. Apple Health und Google Health Connect sind noch nicht verbunden.</DialogDescription>
-            <p className="text-sm text-muted-foreground">Manuell erfasste Schritte sind keine gemessene Distanz oder Geschwindigkeit. Sobald eine Gesundheitsdaten-Verbindung verfügbar ist, können hier deine tatsächlichen Trends erscheinen.</p>
-          </DialogContent>
-        </Dialog>
       </div>
       <div className="mt-6 space-y-7">
         {metrics.map((metric) => (
