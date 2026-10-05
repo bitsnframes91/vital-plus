@@ -77,7 +77,7 @@ function Health() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow="Gesundheit" title="Deine Messwerte" sub="Messwerte und Verläufe verständlich an einem Ort." image={healthRidge.url} imageAlt="Läuferin in Bewegung auf einem alpinen Grat vor verschneiten Bergen" imageOverlay="ridge-image-overlay" />
+      <PageHeader eyebrow="Gesundheit" title="Deine Messwerte" sub="Messwerte und Verläufe verständlich an einem Ort." subClass="max-w-[17ch]" image={healthRidge.url} imageAlt="Läuferin in Bewegung auf einem alpinen Grat vor verschneiten Bergen" imageOverlay="ridge-image-overlay" />
       <div className="grid grid-cols-1 gap-3 px-4 pt-4">
         <div className="card-surface p-5">
           <div className="text-[18px] font-semibold">Blutwerte</div>
