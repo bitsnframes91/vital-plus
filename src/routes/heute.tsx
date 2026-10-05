@@ -11,7 +11,7 @@ import { dailyTip, msUntilNextTip } from "@/lib/daily-tip";
 import lakeHero from "@/assets/vivo-lake.jpg";
 import { MovementDialog } from "@/components/MovementDialog";
 import { VivoBrand } from "@/components/VivoBrand";
-import { Activity, ChevronRight, Clock, Footprints, Heart, Leaf, Moon, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
+import { Activity, ChevronRight, Clock, FlaskConical, Footprints, Heart, Leaf, Moon, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
 import { dailyGoals, todayKey } from "@/lib/daily-goals";
 import type { RoutineTip } from "@/lib/deficiency-routines";
 
@@ -147,7 +147,7 @@ function Today() {
           <button type="button" onClick={() => setMoveOpen(true)} className="vivo-quick"><span className="bg-teal-soft text-fv-deep"><Activity /></span><span>Bewegung</span></button>
           <Link to="/plan" className="vivo-quick"><span className="bg-fresh-soft text-fresh"><Leaf /></span><span>Mein Plan</span></Link>
           <Link to="/ernaehrung" className="vivo-quick"><span className="bg-fresh-soft text-fresh"><Salad /></span><span>Ernährung</span></Link>
-          <Link to="/labor" className="vivo-quick"><span className="bg-sky-soft text-sky"><Plus /></span><span>Labor</span></Link>
+          <Link to="/labor" className="vivo-quick"><span className="bg-sky-soft text-sky"><FlaskConical /></span><span>Labor</span></Link>
         </div>
       </section>
 
