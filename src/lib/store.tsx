@@ -100,6 +100,13 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const set = (p: Partial<State>) =>
     setS((prev) => {
       const next = { ...prev, ...p };
+      const today = new Date().toISOString().slice(0, 10);
+      if (p.actionsDone) {
+        next.weekLog = { ...prev.weekLog, [today]: Object.entries(p.actionsDone).filter(([k, v]) => k.startsWith(today) && v).length };
+      }
+      if (p.body && p.body.weightKg != null) {
+        next.weightLog = { ...prev.weightLog, [today]: p.body.weightKg };
+      }
       localStorage.setItem(KEY, JSON.stringify(next));
       push(next);
       return next;
