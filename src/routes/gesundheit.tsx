@@ -81,7 +81,7 @@ function HealthTrends() {
   );
 }
 
-function NumInput({ value, onSave, placeholder, unit }: { value: number | null; onSave: (v: number | null) => void; placeholder: string; unit: string }) {
+function NumInput({ value, onSave, placeholder, unit, onDraftChange }: { value: number | null; onSave: (v: number | null) => void; placeholder: string; unit: string; onDraftChange?: (text: string) => void }) {
   const [text, setText] = useState(value?.toString() ?? "");
   return (
     <form
@@ -94,7 +94,10 @@ function NumInput({ value, onSave, placeholder, unit }: { value: number | null; 
     >
       <input
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => {
+          setText(e.target.value);
+          onDraftChange?.(e.target.value);
+        }}
         inputMode="decimal"
         placeholder={placeholder}
         className="w-full rounded-xl bg-muted px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
