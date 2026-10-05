@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Home, Salad, HeartPulse, FlaskConical, ClipboardList, UserRound } from "lucide-react";
 import { ConfirmBanner } from "./ConfirmBanner";
