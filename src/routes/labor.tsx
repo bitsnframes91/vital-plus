@@ -8,6 +8,7 @@ import { useStore } from "@/lib/store";
 import { fmtDate, status, labMarkers as catalog, type LabMarker } from "@/lib/data";
 import { analyzeLabPdf } from "@/lib/ai.functions";
 import { blobToBase64 } from "@/lib/record-wav";
+import { RangeBar } from "@/components/RangeBar";
 import laborLab from "@/assets/labor-lab.jpg.asset.json";
 
 export const Route = createFileRoute("/labor")({
