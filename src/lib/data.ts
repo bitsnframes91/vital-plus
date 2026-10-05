@@ -1,6 +1,21 @@
 // Mock data for version 1. Products/prices will later come from the Fairvital Shopware API
 // (see src/lib/shopware.ts); lab values will later come from a laboratory API.
 
+import imgVitd from "@/assets/products/vitd.webp.asset.json";
+import imgOmega from "@/assets/products/omega.webp.asset.json";
+import imgFerritin from "@/assets/products/ferritin.webp.asset.json";
+import imgB12 from "@/assets/products/b12.webp.asset.json";
+import imgFolate from "@/assets/products/folate.webp.asset.json";
+import imgMagnesium from "@/assets/products/magnesium.webp.asset.json";
+import imgZinc from "@/assets/products/zinc.webp.asset.json";
+import imgSelenium from "@/assets/products/selenium.webp.asset.json";
+import imgCalcium from "@/assets/products/calcium.webp.asset.json";
+import imgCopper from "@/assets/products/copper.webp.asset.json";
+import imgVita from "@/assets/products/vita.webp.asset.json";
+import imgVitc from "@/assets/products/vitc.webp.asset.json";
+import imgVite from "@/assets/products/vite.webp.asset.json";
+import imgVitk from "@/assets/products/vitk.webp.asset.json";
+
 export type LabPoint = { date: string; value: number };
 export type LabMarker = {
   id: string;
@@ -69,118 +84,129 @@ export type Product = {
   name: string;
   short: string;
   url: string;
+  image: string;
   relatedMarker?: string;
 };
 
 export const products: Product[] = [
   {
-    shopwareId: "sw-placeholder-d3k2",
-    name: "Vitamin D3 + K2",
-    short: "Fairvital-Produkte zu Vitamin D ansehen.",
-    url: "https://fairvital.com/search?s=Vitamin%20D3%20K2",
+    shopwareId: "73905",
+    name: "Vitamin D3 + K2 MK7",
+    short: "1000 I.E. + 100 µg · 50 ml",
+    url: "https://fairvital.com/Vitamin-D3-K2-MK7-1000-I.E.-100-mg-50-ml-fuer-Knochen-Immunsystem-uvm.-Fairvital-73905",
+    image: imgVitd.url,
     relatedMarker: "vitd",
   },
   {
-    shopwareId: "sw-placeholder-omega",
-    name: "Omega-3",
-    short: "Fairvital-Produkte zu Omega-3 ansehen.",
-    url: "https://fairvital.com/search?s=Omega-3",
+    shopwareId: "73412",
+    name: "Flachsöl Omega 3-6-9",
+    short: "Mit Vitamin E · 120 Softgels",
+    url: "https://fairvital.com/Flachsoel-Leinoel-Omega-3-6-9-mit-Vitamin-E-120-Softgels-fuer-Zellschutz-vor-oxidativem-Stress-Hochdosiert-Fairvital-73412",
+    image: imgOmega.url,
     relatedMarker: "omega",
   },
   {
-    shopwareId: "sw-placeholder-iron",
-    name: "Eisen",
-    short: "Fairvital-Produkte zu Eisen ansehen.",
-    url: "https://fairvital.com/search?s=Eisen",
+    shopwareId: "79824",
+    name: "Eisen 20mg + C",
+    short: "240 Tabletten · vegan",
+    url: "https://fairvital.com/Eisen-20mg-C-240-Tabletten-Schluckfreundlich-Fuer-Energie-Immunsystem-uvm.-Vegan-Fairvital-79824",
+    image: imgFerritin.url,
     relatedMarker: "ferritin",
   },
   {
-    shopwareId: "sw-placeholder-b12",
-    name: "Vitamin B12",
-    short: "Fairvital-Produkte zu Vitamin B12 ansehen.",
-    url: "https://fairvital.com/search?s=Vitamin%20B12",
+    shopwareId: "82609",
+    name: "B-12 + Folsäure sublingual",
+    short: "90 Tabletten · mit Vitamin C",
+    url: "https://fairvital.com/B-12-Folsaeure-sublingual-90-Tabletten-mit-Vitamin-C-fuer-Immunsystem-gegen-Muedigkeit-uvm.-Fairvital-82609",
+    image: imgB12.url,
     relatedMarker: "b12",
   },
   {
-    shopwareId: "sw-placeholder-folate",
-    name: "Folsäure",
-    short: "Fairvital-Produkte zu Folsäure ansehen.",
-    url: "https://fairvital.com/search?s=Fols%C3%A4ure",
+    shopwareId: "101018",
+    name: "Folsäure 5000µg",
+    short: "180 Tabletten · vegan",
+    url: "https://fairvital.com/Folsaeure-5000-g-180-Tabletten-ueber-100-Bedarfsabdeckung-fuer-Blutbildung-Zellteilung-uvm.-vegan-Fairvital-101018",
+    image: imgFolate.url,
     relatedMarker: "folate",
   },
   {
-    shopwareId: "sw-placeholder-magnesium",
-    name: "Magnesium",
-    short: "Fairvital-Produkte zu Magnesium ansehen.",
-    url: "https://fairvital.com/search?s=Magnesium",
+    shopwareId: "77950",
+    name: "Magnesium Malat Pulver",
+    short: "500 g · für Muskeln & Knochen",
+    url: "https://fairvital.com/Magnesium-Malat-Pulver-500g-fuer-Musklen-Knochen-Elektrolytgleichgewicht-uvm.-Fairvital-77950",
+    image: imgMagnesium.url,
     relatedMarker: "magnesium",
   },
   {
-    shopwareId: "sw-placeholder-zinc",
-    name: "Zink",
-    short: "Fairvital-Produkte zu Zink ansehen.",
-    url: "https://fairvital.com/search?s=Zink",
+    shopwareId: "52509",
+    name: "Zink + Histidin + Vitamin C",
+    short: "90 Kapseln · vegan",
+    url: "https://fairvital.com/Zink-Histidin-Vitamin-C-90-Kapseln-Schluckfreundlich-fuer-Haare-Haut-uvm.-375-abgedeckter-Bedarf-Vegan-Fairvital-52509",
+    image: imgZinc.url,
     relatedMarker: "zinc",
   },
   {
-    shopwareId: "sw-placeholder-selenium",
-    name: "Selen",
-    short: "Fairvital-Produkte zu Selen ansehen.",
-    url: "https://fairvital.com/search?s=Selen",
+    shopwareId: "80709",
+    name: "Selen 200µg",
+    short: "90 Tabletten · vegan",
+    url: "https://fairvital.com/Selen-200-g-90-Tabletten-Schluckfreundlich-Fuer-Schilddruese-Immunsystem-Haare-uvm.-Vegan-Fairvital-80709",
+    image: imgSelenium.url,
     relatedMarker: "selenium",
   },
   {
-    shopwareId: "sw-placeholder-calcium",
-    name: "Calcium",
-    short: "Fairvital-Produkte zu Calcium ansehen.",
-    url: "https://fairvital.com/search?s=Calcium",
+    shopwareId: "76925",
+    name: "Calcium Magnesium Zink",
+    short: "250 Tabletten",
+    url: "https://fairvital.com/Calcium-Magnesium-Zink-250-Tabletten-fuer-Knochen-Muskeln-Immunsystem-uvm.-Fairvital-76925",
+    image: imgCalcium.url,
     relatedMarker: "calcium",
   },
   {
-    shopwareId: "sw-placeholder-copper",
-    name: "Kupfer",
-    short: "Fairvital-Produkte zu Kupfer ansehen.",
-    url: "https://fairvital.com/search?s=Kupfer",
+    shopwareId: "72110",
+    name: "Kupfer 2mg",
+    short: "100 Tabletten · vegan",
+    url: "https://fairvital.com/Kupfer-2mg-100-Tabletten-Schluckfreundlich-Fuer-Immunsystem-Eisentransport-uvm.-Vegan-Fairvital-72110",
+    image: imgCopper.url,
     relatedMarker: "copper",
   },
   {
-    shopwareId: "sw-placeholder-vita",
-    name: "Vitamin A",
-    short: "Fairvital-Produkte zu Vitamin A ansehen.",
-    url: "https://fairvital.com/search?s=Vitamin%20A",
+    shopwareId: "84309",
+    name: "Beta-Carotin 15mg",
+    short: "25.000 I.E. · 90 Softgels",
+    url: "https://fairvital.com/Beta-Carotin-15mg-natuerlich-25.000-IE-90-Softgels-hochdosiert-Fairvital-84309",
+    image: imgVita.url,
     relatedMarker: "vita",
   },
   {
-    shopwareId: "sw-placeholder-vitc",
-    name: "Vitamin C",
-    short: "Fairvital-Produkte zu Vitamin C ansehen.",
-    url: "https://fairvital.com/search?s=Vitamin%20C",
+    shopwareId: "98106",
+    name: "Acerola mit Hesperidin",
+    short: "Mit Vitamin C · 60 Kapseln",
+    url: "https://fairvital.com/Acerola-mit-Hesperidin-60-Kapseln-Schluckfreundlich-Mit-Vitamin-C-Fuer-Immunsystem-Kollagenbildung-uvm.-Vegan-Fairvital-98106",
+    image: imgVitc.url,
     relatedMarker: "vitc",
   },
   {
-    shopwareId: "sw-placeholder-vite",
-    name: "Vitamin E",
-    short: "Fairvital-Produkte zu Vitamin E ansehen.",
-    url: "https://fairvital.com/search?s=Vitamin%20E",
+    shopwareId: "87950",
+    name: "Vitamin E 400 I.E.",
+    short: "500 Softgels",
+    url: "https://fairvital.com/Vitamin-E-400-I.E.-500-Softgels-Schluckfreundlich-Fuer-Zellschutz-Fairvital-87950",
+    image: imgVite.url,
     relatedMarker: "vite",
   },
   {
-    shopwareId: "sw-placeholder-vitk",
-    name: "Vitamin K",
-    short: "Fairvital-Produkte zu Vitamin K ansehen.",
-    url: "https://fairvital.com/search?s=Vitamin%20K",
+    shopwareId: "101512",
+    name: "Vitamin K Komplex K1 & K2",
+    short: "120 Tabletten · vegan",
+    url: "https://fairvital.com/Vitamin-K-Komplex-K1-K2-120-Tabletten-fuer-Knochen-Blutgerinnung-ueber-100-Bedarfsabdeckung-vegan-Fairvital-101512",
+    image: imgVitk.url,
     relatedMarker: "vitk",
   },
 ];
 
 // A verified catalog item for general browsing when no measured deficiency matches.
 // This is not a recommendation based on the user's lab results.
-export const catalogSpotlight: Product = {
-  shopwareId: "98106",
-  name: "Acerola mit Hesperidin · 60 Kapseln",
-  short: "Mit Vitamin C · im Fairvital Sortiment entdecken.",
-  url: "https://fairvital.com/Acerola-mit-Hesperidin-60-Kapseln-Schluckfreundlich-Mit-Vitamin-C-Fuer-Immunsystem-Kollagenbildung-uvm.-Vegan-Fairvital-98106",
-};
+const { relatedMarker: _omit, ...spotlightBase } = products.find((p) => p.shopwareId === "98106")!;
+export const catalogSpotlight: Product = spotlightBase;
 
 export type Meal = {
   id: string;
