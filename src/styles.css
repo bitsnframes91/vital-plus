@@ -7,9 +7,9 @@
 /* Fairvital Health design system — adapt brand tokens here to match the exact Fairvital CI. */
 
 @theme inline {
-  --font-display: "Manrope", sans-serif;
-  --font-sans: "Manrope", sans-serif;
-  --font-data: "Manrope", sans-serif;
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-data: "Plus Jakarta Sans", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -43,21 +43,33 @@
   --color-home-green: var(--home-green);
   --color-home-warm: var(--home-warm);
   --color-header: var(--header);
+  --color-fresh: var(--fresh);
+  --color-sky: var(--sky);
+  --color-teal-soft: var(--teal-soft);
+  --color-fresh-soft: var(--fresh-soft);
+  --color-sky-soft: var(--sky-soft);
+  --color-warm-soft: var(--warm-soft);
 }
 
 :root {
   --radius: 1rem;
-  --fv: oklch(0.68 0.12 183);
-  --fv-deep: oklch(0.45 0.08 183);
-  --ink: oklch(0.18 0.012 220);
-  --mist: oklch(0.94 0.01 210);
+  --fv: oklch(0.742 0.119 184);
+  --fv-deep: oklch(0.49 0.095 190);
+  --fresh: oklch(0.761 0.184 133);
+  --sky: oklch(0.693 0.139 257);
+  --teal-soft: oklch(0.955 0.035 184);
+  --fresh-soft: oklch(0.959 0.038 141);
+  --sky-soft: oklch(0.956 0.028 257);
+  --warm-soft: oklch(0.967 0.017 85);
+  --ink: oklch(0.28 0.027 251);
+  --mist: oklch(0.979 0.004 230);
   --warn: oklch(0.72 0.15 65);
   --on-ink: oklch(0.99 0 0);
-  --home-green: oklch(0.39 0.075 145);
-  --home-warm: oklch(0.95 0.09 88);
-  --header: #46713f;
+  --home-green: var(--fv-deep);
+  --home-warm: oklch(0.904 0.029 85);
+  --header: var(--teal-soft);
   --home-image-overlay: linear-gradient(180deg, oklch(0.13 0 0 / 0.35) 0%, oklch(0.13 0 0 / 0.3) 42%, oklch(0.13 0 0 / 0.57) 100%);
-  --today-image-overlay: linear-gradient(180deg, color-mix(in srgb, var(--header) 76%, transparent), color-mix(in srgb, var(--header) 84%, transparent));
+  --today-image-overlay: linear-gradient(90deg, var(--mist) 0%, transparent 85%), linear-gradient(0deg, var(--mist), transparent 70%);
   --background: var(--mist);
   --foreground: var(--ink);
   --card: oklch(1 0 0);
@@ -119,3 +131,14 @@
   letter-spacing: 0;
   color: var(--muted-foreground);
 }
+
+.bg-header { --on-ink: var(--ink); }
+.vivo-today-header { min-height: 348px; }
+.vivo-focus { box-shadow: 0 6px 22px var(--border); }
+.vivo-progress { display: block; min-width: 0; border-radius: 12px; padding: 15px 6px 8px; text-align: center; }
+.vivo-mini-bars { display: flex; height: 28px; align-items: end; justify-content: center; gap: 4px; margin-top: 6px; }
+.vivo-mini-bars span { width: 3px; border-radius: 2px; background: currentColor; opacity: .5; }
+.vivo-mini-bars span:last-child { opacity: 1; }
+.vivo-quick { display: flex; flex-direction: column; align-items: center; gap: 7px; font-size: 10px; color: var(--muted-foreground); }
+.vivo-quick > span:first-child { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; }
+.vivo-quick svg { width: 25px; height: 25px; }

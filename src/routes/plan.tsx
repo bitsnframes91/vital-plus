@@ -12,9 +12,9 @@ import { routineTips, type RoutineTip } from "@/lib/deficiency-routines";
 export const Route = createFileRoute("/plan")({
   head: () => ({
     meta: [
-      { title: "Mein Plan — Fairvital Health" },
+      { title: "Mein Plan — Vivo" },
       { name: "description", content: "Dein persönlicher Plan mit Schritten für heute und Empfehlungen zu niedrigen Laborwerten." },
-      { property: "og:title", content: "Mein Plan — Fairvital Health" },
+      { property: "og:title", content: "Mein Plan — Vivo" },
       { property: "og:description", content: "Praktische Schritte und Empfehlungen zu niedrigen Laborwerten, auf dich abgestimmt." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

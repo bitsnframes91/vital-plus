@@ -7,9 +7,9 @@ import { shopLogout } from "@/lib/shop-account.functions";
 export const Route = createFileRoute("/profil")({
   head: () => ({
     meta: [
-      { title: "Profil & Datenschutz — Fairvital Health" },
+      { title: "Profil & Datenschutz — Vivo" },
       { name: "description", content: "Profil, Freigaben für Behandler und Datenschutz-Einstellungen verwalten." },
-      { property: "og:title", content: "Profil & Datenschutz — Fairvital Health" },
+      { property: "og:title", content: "Profil & Datenschutz — Vivo" },
       { property: "og:description", content: "Du entscheidest, wer deine Gesundheitsdaten sieht." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

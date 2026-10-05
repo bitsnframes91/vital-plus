@@ -17,6 +17,7 @@
 - Deficiency-specific routine tips live in `src/lib/deficiency-routines.ts` and share the supplement marker categories. Why: each measured low value needs relevant, maintainable advice rather than generic tips.
 - Version 1 user data lives in a local browser store (`src/lib/store.tsx`); migrate to Lovable Cloud when accounts are added. Why: prototype without backend.
 - Brand colors/fonts are defined only as tokens in `src/styles.css` so the exact Fairvital CI can be swapped in.
+- App identity uses a shared VivoBrand component and global semantic tokens; partner-shop references remain separate. Why: keep rebranding consistent without changing shop ownership.
 - Customer login/registration goes through the Shopware Store API via server functions in `src/lib/shop-account.functions.ts` (secrets SHOPWARE_URL, SHOPWARE_ACCESS_KEY). Why: the shop owns customer accounts; the app never stores passwords.
 - AI features (lab PDF reading, voice meal logging) run via server functions in `src/lib/ai.functions.ts` calling the Lovable AI Gateway. Why: keeps the API key server-side.
 - The public introduction is `/`, while the existing interactive daily dashboard lives at `/heute`; sign-in continues into `/heute`. Why: preserve the health workflow alongside the requested public home screen.

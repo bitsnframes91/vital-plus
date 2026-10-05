@@ -6,9 +6,9 @@ import { useStore } from "@/lib/store";
 export const Route = createFileRoute("/gesundheit")({
   head: () => ({
     meta: [
-      { title: "Gesundheit — Fairvital Health" },
+      { title: "Gesundheit — Vivo" },
       { name: "description", content: "Messwerte und Verläufe verständlich an einem Ort: Blutwerte, Gewicht, Körperdaten, Schlaf, Schritte und Trends." },
-      { property: "og:title", content: "Gesundheit — Fairvital Health" },
+      { property: "og:title", content: "Gesundheit — Vivo" },
       { property: "og:description", content: "Messwerte und Verläufe verständlich an einem Ort." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
