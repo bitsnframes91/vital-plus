@@ -4,8 +4,9 @@ import { labMarkers } from "@/lib/data";
 
 describe("Tipp des Tages", () => {
   it("matches the tip to a below-range marker from the analyzed report", () => {
-    // Ferritin is low in the example values, so the daily tip must come from its routine tips.
-    const tip = dailyTip({ date: "2026-10-03", items: [{}] }, labMarkers);
+    // Ferritin with a fresh low value, so the daily tip must come from its routine tips.
+    const labs = labMarkers.map((m) => m.id === "ferritin" ? { ...m, history: [...m.history, { date: "2026-10-03", value: 16 }] } : m);
+    const tip = dailyTip({ date: "2026-10-03", items: [{}] }, labs);
     expect(tip.marker?.id).toBe("ferritin");
     expect(["Eisen und Vitamin C kombinieren", "Kaffee und Tee versetzt trinken"]).toContain(tip.tip.title);
   });
