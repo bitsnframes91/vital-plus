@@ -67,7 +67,7 @@ export function routineTips(marker: LabMarker): RoutineTip[] {
   return category ? routines[category] ?? generalTips : generalTips;
 }
 
-const generalTips: RoutineTip[] = [
+export const generalTips: RoutineTip[] = [
   { icon: "heart", title: "Befund einordnen lassen", text: "Besprich den niedrigen Wert und mögliche Ursachen mit deiner Ärztin oder deinem Arzt." },
   { icon: "walk", title: "Gesunde Routinen beibehalten", text: "Regelmäßige Mahlzeiten, Bewegung und ausreichender Schlaf unterstützen dein allgemeines Wohlbefinden." },
 ];
