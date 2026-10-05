@@ -41,8 +41,8 @@ function Today() {
   const today = todayKey();
 
   useEffect(() => {
-    if (!!s.fullDays[today] === allDone) return;
-    set({ fullDays: { ...s.fullDays, [today]: allDone } });
+    if (!!(s.fullDays ?? {})[today] === allDone) return;
+    set({ fullDays: { ...(s.fullDays ?? {}), [today]: allDone } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allDone]);
 
@@ -51,7 +51,7 @@ function Today() {
     const d = new Date();
     if (!allDone) d.setDate(d.getDate() - 1);
     for (;;) {
-      if (!s.fullDays[d.toISOString().slice(0, 10)]) break;
+      if (!(s.fullDays ?? {})[d.toISOString().slice(0, 10)]) break;
       n += 1;
       d.setDate(d.getDate() - 1);
     }
