@@ -38,8 +38,13 @@ describe("Fairvital plan suggestions", () => {
     if (!ferritin) return;
     expect(suggestedProducts({ items: [{}] }, [ferritin])[0]?.product.name).toBe("Eisen 20mg + C");
     expect(routineTips(ferritin).map((tip) => tip.title)).toEqual([
-      "Eisen und Vitamin C kombinieren", "Kaffee und Tee versetzt trinken",
+      "Eisen und Vitamin C kombinieren", "Kaffee und Tee versetzt trinken", "Eisenquellen abwechseln",
     ]);
+  });
+  it("suggests the iron product for low Hämoglobin and Hämatokrit", () => {
+    const low = (id: string, name: string) => ({ id, name, unit: "", target: [12, 16] as [number, number], history: [{ date: "2026-10-03", value: 1 }], retestWeeks: 12, note: "" });
+    expect(suggestedProducts({ items: [{}] }, [low("pdf-hb", "Hämoglobin (HB)")])[0]?.product.name).toBe("Eisen 20mg + C");
+    expect(suggestedProducts({ items: [{}] }, [low("pdf-hct", "Hämatokrit (HCT/PCV)")])[0]?.product.name).toBe("Eisen 20mg + C");
   });
   it("chooses a low value from the analyzed report rather than an older example", () => {
     const labs = labMarkers.map((m) => m.id === "ferritin" ? { ...m, history: [...m.history, { date: "2026-10-03", value: 16 }] } : m);
