@@ -48,7 +48,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   );
 }
 
-export function PageHeader({ eyebrow, title, sub, right, image, imageAlt, imageOverlay = "page-image-overlay" }: { eyebrow: string; title: string; sub?: string; right?: ReactNode; image?: string; imageAlt?: string; imageOverlay?: string }) {
+export function PageHeader({ eyebrow, title, sub, right, image, imageAlt, imageOverlay = "page-image-overlay", subClass = "max-w-[34ch]" }: { eyebrow: string; title: string; sub?: string; right?: ReactNode; image?: string; imageAlt?: string; imageOverlay?: string; subClass?: string }) {
   return (
     <header className="relative overflow-hidden bg-header px-6 pb-10 pt-9">
       {image && (
@@ -63,7 +63,7 @@ export function PageHeader({ eyebrow, title, sub, right, image, imageAlt, imageO
           {right}
         </div>
         <h1 className="mt-4 text-balance text-[29px] font-bold leading-[1.15] text-foreground">{title}</h1>
-        {sub && <p className="mt-2 max-w-[34ch] text-pretty text-sm text-muted-foreground">{sub}</p>}
+        {sub && <p className={`mt-2 ${subClass} text-pretty text-sm text-muted-foreground`}>{sub}</p>}
       </div>
     </header>
   );
