@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { mealPlanContext } from "./meal-plan-context";
 
 const GATEWAY = "https://ai.gateway.lovable.dev/v1";
 const MODEL = "openai/gpt-6-astra";
@@ -40,12 +41,13 @@ export type PlanItem = { title: string; detail: string };
 
 export const analyzeLabPdf = createServerFn({ method: "POST" })
   .inputValidator((d) =>
-    z.object({ filename: z.string().max(200), base64: z.string().min(100).max(14_000_000), knownIds: z.array(z.string()).max(50) }).parse(d),
+    z.object({ filename: z.string().max(200), base64: z.string().min(100).max(14_000_000), knownIds: z.array(z.string()).max(50), meals: z.array(z.object({ name: z.string().max(200), date: z.string().max(10), kcal: z.number().nonnegative(), protein: z.number().nonnegative(), fiber: z.number().nonnegative(), carbs: z.number().nonnegative(), fat: z.number().nonnegative() })).max(100).default([]) }).parse(d),
   )
   .handler(async ({ data }) => {
     const prompt = `Du liest einen deutschen Laborbefund (Blutwerte). Extrahiere alle Messwerte.
 Bekannte Marker-IDs der App: ${data.knownIds.join(", ")} (vitd = Vitamin D 25-OH, ferritin = Ferritin, b12 = Holo-TC/Vitamin B12, omega = Omega-3-Index). Setze "id" auf die passende ID oder null.
 Erstelle außerdem 3–6 alltagstaugliche Empfehlungen (Ernährung, Lebensstil, Nachkontrolle) auf Deutsch, du-Form, ohne Diagnose, ohne Medikamente.
+${mealPlanContext(data.meals)}
 Antworte NUR mit JSON in dieser Form:
 {"date":"YYYY-MM-DD oder null","markers":[{"id":string|null,"name":string,"unit":string,"value":number,"targetLow":number|null,"targetHigh":number|null}],"plan":[{"title":string,"detail":string}]}`;
     const r = await askJson([

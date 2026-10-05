@@ -1,6 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useStore } from "@/lib/store";
+import { Button } from "@/components/ui/button";
+import { NutritionProfileFields } from "@/components/NutritionProfileFields";
+import type { NutritionProfile } from "@/lib/nutrition-targets";
 import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
 
 export const Route = createFileRoute("/onboarding")({
@@ -27,6 +30,7 @@ function Onboarding() {
   const [name, setName] = useState(s.name);
   const [goals, setGoals] = useState<string[]>(s.goals);
   const [diet, setDiet] = useState("Mischkost");
+  const [profile, setProfile] = useState<NutritionProfile>({ age: s.body.age, sex: s.body.sex, activity: s.body.activity });
   const [ok, setOk] = useState(false);
   const [weight, setWeight] = useState(s.body.weightKg?.toString() ?? "");
   const [height, setHeight] = useState(s.body.heightCm?.toString() ?? "");
@@ -56,7 +60,7 @@ function Onboarding() {
         <div className="flex flex-wrap gap-2">
           {goalOptions.map((g) => {
             const on = goals.includes(g);
-            return <button key={g} onClick={() => setGoals(on ? goals.filter((x) => x !== g) : [...goals, g])} className={`rounded-full px-4 py-2 text-sm ring-1 ring-border ${on ? "bg-ink text-on-ink" : "bg-card"}`}>{g}</button>;
+            return <Button key={g} onClick={() => setGoals(on ? goals.filter((x) => x !== g) : [...goals, g])} className={`rounded-full px-4 py-2 text-sm ring-1 ring-border ${on ? "bg-ink text-on-ink" : "bg-card"}`}>{g}</Button>;
           })}
         </div>
       ),
@@ -66,7 +70,7 @@ function Onboarding() {
       t: "Wie ernährst du dich?",
       body: (
         <div className="grid grid-cols-2 gap-2">
-          {dietOptions.map((d) => <button key={d} onClick={() => setDiet(d)} className={`rounded-2xl px-4 py-4 text-sm ring-1 ring-border ${diet === d ? "bg-ink text-on-ink" : "bg-card"}`}>{d}</button>)}
+          {dietOptions.map((d) => <Button key={d} onClick={() => setDiet(d)} className={`rounded-2xl px-4 py-4 text-sm ring-1 ring-border ${diet === d ? "bg-ink text-on-ink" : "bg-card"}`}>{d}</Button>)}
         </div>
       ),
       valid: true,
@@ -97,6 +101,11 @@ function Onboarding() {
       valid: bmi != null,
     },
     {
+      t: "Dein Alltag und Energiebedarf",
+      body: <NutritionProfileFields value={profile} onChange={setProfile} />,
+      valid: Boolean(profile.age && profile.age >= 18 && profile.age <= 120 && profile.sex && profile.activity),
+    },
+    {
       t: "Deine Daten, deine Entscheidung.",
       body: (
         <label className="flex items-start gap-3 rounded-2xl bg-card p-4 text-sm ring-1 ring-border">
@@ -107,11 +116,12 @@ function Onboarding() {
       valid: ok,
     },
   ];
-  const cur = steps[step]!;
+  const cur = steps[step];
+  if (!cur) return null;
 
   const next = () => {
     if (step < steps.length - 1) return setStep(step + 1);
-    set({ name, goals, onboarded: true, body: { ...s.body, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? stepGoalFor(bmi) } });
+    set({ name, goals, onboarded: true, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? stepGoalFor(bmi) } });
     nav({ to: "/heute" });
   };
 
@@ -129,10 +139,10 @@ function Onboarding() {
         </div>
         <div className="flex-1 px-6 pt-6">{cur.body}</div>
         <div className="flex gap-2 px-6 pb-8 pt-6">
-          {step > 0 && <button onClick={() => setStep(step - 1)} className="rounded-full px-5 py-3 text-sm ring-1 ring-border">Zurück</button>}
-          <button disabled={!cur.valid} onClick={next} className="flex-1 rounded-full bg-ink py-3 text-sm font-medium text-on-ink disabled:opacity-40">
+          {step > 0 && <Button onClick={() => setStep(step - 1)} className="rounded-full px-5 py-3 text-sm ring-1 ring-border">Zurück</Button>}
+          <Button disabled={!cur.valid} onClick={next} className="flex-1 rounded-full bg-ink py-3 text-sm font-medium text-on-ink disabled:opacity-40">
             {step === steps.length - 1 ? "Los geht's" : "Weiter"}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

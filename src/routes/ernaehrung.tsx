@@ -1,10 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
 import { mealFromVoice, mealNutrition } from "@/lib/ai.functions";
 import { blobToBase64, recordWav } from "@/lib/record-wav";
+import { Button } from "@/components/ui/button";
+import { NutritionProfileFields } from "@/components/NutritionProfileFields";
+import { nutritionTargets, nutritionStatus, type NutritionProfile } from "@/lib/nutrition-targets";
 import type { Meal } from "@/lib/data";
 import ernaehrungVeg from "@/assets/ernaehrung-veg.jpg.asset.json";
 
@@ -30,6 +33,7 @@ const fmtDay = (iso: string) =>
 
 function Nutrition() {
   const { s, set } = useStore();
+  const [profile, setProfile] = useState<NutritionProfile>({ age: s.body.age, sex: s.body.sex, activity: s.body.activity });
   const [name, setName] = useState("");
   const [label, setLabel] = useState("Abendessen");
   const [protein, setProtein] = useState("");
@@ -66,7 +70,7 @@ function Nutrition() {
   const todayMeals = s.meals.filter((m) => m.date === today);
   const sum = (key: "kcal" | "protein" | "fiber" | "carbs" | "fat") => todayMeals.reduce((a, m) => a + (m[key] || 0), 0);
   const totals = { kcal: sum("kcal"), protein: sum("protein"), fiber: sum("fiber"), carbs: sum("carbs"), fat: sum("fat") };
-  const proteinGoal = 90;
+  const targets = nutritionTargets(s.body);
 
   // Diary: group meals by day, newest first.
   const days = [...new Set(s.meals.map((m) => m.date))].sort().reverse();
@@ -113,37 +117,46 @@ function Nutrition() {
 
   const removeMeal = (id: string) => set({ meals: s.meals.filter((x) => x.id !== id) });
 
-  const statCards: { label: string; value: string }[] = [
-    { label: "Kalorien", value: `ca. ${totals.kcal} kcal` },
-    { label: "Protein", value: `ca. ${totals.protein.toFixed(1)} g` },
-    { label: "Ballaststoffe", value: `ca. ${totals.fiber.toFixed(1)} g` },
-    { label: "Kohlenhydrate", value: `ca. ${totals.carbs.toFixed(1)} g` },
-    { label: "Fett", value: `ca. ${totals.fat.toFixed(1)} g` },
-  ];
+  const statCards = [
+    { label: "Kalorien", key: "kcal", unit: "kcal" },
+    { label: "Protein", key: "protein", unit: "g" },
+    { label: "Ballaststoffe", key: "fiber", unit: "g" },
+    { label: "Kohlenhydrate", key: "carbs", unit: "g" },
+    { label: "Fett", key: "fat", unit: "g" },
+  ] as const;
+  const feedback = {
+    good: { color: "text-bmi-good", emoji: "🙂", label: "Unter 80 % des Richtwerts" },
+    near: { color: "text-nutrition-near", emoji: "😐", label: "Richtwert fast erreicht" },
+    over: { color: "text-bmi-bad", emoji: "😠", label: "Richtwert überschritten" },
+  };
+  const format = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 1 });
 
   return (
     <AppShell>
       <PageHeader eyebrow="Ernährung" title="Was hast du heute gegessen?" sub="Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett." subClass="max-w-[26ch]" image={ernaehrungVeg.url} imageAlt="Angeschnittene Orangenscheibe in leuchtend orangefarbenem Saft mit schwebenden Tropfen" imageOverlay="citrus-image-overlay" />
       <div className="space-y-4 px-4 pt-4">
         <div className="grid grid-cols-2 gap-3">
-          {statCards.map((c) => (
-            <div key={c.label} className="card-surface p-4">
-              <div className="eyebrow">{c.label}</div>
-              <div className="font-data mt-1 text-[24px] font-medium">{c.value}</div>
-              <div className="text-[12px] text-ink/45">Heute erfasst · ca.</div>
-            </div>
-          ))}
-          <div className="card-surface p-4">
-            <div className="eyebrow">Protein-Ziel</div>
-            <div className="mt-1 flex items-baseline gap-1.5">
-              <span className="font-data text-[24px] font-medium">{totals.protein}</span>
-              <span className="font-data text-[13px] text-ink/45">/ {proteinGoal} g</span>
-            </div>
-            <div className="mt-2 h-2 overflow-hidden rounded-full bg-ink/10">
-              <div className="h-full rounded-full bg-fv" style={{ width: `${Math.min(100, (totals.protein / proteinGoal) * 100)}%` }} />
-            </div>
-          </div>
+          {statCards.map((c) => {
+            const target = targets?.[c.key];
+            const state = target ? feedback[nutritionStatus(totals[c.key], target)] : null;
+            return <div key={c.key} data-nutrition={c.key} className="card-surface min-w-0 p-4">
+              <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words">{c.label}</div>{state && <span role="img" aria-label={state.label} className="text-xl">{state.emoji}</span>}</div>
+              <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${state?.color ?? "text-foreground"}`}>
+                <span className="text-[23px] font-semibold">{format(totals[c.key])} {c.unit}</span>
+                <span className="text-[13px]">/ {target ? `${format(target)} ${c.unit}` : "—"}</span>
+              </div>
+              <div className="mt-2 text-[11px] text-muted-foreground">Heute / Tagesrichtwert · ca.</div>
+            </div>;
+          })}
         </div>
+        {targets ? <p className="text-[11px] leading-relaxed text-muted-foreground">Geschätzte Richtwerte zum Gewichtserhalt, keine medizinischen Grenzwerte. Mehr Protein oder Ballaststoffe ist nicht automatisch ungesund. Bei Schwangerschaft, Stillzeit oder Erkrankungen ärztlich abstimmen.</p> : <section className="space-y-3 border-y border-border py-4">
+          <h2 className="text-[15px] font-semibold">Deine Tagesrichtwerte</h2>
+          <NutritionProfileFields value={profile} onChange={setProfile} />
+          {(!s.body.weightKg || !s.body.heightCm) && <Link to="/gesundheit" className="block text-sm text-fv-deep underline">Gewicht und Größe ergänzen</Link>}
+          {profile.sex === "unspecified" && <p className="text-xs text-muted-foreground">Ohne diese Angabe ist keine persönliche Schätzung möglich.</p>}
+          <Button disabled={!profile.age || profile.age < 18 || profile.age > 120 || !profile.sex || !profile.activity} onClick={() => set({ body: { ...s.body, ...profile } })} className="w-full bg-fresh text-ink">Angaben speichern</Button>
+        </section>}
+
 
         <button onClick={() => void toggleVoice()} disabled={vs === "busy"}
           className={`card-surface flex w-full items-center gap-3 p-5 text-left disabled:opacity-60 ${vs === "rec" ? "ring-2 ring-fv" : ""}`}>
