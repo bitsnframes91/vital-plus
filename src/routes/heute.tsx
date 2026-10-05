@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useStore } from "@/lib/store";
 import { fmtDate, status } from "@/lib/data";
 import { reportMarkers } from "@/lib/plan-products";
-import { dailyTip } from "@/lib/daily-tip";
+import { dailyTip, msUntilNextTip } from "@/lib/daily-tip";
 import lakeHero from "@/assets/vivo-lake.jpg";
 import { MovementDialog } from "@/components/MovementDialog";
 import { VivoBrand } from "@/components/VivoBrand";
@@ -50,7 +50,13 @@ function Today() {
   const selectedGoal = actions.find((a) => a.key === selectedGoalKey);
   const done = actions.filter((a) => s.actionsDone[a.key]).length;
   const allDone = actions.length > 0 && done === actions.length;
-  const tip = dailyTip(s.aiPlan, s.labs);
+  const [tipNow, setTipNow] = useState(() => new Date());
+  const [tipOpen, setTipOpen] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => { setTipNow(new Date()); setTipOpen(false); }, msUntilNextTip(tipNow) + 1000);
+    return () => clearTimeout(t);
+  }, [tipNow]);
+  const tip = dailyTip(s.aiPlan, s.labs, s.account?.userId, tipNow);
   const TipIcon = tipIcon[tip.tip.icon];
   const today = todayKey();
 
@@ -87,9 +93,11 @@ function Today() {
           </div>
           <p className="mt-8 text-[13px] font-medium text-foreground">Guten Morgen, {s.name}.</p>
           <h1 className="mt-1 max-w-[280px] text-[29px] font-bold leading-[1.15] text-foreground">Gesünder leben.<br />Glücklicher sein.</h1>
-          <Link
-            to="/plan"
-            aria-label={tip.marker ? `Tipp des Tages für ${tip.marker.name} – im Plan öffnen` : "Tipp des Tages – im Plan öffnen"}
+          <button
+            type="button"
+            onClick={() => setTipOpen((o) => !o)}
+            aria-expanded={tipOpen}
+            aria-label={tipOpen ? "Tipp des Tages einklappen" : "Tipp des Tages aufklappen"}
             className="vivo-focus mt-6 flex h-auto min-h-[116px] w-full items-start gap-3 whitespace-normal rounded-2xl bg-card/95 px-4 py-4 text-left hover:bg-card"
           >
             <span className="grid size-12 shrink-0 place-items-center rounded-full bg-teal-soft text-fresh"><TipIcon className="size-7" /></span>
@@ -98,10 +106,21 @@ function Today() {
                 {tip.marker ? `Tipp des Tages · ${tip.marker.name}` : "Tipp des Tages"}
               </span>
               <span className="mt-1 block text-[15px] font-bold leading-snug">{tip.tip.title}</span>
-              <span className="mt-1.5 block text-[11px] font-medium leading-relaxed text-muted-foreground">{tip.tip.text}</span>
+              <span className={`mt-1.5 block text-[11px] font-medium leading-relaxed text-muted-foreground ${tipOpen ? "" : "line-clamp-2"}`}>{tip.tip.text}</span>
+              {tipOpen && (
+                <span className="mt-3 block border-t border-border pt-3 text-[11px] leading-relaxed text-foreground/80">
+                  <span className="block font-semibold text-foreground">Warum dieser Tipp?</span>
+                  <span className="mt-1 block">
+                    {tip.marker
+                      ? `Dein Wert für ${tip.marker.name} liegt unter dem Zielbereich. Kleine Gewohnheiten im Alltag können helfen – sprich Auffälligkeiten mit deiner Ärztin oder deinem Arzt ab.`
+                      : "Ein allgemeiner Tipp für mehr Wohlbefinden im Alltag."}
+                  </span>
+                  <span className="mt-2 block text-muted-foreground">Morgen um 01:00 Uhr gibt es einen neuen Tipp.</span>
+                </span>
+              )}
             </span>
-            <span className="my-auto grid size-7 shrink-0 place-items-center rounded-full bg-muted text-fv-deep"><ChevronRight /></span>
-          </Link>
+            <span className={`my-auto grid size-7 shrink-0 place-items-center rounded-full bg-muted text-fv-deep transition-transform ${tipOpen ? "rotate-90" : ""}`}><ChevronRight /></span>
+          </button>
         </div>
       </header>
 
