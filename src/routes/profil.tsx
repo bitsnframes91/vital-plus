@@ -37,6 +37,7 @@ function Toggle({ on, onClick, label, sub }: { on: boolean; onClick: () => void;
 }
 
 function Profile() {
+  const navigate = useNavigate();
   const { s, set } = useStore();
   const [step, setStep] = useState<null | "manage" | "confirm" | "code">(null);
   const [code, setCode] = useState("");
