@@ -127,7 +127,13 @@ function Profile() {
           )}
         </div>
         {s.account && (
-          <button onClick={() => void supabase.auth.signOut()} className="w-full rounded-full py-2.5 text-sm text-destructive ring-1 ring-border">
+          <button
+            onClick={async () => {
+              await supabase.auth.signOut();
+              await navigate({ to: "/", replace: true });
+            }}
+            className="w-full rounded-full py-2.5 text-sm text-destructive ring-1 ring-border"
+          >
             Abmelden
           </button>
         )}
