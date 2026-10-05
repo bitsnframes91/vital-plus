@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
 import { useStore } from "@/lib/store";
-import { fmtDate, status, type LabMarker } from "@/lib/data";
+import { fmtDate, status, labMarkers as catalog, type LabMarker } from "@/lib/data";
 import { analyzeLabPdf } from "@/lib/ai.functions";
 import { blobToBase64 } from "@/lib/record-wav";
 import laborLab from "@/assets/labor-lab.jpg.asset.json";
@@ -26,7 +26,9 @@ export const Route = createFileRoute("/labor")({
 
 function Labs() {
   const { s, set } = useStore();
-  const [marker, setMarker] = useState(s.labs[0]!.id);
+  // New accounts start without lab values; offer the standard markers for manual entry.
+  const options: LabMarker[] = [...s.labs, ...catalog.filter((c) => !s.labs.some((l) => l.id === c.id)).map((c) => ({ ...c, history: [] }))];
+  const [marker, setMarker] = useState(options[0]?.id ?? "");
   const [value, setValue] = useState("");
   const analyze = useServerFn(analyzeLabPdf);
   const [busy, setBusy] = useState(false);
@@ -81,7 +83,14 @@ function Labs() {
     const v = parseFloat(value.replace(",", "."));
     if (isNaN(v)) return;
     const date = new Date().toISOString().slice(0, 10);
-    set({ labs: s.labs.map((l) => (l.id === marker ? { ...l, history: [...l.history, { date, value: v }] } : l)) });
+    const point = { date, value: v };
+    if (s.labs.some((l) => l.id === marker)) {
+      set({ labs: s.labs.map((l) => (l.id === marker ? { ...l, history: [...l.history, point] } : l)) });
+    } else {
+      const base = options.find((o) => o.id === marker);
+      if (!base) return;
+      set({ labs: [...s.labs, { ...base, history: [point] }] });
+    }
     setValue("");
   };
 
