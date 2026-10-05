@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
+import { useEffect } from "react";
 import { AppShell, PageHeader, Sparkbars } from "@/components/AppShell";
+import { Progress } from "@/components/ui/progress";
 import { useStore } from "@/lib/store";
 import { fmtDate, status, type LabMarker } from "@/lib/data";
 import { analyzeLabPdf } from "@/lib/ai.functions";
@@ -28,7 +30,14 @@ function Labs() {
   const [value, setValue] = useState("");
   const analyze = useServerFn(analyzeLabPdf);
   const [busy, setBusy] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+
+  useEffect(() => {
+    if (!busy) return;
+    const t = setInterval(() => setProgress((p) => Math.min(p + Math.random() * 7 + 2, 88)), 400);
+    return () => clearInterval(t);
+  }, [busy]);
 
   const upload = async (file: File | undefined) => {
     if (!file) return;
