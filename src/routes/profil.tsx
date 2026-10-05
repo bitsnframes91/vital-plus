@@ -152,15 +152,15 @@ function Profile() {
           {step === "code" && (
             <>
               <DialogHeader><DialogTitle>Code eingeben</DialogTitle></DialogHeader>
-              <p className="text-sm text-ink/60">Wir haben einen 6-stelligen Code an {s.account?.email} gesendet.</p>
+              <p className="text-sm text-ink/60">Wir haben einen Code an {s.account?.email} gesendet.</p>
               <input
-                inputMode="numeric" maxLength={6} value={code} autoFocus
+                inputMode="numeric" maxLength={10} value={code} autoFocus
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
                 className="w-full rounded-xl bg-muted px-3 py-3 text-center text-lg tracking-[0.4em] outline-none"
                 aria-label="Bestätigungscode"
               />
               {err && <p className="text-sm text-destructive">{err}</p>}
-              <button disabled={busy || code.length !== 6} onClick={confirmDelete} className="w-full rounded-full bg-destructive py-2.5 text-sm font-medium text-destructive-foreground disabled:opacity-50">
+              <button disabled={busy || code.length < 6} onClick={confirmDelete} className="w-full rounded-full bg-destructive py-2.5 text-sm font-medium text-destructive-foreground disabled:opacity-50">
                 {busy ? "Wird gelöscht…" : "Konto endgültig löschen"}
               </button>
               <button disabled={busy} onClick={sendCode} className="text-[13px] font-medium text-fv-deep">Code erneut senden</button>

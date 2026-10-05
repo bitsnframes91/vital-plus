@@ -6,7 +6,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 // Deletes the signed-in account only after the emailed reauthentication code is verified.
 export const deleteAccount = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d) => z.object({ code: z.string().trim().regex(/^\d{6}$/) }).parse(d))
+  .inputValidator((d) => z.object({ code: z.string().trim().regex(/^\d{6,10}$/) }).parse(d))
   .handler(async ({ data, context }) => {
     const url = process.env["SUPABASE_URL"]!;
     const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
