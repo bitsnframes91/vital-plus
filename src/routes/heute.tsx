@@ -48,6 +48,8 @@ function Today() {
   const selectedGoal = actions.find((a) => a.key === selectedGoalKey);
   const done = actions.filter((a) => s.actionsDone[a.key]).length;
   const allDone = actions.length > 0 && done === actions.length;
+  const tip = dailyTip(s.aiPlan, s.labs);
+  const TipIcon = tipIcon[tip.tip.icon];
   const today = todayKey();
 
   useEffect(() => {
