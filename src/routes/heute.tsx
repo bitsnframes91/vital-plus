@@ -6,10 +6,20 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useStore } from "@/lib/store";
 import { fmtDate, status } from "@/lib/data";
 import { reportMarkers } from "@/lib/plan-products";
+import { dailyTip } from "@/lib/daily-tip";
 import lakeHero from "@/assets/vivo-lake.jpg";
 import { VivoBrand } from "@/components/VivoBrand";
-import { Activity, ChevronRight, Footprints, Heart, Leaf, Moon, Plus, Salad, UserRound, Watch } from "lucide-react";
+import { Activity, ChevronRight, Clock, Footprints, Heart, Leaf, Moon, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
 import { dailyGoals, todayKey } from "@/lib/daily-goals";
+import type { RoutineTip } from "@/lib/deficiency-routines";
+
+const tipIcon: Record<RoutineTip["icon"], typeof Leaf> = {
+  food: Salad,
+  sun: Sun,
+  walk: Footprints,
+  clock: Clock,
+  heart: Heart,
+};
 
 export const Route = createFileRoute("/heute")({
   head: () => ({
