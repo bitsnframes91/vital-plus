@@ -18,6 +18,7 @@ type State = {
   body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null };
   weekLog: Record<string, number>;
   weightLog: Record<string, number>;
+  fullDays: Record<string, boolean>;
 };
 
 const initial: State = {
@@ -34,6 +35,7 @@ const initial: State = {
   body: { weightKg: null, waistCm: null, sleepHours: null, steps: null },
   weekLog: {},
   weightLog: {},
+  fullDays: {},
 };
 
 type CtxValue = { s: State; set: (p: Partial<State>) => void } | null;
@@ -49,6 +51,7 @@ function migrate(parsed: any) {
   if (parsed.account && !parsed.account.userId) parsed.account = null;
   parsed.weekLog = typeof parsed.weekLog === "object" && parsed.weekLog !== null ? parsed.weekLog : {};
   parsed.weightLog = typeof parsed.weightLog === "object" && parsed.weightLog !== null ? parsed.weightLog : {};
+  parsed.fullDays = typeof parsed.fullDays === "object" && parsed.fullDays !== null ? parsed.fullDays : {};
   if (parsed.actionsDone) {
     const today = new Date().toISOString().slice(0, 10);
     if (parsed.weekLog[today] === undefined) {
