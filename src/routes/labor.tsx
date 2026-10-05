@@ -6,6 +6,7 @@ import { useStore } from "@/lib/store";
 import { fmtDate, status, type LabMarker } from "@/lib/data";
 import { analyzeLabPdf } from "@/lib/ai.functions";
 import { blobToBase64 } from "@/lib/record-wav";
+import laborLab from "@/assets/labor-lab.jpg.asset.json";
 
 export const Route = createFileRoute("/labor")({
   head: () => ({
@@ -73,7 +74,7 @@ function Labs() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow="Labor" title="Deine Laborwerte" sub="Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen." />
+      <PageHeader eyebrow="Labor" title="Deine Laborwerte" sub="Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen." image={laborLab.url} imageAlt="Forschende im weißen Kittel arbeiten im Labor an einem Mikroskop" />
       <div className="space-y-3 px-4 pt-4">
         <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
           <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv/10 font-data text-[12px] text-fv-deep">PDF</span>
