@@ -73,7 +73,7 @@ function Profile() {
     <AppShell>
       <PageHeader
         eyebrow="Einstellungen"
-        title={s.name}
+        title={s.account ? s.name || "Dein Profil" : "Profil"}
         sub="Deine Daten gehören dir."
         image={profileDesk.url}
         imageAlt="Ärztin am Schreibtisch mit Laptop, Klemmbrett und Pflanzen"
@@ -83,7 +83,7 @@ function Profile() {
       <div className="space-y-4 px-4 pt-4">
         <div className="card-surface p-5">
           <div className="eyebrow">Name</div>
-          <input value={s.name} onChange={(e) => set({ name: e.target.value })} className="mt-2 w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none" />
+          <input value={s.account ? s.name : ""} placeholder="Dein Name" aria-label="Name" onChange={(e) => set({ name: e.target.value })} className="mt-2 w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none" />
           <Link to="/onboarding" className="mt-3 inline-block text-[13px] font-medium text-fv-deep">Gesundheitsprofil bearbeiten →</Link>
         </div>
         <div className="card-surface divide-y px-5">
