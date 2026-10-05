@@ -205,7 +205,7 @@ export const products: Product[] = [
 
 // A verified catalog item for general browsing when no measured deficiency matches.
 // This is not a recommendation based on the user's lab results.
-export const catalogSpotlight: Product = products.find((p) => p.shopwareId === "98106")!;
+export const catalogSpotlight: Product = { ...products.find((p) => p.shopwareId === "98106")!, relatedMarker: undefined };
 
 export type Meal = {
   id: string;
