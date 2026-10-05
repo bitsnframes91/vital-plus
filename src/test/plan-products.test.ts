@@ -9,8 +9,8 @@ describe("Fairvital plan suggestions", () => {
   });
   it("suggests matching products for every below-range marker with a catalog match", () => {
     expect(suggestedProducts({ items: [{}] }, labMarkers).map(({ marker, product }) => [marker.id, product.name])).toEqual([
-      ["ferritin", "Eisen"],
-      ["omega", "Omega-3"],
+      ["ferritin", "Eisen 20mg + C"],
+      ["omega", "Flachsöl Omega 3-6-9"],
     ]);
   });
   it("does not recommend vitamin D when its value is high", () => {
@@ -23,7 +23,7 @@ describe("Fairvital plan suggestions", () => {
       { id: "pdf-zink", name: "Zink", unit: "µmol/l", target: [10, 20], history: [{ date: "2026-10-03", value: 8 }], retestWeeks: 12, note: "" },
       { id: "pdf-folsaure", name: "Folsäure", unit: "ng/ml", target: [4, 20], history: [{ date: "2026-10-03", value: 3 }], retestWeeks: 12, note: "" },
     ];
-    expect(suggestedProducts({ items: [{}] }, imported).map(({ product }) => product.name)).toEqual(["Magnesium", "Zink", "Folsäure"]);
+    expect(suggestedProducts({ items: [{}] }, imported).map(({ product }) => product.name)).toEqual(["Magnesium Malat Pulver", "Zink + Histidin + Vitamin C", "Folsäure 5000µg"]);
   });
   it("does not suggest anything for normal or high imported values", () => {
     const imported: LabMarker[] = [
@@ -36,14 +36,14 @@ describe("Fairvital plan suggestions", () => {
     const ferritin = labMarkers.find((m) => m.id === "ferritin");
     expect(ferritin).toBeDefined();
     if (!ferritin) return;
-    expect(suggestedProducts({ items: [{}] }, [ferritin])[0]?.product.name).toBe("Eisen");
+    expect(suggestedProducts({ items: [{}] }, [ferritin])[0]?.product.name).toBe("Eisen 20mg + C");
     expect(routineTips(ferritin).map((tip) => tip.title)).toEqual([
       "Eisen und Vitamin C kombinieren", "Kaffee und Tee versetzt trinken",
     ]);
   });
   it("chooses a low value from the analyzed report rather than an older example", () => {
     const labs = labMarkers.map((m) => m.id === "ferritin" ? { ...m, history: [...m.history, { date: "2026-10-03", value: 16 }] } : m);
-    expect(todaySuggestion({ date: "2026-10-03", items: [{}] }, labs)?.product.name).toBe("Eisen");
+    expect(todaySuggestion({ date: "2026-10-03", items: [{}] }, labs)?.product.name).toBe("Eisen 20mg + C");
     expect(reportMarkers({ date: "2026-10-03" }, labs).map((m) => m.id)).toEqual(["ferritin"]);
   });
   it("does not recommend supplements for a report with only normal values", () => {
