@@ -1,4 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { deleteAccount } from "@/lib/account.functions";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
 import { supabase } from "@/integrations/supabase/client";
@@ -34,6 +38,31 @@ function Toggle({ on, onClick, label, sub }: { on: boolean; onClick: () => void;
 
 function Profile() {
   const { s, set } = useStore();
+  const [step, setStep] = useState<null | "manage" | "confirm" | "code">(null);
+  const [code, setCode] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const del = useServerFn(deleteAccount);
+  const close = () => { setStep(null); setCode(""); setErr(""); };
+  const sendCode = async () => {
+    setBusy(true); setErr("");
+    const { error } = await supabase.auth.reauthenticate();
+    setBusy(false);
+    if (error) return setErr("Code konnte nicht gesendet werden. Bitte später erneut versuchen.");
+    setStep("code");
+  };
+  const confirmDelete = async () => {
+    setBusy(true); setErr("");
+    try {
+      await del({ data: { code } });
+      localStorage.removeItem("fv-health-v1");
+      await supabase.auth.signOut();
+      location.href = "/";
+    } catch {
+      setErr("Der Code ist ungültig oder abgelaufen.");
+      setBusy(false);
+    }
+  };
   return (
     <AppShell>
       <PageHeader
@@ -79,8 +108,8 @@ function Profile() {
           {s.account ? (
             <>
               Angemeldet als <span className="font-medium text-ink">{s.account.email}</span>. Deine Daten werden automatisch gesichert.
-              <button onClick={() => void supabase.auth.signOut()} className="mt-3 block text-[13px] font-medium text-fv-deep">
-                Abmelden
+              <button onClick={() => setStep("manage")} className="mt-3 block text-[13px] font-medium text-fv-deep">
+                Konto verwalten →
               </button>
             </>
           ) : (
@@ -90,10 +119,55 @@ function Profile() {
             </>
           )}
         </div>
-        <button onClick={() => { localStorage.removeItem("fv-health-v1"); location.reload(); }} className="w-full rounded-full py-2.5 text-sm text-destructive ring-1 ring-border">
-          Alle Daten löschen
-        </button>
+        {s.account && (
+          <button onClick={() => void supabase.auth.signOut()} className="w-full rounded-full py-2.5 text-sm text-destructive ring-1 ring-border">
+            Abmelden
+          </button>
+        )}
       </div>
+      <Dialog open={step !== null} onOpenChange={(o) => { if (!o && !busy) close(); }}>
+        <DialogContent className="max-w-sm rounded-3xl">
+          {step === "manage" && (
+            <>
+              <DialogHeader><DialogTitle>Konto verwalten</DialogTitle></DialogHeader>
+              <p className="text-sm text-ink/60">Angemeldet als {s.account?.email}</p>
+              <button onClick={() => setStep("confirm")} className="w-full rounded-full py-2.5 text-sm font-medium text-destructive ring-1 ring-destructive/40">
+                Profil löschen
+              </button>
+            </>
+          )}
+          {step === "confirm" && (
+            <>
+              <DialogHeader><DialogTitle>Willst du dein Profil wirklich löschen?</DialogTitle></DialogHeader>
+              <p className="text-sm text-ink/60">Alle Werte, Mahlzeiten und dein Plan werden dauerhaft gelöscht. Wir senden dir dazu einen Bestätigungscode an {s.account?.email}.</p>
+              {err && <p className="text-sm text-destructive">{err}</p>}
+              <div className="flex gap-2">
+                <button onClick={close} className="flex-1 rounded-full py-2.5 text-sm font-medium ring-1 ring-border">Nein</button>
+                <button disabled={busy} onClick={sendCode} className="flex-1 rounded-full bg-destructive py-2.5 text-sm font-medium text-destructive-foreground disabled:opacity-50">
+                  {busy ? "Senden…" : "Ja"}
+                </button>
+              </div>
+            </>
+          )}
+          {step === "code" && (
+            <>
+              <DialogHeader><DialogTitle>Code eingeben</DialogTitle></DialogHeader>
+              <p className="text-sm text-ink/60">Wir haben einen 6-stelligen Code an {s.account?.email} gesendet.</p>
+              <input
+                inputMode="numeric" maxLength={6} value={code} autoFocus
+                onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+                className="w-full rounded-xl bg-muted px-3 py-3 text-center text-lg tracking-[0.4em] outline-none"
+                aria-label="Bestätigungscode"
+              />
+              {err && <p className="text-sm text-destructive">{err}</p>}
+              <button disabled={busy || code.length !== 6} onClick={confirmDelete} className="w-full rounded-full bg-destructive py-2.5 text-sm font-medium text-destructive-foreground disabled:opacity-50">
+                {busy ? "Wird gelöscht…" : "Konto endgültig löschen"}
+              </button>
+              <button disabled={busy} onClick={sendCode} className="text-[13px] font-medium text-fv-deep">Code erneut senden</button>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </AppShell>
   );
 }
