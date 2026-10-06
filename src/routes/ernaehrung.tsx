@@ -11,6 +11,7 @@ import { NutritionProfileFields } from "@/components/NutritionProfileFields";
 import { nutrientStatus, nutritionTargets, type NutritionProfile } from "@/lib/nutrition-targets";
 import type { Meal } from "@/lib/data";
 import ernaehrungVeg from "@/assets/ernaehrung-veg.jpg.asset.json";
+import voiceCardBg from "@/assets/voice-card-bg.png";
 
 export const Route = createFileRoute("/ernaehrung")({
   head: () => ({
@@ -161,14 +162,20 @@ function Nutrition() {
 
 
         <button onClick={() => void toggleVoice()} disabled={vs === "busy"}
-          className={`card-surface flex w-full items-center gap-3 p-5 text-left disabled:opacity-60 ${vs === "rec" ? "ring-2 ring-fv" : ""}`}>
-          <span className={`grid size-11 shrink-0 place-items-center rounded-full ${vs === "rec" ? "animate-pulse bg-fresh text-ink" : "bg-fresh text-ink"}`}>
-            <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
+          className={`card-surface relative w-full overflow-hidden text-left disabled:opacity-60 ${vs === "rec" ? "ring-2 ring-fv" : ""}`}>
+          <span aria-hidden className="absolute inset-y-0 right-0 w-[48%]">
+            <img src={voiceCardBg} alt="" loading="lazy" width={1200} height={640} className="size-full object-cover object-[65%_center]" />
+            <span className="absolute inset-0 bg-gradient-to-r from-card via-card/70 to-card/20" />
           </span>
-          <div className="min-w-0 flex-1">
-            <div className="text-[15px] font-medium">{vs === "rec" ? "Ich höre zu… tippen zum Beenden" : vs === "busy" ? "Wird verarbeitet…" : "Erzähl mir, was du gegessen hast"}</div>
-            <div className="text-[12px] text-ink/45">z. B. „Mittags hatte ich Nudeln mit Hähnchen und einen Apfel“</div>
-          </div>
+          <span className={`relative z-10 flex items-center gap-3 p-5`}>
+            <span className={`grid size-11 shrink-0 place-items-center rounded-full ${vs === "rec" ? "animate-pulse bg-fresh text-ink" : "bg-fresh text-ink"}`}>
+              <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="text-[15px] font-medium">{vs === "rec" ? "Ich höre zu… tippen zum Beenden" : vs === "busy" ? "Wird verarbeitet…" : "Erzähl mir, was du gegessen hast"}</div>
+              <div className="text-[12px] text-ink/45">z. B. „Mittags hatte ich Nudeln mit Hähnchen und einen Apfel“</div>
+            </div>
+          </span>
         </button>
         {vmsg && <p className="rounded-xl bg-muted px-4 py-3 text-[13px] text-ink/70">{vmsg}</p>}
 
