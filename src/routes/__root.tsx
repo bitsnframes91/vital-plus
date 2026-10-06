@@ -135,7 +135,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <StoreProvider>
-        <AppLockProvider><AppSettingsProvider><Outlet /></AppSettingsProvider></AppLockProvider>
+        <AppSettingsProvider><AppLockProvider><Outlet /></AppLockProvider></AppSettingsProvider>
       </StoreProvider>
     </QueryClientProvider>
   );
