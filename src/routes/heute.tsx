@@ -49,7 +49,7 @@ function Today() {
   const featured = measured[0];
   const featuredProduct = featured ? productForMarker(featured) : undefined;
   const last = featured?.history.at(-1);
-  const { fromPlan, goals: actions } = dailyGoals(s.aiPlan);
+  const { fromPlan, goals: actions } = dailyGoals(s.aiPlan, s.onboarded ? s.goals : [], s.goalOff);
   const selectedGoal = actions.find((a) => a.key === selectedGoalKey);
   const done = actions.filter((a) => s.actionsDone[a.key]).length;
   const allDone = actions.length > 0 && done === actions.length;
