@@ -7,6 +7,7 @@ export const Route = createFileRoute("/login")({
   validateSearch: (search: Record<string, unknown>) => ({ mode: search["mode"] === "register" ? ("register" as const) : ("login" as const) }),
   head: () => ({
     meta: [
+      { title: "Anmelden — Vivo" },
       { name: "description", content: "Mit E-Mail und Passwort bei Vivo anmelden oder ein Konto anlegen." },
       { property: "og:title", content: "Anmelden — Vivo" },
       { property: "og:description", content: "Dein Vivo-Konto – deine Werte auf allen Geräten." },
@@ -44,14 +45,6 @@ function Login() {
       if (!data.session) { setMsg("Fast geschafft: Bitte bestätige deine E-Mail-Adresse über den Link, den wir dir geschickt haben."); setMode("login"); return; }
       navigate({ to: "/heute" });
     }
-  };
-
-  const social = async (provider: "google" | "apple") => {
-    setMsg(null);
-    const r = await lovable.auth.signInWithOAuth(provider, { redirect_uri: window.location.origin });
-    if (r.error) return setMsg("Anmeldung fehlgeschlagen. Bitte erneut versuchen.");
-    if (r.redirected) return;
-    navigate({ to: "/heute" });
   };
 
   return (
