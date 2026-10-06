@@ -9,6 +9,7 @@ import { useStore } from "@/lib/store";
 import { activityLevels } from "@/lib/nutrition-targets";
 import { PasswordResetForm } from "@/components/PasswordResetForm";
 import { AppLockSettings } from "@/components/AppLock";
+import { AppSettingsControls } from "@/components/AppSettings";
 
 const titles: Record<string, string> = { personal: "Gesundheitsprofil bearbeiten", security: "Konto & Sicherheit", settings: "App-Einstellungen", privacy: "Datenschutz & Daten", help: "Kundenservice kontaktieren", legal: "Rechtliches", account: "Konto verwalten" };
 
@@ -71,13 +72,7 @@ function ProfileSubmenu() {
         {section === "account" && <Row title="Verbundene Apps" sub="Apple Health, Health Connect" icon={LayoutGrid} onClick={() => notice("Verbundene Apps", "Apple Health und Google Health Connect sind noch nicht verbunden. In dieser Web-App ist kein direkter Zugriff verfügbar.")} />}</div>
         <Row title="Konto löschen" icon={Trash2} danger onClick={deletion} />
       </>}
-      {section === "settings" && <div className="space-y-px overflow-hidden rounded-lg">
-        <Row title="Benachrichtigungen" sub="Noch nicht verfügbar" icon={Bell} onClick={() => notice("Benachrichtigungen", "Push-Benachrichtigungen sind noch nicht verfügbar.")} />
-        <Row title="Sprache" sub="Deutsch" icon={Globe} onClick={() => notice("Sprache", "Vivo ist derzeit auf Deutsch verfügbar.")} />
-        <Row title="Einheiten" sub="Metrisch (kg, cm)" icon={Ruler} onClick={() => notice("Einheiten", "Vivo verwendet derzeit kg, cm und kcal. Andere Einheiten sind noch nicht verfügbar.")} />
-        <Row title="Design" sub="Hell" icon={Moon} onClick={() => notice("Design", "Vivo verwendet aktuell das helle Design. Weitere Designs sind noch nicht verfügbar.")} />
-        <Row title="Erinnerungen" sub="Noch nicht verfügbar" icon={Clock} onClick={() => notice("Erinnerungen", "Automatische Erinnerungen sind noch nicht verfügbar.")} />
-      </div>}
+      {section === "settings" && <AppSettingsControls />}
       {section === "privacy" && <><div className="space-y-2">
         <Row title="Datenschutzerklärung" icon={FileText} onClick={privacy} />
         <Row title="Meine Daten herunterladen" sub="Eine Kopie deiner Daten herunterladen" icon={Download} green onClick={download} />
