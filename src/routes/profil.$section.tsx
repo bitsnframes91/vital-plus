@@ -78,7 +78,6 @@ function ProfileSubmenu() {
         <Row title="Meine Daten herunterladen" sub="Eine Kopie deiner Daten herunterladen" icon={Download} green onClick={download} />
       </div><Row title="Konto löschen" sub="Alle Daten und dein Konto dauerhaft löschen" icon={Trash2} danger onClick={deletion} /></>}
       {section === "help" && <><p className="text-sm leading-5 text-muted-foreground">Wir sind für dich da. Wähle eine Option, um uns zu kontaktieren.</p><div className="space-y-2">
-        <Row title="Kontaktformular" sub="Nachricht an unser Support-Team senden" icon={MessageSquare} green onClick={() => support("Kontaktformular")} />
         <Row title="E-Mail" sub="Supportkontakt noch nicht hinterlegt" icon={Mail} green onClick={() => support("E-Mail")} />
         <Row title="FAQ" sub="Häufige Fragen und Antworten" icon={CircleHelp} green onClick={() => setDetail({ title: "FAQ", faq: true })} />
         <Row title="Feedback geben" sub="Hilf uns, die App zu verbessern" icon={MessageSquare} green onClick={() => support("Feedback geben")} />
