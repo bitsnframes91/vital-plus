@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, Outlet, useLocation } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { UserRound, LockKeyhole, Settings, Shield, MessageSquare, FileText, Mail, ChevronRight, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ export const Route = createFileRoute("/profil")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  validateSearch: (q: Record<string, unknown>): { action?: "delete" } => q.action === "delete" ? { action: "delete" } : {},
+  validateSearch: (q: Record<string, unknown>): { action?: "delete" } => q['action'] === "delete" ? { action: "delete" } : {},
   component: Profile,
 });
 
@@ -47,9 +47,10 @@ function Profile() {
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+  useEffect(() => { if (action === "delete" && pathname === "/profil") setStep("confirm"); }, [action, pathname]);
   const openMenu = (section: string) => navigate({ to: "/profil/$section", params: { section } });
   const del = useServerFn(deleteAccount);
-  const close = () => { setStep(null); setCode(""); setErr(""); };
+  const close = () => { setStep(null); setCode(""); setErr(""); if (action) void navigate({ to: "/profil", search: {}, replace: true }); };
   const sendCode = async () => {
     setBusy(true); setErr("");
     const { error } = await supabase.auth.reauthenticate();
