@@ -137,6 +137,9 @@ function Labs() {
             {msg.text} {msg.ok && <Link to="/plan" className="font-medium underline">Zum Plan →</Link>}
           </div>
         )}
+        {s.labs.length === 0 && (
+          <p className="card-surface p-5 text-[14px] text-ink/55">Noch keine Laborwerte. Lade einen Befund hoch oder trage unten einen Standardwert ein.</p>
+        )}
         {s.labs.map((m) => {
           const last = m.history[m.history.length - 1]!;
           const st = status(m);
