@@ -64,7 +64,7 @@ export function AppSettingsControls() {
   const test = async () => {
     setError(""); setTestSent(false);
     try { await showAppNotification("Vivo", "Deine Benachrichtigungen sind aktiviert."); setTestSent(true); }
-    catch { setError("Benachrichtigung nicht möglich. Prüfe die Erlaubnis auf deinem Gerät."); }
+    catch (failure) { console.error("Vivo notification failed", failure); setError("Benachrichtigung nicht möglich. Prüfe die Erlaubnis auf deinem Gerät."); }
   };
   return <div className="space-y-3">
     <div className="rounded-lg bg-card px-4 py-4"><div className="flex items-center gap-3"><Bell className="size-5 shrink-0" /><div className="flex-1"><label htmlFor="notifications" className="text-[13px] font-semibold">Benachrichtigungen</label><p className="text-xs text-muted-foreground">{settings.notifications ? "An" : "Aus"}</p></div><Switch id="notifications" checked={settings.notifications} disabled={busy} onCheckedChange={notifications} /></div>
