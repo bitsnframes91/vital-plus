@@ -19,6 +19,7 @@ type State = {
   weekLog: Record<string, number>;
   weightLog: Record<string, number>;
   fullDays: Record<string, boolean>;
+  goalOff?: Record<string, boolean>;
 };
 
 const initial: State = {

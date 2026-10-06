@@ -23,7 +23,7 @@ function Watch() {
   const { s, set } = useStore();
   const [shape, setShape] = useState<"apple" | "wear">("apple");
   const [screen, setScreen] = useState(0);
-  const actions = dailyGoals(s.aiPlan).goals;
+  const actions = dailyGoals(s.aiPlan, s.onboarded ? s.goals : [], s.goalOff).goals;
   const done = actions.filter((a) => s.actionsDone[a.key]).length;
   const vitd = s.labs.find((l) => l.id === "vitd")!;
   const last = vitd.history[vitd.history.length - 1]!.value;
