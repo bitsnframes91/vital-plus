@@ -51,7 +51,7 @@ function Plan() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow="Plan" title="Dein persönlicher Plan" sub="Aus deinen Zielen und deinem Laborbefund – keine medizinische Beratung." image={planRunner.url} imageAlt="Läuferin überspringt eine Hürde auf der Laufbahn" />
+      <PageHeader eyebrow="Plan" title="Dein persönlicher Plan" sub={s.aiPlan ? "Aus deinen Zielen und deinem Laborbefund – keine medizinische Beratung." : "Aus deinen Fragebogen-Zielen – keine medizinische Beratung."} image={planRunner.url} imageAlt="Läuferin überspringt eine Hürde auf der Laufbahn" />
       <div className="space-y-3 px-4 pt-4">
         {!items.length && (
           <Link to="/onboarding" className="card-surface block p-5">
