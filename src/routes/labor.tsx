@@ -195,6 +195,22 @@ function Labs() {
           );
         })}
 
+        {s.labs.length > 0 && (
+          confirmAll ? (
+            <div className="card-surface flex items-center justify-between gap-3 p-4">
+              <span className="text-[13px] text-ink/70">Alle Werte löschen? Danach kannst du direkt einen neuen Befund hochladen.</span>
+              <div className="flex shrink-0 gap-2">
+                <button onClick={() => setConfirmAll(false)} className="rounded-full border border-border px-3 py-1.5 text-[12px] font-medium">Behalten</button>
+                <button onClick={removeAll} className="rounded-full bg-bmi-bad/10 px-3 py-1.5 text-[12px] font-medium text-bmi-bad">Alle löschen</button>
+              </div>
+            </div>
+          ) : (
+            <button onClick={() => setConfirmAll(true)} className="mx-auto flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] text-ink/45 underline underline-offset-2 hover:text-bmi-bad">
+              <Trash2 size={14} strokeWidth={2} aria-hidden="true" />Alle Werte löschen
+            </button>
+          )
+        )}
+
         <form onSubmit={add} className="card-surface space-y-3 p-5">
           <div className="eyebrow">Neuen Wert eintragen</div>
           <select value={marker} onChange={(e) => setMarker(e.target.value)} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none">
