@@ -66,6 +66,21 @@ function Login() {
             {busy ? "Bitte warten…" : mode === "login" ? "Anmelden" : "Konto anlegen"}
           </button>
         </form>
+        {mode === "login" && (
+          <button
+            type="button"
+            onClick={async () => {
+              if (!email) return setMsg("Bitte gib zuerst deine E-Mail-Adresse ein.");
+              setBusy(true);
+              const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + "/reset-password" });
+              setBusy(false);
+              setMsg(error ? "Senden nicht möglich – bitte in einer Minute erneut versuchen." : "Wir haben dir einen Link zum Zurücksetzen deines Passworts geschickt.");
+            }}
+            className="w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4"
+          >
+            Passwort vergessen?
+          </button>
+        )}
       </div>
     </AppShell>
   );
