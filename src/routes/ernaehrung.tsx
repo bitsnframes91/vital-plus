@@ -11,6 +11,7 @@ import { NutritionProfileFields } from "@/components/NutritionProfileFields";
 import { nutrientStatus, nutritionTargets, type NutritionProfile } from "@/lib/nutrition-targets";
 import type { Meal } from "@/lib/data";
 import ernaehrungVeg from "@/assets/ernaehrung-veg.jpg.asset.json";
+import voiceCardBg from "@/assets/voice-card-bg.png";
 
 export const Route = createFileRoute("/ernaehrung")({
   head: () => ({
