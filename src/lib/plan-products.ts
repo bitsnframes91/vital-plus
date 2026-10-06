@@ -38,8 +38,11 @@ export function productForMarker(marker: LabMarker): Product | undefined {
   if (!marker.history.length) return undefined;
   const level = status(marker).level;
   const category = markerCategory(marker);
-  const low = (candidate.helpsWhen ?? "low") === "low";
-  return low ? level === "low" || level === "very_low" : level === "high" || level === "very_high";
+  return products.find((candidate) => {
+    const low = (candidate.helpsWhen ?? "low") === "low";
+    return candidate.relatedMarker === category
+      && (low ? level === "low" || level === "very_low" : level === "high" || level === "very_high");
+  });
 }
 
 // Offer only catalog matches for a measured value outside range in the product's direction, never for a normal value.
