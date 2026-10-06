@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Upload } from "lucide-react";
+import { Camera, Upload } from "lucide-react";
 import { useEffect } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
@@ -45,13 +45,15 @@ function Labs() {
 
   const upload = async (file: File | undefined) => {
     if (!file) return;
-    if (file.type !== "application/pdf") return setMsg({ ok: false, text: "Bitte eine PDF-Datei wählen." });
-    if (file.size > 10 * 1024 * 1024) return setMsg({ ok: false, text: "Die PDF ist größer als 10 MB." });
+    const isPdf = file.type === "application/pdf";
+    if (!isPdf && !file.type.startsWith("image/")) return setMsg({ ok: false, text: "Bitte eine PDF-Datei oder ein Foto wählen." });
     setBusy(true);
     setProgress(4);
     setMsg(null);
     try {
-      const r = await analyze({ data: { filename: file.name, base64: await blobToBase64(file), knownIds: s.labs.map((l) => l.id), meals: s.meals.slice(-100).map(({ name, date, kcal, protein, fiber, carbs, fat }) => ({ name, date, kcal, protein, fiber, carbs, fat })) } });
+      const blob: Blob = isPdf ? file : await shrinkPhoto(file);
+      if (blob.size > 10 * 1024 * 1024) { setProgress(0); return setMsg({ ok: false, text: "Die Datei ist größer als 10 MB." }); }
+      const r = await analyze({ data: { filename: file.name, mimeType: isPdf ? "application/pdf" as const : "image/jpeg" as const, base64: await blobToBase64(blob), knownIds: s.labs.map((l) => l.id), meals: s.meals.slice(-100).map(({ name, date, kcal, protein, fiber, carbs, fat }) => ({ name, date, kcal, protein, fiber, carbs, fat })) } });
       if (!r.ok) { setProgress(0); return setMsg({ ok: false, text: r.error }); }
       let labs: LabMarker[] = [...s.labs];
       for (const m of r.markers) {
@@ -73,7 +75,7 @@ function Labs() {
       setProgress(100);
       setTimeout(() => setProgress(0), 4000);
     } catch {
-      setMsg({ ok: false, text: "Die PDF konnte nicht gelesen werden." });
+      setMsg({ ok: false, text: "Der Befund konnte nicht gelesen werden." });
       setProgress(0);
     } finally {
       setBusy(false);
@@ -106,7 +108,16 @@ function Labs() {
             <div className="text-[15px] font-medium">{busy ? "Befund wird gelesen…" : "Laborbefund hochladen"}</div>
             <div className="text-[12px] text-ink/45">Die App liest deine Werte aus und erstellt deinen Plan.</div>
           </div>
-          <input type="file" accept="application/pdf" className="sr-only" disabled={busy}
+          <input type="file" accept="application/pdf,image/*" className="sr-only" disabled={busy}
+            onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
+        </label>
+        <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
+          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv/10 text-fv-deep"><Camera size={20} strokeWidth={2.2} aria-hidden="true" /></span>
+          <div className="min-w-0 flex-1">
+            <div className="text-[15px] font-medium">Befund fotografieren</div>
+            <div className="text-[12px] text-ink/45">Kamera öffnen und deine Blutwerte abfotografieren.</div>
+          </div>
+          <input type="file" accept="image/*" capture="environment" className="sr-only" disabled={busy}
             onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
         </label>
         {(busy || progress === 100) && (
@@ -158,4 +169,13 @@ function Labs() {
       </div>
     </AppShell>
   );
+}
+
+async function shrinkPhoto(file: File): Promise<Blob> {
+  const bmp = await createImageBitmap(file);
+  const scale = Math.min(1, 2400 / Math.max(bmp.width, bmp.height));
+  const c = document.createElement("canvas");
+  c.width = Math.round(bmp.width * scale); c.height = Math.round(bmp.height * scale);
+  c.getContext("2d")!.drawImage(bmp, 0, 0, c.width, c.height);
+  return new Promise((res, rej) => c.toBlob((b) => (b ? res(b) : rej(new Error("photo"))), "image/jpeg", 0.85));
 }
