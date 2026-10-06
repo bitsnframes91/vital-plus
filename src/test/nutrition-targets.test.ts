@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { nutritionStatus, nutritionTargets } from "../lib/nutrition-targets";
+import { nutritionStatus, nutritionTargets, nutrientStatus } from "../lib/nutrition-targets";
 import { mealPlanContext } from "../lib/meal-plan-context";
 describe("nutrition targets", () => {
   it("calculates adult maintenance targets from the saved profile", () => {
