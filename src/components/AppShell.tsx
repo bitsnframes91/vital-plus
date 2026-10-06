@@ -35,7 +35,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Link
                 key={t.to}
                 to={t.to}
-                className={`flex min-w-0 flex-col items-center gap-1 ${pathname === t.to ? "text-fresh" : "text-ink/40"}`}
+                className={`flex min-w-0 flex-col items-center gap-1 ${pathname === t.to || pathname.startsWith(`${t.to}/`) ? "text-fresh" : "text-ink/40"}`}
               >
                 {NavIcon && <NavIcon className="size-5" strokeWidth={1.7} />}
                 <span className="text-[9px] font-medium">{t.to === "/profil" ? "Profil" : t.label}</span>
