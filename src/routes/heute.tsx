@@ -82,7 +82,7 @@ function Today() {
   return (
     <AppShell>
       <header className="vivo-today-header relative px-6 pt-8 pb-7">
-        <img src={lakeHero} alt="Morgensonne über einem ruhigen Bergsee" width={1536} height={768} fetchPriority="high" className="absolute inset-0 size-full object-cover object-center" />
+        <img src={todayHero.url} alt="Ganzheitliches Leben in Bewegung — Forschung, Sport und Vitalität" width={1774} height={887} fetchPriority="high" className="absolute inset-0 size-full object-cover object-center" />
         <div className="today-image-overlay absolute inset-0" aria-hidden="true" />
         <div className="relative">
           <div className="flex items-center justify-between">
