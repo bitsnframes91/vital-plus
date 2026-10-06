@@ -23,7 +23,7 @@ type State = {
 
 const initial: State = {
   name: "",
-  goals: ["Gesund altern", "Mehr Energie"],
+  goals: ["Longevity", "Mehr Energie"],
   onboarded: false,
   meals: initialMeals,
   supplements: initialSupplements,
