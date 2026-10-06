@@ -23,6 +23,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TrendsRouteImport } from './routes/trends'
 import { Route as UhrRouteImport } from './routes/uhr'
 import { Route as ProfilSectionRouteImport } from './routes/profil.$section'
+import { Route as ProfilFeedbackRouteImport } from './routes/profil.feedback'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -94,6 +95,11 @@ const ProfilSectionRoute = ProfilSectionRouteImport.update({
   path: '/$section',
   getParentRoute: () => ProfilRoute,
 } as any)
+const ProfilFeedbackRoute = ProfilFeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
+  getParentRoute: () => ProfilRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
   '/profil/$section': typeof ProfilSectionRoute
+  '/profil/feedback': typeof ProfilFeedbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -126,6 +133,7 @@ export interface FileRoutesByTo {
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
   '/profil/$section': typeof ProfilSectionRoute
+  '/profil/feedback': typeof ProfilFeedbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -143,6 +151,7 @@ export interface FileRoutesById {
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
   '/profil/$section': typeof ProfilSectionRoute
+  '/profil/feedback': typeof ProfilFeedbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
     | '/trends'
     | '/uhr'
     | '/profil/$section'
+    | '/profil/feedback'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -177,6 +187,7 @@ export interface FileRouteTypes {
     | '/trends'
     | '/uhr'
     | '/profil/$section'
+    | '/profil/feedback'
   id:
     | '__root__'
     | '/'
@@ -193,6 +204,7 @@ export interface FileRouteTypes {
     | '/trends'
     | '/uhr'
     | '/profil/$section'
+    | '/profil/feedback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -311,15 +323,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfilSectionRouteImport
       parentRoute: typeof ProfilRoute
     }
+    '/profil/feedback': {
+      id: '/profil/feedback'
+      path: '/feedback'
+      fullPath: '/profil/feedback'
+      preLoaderRoute: typeof ProfilFeedbackRouteImport
+      parentRoute: typeof ProfilRoute
+    }
   }
 }
 
 interface ProfilRouteChildren {
   ProfilSectionRoute: typeof ProfilSectionRoute
+  ProfilFeedbackRoute: typeof ProfilFeedbackRoute
 }
 
 const ProfilRouteChildren: ProfilRouteChildren = {
   ProfilSectionRoute: ProfilSectionRoute,
+  ProfilFeedbackRoute: ProfilFeedbackRoute,
 }
 
 const ProfilRouteWithChildren =
