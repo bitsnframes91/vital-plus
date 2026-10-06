@@ -1,4 +1,5 @@
 # Vivo redesign
+- [x] Match the expanded profile submenu reference; verified all seven pages, back navigation, questionnaire links, downloads and safe cancellation of account deletion. Unsupported settings and missing support/legal content remain explicitly marked.
 - [x] Match the supplied profile menu and connect its six sections; verified signed-in navigation and data download. Direct support contact and official Vivo legal documents await owner-provided details.
 - [x] Apply Vivo identity, font and palette throughout app.
 - [x] Match the reference home screen while retaining health tools.

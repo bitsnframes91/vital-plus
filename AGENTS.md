@@ -10,7 +10,7 @@
 <!-- LOVABLE:END -->
 
 # Project rules
-- Profile menu detail tools use accessible dialogs and reuse existing account and health-profile flows; unavailable support or legal information must be explicitly marked, never fabricated. Why: profile navigation must work without implying unconfigured services.
+- Profile submenus use the dynamic /profil/$section content route with persistent AppShell navigation; small editors and unavailable-feature notices use accessible dialogs, while account deletion reuses the verified profile flow. Why: full-page menus preserve back navigation without fabricating unconfigured services.
 
 - Fairvital Health is a companion app; Shopware (fairvital.com) owns products, prices, cart and checkout — the app only links out to product pages. Why: the shop must not be replaced.
 - Product lookups go through `src/lib/shopware.ts` placeholder so a real Shopware Store API can be dropped in later.
