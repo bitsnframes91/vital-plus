@@ -33,7 +33,7 @@ function ProfileSubmenu() {
   const [detail, setDetail] = useState<{ title: string; text?: string; name?: boolean; data?: boolean; faq?: boolean } | null>(null);
   const [name, setName] = useState(s.name);
   const notice = (title: string, text: string) => setDetail({ title, text });
-  const edit = (step: number) => navigate({ to: "/onboarding", search: { step } });
+  const edit = (step: number) => navigate({ to: "/onboarding", search: { step, from: "profile" } });
   const deletion = () => navigate({ to: "/profil", search: { action: "delete" } });
   const download = () => {
     const { account: _account, ...health } = s;

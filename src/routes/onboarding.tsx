@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { NutritionProfileFields } from "@/components/NutritionProfileFields";
 import type { NutritionProfile } from "@/lib/nutrition-targets";
 import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
+import { questionnaireReturn } from "@/lib/questionnaire-return";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
@@ -17,9 +18,9 @@ export const Route = createFileRoute("/onboarding")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  validateSearch: (q: Record<string, unknown>): { step?: number } => {
+  validateSearch: (q: Record<string, unknown>): { step?: number; from?: "profile" | "health" } => {
     const n = Number(q['step']);
-    return Number.isInteger(n) && n >= 0 && n <= 5 ? { step: n } : {};
+    return Number.isInteger(n) && n >= 0 && n <= 5 ? { step: n, from: questionnaireReturn(q['from']) } : {};
   },
   component: Onboarding,
 });
@@ -30,7 +31,10 @@ const dietOptions = ["Mischkost", "Vegetarisch", "Vegan", "Pescetarisch"];
 function Onboarding() {
   const { s, set } = useStore();
   const nav = useNavigate();
-  const { step: editStep } = Route.useSearch();
+  const { step: editStep, from } = Route.useSearch();
+  const returnToOrigin = () => from === "profile"
+    ? nav({ to: "/profil/$section", params: { section: "personal" } })
+    : nav({ to: "/gesundheit" });
   const editing = editStep != null;
   const [step, setStep] = useState(editStep ?? 0);
   const [name, setName] = useState(s.name);
@@ -128,7 +132,7 @@ function Onboarding() {
   const next = () => {
     if (editing) {
       set({ name, goals, body: { ...s.body, ...profile, ...(bmi != null ? { weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) } : {}) } });
-      return nav({ to: "/gesundheit" });
+      return returnToOrigin();
     }
     if (step < steps.length - 1) return setStep(step + 1);
     set({ name, goals, onboarded: true, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? stepGoalFor(bmi) } });
@@ -149,7 +153,7 @@ function Onboarding() {
         </div>
         <div className="flex-1 px-6 pt-6">{cur.body}</div>
         <div className="flex gap-2 px-6 pb-8 pt-6">
-          {editing ? <Button onClick={() => nav({ to: "/gesundheit" })} className="rounded-full px-5 py-3 text-sm ring-1 ring-border">Abbrechen</Button> : step > 0 && <Button onClick={() => setStep(step - 1)} className="rounded-full px-5 py-3 text-sm ring-1 ring-border">Zurück</Button>}
+          {editing ? <Button onClick={returnToOrigin} className="rounded-full px-5 py-3 text-sm ring-1 ring-border">Abbrechen</Button> : step > 0 && <Button onClick={() => setStep(step - 1)} className="rounded-full px-5 py-3 text-sm ring-1 ring-border">Zurück</Button>}
           <Button disabled={!cur.valid} onClick={next} className="flex-1 rounded-full bg-fresh py-3 text-sm font-medium text-ink disabled:opacity-40">
             {editing ? "Speichern" : step === steps.length - 1 ? "Los geht's" : "Weiter"}
           </Button>
