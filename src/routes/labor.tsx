@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Camera, Upload } from "lucide-react";
+import { Camera, Upload, Smile, Meh, Frown, type LucideIcon } from "lucide-react";
 import { useEffect } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
@@ -25,6 +25,9 @@ export const Route = createFileRoute("/labor")({
   }),
   component: Labs,
 });
+
+const toneFace: Record<"ok" | "warn" | "severe", LucideIcon> = { ok: Smile, warn: Meh, severe: Frown };
+const toneColor: Record<"ok" | "warn" | "severe", string> = { ok: "text-bmi-good", warn: "text-nutrition-near", severe: "text-bmi-bad" };
 
 function Labs() {
   const { s, set } = useStore();
@@ -134,6 +137,9 @@ function Labs() {
             {msg.text} {msg.ok && <Link to="/plan" className="font-medium underline">Zum Plan →</Link>}
           </div>
         )}
+        {s.labs.length === 0 && (
+          <p className="card-surface p-5 text-[14px] text-ink/55">Noch keine Laborwerte. Lade einen Befund hoch oder trage unten einen Standardwert ein.</p>
+        )}
         {s.labs.map((m) => {
           const last = m.history[m.history.length - 1]!;
           const st = status(m);
@@ -148,7 +154,10 @@ function Labs() {
                   </div>
                   <div className="text-[12px] text-ink/45">Ziel {m.target[0]}–{m.target[1]} · {fmtDate(last.date)}</div>
                 </div>
-                <span className={`rounded-full px-2.5 py-1 font-data text-[12px] uppercase tracking-normal ${st.tone === "ok" ? "bg-fv/10 text-fv-deep" : "bg-warn/15 text-ink"}`}>{st.label}</span>
+                <span className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 font-data text-[12px] uppercase tracking-normal ${st.tone === "ok" ? "bg-fv/10 text-fv-deep" : st.tone === "warn" ? "bg-warn/20 text-ink" : "bg-bmi-bad/10 text-bmi-bad"}`}>
+                  {(() => { const Face = toneFace[st.tone]; return <Face size={14} className={toneColor[st.tone]} aria-hidden />; })()}
+                  {st.label}
+                </span>
               </div>
               <div className="mt-4"><RangeBar marker={m} /></div>
               <p className="mt-3 border-t pt-3 text-[13px] text-ink/55">{m.note} Nachkontrolle in {m.retestWeeks} Wochen.</p>
@@ -159,7 +168,7 @@ function Labs() {
         <form onSubmit={add} className="card-surface space-y-3 p-5">
           <div className="eyebrow">Neuen Wert eintragen</div>
           <select value={marker} onChange={(e) => setMarker(e.target.value)} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none">
-            {s.labs.map((l) => <option key={l.id} value={l.id}>{l.name} ({l.unit})</option>)}
+            {options.map((l) => <option key={l.id} value={l.id}>{l.name} ({l.unit})</option>)}
           </select>
           <input value={value} onChange={(e) => setValue(e.target.value)} inputMode="decimal" placeholder="Wert" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
           <button className="w-full rounded-full bg-fresh py-2.5 text-sm font-medium text-ink">Speichern</button>

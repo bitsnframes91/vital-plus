@@ -28,7 +28,7 @@ function Plan() {
   const { s, set } = useStore();
   const [open, setOpen] = useState<number | null>(0);
   const [openRoutine, setOpenRoutine] = useState<string | null>(null);
-  const deficient = s.labs.filter((m) => m.history.length && status(m).label === "Niedrig");
+  const deficient = s.labs.filter((m) => m.history.length && ["low", "very_low"].includes(status(m).level));
   const suggestions = suggestedProducts(s.aiPlan, s.labs);
   const icons = { food: Salad, sun: Sun, walk: Footprints, clock: Clock3, heart: HeartPulse } satisfies Record<RoutineTip["icon"], typeof Salad>;
   const d = todayKey();

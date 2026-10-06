@@ -36,10 +36,13 @@ export function markerCategory(marker: LabMarker) {
 // A product supports a value outside range in its own direction (most help low values; e.g. Chrom helps high blood sugar).
 export function productForMarker(marker: LabMarker): Product | undefined {
   if (!marker.history.length) return undefined;
-  const label = status(marker).label;
+  const level = status(marker).level;
   const category = markerCategory(marker);
-  return products.find((candidate) => candidate.relatedMarker === category
-    && label === ((candidate.helpsWhen ?? "low") === "low" ? "Niedrig" : "Hoch"));
+  return products.find((candidate) => {
+    const low = (candidate.helpsWhen ?? "low") === "low";
+    return candidate.relatedMarker === category
+      && (low ? level === "low" || level === "very_low" : level === "high" || level === "very_high");
+  });
 }
 
 // Offer only catalog matches for a measured value outside range in the product's direction, never for a normal value.
