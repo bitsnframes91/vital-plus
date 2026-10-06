@@ -76,7 +76,6 @@ function ProfileSubmenu() {
       {section === "privacy" && <><div className="space-y-2">
         <Row title="Datenschutzerklärung" icon={FileText} onClick={privacy} />
         <Row title="Meine Daten herunterladen" sub="Eine Kopie deiner Daten herunterladen" icon={Download} green onClick={download} />
-        <Row title="Datenverwaltung" sub="Deine gespeicherten Daten verwalten" icon={Mail} green onClick={() => setDetail({ title: "Datenverwaltung", data: true })} />
       </div><Row title="Konto löschen" sub="Alle Daten und dein Konto dauerhaft löschen" icon={Trash2} danger onClick={deletion} /></>}
       {section === "help" && <><p className="text-sm leading-5 text-muted-foreground">Wir sind für dich da. Wähle eine Option, um uns zu kontaktieren.</p><div className="space-y-2">
         <Row title="Kontaktformular" sub="Nachricht an unser Support-Team senden" icon={MessageSquare} green onClick={() => support("Kontaktformular")} />
