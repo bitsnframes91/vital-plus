@@ -8,7 +8,7 @@ import { useStore } from "@/lib/store";
 import { fmtDate, status } from "@/lib/data";
 import { productForMarker, reportMarkers } from "@/lib/plan-products";
 import { dailyTip, msUntilNextTip } from "@/lib/daily-tip";
-import lakeHero from "@/assets/vivo-lake.jpg";
+import todayHero from "@/assets/ganzheitlich-today.png.asset.json";
 import { MovementDialog } from "@/components/MovementDialog";
 import { VivoBrand } from "@/components/VivoBrand";
 import { Activity, ChevronRight, Clock, FlaskConical, Footprints, Heart, Leaf, Moon, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
