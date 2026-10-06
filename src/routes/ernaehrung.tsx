@@ -163,9 +163,9 @@ function Nutrition() {
 
         <button onClick={() => void toggleVoice()} disabled={vs === "busy"}
           className={`card-surface relative w-full overflow-hidden text-left disabled:opacity-60 ${vs === "rec" ? "ring-2 ring-fv" : ""}`}>
-          <span aria-hidden className="absolute inset-y-0 right-0 w-[55%]">
-            <img src={voiceCardBg} alt="" loading="lazy" width={1200} height={640} className="size-full object-cover object-center" />
-            <span className="absolute inset-0 bg-gradient-to-r from-card via-card/55 to-card/5" />
+          <span aria-hidden className="absolute inset-y-0 right-0 w-[48%]">
+            <img src={voiceCardBg} alt="" loading="lazy" width={1200} height={640} className="size-full object-cover object-[65%_center]" />
+            <span className="absolute inset-0 bg-gradient-to-r from-card via-card/70 to-card/20" />
           </span>
           <span className={`relative z-10 flex items-center gap-3 p-5`}>
             <span className={`grid size-11 shrink-0 place-items-center rounded-full ${vs === "rec" ? "animate-pulse bg-fresh text-ink" : "bg-fresh text-ink"}`}>
