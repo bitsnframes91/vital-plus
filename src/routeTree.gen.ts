@@ -22,6 +22,7 @@ import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TrendsRouteImport } from './routes/trends'
 import { Route as UhrRouteImport } from './routes/uhr'
+import { Route as ProfilSectionRouteImport } from './routes/profil.$section'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -88,6 +89,11 @@ const UhrRoute = UhrRouteImport.update({
   path: '/uhr',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfilSectionRoute = ProfilSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => ProfilRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -99,10 +105,11 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/plan': typeof PlanRoute
-  '/profil': typeof ProfilRoute
+  '/profil': typeof ProfilRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
+  '/profil/$section': typeof ProfilSectionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -114,10 +121,11 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/plan': typeof PlanRoute
-  '/profil': typeof ProfilRoute
+  '/profil': typeof ProfilRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
+  '/profil/$section': typeof ProfilSectionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -130,10 +138,11 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/plan': typeof PlanRoute
-  '/profil': typeof ProfilRoute
+  '/profil': typeof ProfilRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
+  '/profil/$section': typeof ProfilSectionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/trends'
     | '/uhr'
+    | '/profil/$section'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/trends'
     | '/uhr'
+    | '/profil/$section'
   id:
     | '__root__'
     | '/'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/trends'
     | '/uhr'
+    | '/profil/$section'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -193,7 +205,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   OnboardingRoute: typeof OnboardingRoute
   PlanRoute: typeof PlanRoute
-  ProfilRoute: typeof ProfilRoute
+  ProfilRoute: typeof ProfilRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
   TrendsRoute: typeof TrendsRoute
   UhrRoute: typeof UhrRoute
@@ -292,8 +304,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UhrRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profil/$section': {
+      id: '/profil/$section'
+      path: '/$section'
+      fullPath: '/profil/$section'
+      preLoaderRoute: typeof ProfilSectionRouteImport
+      parentRoute: typeof ProfilRoute
+    }
   }
 }
+
+interface ProfilRouteChildren {
+  ProfilSectionRoute: typeof ProfilSectionRoute
+}
+
+const ProfilRouteChildren: ProfilRouteChildren = {
+  ProfilSectionRoute: ProfilSectionRoute,
+}
+
+const ProfilRouteWithChildren =
+  ProfilRoute._addFileChildren(ProfilRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -305,7 +335,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   OnboardingRoute: OnboardingRoute,
   PlanRoute: PlanRoute,
-  ProfilRoute: ProfilRoute,
+  ProfilRoute: ProfilRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
   TrendsRoute: TrendsRoute,
   UhrRoute: UhrRoute,
