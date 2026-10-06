@@ -7,6 +7,7 @@ import { useStore } from "@/lib/store";
 import { status } from "@/lib/data";
 import { todayKey } from "@/lib/daily-goals";
 import { suggestedProducts } from "@/lib/plan-products";
+import { combinedPlan, goalProducts } from "@/lib/goal-plan";
 import { routineTips, type RoutineTip } from "@/lib/deficiency-routines";
 import planRunner from "@/assets/plan-runner-top.png.asset.json";
 
@@ -32,30 +33,37 @@ function Plan() {
   const suggestions = suggestedProducts(s.aiPlan, s.labs);
   const icons = { food: Salad, sun: Sun, walk: Footprints, clock: Clock3, heart: HeartPulse } satisfies Record<RoutineTip["icon"], typeof Salad>;
   const d = todayKey();
-  const items = s.aiPlan?.items ?? [];
-  const doneCount = items.filter((_, i) => s.actionsDone[`${d}:plan-${i}`]).length;
-  const toggleDaily = (i: number) =>
-    s.aiPlan && set({ aiPlan: { ...s.aiPlan, items: items.map((it, j) => (j === i ? { ...it, daily: it.daily === false } : it)) } });
-  const toggleDone = (i: number) => {
-    const k = `${d}:plan-${i}`;
+  const userGoals = s.onboarded ? s.goals : [];
+  const items = combinedPlan(s.aiPlan, userGoals, s.goalOff);
+  const labIds = new Set(suggestions.map((e) => e.product.shopwareId));
+  const goalSuggestions = goalProducts(userGoals).filter((e) => !labIds.has(e.product.shopwareId));
+  const doneCount = items.filter((it) => s.actionsDone[`${d}:${it.key}`]).length;
+  const toggleDaily = (key: string) => {
+    if (key.startsWith("plan-")) {
+      const i = Number(key.slice(5));
+      if (s.aiPlan) set({ aiPlan: { ...s.aiPlan, items: s.aiPlan.items.map((it, j) => (j === i ? { ...it, daily: it.daily === false } : it)) } });
+    } else set({ goalOff: { ...(s.goalOff ?? {}), [key]: !s.goalOff?.[key] } });
+  };
+  const toggleDone = (key: string) => {
+    const k = `${d}:${key}`;
     set({ actionsDone: { ...s.actionsDone, [k]: !s.actionsDone[k] } });
   };
 
   return (
     <AppShell>
-      <PageHeader eyebrow="Plan" title="Dein persönlicher Plan" sub="Auf Basis deines Laborbefunds – keine medizinische Beratung." image={planRunner.url} imageAlt="Läuferin überspringt eine Hürde auf der Laufbahn" />
+      <PageHeader eyebrow="Plan" title="Dein persönlicher Plan" sub="Aus deinen Zielen und deinem Laborbefund – keine medizinische Beratung." image={planRunner.url} imageAlt="Läuferin überspringt eine Hürde auf der Laufbahn" />
       <div className="space-y-3 px-4 pt-4">
-        {!s.aiPlan && (
-          <Link to="/labor" className="card-surface block p-5">
+        {!items.length && (
+          <Link to="/onboarding" className="card-surface block p-5">
             <div className="text-[16px] font-semibold">Noch kein persönlicher Plan</div>
-            <p className="mt-1 text-[14px] text-ink/60">Lade deinen Laborbefund als PDF hoch. Daraus erstellen wir deinen Plan und deine Tagesziele.</p>
-            <span className="mt-2 inline-block text-[14px] font-semibold text-fv-deep">Befund hochladen →</span>
+            <p className="mt-1 text-[14px] text-ink/60">Wähle im Fragebogen, was dir wichtig ist – oder lade deinen Laborbefund hoch. Daraus entstehen dein Plan und deine Tagesziele.</p>
+            <span className="mt-2 inline-block text-[14px] font-semibold text-fv-deep">Fragebogen öffnen →</span>
           </Link>
         )}
-        {s.aiPlan && (
+        {items.length > 0 && (
           <div className="card-surface p-5">
-            <div className="flex items-baseline justify-between">
-              <div className="eyebrow">Befund vom {new Date(s.aiPlan.date).toLocaleDateString("de-DE")}</div>
+            <div className="flex items-baseline justify-between gap-3">
+              <div className="eyebrow">{s.aiPlan ? `Befund vom ${new Date(s.aiPlan.date).toLocaleDateString("de-DE")} + deine Ziele` : "Aus deinen Zielen"}</div>
               <span className="font-data text-[12px] text-fv-deep">heute {doneCount}/{items.length}</span>
             </div>
             <div className="mt-2 h-2 overflow-hidden rounded-full bg-ink/10">
@@ -63,17 +71,18 @@ function Plan() {
             </div>
             <ul className="mt-4 space-y-2">
               {items.map((it, i) => {
-                const done = !!s.actionsDone[`${d}:plan-${i}`];
-                const daily = it.daily !== false;
+                const done = !!s.actionsDone[`${d}:${it.key}`];
+                const daily = it.daily;
                 return (
-                  <li key={i} className="rounded-[14px] ring-1 ring-border">
+                  <li key={it.key} className="rounded-[14px] ring-1 ring-border">
                     <div className="flex items-center gap-3 px-3 py-3">
-                      <Button variant="ghost" size="icon" onClick={() => toggleDone(i)} aria-label="Heute erledigt"
+                      <Button variant="ghost" size="icon" onClick={() => toggleDone(it.key)} aria-label="Heute erledigt"
                         className={`size-7 shrink-0 rounded-full ${done ? "bg-fv text-ink" : "ring-1 ring-border text-ink/30"}`}>
                         <Icon d="M4 12l5 5L20 6" className="size-4" />
                       </Button>
-                      <Button variant="ghost" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className="h-auto min-w-0 flex-1 justify-start whitespace-normal px-0 text-left hover:bg-transparent">
+                      <Button variant="ghost" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className="h-auto min-w-0 flex-1 flex-col items-start justify-start whitespace-normal px-0 text-left hover:bg-transparent">
                         <div className={`text-[15px] font-medium ${done ? "text-ink/45 line-through" : ""}`}>{it.title}</div>
+                        <div className="text-[11px] font-medium text-ink/45">{it.source === "labor" ? "Aus deinem Laborbefund" : `Ziel: ${it.goals.join(", ")}`}</div>
                       </Button>
                       <span className="text-ink/30">{open === i ? "–" : "+"}</span>
                     </div>
@@ -82,7 +91,7 @@ function Plan() {
                         <p className="text-[14px] text-ink/65">{it.detail}</p>
                         <label className="mt-3 flex items-center justify-between text-[13px]">
                           <span>In meinen Tageszielen anzeigen</span>
-                          <Button variant="ghost" size="icon" onClick={() => toggleDaily(i)} role="switch" aria-label="In meinen Tageszielen anzeigen" aria-checked={daily}
+                          <Button variant="ghost" size="icon" onClick={() => toggleDaily(it.key)} role="switch" aria-label="In meinen Tageszielen anzeigen" aria-checked={daily}
                             className={`h-6 w-11 rounded-full p-0.5 transition ${daily ? "bg-fv" : "bg-ink/15"}`}>
                             <span className={`block size-5 rounded-full bg-card transition ${daily ? "translate-x-5" : ""}`} />
                           </Button>
@@ -93,8 +102,29 @@ function Plan() {
                 );
               })}
             </ul>
+            {!s.aiPlan && <Link to="/labor" className="mt-3 block text-[13px] font-semibold text-fv-deep">Laborbefund hochladen und Plan ergänzen →</Link>}
             <p className="mt-3 border-t pt-3 text-[12px] text-ink/40">Automatisch erstellt – keine Diagnose. Bitte mit deiner Ärztin oder deinem Arzt besprechen.</p>
           </div>
+        )}
+        {goalSuggestions.length > 0 && (
+          <section className="pt-5" aria-label="Fairvital Empfehlungen zu deinen Zielen">
+            <h2 className="px-1 text-[18px] font-semibold">Passend zu deinen Zielen</h2>
+            <p className="mb-3 px-1 text-[13px] text-ink/55">Fairvital Ergänzungen zu dem, was dir im Fragebogen wichtig war.</p>
+            <div className="space-y-3">
+              {goalSuggestions.map(({ product, goals }) => (
+                <a key={product.shopwareId} href={product.url} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-4">
+                  <img src={product.image} alt={product.name} className="size-16 shrink-0 rounded-xl bg-white object-contain p-1 ring-1 ring-border" loading="lazy" />
+                  <span className="min-w-0">
+                    <span className="block text-[11px] font-medium uppercase tracking-wide text-ink/45">{goals.join(" · ")}</span>
+                    <span className="block text-[15px] font-semibold text-fv-deep underline underline-offset-4">{product.name}</span>
+                    <span className="mt-0.5 block text-[12px] text-ink/55">{product.short}</span>
+                    <span className="mt-1 inline-flex items-center gap-1 text-[12px] font-medium text-fv-deep">Im Fairvital Shop ansehen <ExternalLink className="size-3.5" aria-hidden="true" /></span>
+                  </span>
+                </a>
+              ))}
+            </div>
+            <p className="mt-2 px-1 text-[12px] text-ink/50">Einnahme bitte ärztlich abklären, besonders bei Vorerkrankungen oder Medikamenten.</p>
+          </section>
         )}
         {s.aiPlan && (
           <section className="pt-5" aria-label="Empfehlungen bei niedrigen Werten">
