@@ -43,7 +43,7 @@ function Profile() {
   const { s, set } = useStore();
   const { action } = Route.useSearch();
   const pathname = useLocation({ select: location => location.pathname });
-  const [step, setStep] = useState<null | "confirm" | "code">(action === "delete" ? "confirm" : null);
+  const [step, setStep] = useState<null | "confirm" | "code" | "contact">(action === "delete" ? "confirm" : null);
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
