@@ -37,7 +37,7 @@ export function dailyTip(
   const dayIndex = tipDayIndex(now) + userSeed(userId);
 
   if (plan) {
-    const low = reportMarkers(plan, labs).filter((m) => status(m).label === "Niedrig");
+    const low = reportMarkers(plan, labs).filter((m) => { const lv = status(m).level; return lv === "low" || lv === "very_low"; });
     if (low.length) {
       // Flatten all (marker, tip) pairs so each day shows a genuinely different
       // tip, cycling through every low marker and every tip of that marker.
