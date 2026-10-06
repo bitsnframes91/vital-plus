@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate, Outlet, useLocation } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { UserRound, LockKeyhole, Settings, Shield, MessageSquare, FileText, Mail, Phone, ChevronRight, type LucideIcon } from "lucide-react";
+import { UserRound, LockKeyhole, Settings, Shield, MessageSquare, FileText, Mail, ChevronRight, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { deleteAccount } from "@/lib/account.functions";
@@ -43,7 +43,7 @@ function Profile() {
   const { s, set } = useStore();
   const { action } = Route.useSearch();
   const pathname = useLocation({ select: location => location.pathname });
-  const [step, setStep] = useState<null | "confirm" | "code" | "contact">(action === "delete" ? "confirm" : null);
+  const [step, setStep] = useState<null | "confirm" | "code">(action === "delete" ? "confirm" : null);
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -127,19 +127,6 @@ function Profile() {
       </div>
       <Dialog open={step !== null} onOpenChange={(o) => { if (!o && !busy) close(); }}>
         <DialogContent className="max-w-sm rounded-3xl">
-          {step === "contact" && (
-            <>
-              <DialogHeader><DialogTitle>Kundenservice kontaktieren</DialogTitle></DialogHeader>
-              <p className="text-sm text-ink/60">Wir sind für dich da. Wähle, wie du uns erreichen möchtest.</p>
-              <a href="tel:+4922342190482" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-fresh text-sm font-medium text-ink">
-                <Phone className="size-4" /> Anrufen: +49 2234 2190482
-              </a>
-              <a href="mailto:support@vivohealth.com" className="flex h-12 w-full items-center justify-center gap-2 rounded-full ring-1 ring-border text-sm font-medium">
-                <Mail className="size-4" /> E-Mail schreiben
-              </a>
-              <p className="text-center text-xs text-muted-foreground">support@vivohealth.com</p>
-            </>
-          )}
           {step === "confirm" && (
             <>
               <DialogHeader><DialogTitle>Willst du dein Profil wirklich löschen?</DialogTitle></DialogHeader>
