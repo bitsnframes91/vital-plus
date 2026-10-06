@@ -172,10 +172,22 @@ function Labs() {
                   </div>
                   <div className="text-[12px] text-ink/45">Ziel {m.target[0]}–{m.target[1]} · {fmtDate(last.date)}</div>
                 </div>
-                <span className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 font-data text-[12px] uppercase tracking-normal ${st.tone === "ok" ? "bg-fv/10 text-fv-deep" : st.tone === "warn" ? "bg-warn/20 text-ink" : "bg-bmi-bad/10 text-bmi-bad"}`}>
-                  {(() => { const Face = toneFace[st.tone]; return <Face size={14} className={toneColor[st.tone]} aria-hidden />; })()}
-                  {st.label}
-                </span>
+                <div className="flex shrink-0 items-center gap-2">
+                  <span className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 font-data text-[12px] uppercase tracking-normal ${st.tone === "ok" ? "bg-fv/10 text-fv-deep" : st.tone === "warn" ? "bg-warn/20 text-ink" : "bg-bmi-bad/10 text-bmi-bad"}`}>
+                    {(() => { const Face = toneFace[st.tone]; return <Face size={14} className={toneColor[st.tone]} aria-hidden />; })()}
+                    {st.label}
+                  </span>
+                  {confirmDelete === m.id ? (
+                    <div className="flex items-center gap-1">
+                      <button onClick={() => removeOne(m.id)} className="rounded-full bg-bmi-bad/10 px-2.5 py-1 text-[12px] font-medium text-bmi-bad">Löschen</button>
+                      <button onClick={() => setConfirmDelete(null)} className="rounded-full border border-border px-2.5 py-1 text-[12px] text-ink/55">Nein</button>
+                    </div>
+                  ) : (
+                    <button onClick={() => setConfirmDelete(m.id)} aria-label={`Werte für ${m.name} löschen`} className="grid size-8 place-items-center rounded-full text-ink/35 hover:bg-muted hover:text-bmi-bad">
+                      <Trash2 size={16} strokeWidth={2} aria-hidden="true" />
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="mt-4"><RangeBar marker={m} /></div>
               <p className="mt-3 border-t pt-3 text-[13px] text-ink/55">{m.note} Nachkontrolle in {m.retestWeeks} Wochen.</p>
