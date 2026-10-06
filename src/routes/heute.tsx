@@ -14,6 +14,8 @@ import { VivoBrand } from "@/components/VivoBrand";
 import { Activity, ChevronRight, Clock, FlaskConical, Footprints, Heart, Leaf, Moon, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
 import { dailyGoals, todayKey } from "@/lib/daily-goals";
 import type { RoutineTip } from "@/lib/deficiency-routines";
+import { nutritionTargets } from "@/lib/nutrition-targets";
+import { nutritionGaps } from "@/lib/nutrition-products";
 
 const tipIcon: Record<RoutineTip["icon"], typeof Leaf> = {
   food: Salad,
@@ -60,6 +62,12 @@ function Today() {
   const tip = dailyTip(s.aiPlan, s.labs, s.account?.userId, tipNow);
   const TipIcon = tipIcon[tip.tip.icon];
   const today = todayKey();
+
+  const todayMeals = s.meals.filter((m) => m.date === today);
+  const mealTotals = { kcal: 0, protein: 0, fiber: 0, carbs: 0, fat: 0 };
+  for (const m of todayMeals) { mealTotals.kcal += m.kcal || 0; mealTotals.protein += m.protein || 0; mealTotals.fiber += m.fiber || 0; mealTotals.carbs += m.carbs || 0; mealTotals.fat += m.fat || 0; }
+  const gaps = nutritionGaps(mealTotals, nutritionTargets(s.body), todayMeals.length);
+  const fmtNum = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 1 });
 
   useEffect(() => {
     if (!!(s.fullDays ?? {})[today] === allDone) return;
@@ -210,6 +218,20 @@ function Today() {
           </div>
         )}
       </section>
+
+      {gaps.length > 0 && <section className="mt-4 space-y-3 px-4" data-nutrition-gaps>
+        <h2 className="px-1 text-[15px] font-semibold">Das fehlt dir noch für heute:</h2>
+        {gaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
+          <img src={g.product.image} alt={g.product.name} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
+          <div className="min-w-0 flex-1">
+            <div className="eyebrow">{g.key === "protein" ? "Protein" : "Ballaststoffe"} · noch ca. {fmtNum(Math.max(g.missing, 0))} g</div>
+            <div className="mt-1 text-[15px] font-semibold">{g.product.name}</div>
+            <div className="text-xs text-muted-foreground">{g.reason}</div>
+            <div className="mt-1 text-xs font-semibold text-fv-deep">Bei Fairvital ansehen →</div>
+          </div>
+        </a>)}
+        <p className="px-1 text-[11px] text-muted-foreground">Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten.</p>
+      </section>}
 
       <MovementDialog open={moveOpen} onOpenChange={setMoveOpen} />
       <Dialog open={selectedGoalKey !== null && !!selectedGoal} onOpenChange={(open) => { if (!open) setSelectedGoalKey(null); }}>
