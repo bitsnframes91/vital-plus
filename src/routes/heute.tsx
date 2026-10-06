@@ -166,7 +166,7 @@ function Today() {
         </div>
         {!fromPlan && !allDone && (
           <Link to="/labor" className="mb-2 block rounded-[16px] border border-dashed px-4 py-3 text-[13px] text-ink/55">
-            Beispielziele. Lade deinen Laborbefund hoch – dann entstehen deine Tagesziele aus deinem persönlichen Plan →
+            Beispielziele. Wähle deine Ziele im Fragebogen oder lade deinen Laborbefund hoch – dann entstehen deine Tagesziele aus deinem Plan →
           </Link>
         )}
         {fromPlan && actions.length === 0 && (

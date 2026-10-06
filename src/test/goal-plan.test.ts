@@ -10,7 +10,7 @@ describe("goal plan", () => {
   });
   it("combines lab steps first, then goal steps", () => {
     const steps = combinedPlan({ date: "2025-01-25", items: [{ title: "Eisen", detail: "x" }] }, ["Mehr Energie"]);
-    expect(steps[0].source).toBe("labor");
+    expect(steps[0]?.source).toBe("labor");
     expect(steps.slice(1).every((s) => s.source === "goal")).toBe(true);
   });
   it("lists a shared step once across goals", () => {
