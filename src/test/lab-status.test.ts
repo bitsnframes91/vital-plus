@@ -47,9 +47,9 @@ describe("lab status levels", () => {
     expect(st.level).toBe("very_low");
   });
 
-  it("never reports Sehr niedrig when the target minimum is 0", () => {
+  it("counts a value at a zero target minimum as in range", () => {
     const st = status(marker(0, [0, 100]));
-    expect(st.label).toBe("Niedrig");
-    expect(st.level).toBe("low");
+    expect(st.label).toBe("Optimal");
+    expect(st.level).toBe("optimal");
   });
 });
