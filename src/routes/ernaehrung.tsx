@@ -140,10 +140,10 @@ function Nutrition() {
         <div className="grid grid-cols-2 gap-3">
           {statCards.map((c) => {
             const target = targets?.[c.key];
-            const state = target ? feedback[nutritionStatus(totals[c.key], target)] : null;
+            const state = target ? feedback[nutritionStatus(totals[c.key], target)] : neutral;
             return <div key={c.key} data-nutrition={c.key} className="card-surface min-w-0 p-4">
-              <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words">{c.label}</div>{state && <state.Face role="img" aria-label={state.label} className={`size-5 shrink-0 ${state.color}`} />}</div>
-              <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${state?.color ?? "text-foreground"}`}>
+              <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words">{c.label}</div><state.Face role="img" aria-label={state.label} className={`size-5 shrink-0 ${state.color}`} /></div>
+              <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${target ? state.color : "text-foreground"}`}>
                 <span className="text-[23px] font-semibold">{format(totals[c.key])} {c.unit}</span>
                 <span className="text-[13px]">/ {target ? `${format(target)} ${c.unit}` : "—"}</span>
               </div>
