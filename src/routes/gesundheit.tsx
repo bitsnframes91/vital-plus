@@ -1,6 +1,6 @@
 import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useRef, useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
 import healthRidge from "@/assets/gesundheit-ridge.jpg.asset.json";
@@ -44,6 +44,21 @@ function IconSteps() {
     </svg>
   );
 }
+/** Icon that opens the matching Fragebogen step on double tap (manual timing so mobile taps work too). */
+function EditIcon({ step, label, children }: { step: number; label: string; children: React.ReactNode }) {
+  const nav = useNavigate();
+  const last = useRef(0);
+  const open = () => nav({ to: "/onboarding", search: { step } });
+  return (
+    <div className="flex flex-col items-center">
+      <button type="button" aria-label={`${label} im Fragebogen ändern (doppelt tippen)`} onDoubleClick={open}
+        onClick={() => { const t = Date.now(); if (t - last.current < 350) { last.current = 0; open(); } else last.current = t; }}
+        className="grid size-11 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 transition active:scale-95">{children}</button>
+      <span className="mt-1 text-[11px] text-ink/55">Doppelt tippen zum Ändern</span>
+    </div>
+  );
+}
+
 function HealthTrends() {
   const metrics = [
     { name: "Bewegung", unit: "kcal/Tag", color: "text-trend-move", soft: "bg-trend-move-soft" },
@@ -136,14 +151,14 @@ function Health() {
         </div>
 
         <div className="card-surface p-5">
-          <div className="flex justify-center"><IconScale /></div>
+          <EditIcon step={3} label="Gewicht"><IconScale /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold">Gewicht</div>
           <p className="mt-1 text-[14px] text-ink/55">{b.weightKg ? `Aktuell: ${b.weightKg} kg` : "Noch keine Messung"}</p>
           <NumInput value={b.weightKg} onDraftChange={setWeightDraft} onSave={(v) => setBody({ weightKg: v, stepGoal: stepGoalFor(calcBmi(v, liveHeight)) })} placeholder="z. B. 72,5" unit="kg" />
         </div>
 
         <div className="card-surface p-5">
-          <div className="flex justify-center"><IconBody /></div>
+          <EditIcon step={3} label="Körperdaten"><IconBody /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold">Körperdaten</div>
           <p className="mt-1 text-[14px] text-ink/55">
             {b.waistCm ? `Taillenumfang: ${b.waistCm} cm` : "Gewicht, Taillenumfang und weitere manuelle Messwerte."}
@@ -165,7 +180,7 @@ function Health() {
         </div>
 
         <div className="card-surface p-5">
-          <div className="flex justify-center"><IconSteps /></div>
+          <EditIcon step={4} label="Alltag und Aktivität"><IconSteps /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold">Schritte heute</div>
           <p className="mt-1 text-[14px] text-ink/55">
             {b.steps ? `Heute: ${b.steps.toLocaleString("de-DE")} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}

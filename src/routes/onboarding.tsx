@@ -17,6 +17,10 @@ export const Route = createFileRoute("/onboarding")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  validateSearch: (q: Record<string, unknown>): { step?: number } => {
+    const n = Number(q.step);
+    return Number.isInteger(n) && n >= 0 && n <= 5 ? { step: n } : {};
+  },
   component: Onboarding,
 });
 
@@ -26,7 +30,9 @@ const dietOptions = ["Mischkost", "Vegetarisch", "Vegan", "Pescetarisch"];
 function Onboarding() {
   const { s, set } = useStore();
   const nav = useNavigate();
-  const [step, setStep] = useState(0);
+  const { step: editStep } = Route.useSearch();
+  const editing = editStep != null;
+  const [step, setStep] = useState(editStep ?? 0);
   const [name, setName] = useState(s.name);
   const [goals, setGoals] = useState<string[]>(s.goals);
   const [diet, setDiet] = useState("Mischkost");
@@ -120,6 +126,10 @@ function Onboarding() {
   if (!cur) return null;
 
   const next = () => {
+    if (editing) {
+      set({ name, goals, body: { ...s.body, ...profile, ...(bmi != null ? { weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) } : {}) } });
+      return nav({ to: "/gesundheit" });
+    }
     if (step < steps.length - 1) return setStep(step + 1);
     set({ name, goals, onboarded: true, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? stepGoalFor(bmi) } });
     nav({ to: "/heute" });
@@ -139,9 +149,9 @@ function Onboarding() {
         </div>
         <div className="flex-1 px-6 pt-6">{cur.body}</div>
         <div className="flex gap-2 px-6 pb-8 pt-6">
-          {step > 0 && <Button onClick={() => setStep(step - 1)} className="rounded-full px-5 py-3 text-sm ring-1 ring-border">Zurück</Button>}
+          {editing ? <Button onClick={() => nav({ to: "/gesundheit" })} className="rounded-full px-5 py-3 text-sm ring-1 ring-border">Abbrechen</Button> : step > 0 && <Button onClick={() => setStep(step - 1)} className="rounded-full px-5 py-3 text-sm ring-1 ring-border">Zurück</Button>}
           <Button disabled={!cur.valid} onClick={next} className="flex-1 rounded-full bg-fresh py-3 text-sm font-medium text-ink disabled:opacity-40">
-            {step === steps.length - 1 ? "Los geht's" : "Weiter"}
+            {editing ? "Speichern" : step === steps.length - 1 ? "Los geht's" : "Weiter"}
           </Button>
         </div>
       </div>
