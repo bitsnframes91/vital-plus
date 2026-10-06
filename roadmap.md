@@ -1,5 +1,5 @@
 # Vivo redesign
-- [ ] Match the supplied profile menu and connect its six sections.
+- [x] Match the supplied profile menu and connect its six sections; verified signed-in navigation and data download. Direct support contact and official Vivo legal documents await owner-provided details.
 - [x] Apply Vivo identity, font and palette throughout app.
 - [x] Match the reference home screen while retaining health tools.
 - [x] Verify home interactions and phone/desktop rendering.
