@@ -8,7 +8,7 @@ import { status } from "@/lib/data";
 import { todayKey } from "@/lib/daily-goals";
 import { suggestedProducts } from "@/lib/plan-products";
 import { routineTips, type RoutineTip } from "@/lib/deficiency-routines";
-import planRunner from "@/assets/plan-runner.jpg.asset.json";
+import planRunner from "@/assets/plan-runner-top.png.asset.json";
 
 export const Route = createFileRoute("/plan")({
   head: () => ({
