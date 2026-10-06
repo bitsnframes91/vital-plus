@@ -19,3 +19,15 @@ export function nutritionStatus(value: number, target: number): "good" | "near" 
   if (value > target) return "over";
   return value >= target * 0.8 ? "near" : "good";
 }
+
+/** Emoji direction per nutrient: falling short is only bad for protein and fiber. */
+export type NutrientKey = "kcal" | "protein" | "fiber" | "carbs" | "fat";
+export function nutrientStatus(key: NutrientKey, value: number, target: number): "good" | "near" | "bad" {
+  const lowIsBad = key === "protein" || key === "fiber";
+  if (lowIsBad) {
+    if (value >= target) return "good";
+    return value >= target * 0.8 ? "near" : "bad";
+  }
+  if (value <= target) return "good";
+  return value <= target * 1.25 ? "near" : "bad";
+}
