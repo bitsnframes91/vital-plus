@@ -10,6 +10,7 @@
 <!-- LOVABLE:END -->
 
 # Project rules
+- Questionnaire edits carry a validated origin so Save and Cancel return Profile users to their personal submenu and Gesundheit users to Gesundheit. Why: editing must preserve the user's navigation context.
 - Profile submenus use the dynamic /profil/$section content route with persistent AppShell navigation; small editors and unavailable-feature notices use accessible dialogs, while account deletion reuses the verified profile flow. Why: full-page menus preserve back navigation without fabricating unconfigured services.
 
 - Fairvital Health is a companion app; Shopware (fairvital.com) owns products, prices, cart and checkout — the app only links out to product pages. Why: the shop must not be replaced.
