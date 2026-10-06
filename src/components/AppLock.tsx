@@ -44,7 +44,6 @@ export function AppLockProvider({ children }: { children: ReactNode }) {
   const enable = () => action(async () => {
     if (!userId || !supported) throw new Error("Not available");
     const key = await createLock(userId);
-    await verifyLock(key);
     saveLock(userId, key); setEnabled(true); setLocked(false);
   });
   const disable = () => action(async () => {

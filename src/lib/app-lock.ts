@@ -27,7 +27,8 @@ export async function createLock(userId: string): Promise<LockCredential> {
   } });
   if (!(credential instanceof PublicKeyCredential) || !(credential.response instanceof AuthenticatorAttestationResponse)) throw new Error("Verification cancelled");
   const key = credential.response.getPublicKey();
-  if (!key || credential.response.getPublicKeyAlgorithm() !== -7) throw new Error("Unsupported device key");
+  const flags = new Uint8Array(credential.response.getAuthenticatorData())[32] ?? 0;
+  if (!key || credential.response.getPublicKeyAlgorithm() !== -7 || (flags & 5) !== 5) throw new Error("Unsupported device key");
   return { id: encode(credential.rawId), publicKey: encode(key) };
 }
 
