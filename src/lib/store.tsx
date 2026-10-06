@@ -50,6 +50,8 @@ function migrate(parsed: any) {
     parsed.meals = parsed.meals.map((m: any) => ({ kcal: 0, fiber: 0, carbs: 0, fat: 0, date: today, ...m }));
   }
   if (parsed.account && !parsed.account.userId) parsed.account = null;
+  // "Gesund altern" was renamed to "Longevity".
+  if (Array.isArray(parsed.goals)) parsed.goals = [...new Set(parsed.goals.map((x: string) => (x === "Gesund altern" ? "Longevity" : x)))];
   parsed.weekLog = typeof parsed.weekLog === "object" && parsed.weekLog !== null ? parsed.weekLog : {};
   parsed.weightLog = typeof parsed.weightLog === "object" && parsed.weightLog !== null ? parsed.weightLog : {};
   parsed.fullDays = typeof parsed.fullDays === "object" && parsed.fullDays !== null ? parsed.fullDays : {};
