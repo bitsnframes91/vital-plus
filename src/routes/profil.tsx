@@ -89,7 +89,7 @@ function Profile() {
         <MenuRow category="Konto" title="Konto & Sicherheit" sub="E-Mail-Adresse, Passwort, Konto löschen" icon={LockKeyhole} onClick={() => s.account ? openMenu("security") : navigate({ to: "/login", search: { mode: "login" } })} />
         <MenuRow category="Einstellungen" title="App-Einstellungen" sub="Benachrichtigungen, Sprache, Einheiten" icon={Settings} onClick={() => openMenu("settings")} />
         <MenuRow category="Datenschutz" title="Datenschutz & Daten" sub="Datenschutz, meine Daten herunterladen" icon={Shield} onClick={() => openMenu("privacy")} />
-        <MenuRow category="Hilfe" title="Kundenservice kontaktieren" sub="Telefon oder E-Mail" icon={MessageSquare} onClick={() => setStep("contact")} />
+        <MenuRow category="Hilfe" title="Kundenservice kontaktieren" sub="Telefon oder E-Mail" icon={MessageSquare} onClick={() => openMenu("help")} />
         <MenuRow category="Rechtliches" title="Rechtliches" sub="Allgemeine Geschäftsbedingungen, Impressum" icon={FileText} onClick={() => openMenu("legal")} />
         <div className="border-t border-border pt-4">
         <div className="rounded-2xl border border-border bg-card p-4 text-[13px] text-muted-foreground">

@@ -48,7 +48,6 @@ function ProfileSubmenu() {
   const password = () => setDetail({ title: "Passwort ändern", password: true });
   const appLock = () => setDetail({ title: "App Lock", lock: true });
   const privacy = () => notice("Datenschutzerklärung", "Die offizielle Datenschutzerklärung für Vivo wurde noch nicht hinterlegt.");
-  const support = (title: string) => notice(title, "Ein direkter Vivo-Supportkontakt wurde noch nicht hinterlegt.");
   const value = (n: number | null | undefined, unit: string) => n == null ? "Nicht angegeben" : `${n} ${unit}`;
   return <AppShell>
     <header className="flex min-h-20 items-center gap-2 px-3 py-5">
