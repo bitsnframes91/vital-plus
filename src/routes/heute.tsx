@@ -8,7 +8,7 @@ import { useStore } from "@/lib/store";
 import { fmtDate, status } from "@/lib/data";
 import { productForMarker, reportMarkers } from "@/lib/plan-products";
 import { dailyTip, msUntilNextTip } from "@/lib/daily-tip";
-import lakeHero from "@/assets/vivo-lake.jpg";
+import todayHero from "@/assets/ganzheitlich-today.png.asset.json";
 import { MovementDialog } from "@/components/MovementDialog";
 import { VivoBrand } from "@/components/VivoBrand";
 import { Activity, ChevronRight, Clock, FlaskConical, Footprints, Heart, Leaf, Moon, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
@@ -82,7 +82,7 @@ function Today() {
   return (
     <AppShell>
       <header className="vivo-today-header relative px-6 pt-8 pb-7">
-        <img src={lakeHero} alt="Morgensonne über einem ruhigen Bergsee" width={1536} height={768} fetchPriority="high" className="absolute inset-0 size-full object-cover object-center" />
+        <img src={todayHero.url} alt="Ganzheitliches Leben in Bewegung — Forschung, Sport und Vitalität" width={1774} height={887} fetchPriority="high" className="absolute inset-0 size-full object-cover object-center" />
         <div className="today-image-overlay absolute inset-0" aria-hidden="true" />
         <div className="relative">
           <div className="flex items-center justify-between">
