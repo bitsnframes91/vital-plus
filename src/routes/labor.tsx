@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Camera, Upload } from "lucide-react";
+import { Camera, Upload, Smile, Meh, Frown, type LucideIcon } from "lucide-react";
 import { useEffect } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
@@ -25,6 +25,9 @@ export const Route = createFileRoute("/labor")({
   }),
   component: Labs,
 });
+
+const toneFace: Record<"ok" | "warn" | "severe", LucideIcon> = { ok: Smile, warn: Meh, severe: Frown };
+const toneColor: Record<"ok" | "warn" | "severe", string> = { ok: "text-bmi-good", warn: "text-nutrition-near", severe: "text-bmi-bad" };
 
 function Labs() {
   const { s, set } = useStore();
