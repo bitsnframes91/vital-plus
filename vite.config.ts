@@ -20,6 +20,7 @@ export default defineConfig({
         injectRegister: null,
         devOptions: { enabled: false },
         filename: "sw.js",
+        outDir: "dist/client",
         manifest: false,
         workbox: {
           globPatterns: ["**/*.{js,css,woff2,png,svg,webp,jpg,ico}"],
