@@ -2,14 +2,12 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
 
 export const Route = createFileRoute("/login")({
   validateSearch: (search: Record<string, unknown>) => ({ mode: search["mode"] === "register" ? ("register" as const) : ("login" as const) }),
   head: () => ({
     meta: [
-      { title: "Anmelden — Vivo" },
-      { name: "description", content: "Mit E-Mail, Google oder Apple bei Vivo anmelden oder ein Konto anlegen." },
+      { name: "description", content: "Mit E-Mail und Passwort bei Vivo anmelden oder ein Konto anlegen." },
       { property: "og:title", content: "Anmelden — Vivo" },
       { property: "og:description", content: "Dein Vivo-Konto – deine Werte auf allen Geräten." },
       { property: "og:type", content: "website" },
