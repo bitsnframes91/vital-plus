@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { NutritionProfileFields } from "@/components/NutritionProfileFields";
 import { nutrientStatus, nutritionTargets, type NutritionProfile } from "@/lib/nutrition-targets";
 import type { Meal } from "@/lib/data";
+import { nutritionGaps } from "@/lib/nutrition-products";
 import ernaehrungVeg from "@/assets/ernaehrung-veg.jpg.asset.json";
 import voiceCardBg from "@/assets/voice-card-bg.png";
 
@@ -133,6 +134,7 @@ function Nutrition() {
   };
   const neutral = { color: "text-muted-foreground", Face: Meh, label: "Kein Richtwert gesetzt" };
   const format = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 1 });
+  const gaps = nutritionGaps(totals, targets, s.meals.filter((m) => m.date === today).length);
 
   return (
     <AppShell>
@@ -152,6 +154,19 @@ function Nutrition() {
             </div>;
           })}
         </div>
+        {gaps.length > 0 && <section className="space-y-3" data-nutrition-gaps>
+          <h2 className="text-[17px] font-semibold">Das fehlt dir noch für heute:</h2>
+          {gaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
+            <img src={g.product.image} alt={g.product.name} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
+            <div className="min-w-0 flex-1">
+              <div className="eyebrow">{g.key === "protein" ? "Protein" : "Ballaststoffe"} · noch ca. {format(Math.max(g.missing, 0))} g</div>
+              <div className="mt-1 text-[15px] font-semibold">{g.product.name}</div>
+              <div className="text-xs text-muted-foreground">{g.reason}</div>
+              <div className="mt-1 text-xs font-semibold text-fv-deep">Bei Fairvital ansehen →</div>
+            </div>
+          </a>)}
+          <p className="text-[11px] text-muted-foreground">Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten.</p>
+        </section>}
         {targets ? <p className="text-[11px] leading-relaxed text-muted-foreground">Geschätzte Richtwerte zum Gewichtserhalt, keine medizinischen Grenzwerte. Mehr Protein oder Ballaststoffe ist nicht automatisch ungesund. Bei Schwangerschaft, Stillzeit oder Erkrankungen ärztlich abstimmen.</p> : <section className="space-y-3 border-y border-border py-4">
           <h2 className="text-[15px] font-semibold">Deine Tagesrichtwerte</h2>
           <NutritionProfileFields value={profile} onChange={setProfile} />
