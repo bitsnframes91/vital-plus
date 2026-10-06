@@ -42,7 +42,10 @@ function FeedbackPage() {
   const submit = async () => {
     setBusy(true);
     setErr("");
-    const { error } = await supabase.from("app_feedback").insert({
+    const client = supabase.from("app_feedback" as Parameters<typeof supabase.from>[0]) as unknown as {
+      insert: (row: Record<string, unknown>) => PromiseLike<{ error: { message: string } | null }>;
+    };
+    const { error } = await client.insert({
       rating,
       topics: selected,
       message: message.trim(),
@@ -57,11 +60,11 @@ function FeedbackPage() {
 
   return <AppShell>
     <header className="flex min-h-20 items-center gap-2 px-3 py-5">
-      <Button variant="ghost" size="icon" asChild className="shrink-0"><Link to="/profil/help" aria-label="Zurück zum Kundenservice"><ArrowLeft className="size-5!" /></Link></Button>
+      <Button variant="ghost" size="icon" asChild className="shrink-0"><Link to="/profil/$section" params={{ section: "help" }} aria-label="Zurück zum Kundenservice"><ArrowLeft className="size-5!" /></Link></Button>
       <h1 className="flex-1 text-center text-[17px] font-bold leading-6">Feedback geben</h1><span className="w-9" aria-hidden="true" />
     </header>
     <p className="px-4 text-sm leading-5 text-muted-foreground">Deine Meinung hilft uns, die App zu verbessern.</p>
-    <div className="space-y-4 px-4 pt-4 pb-6">
+    <div className="space-y-4 px-4 pt-4 pb-10">
       <section className="rounded-2xl bg-card p-4">
         <h2 className="text-[15px] font-bold">Wie zufrieden bist du mit der App?</h2>
         <div className="mt-4 flex items-center justify-between px-1" role="radiogroup" aria-label="Zufriedenheit von 1 bis 5">
