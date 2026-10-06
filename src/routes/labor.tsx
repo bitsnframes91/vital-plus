@@ -168,7 +168,7 @@ function Labs() {
         <form onSubmit={add} className="card-surface space-y-3 p-5">
           <div className="eyebrow">Neuen Wert eintragen</div>
           <select value={marker} onChange={(e) => setMarker(e.target.value)} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none">
-            {s.labs.map((l) => <option key={l.id} value={l.id}>{l.name} ({l.unit})</option>)}
+            {options.map((l) => <option key={l.id} value={l.id}>{l.name} ({l.unit})</option>)}
           </select>
           <input value={value} onChange={(e) => setValue(e.target.value)} inputMode="decimal" placeholder="Wert" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
           <button className="w-full rounded-full bg-fresh py-2.5 text-sm font-medium text-ink">Speichern</button>
