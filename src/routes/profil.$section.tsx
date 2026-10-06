@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, ChevronRight, UserRound, CalendarDays, UsersRound, Ruler, Weight, Heart, Activity, Mail, KeyRound, Shield, Trash2, Bell, Globe, Moon, Clock, FileText, Download, MessageSquare, CircleHelp, LayoutGrid, type LucideIcon } from "lucide-react";
+import { ArrowLeft, ChevronRight, UserRound, CalendarDays, UsersRound, Ruler, Weight, Heart, Activity, Mail, KeyRound, Shield, Trash2, Bell, Globe, Moon, Clock, FileText, Download, MessageSquare, CircleHelp, LayoutGrid, Phone, type LucideIcon } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -78,9 +78,10 @@ function ProfileSubmenu() {
         <Row title="Meine Daten herunterladen" sub="Eine Kopie deiner Daten herunterladen" icon={Download} green onClick={download} />
       </div><Row title="Konto löschen" sub="Alle Daten und dein Konto dauerhaft löschen" icon={Trash2} danger onClick={deletion} /></>}
       {section === "help" && <><p className="text-sm leading-5 text-muted-foreground">Wir sind für dich da. Wähle eine Option, um uns zu kontaktieren.</p><div className="space-y-2">
-        <Row title="E-Mail" sub="Supportkontakt noch nicht hinterlegt" icon={Mail} green onClick={() => support("E-Mail")} />
+        <Row title="Anrufen" sub="+49 2234 2190482" icon={Phone} green onClick={() => { window.location.href = "tel:+4922342190482"; }} />
+        <Row title="E-Mail" sub="support@vivohealth.com" icon={Mail} green onClick={() => { window.location.href = "mailto:support@vivohealth.com"; }} />
         <Row title="FAQ" sub="Häufige Fragen und Antworten" icon={CircleHelp} green onClick={() => setDetail({ title: "FAQ", faq: true })} />
-        <Row title="Feedback geben" sub="Hilf uns, die App zu verbessern" icon={MessageSquare} green onClick={() => support("Feedback geben")} />
+        <Row title="Feedback geben" sub="Hilf uns, die App zu verbessern" icon={MessageSquare} green onClick={() => { window.location.href = "mailto:support@vivohealth.com?subject=Feedback%20zur%20Vivo-App"; }} />
       </div></>}
       {section === "legal" && <div className="space-y-2">
         <Row title="Allgemeine Geschäftsbedingungen (AGB)" icon={FileText} onClick={() => notice("Allgemeine Geschäftsbedingungen", "Die Nutzungsbedingungen für Vivo wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.")} />
