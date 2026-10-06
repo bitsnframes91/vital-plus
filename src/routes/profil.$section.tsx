@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, ChevronRight, UserRound, CalendarDays, UsersRound, Ruler, Weight, Heart, Activity, Mail, KeyRound, Shield, Trash2, Bell, Globe, Moon, Clock, FileText, Download, MessageSquare, CircleHelp, LayoutGrid, type LucideIcon } from "lucide-react";
+import { ArrowLeft, ChevronRight, UserRound, CalendarDays, UsersRound, Ruler, Weight, Heart, Activity, Mail, KeyRound, Shield, Trash2, Bell, Globe, Moon, Clock, FileText, Download, MessageSquare, CircleHelp, LayoutGrid, Phone, type LucideIcon } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -23,8 +23,8 @@ export const Route = createFileRoute("/profil/$section")({
 });
 
 function Row({ title, sub, icon: Icon, onClick, danger = false, green = false }: { title: string; sub?: string; icon: LucideIcon; onClick: () => void; danger?: boolean; green?: boolean }) {
-  return <Button variant="ghost" onClick={onClick} className={`h-auto min-h-16 w-full justify-start gap-3 whitespace-normal rounded-lg bg-card px-3 py-3 text-left ${danger ? "text-destructive" : "text-foreground"}`}>
-    <span className={`grid size-9 shrink-0 place-items-center rounded-full ${green ? "bg-fresh-soft text-fv-deep" : ""}`}><Icon className="size-5!" strokeWidth={1.6} /></span>
+  return <Button variant="ghost" onClick={onClick} className={`h-auto min-h-16 w-full justify-start gap-3 whitespace-normal px-3 py-3 text-left ${green ? "min-h-20 rounded-2xl bg-card" : "rounded-lg bg-card"} ${danger ? "text-destructive" : "text-foreground"}`}>
+    <span className={`grid shrink-0 place-items-center rounded-full ${green ? "size-12 bg-fresh-soft text-fv-deep" : "size-9"}`}><Icon className={`${green ? "size-6!" : "size-5!"}`} strokeWidth={1.6} /></span>
     <span className="min-w-0 flex-1"><span className="block text-[13px] font-semibold leading-5">{title}</span>{sub && <span className={`block break-words text-[12px] font-normal leading-4 ${danger ? "text-destructive" : "text-muted-foreground"}`}>{sub}</span>}</span><ChevronRight className="size-4! shrink-0 text-muted-foreground" />
   </Button>;
 }
@@ -48,7 +48,6 @@ function ProfileSubmenu() {
   const password = () => setDetail({ title: "Passwort ändern", password: true });
   const appLock = () => setDetail({ title: "App Lock", lock: true });
   const privacy = () => notice("Datenschutzerklärung", "Die offizielle Datenschutzerklärung für Vivo wurde noch nicht hinterlegt.");
-  const support = (title: string) => notice(title, "Ein direkter Vivo-Supportkontakt wurde noch nicht hinterlegt.");
   const value = (n: number | null | undefined, unit: string) => n == null ? "Nicht angegeben" : `${n} ${unit}`;
   return <AppShell>
     <header className="flex min-h-20 items-center gap-2 px-3 py-5">
@@ -78,9 +77,10 @@ function ProfileSubmenu() {
         <Row title="Meine Daten herunterladen" sub="Eine Kopie deiner Daten herunterladen" icon={Download} green onClick={download} />
       </div><Row title="Konto löschen" sub="Alle Daten und dein Konto dauerhaft löschen" icon={Trash2} danger onClick={deletion} /></>}
       {section === "help" && <><p className="text-sm leading-5 text-muted-foreground">Wir sind für dich da. Wähle eine Option, um uns zu kontaktieren.</p><div className="space-y-2">
-        <Row title="E-Mail" sub="Supportkontakt noch nicht hinterlegt" icon={Mail} green onClick={() => support("E-Mail")} />
+        <Row title="Anrufen" sub="+49 2234 2190482" icon={Phone} green onClick={() => { window.location.href = "tel:+4922342190482"; }} />
+        <Row title="E-Mail" sub="support@vivohealth.com" icon={Mail} green onClick={() => { window.location.href = "mailto:support@vivohealth.com"; }} />
         <Row title="FAQ" sub="Häufige Fragen und Antworten" icon={CircleHelp} green onClick={() => setDetail({ title: "FAQ", faq: true })} />
-        <Row title="Feedback geben" sub="Hilf uns, die App zu verbessern" icon={MessageSquare} green onClick={() => support("Feedback geben")} />
+        <Row title="Feedback geben" sub="Hilf uns, die App zu verbessern" icon={MessageSquare} green onClick={() => { window.location.href = "mailto:support@vivohealth.com?subject=Feedback%20zur%20Vivo-App"; }} />
       </div></>}
       {section === "legal" && <div className="space-y-2">
         <Row title="Allgemeine Geschäftsbedingungen (AGB)" icon={FileText} onClick={() => notice("Allgemeine Geschäftsbedingungen", "Die Nutzungsbedingungen für Vivo wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.")} />
