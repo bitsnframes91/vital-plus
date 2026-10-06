@@ -18,7 +18,7 @@ export const Route = createFileRoute("/onboarding")({
     ],
   }),
   validateSearch: (q: Record<string, unknown>): { step?: number } => {
-    const n = Number(q.step);
+    const n = Number(q['step']);
     return Number.isInteger(n) && n >= 0 && n <= 5 ? { step: n } : {};
   },
   component: Onboarding,
