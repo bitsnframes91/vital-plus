@@ -1,3 +1,5 @@
+import { combinedPlan } from "./goal-plan";
+
 type PlanLike = { date: string; items: { title: string; detail: string; daily?: boolean }[] } | null;
 
 export const fallbackGoals = [
@@ -8,13 +10,13 @@ export const fallbackGoals = [
 
 export const todayKey = () => new Date().toISOString().slice(0, 10);
 
-/** Daily goals come from the user's plan; checkmarks reset each day. */
-export function dailyGoals(plan: PlanLike) {
-  if (!plan || !plan.items.length) return { fromPlan: false, goals: fallbackGoals.map((g) => ({ ...g, key: g.id })) };
+/** Daily goals come from the combined plan (lab report + onboarding goals); checkmarks reset each day. */
+export function dailyGoals(plan: PlanLike, goals: string[] = [], goalOff: Record<string, boolean> = {}) {
+  const steps = combinedPlan(plan, goals, goalOff);
+  if (!steps.length) return { fromPlan: false, goals: fallbackGoals.map((g) => ({ ...g, key: g.id })) };
   const d = todayKey();
-  const goals = plan.items
-    .map((it, i) => ({ id: `plan-${i}`, title: it.title, sub: it.detail, daily: it.daily !== false }))
+  const list = steps
     .filter((g) => g.daily)
-    .map((g) => ({ ...g, key: `${d}:${g.id}` }));
-  return { fromPlan: true, goals };
+    .map((g) => ({ id: g.key, title: g.title, sub: g.detail, daily: true, key: `${d}:${g.key}` }));
+  return { fromPlan: true, goals: list };
 }
