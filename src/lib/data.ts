@@ -256,9 +256,21 @@ export const initialSupplements: Supplement[] = [
 export const fmtDate = (d: string) =>
   new Date(d).toLocaleDateString("de-DE", { day: "2-digit", month: "short", year: "numeric" });
 
-export const status = (m: LabMarker) => {
+export type LabLevel = "optimal" | "high" | "low" | "very_high" | "very_low";
+export type LabStatus = { label: string; level: LabLevel; tone: "ok" | "warn" | "severe" };
+
+export const status = (m: LabMarker): LabStatus => {
   const v = m.history[m.history.length - 1]!.value;
-  if (v < m.target[0]) return { label: "Niedrig", tone: "warn" as const };
-  if (v > m.target[1]) return { label: "Hoch", tone: "warn" as const };
-  return { label: "Optimal", tone: "ok" as const };
+  const [lo, hi] = m.target;
+  if (v > hi) {
+    return v >= hi * 1.25
+      ? { label: "Sehr hoch", level: "very_high", tone: "severe" }
+      : { label: "Hoch", level: "high", tone: "warn" };
+  }
+  if (v < lo) {
+    return lo > 0 && v <= lo * 0.75
+      ? { label: "Sehr niedrig", level: "very_low", tone: "severe" }
+      : { label: "Niedrig", level: "low", tone: "warn" };
+  }
+  return { label: "Optimal", level: "optimal", tone: "ok" };
 };
