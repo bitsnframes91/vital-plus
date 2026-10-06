@@ -1,14 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
-import { Smile, Meh, Angry } from "lucide-react";
+import { Smile, Meh, Frown } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
 import { mealFromVoice, mealNutrition } from "@/lib/ai.functions";
 import { blobToBase64, recordWav } from "@/lib/record-wav";
 import { Button } from "@/components/ui/button";
 import { NutritionProfileFields } from "@/components/NutritionProfileFields";
-import { nutritionTargets, nutritionStatus, type NutritionProfile } from "@/lib/nutrition-targets";
+import { nutrientStatus, nutritionTargets, type NutritionProfile } from "@/lib/nutrition-targets";
 import type { Meal } from "@/lib/data";
 import ernaehrungVeg from "@/assets/ernaehrung-veg.jpg.asset.json";
 
@@ -128,7 +128,7 @@ function Nutrition() {
   const feedback = {
     good: { color: "text-bmi-good", Face: Smile, label: "Im grünen Bereich" },
     near: { color: "text-nutrition-near", Face: Meh, label: "Richtwert fast erreicht" },
-    over: { color: "text-bmi-bad", Face: Angry, label: "Richtwert überschritten" },
+    bad: { color: "text-bmi-bad", Face: Frown, label: "Deutlich vom Richtwert entfernt" },
   };
   const neutral = { color: "text-muted-foreground", Face: Meh, label: "Kein Richtwert gesetzt" };
   const format = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 1 });
@@ -140,7 +140,7 @@ function Nutrition() {
         <div className="grid grid-cols-2 gap-3">
           {statCards.map((c) => {
             const target = targets?.[c.key];
-            const state = target ? feedback[nutritionStatus(totals[c.key], target)] : neutral;
+            const state = target ? feedback[nutrientStatus(c.key, totals[c.key], target)] : neutral;
             return <div key={c.key} data-nutrition={c.key} className="card-surface min-w-0 p-4">
               <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words">{c.label}</div><state.Face role="img" aria-label={state.label} className={`size-5 shrink-0 ${state.color}`} /></div>
               <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${target ? state.color : "text-foreground"}`}>
