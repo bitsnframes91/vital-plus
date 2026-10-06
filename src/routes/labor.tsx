@@ -114,7 +114,9 @@ function Labs() {
   };
 
   const removeAll = () => {
-    set({ labs: [] });
+    // Removing all values also removes the plan derived from the report (Plan + Heute Tagesziele).
+    const actionsDone = Object.fromEntries(Object.entries(s.actionsDone).filter(([k]) => !k.includes(":plan-")));
+    set({ labs: [], aiPlan: null, actionsDone });
     setConfirmAll(false);
     setMarker(catalog[0]?.id ?? "");
   };
