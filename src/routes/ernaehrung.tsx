@@ -126,10 +126,11 @@ function Nutrition() {
     { label: "Fett", key: "fat", unit: "g" },
   ] as const;
   const feedback = {
-    good: { color: "text-bmi-good", Face: Smile, label: "Unter 80 % des Richtwerts" },
+    good: { color: "text-bmi-good", Face: Smile, label: "Im grünen Bereich" },
     near: { color: "text-nutrition-near", Face: Meh, label: "Richtwert fast erreicht" },
     over: { color: "text-bmi-bad", Face: Angry, label: "Richtwert überschritten" },
   };
+  const neutral = { color: "text-muted-foreground", Face: Meh, label: "Kein Richtwert gesetzt" };
   const format = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 1 });
 
   return (
