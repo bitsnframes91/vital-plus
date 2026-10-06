@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Camera, Upload, Smile, Meh, Frown, type LucideIcon } from "lucide-react";
+import { Camera, Upload, Smile, Meh, Frown, Trash2, type LucideIcon } from "lucide-react";
 import { useEffect } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
@@ -37,6 +37,8 @@ function Labs() {
   const [value, setValue] = useState("");
   const analyze = useServerFn(analyzeLabPdf);
   const [busy, setBusy] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const [confirmAll, setConfirmAll] = useState(false);
   const [progress, setProgress] = useState(0);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
