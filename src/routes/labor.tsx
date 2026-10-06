@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Camera, Upload, Smile, Meh, Frown, type LucideIcon } from "lucide-react";
+import { Camera, Upload, Smile, Meh, Frown, Trash2, type LucideIcon } from "lucide-react";
 import { useEffect } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
@@ -37,6 +37,8 @@ function Labs() {
   const [value, setValue] = useState("");
   const analyze = useServerFn(analyzeLabPdf);
   const [busy, setBusy] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const [confirmAll, setConfirmAll] = useState(false);
   const [progress, setProgress] = useState(0);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
@@ -101,6 +103,22 @@ function Labs() {
     setValue("");
   };
 
+  const removeOne = (id: string) => {
+    const labs = s.labs.filter((l) => l.id !== id);
+    set({ labs });
+    setConfirmDelete(null);
+    if (marker === id) {
+      const remaining = [...labs, ...catalog.filter((c) => !labs.some((l) => l.id === c.id))];
+      setMarker(remaining[0]?.id ?? "");
+    }
+  };
+
+  const removeAll = () => {
+    set({ labs: [] });
+    setConfirmAll(false);
+    setMarker(catalog[0]?.id ?? "");
+  };
+
   return (
     <AppShell>
       <PageHeader eyebrow="Labor" title="Deine Laborwerte" sub="Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen." image={laborLab.url} imageAlt="Forschende im weißen Kittel arbeiten im Labor an einem Mikroskop" imageOverlay="labor-image-overlay" />
@@ -154,16 +172,44 @@ function Labs() {
                   </div>
                   <div className="text-[12px] text-ink/45">Ziel {m.target[0]}–{m.target[1]} · {fmtDate(last.date)}</div>
                 </div>
-                <span className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 font-data text-[12px] uppercase tracking-normal ${st.tone === "ok" ? "bg-fv/10 text-fv-deep" : st.tone === "warn" ? "bg-warn/20 text-ink" : "bg-bmi-bad/10 text-bmi-bad"}`}>
-                  {(() => { const Face = toneFace[st.tone]; return <Face size={14} className={toneColor[st.tone]} aria-hidden />; })()}
-                  {st.label}
-                </span>
+                <div className="flex shrink-0 items-center gap-2">
+                  <span className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 font-data text-[12px] uppercase tracking-normal ${st.tone === "ok" ? "bg-fv/10 text-fv-deep" : st.tone === "warn" ? "bg-warn/20 text-ink" : "bg-bmi-bad/10 text-bmi-bad"}`}>
+                    {(() => { const Face = toneFace[st.tone]; return <Face size={14} className={toneColor[st.tone]} aria-hidden />; })()}
+                    {st.label}
+                  </span>
+                  {confirmDelete === m.id ? (
+                    <div className="flex items-center gap-1">
+                      <button onClick={() => removeOne(m.id)} className="rounded-full bg-bmi-bad/10 px-2.5 py-1 text-[12px] font-medium text-bmi-bad">Löschen</button>
+                      <button onClick={() => setConfirmDelete(null)} className="rounded-full border border-border px-2.5 py-1 text-[12px] text-ink/55">Nein</button>
+                    </div>
+                  ) : (
+                    <button onClick={() => setConfirmDelete(m.id)} aria-label={`Werte für ${m.name} löschen`} className="grid size-8 place-items-center rounded-full text-ink/35 hover:bg-muted hover:text-bmi-bad">
+                      <Trash2 size={16} strokeWidth={2} aria-hidden="true" />
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="mt-4"><RangeBar marker={m} /></div>
               <p className="mt-3 border-t pt-3 text-[13px] text-ink/55">{m.note} Nachkontrolle in {m.retestWeeks} Wochen.</p>
             </div>
           );
         })}
+
+        {s.labs.length > 0 && (
+          confirmAll ? (
+            <div className="card-surface flex items-center justify-between gap-3 p-4">
+              <span className="text-[13px] text-ink/70">Alle Werte löschen? Danach kannst du direkt einen neuen Befund hochladen.</span>
+              <div className="flex shrink-0 gap-2">
+                <button onClick={() => setConfirmAll(false)} className="rounded-full border border-border px-3 py-1.5 text-[12px] font-medium">Behalten</button>
+                <button onClick={removeAll} className="rounded-full bg-bmi-bad/10 px-3 py-1.5 text-[12px] font-medium text-bmi-bad">Alle löschen</button>
+              </div>
+            </div>
+          ) : (
+            <button onClick={() => setConfirmAll(true)} className="mx-auto flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] text-ink/45 underline underline-offset-2 hover:text-bmi-bad">
+              <Trash2 size={14} strokeWidth={2} aria-hidden="true" />Alle Werte löschen
+            </button>
+          )
+        )}
 
         <form onSubmit={add} className="card-surface space-y-3 p-5">
           <div className="eyebrow">Neuen Wert eintragen</div>
