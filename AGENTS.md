@@ -10,6 +10,7 @@
 <!-- LOVABLE:END -->
 
 # Project rules
+- App Lock is an account-scoped, device-local privacy gate using verified WebAuthn platform assertions, not account MFA or data encryption; lock on reload and backgrounding, and require verification to disable. Why: browser devices control biometric methods and cannot provide native OS app protection.
 - Questionnaire edits carry a validated origin so Save and Cancel return Profile users to their personal submenu and Gesundheit users to Gesundheit. Why: editing must preserve the user's navigation context.
 - Profile submenus use the dynamic /profil/$section content route with persistent AppShell navigation; small editors and unavailable-feature notices use accessible dialogs, while account deletion reuses the verified profile flow. Why: full-page menus preserve back navigation without fabricating unconfigured services.
 

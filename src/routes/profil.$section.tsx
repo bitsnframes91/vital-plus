@@ -8,6 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { useStore } from "@/lib/store";
 import { activityLevels } from "@/lib/nutrition-targets";
 import { PasswordResetForm } from "@/components/PasswordResetForm";
+import { AppLockSettings } from "@/components/AppLock";
 
 const titles: Record<string, string> = { personal: "Gesundheitsprofil bearbeiten", security: "Konto & Sicherheit", settings: "App-Einstellungen", privacy: "Datenschutz & Daten", help: "Kundenservice kontaktieren", legal: "Rechtliches", account: "Konto verwalten" };
 
@@ -31,7 +32,7 @@ function ProfileSubmenu() {
   const { section } = Route.useParams();
   const navigate = Route.useNavigate();
   const { s, set } = useStore();
-  const [detail, setDetail] = useState<{ title: string; text?: string; name?: boolean; data?: boolean; faq?: boolean; password?: boolean } | null>(null);
+  const [detail, setDetail] = useState<{ title: string; text?: string; name?: boolean; data?: boolean; faq?: boolean; password?: boolean; lock?: boolean } | null>(null);
   const [name, setName] = useState(s.name);
   const notice = (title: string, text: string) => setDetail({ title, text });
   const edit = (step: number) => navigate({ to: "/onboarding", search: { step, from: "profile" } });
@@ -44,7 +45,7 @@ function ProfileSubmenu() {
   };
   const email = () => notice("E-Mail-Adresse", s.account ? "Deine E-Mail-Adresse wird für die Anmeldung und Kontosicherheit verwendet. Eine Änderung in der App ist noch nicht verfügbar." : "Melde dich an, um dein Konto zu verwalten.");
   const password = () => setDetail({ title: "Passwort ändern", password: true });
-  const mfa = () => notice("Zwei-Faktor-Authentifizierung", "Die Einrichtung einer Zwei-Faktor-Authentifizierung ist in Vivo noch nicht verfügbar.");
+  const appLock = () => setDetail({ title: "App Lock", lock: true });
   const privacy = () => notice("Datenschutzerklärung", "Die offizielle Datenschutzerklärung für Vivo wurde noch nicht hinterlegt.");
   const support = (title: string) => notice(title, "Ein direkter Vivo-Supportkontakt wurde noch nicht hinterlegt.");
   const value = (n: number | null | undefined, unit: string) => n == null ? "Nicht angegeben" : `${n} ${unit}`;
@@ -66,7 +67,7 @@ function ProfileSubmenu() {
       </div>}
       {(section === "security" || section === "account") && <>
         {section === "account" && <h2 className="eyebrow">Vivo Konto</h2>}
-        <div className="space-y-px overflow-hidden rounded-lg"><Row title="E-Mail-Adresse" sub={s.account?.email ?? "Nicht angemeldet"} icon={Mail} onClick={email} /><Row title="Passwort ändern" icon={KeyRound} onClick={password} /><Row title="Zwei-Faktor-Authentifizierung" sub="Noch nicht verfügbar" icon={Shield} onClick={mfa} />
+        <div className="space-y-px overflow-hidden rounded-lg"><Row title="E-Mail-Adresse" sub={s.account?.email ?? "Nicht angemeldet"} icon={Mail} onClick={email} /><Row title="Passwort ändern" sub="Reset-Link per E-Mail" icon={KeyRound} onClick={password} /><Row title="App Lock" sub="Gerätecode oder Biometrie" icon={Shield} onClick={appLock} />
         {section === "account" && <Row title="Verbundene Apps" sub="Apple Health, Health Connect" icon={LayoutGrid} onClick={() => notice("Verbundene Apps", "Apple Health und Google Health Connect sind noch nicht verbunden. In dieser Web-App ist kein direkter Zugriff verfügbar.")} />}</div>
         <Row title="Konto löschen" icon={Trash2} danger onClick={deletion} />
       </>}
@@ -99,6 +100,7 @@ function ProfileSubmenu() {
     <Dialog open={detail !== null} onOpenChange={open => { if (!open) setDetail(null); }}><DialogContent className="max-h-[85dvh] max-w-sm overflow-y-auto rounded-2xl"><DialogHeader><DialogTitle>{detail?.title}</DialogTitle></DialogHeader>
       {detail?.text && <p className="text-sm leading-6 text-muted-foreground">{detail.text}</p>}
       {detail?.password && <PasswordResetForm initialEmail={s.account?.email ?? ""} />}
+      {detail?.lock && <AppLockSettings />}
       {detail?.name && <form className="space-y-4" onSubmit={e => { e.preventDefault(); set({ name: name.trim() }); setDetail(null); }}><label className="block text-sm">Name<input className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={name} onChange={e => setName(e.target.value)} /></label><Button type="submit" className="w-full bg-fresh text-ink hover:bg-fresh/90">Speichern</Button></form>}
       {detail?.data && <div className="space-y-4"><p className="text-sm text-muted-foreground">Deine Werte, Mahlzeiten und Ziele sind deinem Konto zugeordnet.</p><div className="flex items-center justify-between gap-3"><label htmlFor="profile-analytics" className="text-sm">Anonyme Nutzungsstatistik</label><Switch id="profile-analytics" checked={s.consent.analytics} onCheckedChange={analytics => set({ consent: { ...s.consent, analytics } })} /></div><Button onClick={download} className="w-full bg-fresh text-ink hover:bg-fresh/90"><Download /> Daten herunterladen</Button></div>}
       {detail?.faq && <div className="space-y-4 text-sm"><details><summary className="cursor-pointer font-semibold">Wie ändere ich Werte und Ziele?</summary><p className="mt-2 text-muted-foreground">Unter Profil → Gesundheitsprofil bearbeiten öffnest du die passende Frage im Fragebogen.</p></details><details><summary className="cursor-pointer font-semibold">Wie lade ich einen neuen Befund hoch?</summary><p className="mt-2 text-muted-foreground">Unter Labor kannst du alte Werte löschen und einen PDF-Befund oder ein Foto hochladen.</p></details><details><summary className="cursor-pointer font-semibold">Ich habe mein Passwort vergessen.</summary><p className="mt-2 text-muted-foreground">Auf der Anmeldeseite kannst du über „Passwort vergessen?“ einen neuen Link anfordern.</p></details></div>}

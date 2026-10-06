@@ -1,6 +1,6 @@
 # Vivo redesign
 - [x] Open an email reset form from Passwort ändern in both Profile account menus; verified both dialogs and reset request tests without sending an unsolicited email.
-- [ ] Clarify device lock versus login verification before implementing biometric security.
+- [x] Add device-only App Lock with verified platform signatures, reload/background locking and unsupported-device handling; simulated device enable/unlock/failure/disable tested. Actual Apple/Android methods depend on the user's phone and browser.
 - [x] Match the expanded profile submenu reference; verified all seven pages, back navigation, questionnaire links, downloads and safe cancellation of account deletion. Unsupported settings and missing support/legal content remain explicitly marked.
 - [x] Match the supplied profile menu and connect its six sections; verified signed-in navigation and data download. Direct support contact and official Vivo legal documents await owner-provided details.
 - [x] Apply Vivo identity, font and palette throughout app.
