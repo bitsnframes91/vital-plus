@@ -24,7 +24,7 @@ export const Route = createFileRoute("/onboarding")({
   component: Onboarding,
 });
 
-const goalOptions = ["Gesund altern", "Mehr Energie", "Besser schlafen", "Immunsystem", "Herz & Kreislauf", "Gewicht halten", "Sport & Regeneration"];
+const goalOptions = ["Longevity", "Mehr Energie", "Besser schlafen", "Immunsystem", "Herz & Kreislauf", "Gewicht halten", "Sport & Regeneration", "Stimmung aufhellen", "Hormon Balance", "Menopause-Heldin", "Kinderwunsch", "Male Health", "Konzentration", "Fastenzeit"];
 const dietOptions = ["Mischkost", "Vegetarisch", "Vegan", "Pescetarisch"];
 
 function Onboarding() {
