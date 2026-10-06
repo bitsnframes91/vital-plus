@@ -103,6 +103,22 @@ function Labs() {
     setValue("");
   };
 
+  const removeOne = (id: string) => {
+    const labs = s.labs.filter((l) => l.id !== id);
+    set({ labs });
+    setConfirmDelete(null);
+    if (marker === id) {
+      const remaining = [...labs, ...catalog.filter((c) => !labs.some((l) => l.id === c.id))];
+      setMarker(remaining[0]?.id ?? "");
+    }
+  };
+
+  const removeAll = () => {
+    set({ labs: [] });
+    setConfirmAll(false);
+    setMarker(catalog[0]?.id ?? "");
+  };
+
   return (
     <AppShell>
       <PageHeader eyebrow="Labor" title="Deine Laborwerte" sub="Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen." image={laborLab.url} imageAlt="Forschende im weißen Kittel arbeiten im Labor an einem Mikroskop" imageOverlay="labor-image-overlay" />
