@@ -33,8 +33,9 @@ function ProfileSubmenu() {
   const { section } = Route.useParams();
   const navigate = Route.useNavigate();
   const { s, set } = useStore();
-  const [detail, setDetail] = useState<{ title: string; text?: string; name?: boolean; data?: boolean; faq?: boolean; password?: boolean; lock?: boolean } | null>(null);
+  const [detail, setDetail] = useState<{ title: string; text?: string; name?: boolean; data?: boolean; faq?: boolean; password?: boolean; lock?: boolean; target?: boolean } | null>(null);
   const [name, setName] = useState(s.name);
+  const [targetWeight, setTargetWeight] = useState("");
   const notice = (title: string, text: string) => setDetail({ title, text });
   const edit = (step: number) => navigate({ to: "/onboarding", search: { step, from: "profile" } });
   const deletion = () => navigate({ to: "/profil", search: { action: "delete" } });
@@ -61,7 +62,7 @@ function ProfileSubmenu() {
         <Row title="Geschlecht" sub={({ female: "Weiblich", male: "Männlich", diverse: "Diverse", unspecified: "Keine Angabe" })[s.body.sex ?? "unspecified"]} icon={UsersRound} onClick={() => edit(4)} />
         <Row title="Größe" sub={value(s.body.heightCm, "cm")} icon={Ruler} onClick={() => edit(3)} />
         <Row title="Gewicht" sub={value(s.body.weightKg, "kg")} icon={Weight} onClick={() => edit(3)} />
-        <Row title="Zielgewicht" sub="Nicht angegeben" icon={Weight} onClick={() => notice("Zielgewicht", "Ein separates Zielgewicht wird derzeit nicht gespeichert. Dein aktuelles Gewicht kannst du im Fragebogen ändern.")} />
+        <Row title="Zielgewicht" sub={s.body.targetWeightKg ? `${s.body.targetWeightKg} kg` : "Nicht angegeben"} icon={Weight} onClick={() => { setTargetWeight(s.body.targetWeightKg?.toString() ?? ""); setDetail({ title: "Zielgewicht", target: true }); }} />
         <Row title="Aktivitätslevel" sub={activityLevels.find(a => a.value === s.body.activity)?.label ?? "Nicht angegeben"} icon={Activity} onClick={() => edit(4)} />
         <Row title="Gesundheitsziele" sub={s.goals.join(", ") || "Nicht angegeben"} icon={Heart} onClick={() => edit(1)} />
       </div>}
@@ -95,6 +96,8 @@ function ProfileSubmenu() {
       {detail?.password && <PasswordResetForm initialEmail={s.account?.email ?? ""} />}
       {detail?.lock && <AppLockSettings />}
       {detail?.name && <form className="space-y-4" onSubmit={e => { e.preventDefault(); set({ name: name.trim() }); setDetail(null); }}><label className="block text-sm">Name<input className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={name} onChange={e => setName(e.target.value)} /></label><Button type="submit" className="w-full bg-fresh text-ink hover:bg-fresh/90">Speichern</Button></form>}
+      {detail?.target && <form className="space-y-4" onSubmit={e => { e.preventDefault(); const n = Number(targetWeight.replace(",", ".")); if (targetWeight.trim() && !isNaN(n) && n >= 30 && n <= 300) { set({ body: { ...s.body, targetWeightKg: Math.round(n * 10) / 10 } }); setDetail(null); } }}><label className="block text-sm">Zielgewicht in kg<input type="number" min={30} max={300} step="0.1" inputMode="decimal" className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={targetWeight} onChange={e => setTargetWeight(e.target.value)} placeholder="z. B. 78" /></label><Button type="submit" className="w-full bg-fresh text-ink hover:bg-fresh/90">Speichern</Button>{s.body.targetWeightKg != null && <Button type="button" variant="ghost" className="w-full" onClick={() => { set({ body: { ...s.body, targetWeightKg: null } }); setDetail(null); }}>Zielgewicht entfernen</Button>}</form>}
+
       {detail?.data && <div className="space-y-4"><p className="text-sm text-muted-foreground">Deine Werte, Mahlzeiten und Ziele sind deinem Konto zugeordnet.</p><div className="flex items-center justify-between gap-3"><label htmlFor="profile-analytics" className="text-sm">Anonyme Nutzungsstatistik</label><Switch id="profile-analytics" checked={s.consent.analytics} onCheckedChange={analytics => set({ consent: { ...s.consent, analytics } })} /></div><Button onClick={download} className="w-full bg-fresh text-ink hover:bg-fresh/90"><Download /> Daten herunterladen</Button></div>}
       {detail?.faq && <div className="space-y-4 text-sm"><details><summary className="cursor-pointer font-semibold">Wie ändere ich Werte und Ziele?</summary><p className="mt-2 text-muted-foreground">Unter Profil → Gesundheitsprofil bearbeiten öffnest du die passende Frage im Fragebogen.</p></details><details><summary className="cursor-pointer font-semibold">Wie lade ich einen neuen Befund hoch?</summary><p className="mt-2 text-muted-foreground">Unter Labor kannst du alte Werte löschen und einen PDF-Befund oder ein Foto hochladen.</p></details><details><summary className="cursor-pointer font-semibold">Ich habe mein Passwort vergessen.</summary><p className="mt-2 text-muted-foreground">Auf der Anmeldeseite kannst du über „Passwort vergessen?“ einen neuen Link anfordern.</p></details></div>}
     </DialogContent></Dialog>
