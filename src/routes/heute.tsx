@@ -9,9 +9,11 @@ import { fmtDate, status } from "@/lib/data";
 import { productForMarker, reportMarkers } from "@/lib/plan-products";
 import { dailyTip, msUntilNextTip } from "@/lib/daily-tip";
 import todayHero from "@/assets/heute-collage.png.asset.json";
+import stepsGfx from "@/assets/steps.png.asset.json";
+import sleepGfx from "@/assets/schlaf.png.asset.json";
 import { MovementDialog } from "@/components/MovementDialog";
 import { VivoBrand } from "@/components/VivoBrand";
-import { Activity, ChevronRight, Clock, FlaskConical, Footprints, Heart, Leaf, Moon, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
+import { Activity, ChevronRight, Clock, FlaskConical, Footprints, Heart, Leaf, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
 import { dailyGoals, todayKey } from "@/lib/daily-goals";
 import type { RoutineTip } from "@/lib/deficiency-routines";
 import { nutritionTargets } from "@/lib/nutrition-targets";
@@ -139,13 +141,13 @@ function Today() {
         <div className="mb-3 flex items-center justify-between"><h2 className="text-[14px] font-bold">Dein Fortschritt</h2><Link to="/gesundheit" className="text-[11px] text-fv-deep">Alle ansehen</Link></div>
         <div className="grid grid-cols-3 gap-3">
           <Link to="/gesundheit" className="vivo-progress bg-teal-soft text-fv-deep">
-            <Footprints className="mx-auto size-6" /><div className="mt-2 text-[20px] font-bold text-foreground">—</div><div className="text-[10px] text-muted-foreground">Schritte</div><MiniBars tone="teal" />
+            <img src={stepsGfx.url} alt="" className="vivo-bounce mx-auto size-7" /><div className="mt-2 text-[20px] font-bold text-foreground">—</div><div className="text-[10px] text-muted-foreground">Schritte</div><MiniBars tone="teal" />
           </Link>
           <Link to="/plan" className="vivo-progress bg-fresh-soft text-fresh">
             <Heart className="mx-auto size-6 fill-current" /><div className="mt-2 text-[20px] font-bold text-foreground">{done}/{actions.length}</div><div className="text-[10px] text-muted-foreground">Tagesziele</div><MiniBars tone="fresh" />
           </Link>
           <Link to="/gesundheit" className="vivo-progress bg-sky-soft text-sky">
-            <Moon className="mx-auto size-6 fill-current" /><div className="mt-2 text-[20px] font-bold text-foreground">—</div><div className="text-[10px] text-muted-foreground">Schlaf</div><MiniBars tone="sky" />
+            <img src={sleepGfx.url} alt="" className="vivo-sway mx-auto size-7" /><div className="mt-2 text-[20px] font-bold text-foreground">—</div><div className="text-[10px] text-muted-foreground">Schlaf</div><MiniBars tone="sky" />
           </Link>
         </div>
       </section>
