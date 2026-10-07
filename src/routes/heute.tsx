@@ -11,6 +11,7 @@ import { dailyTip, msUntilNextTip } from "@/lib/daily-tip";
 import todayHero from "@/assets/heute-collage.png.asset.json";
 import stepsGfx from "@/assets/steps.png.asset.json";
 import sleepGfx from "@/assets/schlaf.png.asset.json";
+import goalsGfx from "@/assets/tagesziele.png.asset.json";
 import { MovementDialog } from "@/components/MovementDialog";
 import { VivoBrand } from "@/components/VivoBrand";
 import { Activity, ChevronRight, Clock, FlaskConical, Footprints, Heart, Leaf, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
@@ -144,7 +145,7 @@ function Today() {
             <img src={stepsGfx.url} alt="" className="vivo-bounce mx-auto size-7" /><div className="mt-2 text-[20px] font-bold text-foreground">—</div><div className="text-[10px] text-muted-foreground">Schritte</div><MiniBars tone="teal" />
           </Link>
           <Link to="/plan" className="vivo-progress bg-fresh-soft text-fresh">
-            <Heart className="mx-auto size-6 fill-current" /><div className="mt-2 text-[20px] font-bold text-foreground">{done}/{actions.length}</div><div className="text-[10px] text-muted-foreground">Tagesziele</div><MiniBars tone="fresh" />
+            <img src={goalsGfx.url} alt="" className="mx-auto size-7 object-contain" /><div className="mt-2 text-[20px] font-bold text-foreground">{done}/{actions.length}</div><div className="text-[10px] text-muted-foreground">Tagesziele</div><MiniBars tone="fresh" />
           </Link>
           <Link to="/gesundheit" className="vivo-progress bg-sky-soft text-sky">
             <img src={sleepGfx.url} alt="" className="vivo-sway mx-auto size-7" /><div className="mt-2 text-[20px] font-bold text-foreground">—</div><div className="text-[10px] text-muted-foreground">Schlaf</div><MiniBars tone="sky" />
@@ -182,8 +183,8 @@ function Today() {
             aria-label="Alle Tagesziele erreicht – Tag abgeschlossen"
             className="card-surface flex w-full items-center gap-3 rounded-[16px] bg-fresh-soft/60 p-4 text-left"
           >
-            <span className="grid size-12 shrink-0 place-items-center rounded-full bg-fresh text-foreground">
-              <Icon d="M4 12l5 5L20 6" className="size-6" />
+            <span className="grid size-12 shrink-0 place-items-center">
+              <img src={goalsGfx.url} alt="" className="size-12 object-contain" />
             </span>
             <span className="min-w-0 flex-1">
               <span className="block text-[16px] font-bold leading-snug">Alle Tagesziele erreicht</span>
