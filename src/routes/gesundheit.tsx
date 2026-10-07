@@ -6,6 +6,7 @@ import { useStore } from "@/lib/store";
 import healthRidge from "@/assets/gesundheit-ridge.jpg.asset.json";
 import { StepsIcon } from "@/components/StepsIcon";
 import sleepGfx from "@/assets/schlaf.png.asset.json";
+import bodyGfx from "@/assets/koerperdaten.png.asset.json";
 import { ChevronRight, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -27,13 +28,6 @@ function IconScale() {
   return (
     <svg className="size-6 text-fv-deep" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 3v3M8 21h8M12 6l-6 7h12l-6-7zM6 13a3 3 0 0 0 6 0M12 13a3 3 0 0 0 6 0" />
-    </svg>
-  );
-}
-function IconBody() {
-  return (
-    <svg className="size-6 text-fv-deep" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="5" r="2" /><path d="M12 8v6M8 10l4-2 4 2M9 21l3-7 3 7" />
     </svg>
   );
 }
@@ -151,7 +145,7 @@ function Health() {
         </div>
 
         <div className="card-surface p-5">
-          <EditIcon step={3} label="Körperdaten"><IconBody /></EditIcon>
+          <EditIcon step={3} label="Körperdaten"><img src={bodyGfx.url} alt="" className="object-contain size-7" /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold">Körperdaten</div>
           <p className="mt-1 text-[14px] text-ink/55">
             {b.waistCm ? `Taillenumfang: ${b.waistCm} cm` : "Gewicht, Taillenumfang und weitere manuelle Messwerte."}
