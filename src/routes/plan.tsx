@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Clock3, ExternalLink, HeartPulse, Salad, Sun, Footprints } from "lucide-react";
+import { ChevronDown, Clock3, ExternalLink, HeartPulse, Salad, Sun } from "lucide-react";
+import { StepsIcon } from "@/components/StepsIcon";
 import { AppShell, Icon, PageHeader } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/lib/store";
@@ -31,7 +32,7 @@ function Plan() {
   const [openRoutine, setOpenRoutine] = useState<string | null>(null);
   const deficient = s.labs.filter((m) => m.history.length && ["low", "very_low"].includes(status(m).level));
   const suggestions = suggestedProducts(s.aiPlan, s.labs);
-  const icons = { food: Salad, sun: Sun, walk: Footprints, clock: Clock3, heart: HeartPulse } satisfies Record<RoutineTip["icon"], typeof Salad>;
+  const icons = { food: Salad, sun: Sun, walk: StepsIcon, clock: Clock3, heart: HeartPulse } satisfies Record<RoutineTip["icon"], React.ComponentType<{ className?: string }>>;
   const d = todayKey();
   const userGoals = s.onboarded ? s.goals : [];
   const items = combinedPlan(s.aiPlan, userGoals, s.goalOff);
