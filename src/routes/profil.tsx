@@ -13,9 +13,9 @@ import profileDesk from "@/assets/profil-desk.jpg.asset.json";
 export const Route = createFileRoute("/profil")({
   head: () => ({
     meta: [
-      { title: "Profil & Datenschutz — Vivo" },
-      { name: "description", content: "Dein Vivo Profil und deine Datenschutz-Einstellungen verwalten." },
-      { property: "og:title", content: "Profil & Datenschutz — Vivo" },
+      { title: "Profil & Meine Daten — Vivo" },
+      { name: "description", content: "Dein Vivo Profil, deine Daten und Einstellungen verwalten." },
+      { property: "og:title", content: "Profil & Meine Daten — Vivo" },
       { property: "og:description", content: "Du entscheidest, wer deine Gesundheitsdaten sieht." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
