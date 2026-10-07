@@ -33,8 +33,9 @@ function ProfileSubmenu() {
   const { section } = Route.useParams();
   const navigate = Route.useNavigate();
   const { s, set } = useStore();
-  const [detail, setDetail] = useState<{ title: string; text?: string; name?: boolean; data?: boolean; faq?: boolean; password?: boolean; lock?: boolean } | null>(null);
+  const [detail, setDetail] = useState<{ title: string; text?: string; name?: boolean; data?: boolean; faq?: boolean; password?: boolean; lock?: boolean; target?: boolean } | null>(null);
   const [name, setName] = useState(s.name);
+  const [targetWeight, setTargetWeight] = useState("");
   const notice = (title: string, text: string) => setDetail({ title, text });
   const edit = (step: number) => navigate({ to: "/onboarding", search: { step, from: "profile" } });
   const deletion = () => navigate({ to: "/profil", search: { action: "delete" } });
@@ -61,7 +62,7 @@ function ProfileSubmenu() {
         <Row title="Geschlecht" sub={({ female: "Weiblich", male: "Männlich", diverse: "Diverse", unspecified: "Keine Angabe" })[s.body.sex ?? "unspecified"]} icon={UsersRound} onClick={() => edit(4)} />
         <Row title="Größe" sub={value(s.body.heightCm, "cm")} icon={Ruler} onClick={() => edit(3)} />
         <Row title="Gewicht" sub={value(s.body.weightKg, "kg")} icon={Weight} onClick={() => edit(3)} />
-        <Row title="Zielgewicht" sub="Nicht angegeben" icon={Weight} onClick={() => notice("Zielgewicht", "Ein separates Zielgewicht wird derzeit nicht gespeichert. Dein aktuelles Gewicht kannst du im Fragebogen ändern.")} />
+        <Row title="Zielgewicht" sub={s.body.targetWeightKg ? `${s.body.targetWeightKg} kg` : "Nicht angegeben"} icon={Weight} onClick={() => { setTargetWeight(s.body.targetWeightKg?.toString() ?? ""); setDetail({ title: "Zielgewicht", target: true }); }} />
         <Row title="Aktivitätslevel" sub={activityLevels.find(a => a.value === s.body.activity)?.label ?? "Nicht angegeben"} icon={Activity} onClick={() => edit(4)} />
         <Row title="Gesundheitsziele" sub={s.goals.join(", ") || "Nicht angegeben"} icon={Heart} onClick={() => edit(1)} />
       </div>}
