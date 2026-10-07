@@ -25,13 +25,6 @@ export const Route = createFileRoute("/gesundheit")({
   component: Health,
 });
 
-function IconScale() {
-  return (
-    <svg className="size-6 text-fv-deep" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3v3M8 21h8M12 6l-6 7h12l-6-7zM6 13a3 3 0 0 0 6 0M12 13a3 3 0 0 0 6 0" />
-    </svg>
-  );
-}
 /** Icon that opens the matching Fragebogen step on double tap (manual timing so mobile taps work too). */
 function EditIcon({ step, label, children }: { step: number; label: string; children: React.ReactNode }) {
   const nav = useNavigate();
@@ -140,22 +133,15 @@ function Health() {
         </div>
 
         <div className="card-surface p-5">
-          <EditIcon step={3} label="Gewicht"><IconScale /></EditIcon>
-          <div className="mt-2 text-[18px] font-semibold">Gewicht</div>
-          <p className="mt-1 text-[14px] text-ink/55">{b.weightKg ? `Aktuell: ${b.weightKg} kg` : "Noch keine Messung"}</p>
-          <NumInput value={b.weightKg} onDraftChange={setWeightDraft} onSave={(v) => setBody({ weightKg: v, stepGoal: stepGoalFor(calcBmi(v, liveHeight)) })} placeholder="z. B. 72,5" unit="kg" />
-        </div>
-
-        <div className="card-surface p-5">
           <EditIcon step={3} label="Körperdaten"><img src={bodyGfx.url} alt="" className="object-contain size-7" /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold">Körperdaten</div>
-          <p className="mt-1 text-[14px] text-ink/55">
-            {b.waistCm ? `Taillenumfang: ${b.waistCm} cm` : "Gewicht, Taillenumfang und weitere manuelle Messwerte."}
-          </p>
+          <p className="mt-1 text-[14px] text-ink/55">{b.weightKg ? `Gewicht: ${b.weightKg} kg` : "Gewicht noch nicht erfasst"}</p>
           <p className="mt-1 text-[14px] text-ink/55">{b.heightCm ? `Größe: ${b.heightCm} cm` : "Größe noch nicht erfasst"}</p>
+          <p className="mt-1 text-[14px] text-ink/55">{b.waistCm ? `Taillenumfang: ${b.waistCm} cm` : "Taillenumfang noch nicht erfasst"}</p>
           {bmi != null && cat && (
             <p className={`mt-1 text-[15px] font-semibold ${cat.className}`}>BMI {bmi.toFixed(1).replace(".", ",")} · {cat.label}</p>
           )}
+          <NumInput value={b.weightKg} onDraftChange={setWeightDraft} onSave={(v) => setBody({ weightKg: v, stepGoal: stepGoalFor(calcBmi(v, liveHeight)) })} placeholder="Gewicht" unit="kg" />
           <NumInput value={b.heightCm ?? null} onDraftChange={setHeightDraft} onSave={(v) => setBody({ heightCm: v, stepGoal: stepGoalFor(calcBmi(liveWeight, v)) })} placeholder="Größe" unit="cm" />
           <NumInput value={b.waistCm} onSave={(v) => setBody({ waistCm: v })} placeholder="Taillenumfang" unit="cm" />
         </div>
