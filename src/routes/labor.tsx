@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Camera, Upload, Smile, Meh, Frown, Trash2, type LucideIcon } from "lucide-react";
+import { Camera, Upload, Trash2 } from "lucide-react";
 import { useEffect } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
@@ -10,6 +10,7 @@ import { fmtDate, status, labMarkers as catalog, type LabMarker } from "@/lib/da
 import { analyzeLabPdf } from "@/lib/ai.functions";
 import { blobToBase64 } from "@/lib/record-wav";
 import { RangeBar } from "@/components/RangeBar";
+import { StatusFace, type StatusMood } from "@/components/StatusFace";
 import laborLab from "@/assets/labor-lab.jpg.asset.json";
 
 export const Route = createFileRoute("/labor")({
@@ -26,8 +27,7 @@ export const Route = createFileRoute("/labor")({
   component: Labs,
 });
 
-const toneFace: Record<"ok" | "warn" | "severe", LucideIcon> = { ok: Smile, warn: Meh, severe: Frown };
-const toneColor: Record<"ok" | "warn" | "severe", string> = { ok: "text-bmi-good", warn: "text-nutrition-near", severe: "text-bmi-bad" };
+const toneMood: Record<"ok" | "warn" | "severe", StatusMood> = { ok: "good", warn: "neutral", severe: "bad" };
 
 function Labs() {
   const { s, set } = useStore();
@@ -176,7 +176,7 @@ function Labs() {
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <span className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 font-data text-[12px] uppercase tracking-normal ${st.tone === "ok" ? "bg-fv/10 text-fv-deep" : st.tone === "warn" ? "bg-warn/20 text-ink" : "bg-bmi-bad/10 text-bmi-bad"}`}>
-                    {(() => { const Face = toneFace[st.tone]; return <Face size={14} className={toneColor[st.tone]} aria-hidden />; })()}
+                    <StatusFace mood={toneMood[st.tone]} className="size-4" />
                     {st.label}
                   </span>
                   {confirmDelete === m.id ? (
