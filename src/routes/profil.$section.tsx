@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { ArrowLeft, ChevronRight, UserRound, CalendarDays, UsersRound, Ruler, Weight, Heart, Activity, Mail, KeyRound, Shield, Trash2, Bell, Globe, Moon, Clock, FileText, Download, MessageSquare, CircleHelp, LayoutGrid, Phone, type LucideIcon } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
@@ -52,7 +52,7 @@ function ProfileSubmenu() {
     else setDraft(s.body[numFields[f].key]?.toString() ?? "");
     setDetail({ title });
   };
-  const saveField = (e: React.FormEvent) => {
+  const saveField = (e: FormEvent) => {
     e.preventDefault();
     if (!field) return;
     if (field === "goals") set({ goals: draftGoals });
@@ -66,7 +66,6 @@ function ProfileSubmenu() {
     setDetail(null);
   };
   const notice = (title: string, text: string) => setDetail({ title, text });
-  const edit = (step: number) => navigate({ to: "/onboarding", search: { step, from: "profile" } });
   const deletion = () => navigate({ to: "/profil", search: { action: "delete" } });
   const download = () => {
     const { account: _account, ...health } = s;
