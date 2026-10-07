@@ -7,6 +7,7 @@ import healthRidge from "@/assets/gesundheit-ridge.jpg.asset.json";
 import { StepsIcon } from "@/components/StepsIcon";
 import sleepGfx from "@/assets/schlaf.png.asset.json";
 import bodyGfx from "@/assets/koerperdaten.png.asset.json";
+import bloodGfx from "@/assets/blutwerte.png.asset.json";
 import { ChevronRight, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -132,7 +133,8 @@ function Health() {
       <PageHeader eyebrow="Gesundheit" title="Deine Messwerte" sub="Messwerte und Verläufe verständlich an einem Ort." subClass="max-w-[17ch]" image={healthRidge.url} imageAlt="Läuferin in Bewegung auf einem alpinen Grat vor verschneiten Bergen" imageOverlay="ridge-image-overlay" />
       <div className="grid grid-cols-1 gap-3 px-4 pt-4">
         <div className="card-surface p-5">
-          <div className="text-[18px] font-semibold">Blutwerte</div>
+          <Link to="/labor" aria-label="Blutwerte öffnen" className="grid size-11 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 transition active:scale-95"><img src={bloodGfx.url} alt="" className="object-contain size-7" /></Link>
+          <div className="mt-2 text-[18px] font-semibold">Blutwerte</div>
           <p className="mt-1 text-[14px] text-ink/55">Laborwerte manuell erfassen und zeitlich vergleichen.</p>
           <Link to="/labor" className="mt-2 inline-block text-[15px] font-semibold text-fv-deep">Meine Blutwerte →</Link>
         </div>
