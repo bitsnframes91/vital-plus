@@ -16,7 +16,7 @@ import { PasswordResetForm } from "@/components/PasswordResetForm";
 import { AppLockSettings } from "@/components/AppLock";
 import { AppSettingsControls } from "@/components/AppSettings";
 
-const titles: Record<string, string> = { personal: "Gesundheitsprofil bearbeiten", security: "Konto & Sicherheit", settings: "App-Einstellungen", privacy: "Datenschutz & Daten", help: "Kundenservice kontaktieren", legal: "Rechtliches", account: "Konto verwalten" };
+const titles: Record<string, string> = { personal: "Gesundheitsprofil bearbeiten", security: "Konto & Sicherheit", settings: "App-Einstellungen", privacy: "Meine Daten", help: "Kundenservice kontaktieren", legal: "Rechtliches", account: "Konto verwalten" };
 
 export const Route = createFileRoute("/profil/$section")({
   head: ({ params }) => {
@@ -101,7 +101,6 @@ function ProfileSubmenu() {
       </>}
       {section === "settings" && <AppSettingsControls />}
       {section === "privacy" && <><div className="space-y-2">
-        <Row title="Datenschutzerklärung" icon={FileText} onClick={privacy} />
         <Row title="Meine Daten herunterladen" sub="Eine Kopie deiner Daten herunterladen" icon={Download} green onClick={download} />
       </div><Row title="Konto löschen" sub="Alle Daten und dein Konto dauerhaft löschen" icon={Trash2} danger onClick={deletion} /></>}
       {section === "help" && <><p className="text-sm leading-5 text-muted-foreground">Wir sind für dich da. Wähle eine Option, um uns zu kontaktieren.</p><div className="space-y-2">

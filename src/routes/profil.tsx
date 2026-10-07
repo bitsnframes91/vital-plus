@@ -88,7 +88,7 @@ function Profile() {
         <MenuRow category="Persönlich" title="Gesundheitsprofil bearbeiten" sub="Name, Größe, Gewicht, Ziele und mehr" icon={UserRound} onClick={() => openMenu("personal")} />
         <MenuRow category="Konto" title="Konto & Sicherheit" sub="E-Mail-Adresse, Passwort, Konto löschen" icon={LockKeyhole} onClick={() => s.account ? openMenu("security") : navigate({ to: "/login", search: { mode: "login" } })} />
         <MenuRow category="Einstellungen" title="App-Einstellungen" sub="Benachrichtigungen, Sprache, Einheiten" icon={Settings} onClick={() => openMenu("settings")} />
-        <MenuRow category="Datenschutz" title="Datenschutz & Daten" sub="Datenschutz, meine Daten herunterladen" icon={Shield} onClick={() => openMenu("privacy")} />
+        <MenuRow category="Privatsphäre" title="Meine Daten" sub="Deine Daten herunterladen" icon={Shield} onClick={() => openMenu("privacy")} />
         <MenuRow category="Hilfe" title="Kundenservice kontaktieren" sub="Telefon oder E-Mail" icon={MessageSquare} onClick={() => openMenu("help")} />
         <MenuRow category="Rechtliches" title="Rechtliches" sub="Allgemeine Geschäftsbedingungen, Impressum" icon={FileText} onClick={() => openMenu("legal")} />
         <div className="border-t border-border pt-4">
