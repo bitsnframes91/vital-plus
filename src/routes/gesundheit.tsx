@@ -140,22 +140,15 @@ function Health() {
         </div>
 
         <div className="card-surface p-5">
-          <EditIcon step={3} label="Gewicht"><IconScale /></EditIcon>
-          <div className="mt-2 text-[18px] font-semibold">Gewicht</div>
-          <p className="mt-1 text-[14px] text-ink/55">{b.weightKg ? `Aktuell: ${b.weightKg} kg` : "Noch keine Messung"}</p>
-          <NumInput value={b.weightKg} onDraftChange={setWeightDraft} onSave={(v) => setBody({ weightKg: v, stepGoal: stepGoalFor(calcBmi(v, liveHeight)) })} placeholder="z. B. 72,5" unit="kg" />
-        </div>
-
-        <div className="card-surface p-5">
           <EditIcon step={3} label="Körperdaten"><img src={bodyGfx.url} alt="" className="object-contain size-7" /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold">Körperdaten</div>
-          <p className="mt-1 text-[14px] text-ink/55">
-            {b.waistCm ? `Taillenumfang: ${b.waistCm} cm` : "Gewicht, Taillenumfang und weitere manuelle Messwerte."}
-          </p>
+          <p className="mt-1 text-[14px] text-ink/55">{b.weightKg ? `Gewicht: ${b.weightKg} kg` : "Gewicht noch nicht erfasst"}</p>
           <p className="mt-1 text-[14px] text-ink/55">{b.heightCm ? `Größe: ${b.heightCm} cm` : "Größe noch nicht erfasst"}</p>
+          <p className="mt-1 text-[14px] text-ink/55">{b.waistCm ? `Taillenumfang: ${b.waistCm} cm` : "Taillenumfang noch nicht erfasst"}</p>
           {bmi != null && cat && (
             <p className={`mt-1 text-[15px] font-semibold ${cat.className}`}>BMI {bmi.toFixed(1).replace(".", ",")} · {cat.label}</p>
           )}
+          <NumInput value={b.weightKg} onDraftChange={setWeightDraft} onSave={(v) => setBody({ weightKg: v, stepGoal: stepGoalFor(calcBmi(v, liveHeight)) })} placeholder="Gewicht" unit="kg" />
           <NumInput value={b.heightCm ?? null} onDraftChange={setHeightDraft} onSave={(v) => setBody({ heightCm: v, stepGoal: stepGoalFor(calcBmi(liveWeight, v)) })} placeholder="Größe" unit="cm" />
           <NumInput value={b.waistCm} onSave={(v) => setBody({ waistCm: v })} placeholder="Taillenumfang" unit="cm" />
         </div>
