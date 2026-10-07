@@ -73,7 +73,6 @@ function ProfileSubmenu() {
     const a = document.createElement("a"); a.href = url; a.download = "vivo-meine-daten.json"; a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
-  const email = () => notice("E-Mail-Adresse", s.account ? "Deine E-Mail-Adresse wird für die Anmeldung und Kontosicherheit verwendet. Eine Änderung in der App ist noch nicht verfügbar." : "Melde dich an, um dein Konto zu verwalten.");
   const password = () => setDetail({ title: "Passwort ändern", password: true });
   const appLock = () => setDetail({ title: "App Lock", lock: true });
   const privacy = () => notice("Datenschutzerklärung", "Die offizielle Datenschutzerklärung für Vivo wurde noch nicht hinterlegt.");
@@ -96,7 +95,7 @@ function ProfileSubmenu() {
       </div>}
       {(section === "security" || section === "account") && <>
         {section === "account" && <h2 className="eyebrow">Vivo Konto</h2>}
-        <div className="space-y-px overflow-hidden rounded-lg"><Row title="E-Mail-Adresse" sub={s.account?.email ?? "Nicht angemeldet"} icon={Mail} onClick={email} /><Row title="Passwort ändern" sub="Reset-Link per E-Mail" icon={KeyRound} onClick={password} /><Row title="App Lock" sub="Gerätecode oder Biometrie" icon={Shield} onClick={appLock} />
+        <div className="space-y-px overflow-hidden rounded-lg"><div className="flex min-h-16 w-full items-center gap-3 rounded-lg bg-card px-3 py-3 text-left text-foreground"><span className="grid size-9 shrink-0 place-items-center rounded-full"><Mail className="size-5!" strokeWidth={1.6} /></span><span className="min-w-0 flex-1"><span className="block text-[13px] font-semibold leading-5">E-Mail-Adresse</span><span className="block break-words text-[12px] font-normal leading-4 text-muted-foreground">{s.account?.email ?? "Nicht angemeldet"}</span></span></div><Row title="Passwort ändern" sub="Reset-Link per E-Mail" icon={KeyRound} onClick={password} /><Row title="App Lock" sub="Gerätecode oder Biometrie" icon={Shield} onClick={appLock} />
         {section === "account" && <Row title="Verbundene Apps" sub="Apple Health, Health Connect" icon={LayoutGrid} onClick={() => notice("Verbundene Apps", "Apple Health und Google Health Connect sind noch nicht verbunden. In dieser Web-App ist kein direkter Zugriff verfügbar.")} />}</div>
         <Row title="Konto löschen" icon={Trash2} danger onClick={deletion} />
       </>}
