@@ -154,7 +154,7 @@ function Health() {
           <p className="mt-1 text-[14px] text-ink/55">
             {b.sleepHours ? `Erfasst: ${b.sleepHours} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}
           </p>
-          <NumInput value={b.sleepHours} onSave={(v) => setBody({ sleepHours: v })} placeholder="Stunden, z. B. 7,5" unit="h" />
+          <NumInput value={b.sleepHours} onSave={(v) => setBody({ sleepHours: v })} placeholder="Stunden, z. B. 7,5 (empfohlen: 8 h)" unit="h" />
         </div>
 
         <div className="card-surface p-5">
