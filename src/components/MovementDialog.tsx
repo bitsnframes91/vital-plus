@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useStore } from "@/lib/store";
+import { StepsIcon } from "@/components/StepsIcon";
 
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
 
@@ -45,7 +46,7 @@ export function MovementDialog({ open, onOpenChange }: { open: boolean; onOpenCh
               className="stroke-trend-move" strokeDasharray={`${pct * c} ${c}`} />
           </svg>
           <div>
-            <div className="text-[15px] text-foreground">Schritte-Ziel</div>
+            <div className="flex items-center gap-2 text-[15px] text-foreground"><StepsIcon />Schritte-Ziel</div>
             <div className="text-[24px] font-bold text-trend-move">
               {steps != null ? steps.toLocaleString("de-DE") : "–"}/{goal.toLocaleString("de-DE")}
             </div>
@@ -55,7 +56,7 @@ export function MovementDialog({ open, onOpenChange }: { open: boolean; onOpenCh
 
         <div className="mt-3 grid grid-cols-2 gap-3">
           <section className="card-surface p-4">
-            <div className="text-[15px] font-semibold text-foreground">Schritte</div>
+            <div className="flex items-center gap-2 text-[15px] font-semibold text-foreground"><StepsIcon />Schritte</div>
             <div className="text-[12px] text-muted-foreground">Heute</div>
             <div className="text-[26px] font-bold text-trend-walk">{steps != null ? steps.toLocaleString("de-DE") : "–"}</div>
             <HourChart tone="bg-trend-walk" />

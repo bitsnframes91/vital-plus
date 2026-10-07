@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
 import healthRidge from "@/assets/gesundheit-ridge.jpg.asset.json";
-import stepsGfx from "@/assets/steps.png.asset.json";
+import { StepsIcon } from "@/components/StepsIcon";
 import sleepGfx from "@/assets/schlaf.png.asset.json";
 import { ChevronRight, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,8 +18,6 @@ export const Route = createFileRoute("/gesundheit")({
       { property: "og:description", content: "Messwerte und Verläufe verständlich an einem Ort." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:image", content: healthRidge.url },
-      { name: "twitter:image", content: healthRidge.url },
     ],
   }),
   component: Health,
@@ -178,7 +176,7 @@ function Health() {
         </div>
 
         <div className="card-surface p-5">
-          <EditIcon step={4} label="Alltag und Aktivität"><img src={stepsGfx.url} alt="" className="vivo-bounce size-7" /></EditIcon>
+          <EditIcon step={4} label="Alltag und Aktivität"><StepsIcon /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold">Schritte heute</div>
           <p className="mt-1 text-[14px] text-ink/55">
             {b.steps ? `Heute: ${b.steps.toLocaleString("de-DE")} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}
