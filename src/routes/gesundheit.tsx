@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
 import healthRidge from "@/assets/gesundheit-ridge.jpg.asset.json";
+import stepsGfx from "@/assets/steps.png.asset.json";
+import sleepGfx from "@/assets/schlaf.png.asset.json";
 import { ChevronRight, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -34,13 +36,6 @@ function IconBody() {
   return (
     <svg className="size-6 text-fv-deep" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="5" r="2" /><path d="M12 8v6M8 10l4-2 4 2M9 21l3-7 3 7" />
-    </svg>
-  );
-}
-function IconSteps() {
-  return (
-    <svg className="size-6 text-fv-deep" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="13" cy="4" r="1.6" /><path d="M13 7l-3 5 3 3v6M10 12l-3 2M13 7l3 3 3 1" />
     </svg>
   );
 }
@@ -172,7 +167,10 @@ function Health() {
         </div>
 
         <div className="card-surface p-5">
-          <div className="text-[18px] font-semibold">Schlaf letzte Nacht</div>
+          <div className="flex items-center gap-2.5">
+            <img src={sleepGfx.url} alt="" className="vivo-sway size-7" />
+            <div className="text-[18px] font-semibold">Schlaf letzte Nacht</div>
+          </div>
           <p className="mt-1 text-[14px] text-ink/55">
             {b.sleepHours ? `Erfasst: ${b.sleepHours} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}
           </p>
@@ -180,7 +178,7 @@ function Health() {
         </div>
 
         <div className="card-surface p-5">
-          <EditIcon step={4} label="Alltag und Aktivität"><IconSteps /></EditIcon>
+          <EditIcon step={4} label="Alltag und Aktivität"><img src={stepsGfx.url} alt="" className="vivo-bounce size-7" /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold">Schritte heute</div>
           <p className="mt-1 text-[14px] text-ink/55">
             {b.steps ? `Heute: ${b.steps.toLocaleString("de-DE")} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}
