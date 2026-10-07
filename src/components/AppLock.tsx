@@ -4,6 +4,7 @@ import { useStore } from "@/lib/store";
 import { supabase } from "@/integrations/supabase/client";
 import { createLock, readLock, saveLock, supportsAppLock, verifyLock } from "@/lib/app-lock";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 
 type LockContext = { enabled: boolean; supported: boolean | null; busy: boolean; error: string; enable: () => Promise<void>; disable: () => Promise<void>; lock: () => void };
 const Context = createContext<LockContext | null>(null);
@@ -77,17 +78,16 @@ export function AppLockProvider({ children }: { children: ReactNode }) {
   </Context.Provider>;
 }
 export function AppLockSettings() {
-  const { enabled, supported, busy, error, enable, disable, lock } = useAppLock();
+  const { enabled, supported, busy, error, enable, disable } = useAppLock();
   const { s } = useStore();
-  return <div className="space-y-4 text-sm leading-6">
-    <p>Apple: Face ID, Touch ID oder Gerätecode. Android: unterstützte Biometrie oder Gerätesperre.</p>
-    <p className="text-muted-foreground">Dein Gerät entscheidet, welche Methode verfügbar ist. Gesichtserkennung und Muster sind nicht auf allen Android-Geräten unterstützt.</p>
-    <p className="text-muted-foreground">App Lock verdeckt Vivo auf diesem Gerät beim erneuten Öffnen oder nach einem App-Wechsel. Es ersetzt keine Kontosicherheit und verschlüsselt keine gespeicherten Daten.</p>
-    {!s.account ? <p>Melde dich an, um App Lock einzurichten.</p> : supported === null ? <p>Geräteunterstützung wird geprüft…</p> : !supported && !enabled ? <p role="status">Dieses Gerät oder dieser Browser unterstützt keine passende Gerätebestätigung. App Lock ist hier nicht verfügbar.</p> : <>
-      <p className="font-semibold">{enabled ? "Auf diesem Gerät aktiviert" : "Auf diesem Gerät deaktiviert"}</p>
-      <Button disabled={busy} onClick={enabled ? disable : enable} className="w-full bg-fresh text-ink hover:bg-fresh/90">{busy ? "Bitte warten…" : enabled ? "App Lock deaktivieren" : "App Lock aktivieren"}</Button>
-      {enabled && <Button variant="outline" disabled={busy} className="w-full" onClick={lock}>Jetzt sperren</Button>}
-    </>}
+  const available = !!s.account && supported !== false;
+  return <div className="space-y-3 text-sm">
+    <div className="flex items-center justify-between gap-4 rounded-xl border p-4">
+      <label htmlFor="app-lock-toggle" className="font-semibold">Face ID, Passcode, PIN, Muster</label>
+      <Switch id="app-lock-toggle" checked={enabled} disabled={busy || !available || supported === null} onCheckedChange={(on) => (on ? enable() : disable())} />
+    </div>
+    {!s.account && <p className="text-muted-foreground">Bitte anmelden.</p>}
+    {s.account && supported === false && !enabled && <p className="text-muted-foreground">Auf diesem Gerät nicht verfügbar.</p>}
     {error && <p role="alert" className="text-destructive">{error}</p>}
   </div>;
 }
