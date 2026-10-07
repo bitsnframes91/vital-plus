@@ -145,7 +145,7 @@ function Health() {
         </div>
 
         <div className="card-surface p-5">
-          <EditIcon step={3} label="Körperdaten"><IconBody /></EditIcon>
+          <EditIcon step={3} label="Körperdaten"><img src={bodyGfx.url} alt="" className="object-contain size-7" /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold">Körperdaten</div>
           <p className="mt-1 text-[14px] text-ink/55">
             {b.waistCm ? `Taillenumfang: ${b.waistCm} cm` : "Gewicht, Taillenumfang und weitere manuelle Messwerte."}
