@@ -9,6 +9,8 @@ import { fmtDate, status } from "@/lib/data";
 import { productForMarker, reportMarkers } from "@/lib/plan-products";
 import { dailyTip, msUntilNextTip } from "@/lib/daily-tip";
 import todayHero from "@/assets/heute-collage.png.asset.json";
+import stepsGfx from "@/assets/steps.png.asset.json";
+import sleepGfx from "@/assets/schlaf.png.asset.json";
 import { MovementDialog } from "@/components/MovementDialog";
 import { VivoBrand } from "@/components/VivoBrand";
 import { Activity, ChevronRight, Clock, FlaskConical, Footprints, Heart, Leaf, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
