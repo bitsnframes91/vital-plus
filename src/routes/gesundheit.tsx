@@ -25,13 +25,6 @@ export const Route = createFileRoute("/gesundheit")({
   component: Health,
 });
 
-function IconScale() {
-  return (
-    <svg className="size-6 text-fv-deep" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3v3M8 21h8M12 6l-6 7h12l-6-7zM6 13a3 3 0 0 0 6 0M12 13a3 3 0 0 0 6 0" />
-    </svg>
-  );
-}
 /** Icon that opens the matching Fragebogen step on double tap (manual timing so mobile taps work too). */
 function EditIcon({ step, label, children }: { step: number; label: string; children: React.ReactNode }) {
   const nav = useNavigate();
