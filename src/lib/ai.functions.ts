@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { mealPlanContext } from "./meal-plan-context";
-import { micronutrientPrompt, parseMicronutrients } from "./micronutrients";
+import { micronutrientPrompt, parseMicronutrients, type MicronutrientAmounts } from "./micronutrients";
 
 const GATEWAY = "https://ai.gateway.lovable.dev/v1";
 const MODEL = "openai/gpt-6-astra";
@@ -99,7 +99,7 @@ Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,
       .filter((m: any) => typeof m?.name === "string")
       .map((m: any) => ({ label: labels.includes(m.label) ? m.label : "Snack", name: m.name.slice(0, 120), protein: num(m.protein), kcal: num(m.kcal), fiber: num(m.fiber), carbs: num(m.carbs), fat: num(m.fat), micronutrients: parseMicronutrients(m.micronutrients) }));
     if (!meals.length) return { ok: false as const, error: `Verstanden: „${transcript}“ – aber keine Mahlzeit erkannt.` };
-    return { ok: true as const, transcript, meals };
+    return { ok: true as const, transcript, meals: meals as { label: string; name: string; protein: number; kcal: number; fiber: number; carbs: number; fat: number; micronutrients?: MicronutrientAmounts | undefined }[] };
   });
 
 export const mealNutrition = createServerFn({ method: "POST" })
