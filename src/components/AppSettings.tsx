@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { Bell, Clock, Moon, Sun } from "lucide-react";
+import { Bell, Clock, Globe, Moon, Sun } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { languages, setLanguage, translateText, validLanguage } from "@/lib/language";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -20,6 +22,8 @@ export function AppSettingsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!ready) return;
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    setLanguage(settings.language);
+    document.documentElement.lang = settings.language;
     document.documentElement.classList.toggle("dark", settings.theme === "dark");
     document.documentElement.style.colorScheme = settings.theme;
     const theme = document.querySelector('meta[name="theme-color"]');
@@ -32,7 +36,7 @@ export function AppSettingsProvider({ children }: { children: ReactNode }) {
       const due = reminderDue(settings, new Date(), localStorage.getItem("vivo-last-reminder"));
       if (!due) return;
       localStorage.setItem("vivo-last-reminder", due); setReminder(true);
-      if (settings.notifications) void showAppNotification("Vivo", "Zeit für deinen täglichen Check-in.").catch(() => {});
+      if (settings.notifications) void showAppNotification("Vivo", translateText("Zeit für deinen täglichen Check-in.")).catch(() => {});
     };
     check(); const timer = setInterval(check, 30000);
     document.addEventListener("visibilitychange", check);
@@ -46,6 +50,8 @@ export function AppSettingsProvider({ children }: { children: ReactNode }) {
 
 export function AppSettingsControls() {
   const { settings, update } = useAppSettings();
+  const [draftLanguage, setDraftLanguage] = useState(settings.language);
+  useEffect(() => { setDraftLanguage(settings.language); }, [settings.language]);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [testSent, setTestSent] = useState(false);
@@ -63,10 +69,11 @@ export function AppSettingsControls() {
   };
   const test = async () => {
     setError(""); setTestSent(false);
-    try { await showAppNotification("Vivo", "Deine Benachrichtigungen sind aktiviert."); setTestSent(true); }
+    try { await showAppNotification("Vivo", translateText("Deine Benachrichtigungen sind aktiviert.")); setTestSent(true); }
     catch (failure) { console.error("Vivo notification failed", failure); setError("Benachrichtigung nicht möglich. Prüfe die Erlaubnis auf deinem Gerät."); }
   };
   return <div className="space-y-3">
+    <div className="rounded-lg bg-card px-4 py-4"><label htmlFor="app-language" className="mb-3 flex items-center gap-3 text-[13px] font-semibold"><Globe className="size-5" />Sprache</label><div className="flex gap-2"><Select value={draftLanguage} onValueChange={value => setDraftLanguage(validLanguage(value))}><SelectTrigger id="app-language" className="min-w-0 flex-1" aria-label={translateText("Sprache")}><SelectValue /></SelectTrigger><SelectContent>{languages.map(language => <SelectItem key={language.value} value={language.value}>{language.label}</SelectItem>)}</SelectContent></Select><Button disabled={draftLanguage === settings.language} onClick={() => update({ language: draftLanguage })}>Übernehmen</Button></div></div>
     <div className="rounded-lg bg-card px-4 py-4"><div className="flex items-center gap-3"><Bell className="size-5 shrink-0" /><div className="flex-1"><label htmlFor="notifications" className="text-[13px] font-semibold">Benachrichtigungen</label><p className="text-xs text-muted-foreground">{settings.notifications ? "An" : "Aus"}</p></div><Switch id="notifications" checked={settings.notifications} disabled={busy} onCheckedChange={notifications} /></div>
       {settings.notifications && <Button variant="outline" className="mt-3 w-full" onClick={test}><Bell /> Testbenachrichtigung</Button>}
       {testSent && <p role="status" className="mt-2 text-xs text-muted-foreground">Testbenachrichtigung gesendet.</p>}
