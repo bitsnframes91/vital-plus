@@ -10,7 +10,7 @@ import { useStore } from "@/lib/store";
 import { fmtDate, status } from "@/lib/data";
 import { productForMarker, reportMarkers } from "@/lib/plan-products";
 import { dailyTip, msUntilNextTip } from "@/lib/daily-tip";
-import todayHero from "@/assets/heute-collage.png.asset.json";
+import { TodayMascot } from "@/components/TodayMascot";
 import { StepsIcon } from "@/components/StepsIcon";
 import sleepGfx from "@/assets/schlaf.png.asset.json";
 import goalsGfx from "@/assets/tagesziele.png.asset.json";
@@ -100,9 +100,8 @@ function Today() {
 
   return (
     <AppShell>
-      <header className="vivo-today-header relative overflow-hidden px-6 pt-8 pb-7">
-        <img src={todayHero.url} alt={translateText("Ganzheitliches Leben in Bewegung — Forschung, Sport und Vitalität")} width={1374} height={1145} fetchPriority="high" className="absolute inset-0 size-full object-cover object-center" />
-        <div className="today-image-overlay absolute inset-0" aria-hidden="true" />
+      <header className="vivo-today-header today-mascot-header relative overflow-hidden px-6 pt-8 pb-7">
+        <TodayMascot />
         <div className="relative">
           <div className="flex items-center justify-between">
             <Link to="/" aria-label={translateText("Vivo Startseite")}><VivoBrand /></Link>
@@ -111,8 +110,8 @@ function Today() {
               <Button asChild variant="ghost" size="icon" className="rounded-full bg-warm-soft text-muted-foreground" title={translateText("Profil")}><Link to="/profil"><UserRound /></Link></Button>
             </div>
           </div>
-          <p className="mt-8 text-[13px] font-medium text-foreground"><Localized>{"Guten Morgen, "}</Localized><Localized>{s.name}</Localized><Localized>{"."}</Localized></p>
-          <h1 className="mt-1 max-w-[280px] text-[29px] font-bold leading-[1.15] text-foreground"><Localized>{"Gesünder leben."}</Localized><br /><Localized>{"Glücklicher sein."}</Localized></h1>
+          <p className="today-mascot-greeting mt-8 text-[13px] font-medium text-foreground"><Localized>{"Guten Morgen, "}</Localized><Localized>{s.name}</Localized><Localized>{"."}</Localized></p>
+          <h1 className="today-mascot-heading mt-1 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>{"Gesünder leben."}</Localized><br /><Localized>{"Glücklicher sein."}</Localized></h1>
           <button
             type="button"
             onClick={() => setTipOpen(true)}
