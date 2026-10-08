@@ -14,6 +14,7 @@
 - [x] Verify the detail page and return navigation.
 
 # Nutrition recommendations
+- [ ] Add Vitamine and Mineralien daily cards with meal-based estimates, reached-target counts and status faces; verify without changing saved user data.
 - [x] Include logged meals when preparing the plan, reinforcing balanced choices and suggesting improvements.
 - [x] Ask age, sex and activity in onboarding and calculate daily maintenance estimates.
 - [x] Show consumed / recommended amounts on all five nutrition cards, with green smiling, orange neutral from 80%, and red angry over-limit indicators; verified food saves and account persistence.
