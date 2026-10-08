@@ -1,4 +1,5 @@
 import { languageLocale } from "./language";
+import type { MicronutrientAmounts } from "./micronutrients";
 // Mock data for version 1. Products/prices will later come from the Fairvital Shopware API
 // (see src/lib/shopware.ts); lab values will later come from a laboratory API.
 
@@ -231,6 +232,7 @@ const { relatedMarker: _omit, ...spotlightBase } = products.find((p) => p.shopwa
 export const catalogSpotlight: Product = spotlightBase;
 
 export type Meal = {
+  micronutrients?: MicronutrientAmounts;
   id: string;
   label: string;
   name: string;

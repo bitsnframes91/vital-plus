@@ -1,4 +1,11 @@
 {
+  "Vitamine": ["Vitamins", "Vitaminas"],
+  "Mineralien": ["Minerals", "Minerales"],
+  "Tagesziele erreicht · ca.": ["Daily targets reached · approx.", "Objetivos diarios alcanzados · aprox."],
+  "Noch keine Nährstoffdaten": ["No nutrient data yet", "Aún no hay datos de nutrientes"],
+  "Teilweise erfasst · heute": ["Partially logged · today", "Registro parcial · hoy"],
+  "Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett – sowie Vitaminen und Mineralien.": ["Your food diary with calories, protein, fiber, carbohydrates and fat — plus vitamins and minerals.", "Tu diario de alimentación con calorías, proteínas, fibra, carbohidratos y grasas — además de vitaminas y minerales."],
+  "Vitamine und Mineralien: geschätzte Mengen aus erfassten Mahlzeiten, verglichen mit EU-Referenzmengen für Erwachsene. Keine Laborwerte oder persönlichen Bedarfswerte.": ["Vitamins and minerals: estimated amounts from logged meals, compared with EU adult reference intakes. Not lab results or individual requirements.", "Vitaminas y minerales: cantidades estimadas de comidas registradas, comparadas con ingestas de referencia de la UE para adultos. No son resultados de laboratorio ni necesidades individuales."],
   "Sprache": [
     "Language",
     "Idioma"
