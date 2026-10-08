@@ -27,15 +27,15 @@ export const Route = createFileRoute("/gesundheit")({
   component: Health,
 });
 
-/** Icon that opens the matching Fragebogen step on double tap (manual timing so mobile taps work too). */
-function EditIcon({ step, label, children }: { step: number; label: string; children: React.ReactNode }) {
+/** Icon that opens the Gesundheitsprofil submenu in Profile on double tap (manual timing so mobile taps work too). */
+function EditIcon({ label, children }: { label: string; children: React.ReactNode }) {
   useLanguage();
   const nav = useNavigate();
   const last = useRef(0);
-  const open = () => nav({ to: "/onboarding", search: { step } });
+  const open = () => nav({ to: "/profil/$section", params: { section: "personal" } });
   return (
     <div className="flex flex-col items-center">
-      <button type="button" aria-label={translateText(`${label} im Fragebogen ändern (doppelt tippen)`)} onDoubleClick={open}
+      <button type="button" aria-label={translateText(`${label} im Gesundheitsprofil ändern (doppelt tippen)`)} onDoubleClick={open}
         onClick={() => { const t = Date.now(); if (t - last.current < 350) { last.current = 0; open(); } else last.current = t; }}
         className="grid size-11 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 transition active:scale-95"><Localized>{children}</Localized></button>
       <span className="mt-1 text-[11px] text-ink/55"><Localized>{"Doppelt tippen zum Ändern"}</Localized></span>
