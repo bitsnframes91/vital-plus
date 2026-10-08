@@ -141,7 +141,7 @@ function Health() {
         </div>
 
         <div className="card-surface p-5">
-          <EditIcon step={3} label={translateText("Körperdaten")}><img src={bodyGfx.url} alt="" className="object-contain size-7" /></EditIcon>
+          <EditIcon label={translateText("Körperdaten")}><img src={bodyGfx.url} alt="" className="object-contain size-7" /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold"><Localized>{"Körperdaten"}</Localized></div>
           <p className="mt-1 text-[14px] text-ink/55"><Localized>{b.weightKg ? `Gewicht: ${b.weightKg} kg` : "Gewicht noch nicht erfasst"}</Localized></p>
           <p className="mt-1 text-[14px] text-ink/55"><Localized>{b.heightCm ? `Größe: ${b.heightCm} cm` : "Größe noch nicht erfasst"}</Localized></p>
@@ -164,7 +164,7 @@ function Health() {
         </div>
 
         <div className="card-surface p-5">
-          <EditIcon step={4} label={translateText("Alltag und Aktivität")}><StepsIcon /></EditIcon>
+          <EditIcon label={translateText("Alltag und Aktivität")}><StepsIcon /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold"><Localized>{"Schritte heute"}</Localized></div>
           <p className="mt-1 text-[14px] text-ink/55">
             <Localized>{b.steps ? `Heute: ${b.steps.toLocaleString(languageLocale())} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}</Localized>
