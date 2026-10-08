@@ -1,6 +1,6 @@
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
 import { StatusFace, type StatusMood } from "@/components/StatusFace";
