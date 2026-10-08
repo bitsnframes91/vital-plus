@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import mascotVideo from "@/assets/heute-mascot.mp4.asset.json";
+import mascotVideo from "@/assets/heute-mascot.webm.asset.json";
 import mascotStill from "@/assets/heute-mascot.png.asset.json";
 
 export function TodayMascot() {
