@@ -39,7 +39,7 @@ export function parseMicronutrients(input: unknown): MicronutrientAmounts | unde
   return Object.keys(result).length ? result : undefined;
 }
 
-export function micronutrientSummary(meals: { micronutrients?: MicronutrientAmounts }[], group: "vitamins" | "minerals") {
+export function micronutrientSummary(meals: { micronutrients?: MicronutrientAmounts | undefined }[], group: "vitamins" | "minerals") {
   const entries = micronutrients[group];
   const known = entries.filter(({ key }) => meals.some(m => typeof m.micronutrients?.[group]?.[key] === "number"));
   const reached = known.filter(({ key, target }) => meals.reduce((total, meal) => {
