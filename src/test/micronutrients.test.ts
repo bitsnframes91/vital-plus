@@ -30,9 +30,9 @@ describe("micronutrientTotals", () => {
       { micronutrients: { vitamins: { c: 50 } } },
       { micronutrients: undefined },
     ], "vitamins");
-    expect(totals.c).toBe(90);
-    expect(totals.d).toBe(2);
-    expect(totals.a).toBeUndefined();
+    expect(totals["c"]).toBe(90);
+    expect(totals["d"]).toBe(2);
+    expect(totals["a"]).toBeUndefined();
   });
 });
 
