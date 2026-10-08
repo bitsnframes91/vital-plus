@@ -4,7 +4,7 @@ import catalogue from "./translations.json";
 export type Language = "de" | "en" | "es";
 export const languages = [{ value: "en", label: "English" }, { value: "de", label: "Deutsch" }, { value: "es", label: "Spanish" }] as const;
 const resources = Object.fromEntries(["en", "es"].map((language, index) => [language, { translation: Object.fromEntries(Object.entries(catalogue).map(([key, values]) => [key, values[index]])) }]));
-void i18next.init({ lng: "de", fallbackLng: "de", resources, keySeparator: false, nsSeparator: false, interpolation: { escapeValue: false }, initImmediate: false });
+void i18next.init({ lng: "de", fallbackLng: "de", resources, keySeparator: false, nsSeparator: false, interpolation: { escapeValue: false }, initAsync: false });
 export function validLanguage(value: unknown): Language { return value === "en" || value === "es" ? value : "de"; }
 export function setLanguage(language: Language) { void i18next.changeLanguage(language); }
 export function currentLanguage(): Language { return validLanguage(i18next.language); }
@@ -32,7 +32,7 @@ function translateExact(source: string): string {
     const match = source.match(new RegExp(`^${escaped}$`));
     if (!match) continue;
     let index = 1;
-    return values[currentLanguage() === "en" ? 0 : 1].replaceAll("{value}", () => match[index++] ?? "");
+    return (values[currentLanguage() === "en" ? 0 : 1] ?? source).replaceAll("{value}", () => match[index++] ?? "");
   }
   return source;
 }

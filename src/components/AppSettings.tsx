@@ -1,9 +1,9 @@
 import { Localized, useLanguage } from "@/components/Localized";
-import { translateText, languageLocale } from "@/lib/language";
+import { translateText } from "@/lib/language";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { Bell, Clock, Globe, Moon, Sun } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { languages, setLanguage, translateText, validLanguage } from "@/lib/language";
+import { languages, setLanguage, validLanguage } from "@/lib/language";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
