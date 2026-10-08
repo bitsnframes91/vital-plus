@@ -217,6 +217,16 @@
 
 .bg-header { --on-ink: var(--ink); }
 .vivo-today-header { min-height: 348px; }
+.today-mascot-header { background: var(--card); }
+.today-mascot { top: 91px; right: 16px; width: 132px; height: 165px; }
+.today-mascot-heading, .today-mascot-greeting { max-width: calc(100% - 130px); }
+.today-mascot-heading { min-height: 100px; }
+@media (max-width: 390px) {
+  .today-mascot { right: 8px; width: 100px; height: 125px; top: 105px; }
+  .today-mascot-heading, .today-mascot-greeting { max-width: calc(100% - 92px); }
+  .today-mascot-heading { font-size: 25px; }
+}
+@media (prefers-reduced-motion: reduce) { .today-mascot video { display: none; } }
 .vivo-focus { box-shadow: 0 6px 22px var(--border); }
 .vivo-progress { display: block; min-width: 0; border-radius: 12px; padding: 15px 6px 8px; text-align: center; }
 .vivo-mini-bars { display: flex; height: 28px; align-items: end; justify-content: center; gap: 4px; margin-top: 6px; }
