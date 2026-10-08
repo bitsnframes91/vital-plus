@@ -68,7 +68,7 @@ export function micronutrientGaps(meals: { micronutrients?: MicronutrientAmounts
       const value = totals[key];
       const entry = byMicronutrient[key];
       if (value === undefined || !entry || micronutrientStatus(value, target) === "good") continue;
-      found.push({ key, name: micronutrientNames[key], missing: target - value, unit, ...entry, href: productUrl(entry.product), pct: value / target });
+      found.push({ key, name: micronutrientNames[key] ?? key, missing: target - value, unit, ...entry, href: productUrl(entry.product), pct: value / target });
     }
   }
   found.sort((a, b) => a.pct - b.pct);
