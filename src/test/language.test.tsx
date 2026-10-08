@@ -3,7 +3,6 @@ import { act, cleanup, render, screen } from "@testing-library/react";
 import { Localized } from "@/components/Localized";
 import { setLanguage, translateText, languageLocale } from "@/lib/language";
 import catalogue from "@/lib/translations.json";
-import { healthGoals } from "@/lib/goal-options";
 afterEach(() => { cleanup(); setLanguage("de"); });
 describe("bundled app languages", () => {
   it("switches existing content reactively", () => {
