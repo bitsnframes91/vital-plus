@@ -38,9 +38,12 @@ const fmtDay = (iso: string) =>
   new Date(iso + "T12:00:00").toLocaleDateString(languageLocale(), { weekday: "long", day: "2-digit", month: "long", year: "numeric" });
 
 function Nutrition() {
+  const isChild = useRouterState({ select: (state) => state.location.pathname.replace(/\/$/, "") !== "/ernaehrung" });
+  return isChild ? <Outlet /> : <NutritionPage />;
+}
+
+function NutritionPage() {
   useLanguage();
-  const isChild = useRouterState({ select: (state) => state.location.pathname !== "/ernaehrung" });
-  if (isChild) return <Outlet />;
   const { s, set } = useStore();
   const [profile, setProfile] = useState<NutritionProfile>({ age: s.body.age ?? null, sex: s.body.sex ?? null, activity: s.body.activity ?? null });
   const [name, setName] = useState("");
