@@ -52,26 +52,31 @@ function HealthTrends() {
     { name: "Lauftempo", unit: "min/km", color: "text-trend-run", soft: "bg-trend-run-soft" },
   ];
   return (
-    <section aria-labelledby="health-trends-title" className="card-surface p-5 text-trend-foreground sm:p-6">
-      <div className="flex items-center justify-between gap-4">
-        <h2 id="health-trends-title" className="text-[26px] font-bold"><Localized>{"Trends"}</Localized></h2>
-            <Button asChild variant="ghost" size="icon" className="rounded-full bg-trend-control text-trend-foreground hover:bg-trend-control/80 hover:text-trend-foreground">
-              <Link to="/trends" aria-label={translateText("Details zu Trends")}>
-              <ChevronRight className="!size-6" />
-              </Link>
-            </Button>
+    <section aria-labelledby="health-trends-title" className="card-surface p-5">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5">
+          <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 text-fresh">
+            <TrendingUp className="size-6" />
+          </span>
+          <h2 id="health-trends-title" className="text-[18px] font-semibold"><Localized>{"Trends"}</Localized></h2>
+        </div>
+        <Button asChild variant="ghost" size="icon" className="rounded-full bg-fresh/15 ring-1 ring-fresh/40 text-fv-deep hover:bg-fresh/25 hover:text-fv-deep">
+          <Link to="/trends" aria-label={translateText("Details zu Trends")}>
+            <ChevronRight className="!size-6" />
+          </Link>
+        </Button>
       </div>
-      <div className="mt-6 space-y-7">
+      <div className="mt-4 space-y-4">
         {metrics.map((metric) => (
-          <div key={metric.name} className="flex items-center gap-4">
-            <span aria-hidden="true" className={`grid size-12 shrink-0 place-items-center rounded-full ${metric.soft} ${metric.color}`}>
-              <Minus className="size-7" strokeWidth={4} />
+          <div key={metric.name} className="flex items-center gap-3.5">
+            <span aria-hidden="true" className={`grid size-11 shrink-0 place-items-center rounded-full ${metric.soft} ${metric.color}`}>
+              <Minus className="size-5" strokeWidth={4} />
             </span>
             <div className="min-w-0">
-              <h3 className="text-[22px] font-medium leading-tight"><Localized>{metric.name}</Localized></h3>
-              <p aria-label={translateText(`${metric.name}: noch keine Daten`)} className={`mt-1 flex flex-wrap items-baseline gap-1.5 ${metric.color}`}>
-                <span className="text-[30px] font-semibold leading-tight"><Localized>{"–/–"}</Localized></span>
-                <span className="text-[18px] font-semibold"><Localized>{metric.unit}</Localized></span>
+              <h3 className="text-[15px] font-medium leading-tight text-ink"><Localized>{metric.name}</Localized></h3>
+              <p aria-label={translateText(`${metric.name}: noch keine Daten`)} className={`mt-0.5 flex flex-wrap items-baseline gap-1 text-[19px] font-semibold leading-tight ${metric.color}`}>
+                <span><Localized>{"–/–"}</Localized></span>
+                <span className="text-[13px] font-medium"><Localized>{metric.unit}</Localized></span>
               </p>
             </div>
           </div>
