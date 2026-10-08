@@ -22,6 +22,8 @@ import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TrendsRouteImport } from './routes/trends'
 import { Route as UhrRouteImport } from './routes/uhr'
+import { Route as ErnaehrungMineralienRouteImport } from './routes/ernaehrung.mineralien'
+import { Route as ErnaehrungVitamineRouteImport } from './routes/ernaehrung.vitamine'
 import { Route as ProfilSectionRouteImport } from './routes/profil.$section'
 import { Route as ProfilFeedbackRouteImport } from './routes/profil.feedback'
 
@@ -90,6 +92,16 @@ const UhrRoute = UhrRouteImport.update({
   path: '/uhr',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ErnaehrungMineralienRoute = ErnaehrungMineralienRouteImport.update({
+  id: '/mineralien',
+  path: '/mineralien',
+  getParentRoute: () => ErnaehrungRoute,
+} as any)
+const ErnaehrungVitamineRoute = ErnaehrungVitamineRouteImport.update({
+  id: '/vitamine',
+  path: '/vitamine',
+  getParentRoute: () => ErnaehrungRoute,
+} as any)
 const ProfilSectionRoute = ProfilSectionRouteImport.update({
   id: '/$section',
   path: '/$section',
@@ -104,7 +116,7 @@ const ProfilFeedbackRoute = ProfilFeedbackRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bestaetigt': typeof BestaetigtRoute
-  '/ernaehrung': typeof ErnaehrungRoute
+  '/ernaehrung': typeof ErnaehrungRouteWithChildren
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
   '/labor': typeof LaborRoute
@@ -115,13 +127,15 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
+  '/ernaehrung/mineralien': typeof ErnaehrungMineralienRoute
+  '/ernaehrung/vitamine': typeof ErnaehrungVitamineRoute
   '/profil/$section': typeof ProfilSectionRoute
   '/profil/feedback': typeof ProfilFeedbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bestaetigt': typeof BestaetigtRoute
-  '/ernaehrung': typeof ErnaehrungRoute
+  '/ernaehrung': typeof ErnaehrungRouteWithChildren
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
   '/labor': typeof LaborRoute
@@ -132,6 +146,8 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
+  '/ernaehrung/mineralien': typeof ErnaehrungMineralienRoute
+  '/ernaehrung/vitamine': typeof ErnaehrungVitamineRoute
   '/profil/$section': typeof ProfilSectionRoute
   '/profil/feedback': typeof ProfilFeedbackRoute
 }
@@ -139,7 +155,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/bestaetigt': typeof BestaetigtRoute
-  '/ernaehrung': typeof ErnaehrungRoute
+  '/ernaehrung': typeof ErnaehrungRouteWithChildren
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
   '/labor': typeof LaborRoute
@@ -150,6 +166,8 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
+  '/ernaehrung/mineralien': typeof ErnaehrungMineralienRoute
+  '/ernaehrung/vitamine': typeof ErnaehrungVitamineRoute
   '/profil/$section': typeof ProfilSectionRoute
   '/profil/feedback': typeof ProfilFeedbackRoute
 }
@@ -169,6 +187,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/trends'
     | '/uhr'
+    | '/ernaehrung/mineralien'
+    | '/ernaehrung/vitamine'
     | '/profil/$section'
     | '/profil/feedback'
   fileRoutesByTo: FileRoutesByTo
@@ -186,6 +206,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/trends'
     | '/uhr'
+    | '/ernaehrung/mineralien'
+    | '/ernaehrung/vitamine'
     | '/profil/$section'
     | '/profil/feedback'
   id:
@@ -203,6 +225,8 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/trends'
     | '/uhr'
+    | '/ernaehrung/mineralien'
+    | '/ernaehrung/vitamine'
     | '/profil/$section'
     | '/profil/feedback'
   fileRoutesById: FileRoutesById
@@ -210,7 +234,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BestaetigtRoute: typeof BestaetigtRoute
-  ErnaehrungRoute: typeof ErnaehrungRoute
+  ErnaehrungRoute: typeof ErnaehrungRouteWithChildren
   GesundheitRoute: typeof GesundheitRoute
   HeuteRoute: typeof HeuteRoute
   LaborRoute: typeof LaborRoute
@@ -316,6 +340,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UhrRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ernaehrung/mineralien': {
+      id: '/ernaehrung/mineralien'
+      path: '/mineralien'
+      fullPath: '/ernaehrung/mineralien'
+      preLoaderRoute: typeof ErnaehrungMineralienRouteImport
+      parentRoute: typeof ErnaehrungRoute
+    }
+    '/ernaehrung/vitamine': {
+      id: '/ernaehrung/vitamine'
+      path: '/vitamine'
+      fullPath: '/ernaehrung/vitamine'
+      preLoaderRoute: typeof ErnaehrungVitamineRouteImport
+      parentRoute: typeof ErnaehrungRoute
+    }
     '/profil/$section': {
       id: '/profil/$section'
       path: '/$section'
@@ -333,6 +371,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ErnaehrungRouteChildren {
+  ErnaehrungMineralienRoute: typeof ErnaehrungMineralienRoute
+  ErnaehrungVitamineRoute: typeof ErnaehrungVitamineRoute
+}
+
+const ErnaehrungRouteChildren: ErnaehrungRouteChildren = {
+  ErnaehrungMineralienRoute: ErnaehrungMineralienRoute,
+  ErnaehrungVitamineRoute: ErnaehrungVitamineRoute,
+}
+
+const ErnaehrungRouteWithChildren = ErnaehrungRoute._addFileChildren(
+  ErnaehrungRouteChildren,
+)
+
 interface ProfilRouteChildren {
   ProfilSectionRoute: typeof ProfilSectionRoute
   ProfilFeedbackRoute: typeof ProfilFeedbackRoute
@@ -349,7 +401,7 @@ const ProfilRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BestaetigtRoute: BestaetigtRoute,
-  ErnaehrungRoute: ErnaehrungRoute,
+  ErnaehrungRoute: ErnaehrungRouteWithChildren,
   GesundheitRoute: GesundheitRoute,
   HeuteRoute: HeuteRoute,
   LaborRoute: LaborRoute,

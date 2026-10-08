@@ -22,3 +22,26 @@ describe("micronutrient daily coverage", () => {
     expect(nutrientStatus("protein", 13, 13)).toBe("good");
   });
 });
+describe("micronutrientTotals", () => {
+  it("sums per-nutrient amounts across meals and skips unmeasured keys", async () => {
+    const { micronutrientTotals } = await import("@/lib/micronutrients");
+    const totals = micronutrientTotals([
+      { micronutrients: { vitamins: { c: 40, d: 2 } } },
+      { micronutrients: { vitamins: { c: 50 } } },
+      { micronutrients: undefined },
+    ], "vitamins");
+    expect(totals["c"]).toBe(90);
+    expect(totals["d"]).toBe(2);
+    expect(totals["a"]).toBeUndefined();
+  });
+});
+
+describe("micronutrientStatus", () => {
+  it("marks ≥70% good, 50–70% near, below 50% bad", async () => {
+    const { micronutrientStatus } = await import("@/lib/micronutrients");
+    expect(micronutrientStatus(80, 100)).toBe("good");
+    expect(micronutrientStatus(110, 100)).toBe("good");
+    expect(micronutrientStatus(62, 100)).toBe("near");
+    expect(micronutrientStatus(25, 100)).toBe("bad");
+  });
+});
