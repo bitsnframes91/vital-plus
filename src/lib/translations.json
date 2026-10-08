@@ -2042,5 +2042,497 @@
   "Gerade beim Fasten ist ausreichend Flüssigkeit wichtig.": [
     "Adequate fluids are especially important while fasting.",
     "Beber suficientes líquidos es especialmente importante durante el ayuno."
+  ],
+  "Eisen und Vitamin C kombinieren": [
+    "Combine iron and vitamin C",
+    "Combina hierro y vitamina C"
+  ],
+  "Zum Beispiel Linsen mit Paprika oder Zitrone essen. Vitamin C kann die Aufnahme von pflanzlichem Eisen unterstützen.": [
+    "Try lentils with peppers or lemon. Vitamin C can support absorption of plant-based iron.",
+    "Prueba lentejas con pimiento o limón. La vitamina C puede favorecer la absorción del hierro vegetal."
+  ],
+  "Kaffee und Tee versetzt trinken": [
+    "Space out coffee and tea",
+    "Separa el café y el té de las comidas"
+  ],
+  "Kaffee und schwarzen Tee lieber mit etwas Abstand zu eisenreichen Mahlzeiten genießen.": [
+    "Enjoy coffee and black tea some time away from iron-rich meals.",
+    "Toma café y té negro separados de las comidas ricas en hierro."
+  ],
+  "Eisenquellen abwechseln": [
+    "Vary iron sources",
+    "Varía las fuentes de hierro"
+  ],
+  "Hülsenfrüchte, Vollkornprodukte, Nüsse und je nach Ernährungsweise mageres Fleisch liefern Eisen aus dem Essen.": [
+    "Legumes, whole grains, nuts and, depending on your diet, lean meat provide dietary iron.",
+    "Legumbres, cereales integrales, frutos secos y, según tu dieta, carne magra aportan hierro."
+  ],
+  "Fisch bewusst einplanen": [
+    "Include fish thoughtfully",
+    "Planifica el consumo de pescado"
+  ],
+  "Wenn du Fisch isst, wähle regelmäßig fettreichen Seefisch. Alternativ können Algenprodukte eine Option sein.": [
+    "If you eat fish, include oily sea fish regularly. Algae products may be an alternative.",
+    "Si comes pescado, incluye pescado marino graso regularmente. Los productos de algas pueden ser una alternativa."
+  ],
+  "Pflanzliche Fette ergänzen": [
+    "Include plant-based fats",
+    "Incluye grasas vegetales"
+  ],
+  "Walnüsse, Leinsamen und Rapsöl lassen sich leicht in Mahlzeiten einbauen.": [
+    "Walnuts, flaxseeds and rapeseed oil are easy additions to meals.",
+    "Nueces, semillas de lino y aceite de colza se añaden fácilmente a las comidas."
+  ],
+  "Bewegung unterstützt die Fettbalance": [
+    "Movement supports lipid balance",
+    "El movimiento favorece el equilibrio de los lípidos"
+  ],
+  "Regelmäßige Bewegung an den meisten Tagen wirkt sich günstig auf die Blutfette aus.": [
+    "Regular activity on most days benefits blood lipids.",
+    "La actividad regular la mayoría de los días beneficia los lípidos sanguíneos."
+  ],
+  "Zeit im Freien verbringen": [
+    "Spend time outdoors",
+    "Pasa tiempo al aire libre"
+  ],
+  "Regelmäßig nach draußen gehen. Wie viel Vitamin D die Haut bildet, hängt unter anderem von Jahreszeit und Hauttyp ab; Sonnenschutz bleibt wichtig.": [
+    "Go outdoors regularly. Skin vitamin D production varies with season and skin type; sun protection remains important.",
+    "Sal regularmente. La producción de vitamina D depende de la estación y el tipo de piel; la protección solar sigue siendo importante."
+  ],
+  "Lebensmittel einplanen": [
+    "Plan food sources",
+    "Planifica las fuentes alimentarias"
+  ],
+  "Fettreicher Fisch oder Eier können zur Vitamin-D-Zufuhr beitragen.": [
+    "Oily fish and eggs can contribute to vitamin D intake.",
+    "El pescado graso y los huevos pueden aportar vitamina D."
+  ],
+  "Mittagslicht nutzen": [
+    "Enjoy midday daylight",
+    "Aprovecha la luz del mediodía"
+  ],
+  "Schon ein kurzer Aufenthalt draußen zur Mittagszeit kann in den helleren Monaten einen Unterschied machen.": [
+    "Even a short time outdoors at midday can make a difference in brighter months.",
+    "Un breve tiempo al aire libre al mediodía puede marcar la diferencia en los meses más luminosos."
+  ],
+  "B12-Quellen prüfen": [
+    "Check B12 sources",
+    "Revisa las fuentes de B12"
+  ],
+  "Tierische Lebensmittel enthalten Vitamin B12. Bei veganer Ernährung sind angereicherte Produkte allein oft nicht ausreichend.": [
+    "Animal foods contain vitamin B12. Fortified foods alone are often insufficient on a vegan diet.",
+    "Los alimentos animales contienen vitamina B12. Los productos enriquecidos solos suelen ser insuficientes en una dieta vegana."
+  ],
+  "Ursache ärztlich klären": [
+    "Discuss the cause with your doctor",
+    "Consulta la causa con tu médico"
+  ],
+  "Ein niedriger B12-Wert kann auch mit der Aufnahme im Körper zusammenhängen. Lass ihn medizinisch einordnen.": [
+    "Low B12 may also relate to absorption. Have it evaluated by a doctor.",
+    "Un nivel bajo de B12 puede relacionarse con la absorción. Solicita una valoración médica."
+  ],
+  "Regelmäßig B12-Quellen essen": [
+    "Eat B12 sources regularly",
+    "Come fuentes de B12 regularmente"
+  ],
+  "Eier, Milchprodukte, Fisch oder angereicherte Produkte regelmäßig in den Speiseplan einbauen.": [
+    "Regularly include eggs, dairy, fish or fortified foods.",
+    "Incluye regularmente huevos, lácteos, pescado o alimentos enriquecidos."
+  ],
+  "Mehr Blattgemüse einbauen": [
+    "Include more leafy greens",
+    "Incluye más verduras de hoja verde"
+  ],
+  "Spinat, Feldsalat und Hülsenfrüchte sind alltagstaugliche Folatquellen.": [
+    "Spinach, lamb’s lettuce and legumes are convenient folate sources.",
+    "Espinacas, canónigos y legumbres son fuentes prácticas de folato."
+  ],
+  "Schonend zubereiten": [
+    "Cook gently",
+    "Cocina con cuidado"
+  ],
+  "Gemüse möglichst frisch und nicht länger als nötig garen.": [
+    "Use fresh vegetables and cook only as long as necessary.",
+    "Usa verduras frescas y cocínalas solo el tiempo necesario."
+  ],
+  "Vollkorn statt Weißmehl": [
+    "Whole grains instead of refined flour",
+    "Integrales en lugar de harina refinada"
+  ],
+  "Vollkornbrot und Vollkornreis liefern deutlich mehr Folat als die hellen Varianten.": [
+    "Wholegrain bread and brown rice provide more folate than refined varieties.",
+    "El pan y arroz integrales aportan más folato que las variedades refinadas."
+  ],
+  "Nüsse und Kerne nutzen": [
+    "Include nuts and seeds",
+    "Incluye frutos secos y semillas"
+  ],
+  "Eine kleine Portion Kürbiskerne, Mandeln oder Vollkornprodukte passt in viele Mahlzeiten.": [
+    "A small portion of pumpkin seeds, almonds or whole grains fits many meals.",
+    "Una pequeña porción de semillas de calabaza, almendras o integrales encaja en muchas comidas."
+  ],
+  "Hülsenfrüchte einplanen": [
+    "Include legumes",
+    "Incluye legumbres"
+  ],
+  "Bohnen und Linsen liefern neben Ballaststoffen auch Magnesium.": [
+    "Beans and lentils provide magnesium as well as fiber.",
+    "Alubias y lentejas aportan magnesio además de fibra."
+  ],
+  "Stressphasen beachten": [
+    "Pay attention during stress",
+    "Presta atención durante el estrés"
+  ],
+  "In stressigen Zeiten steigt der Magnesiumbedarf. Dann besonders auf magnesiumreiche Mahlzeiten achten.": [
+    "Magnesium needs increase during stress. Pay extra attention to magnesium-rich meals.",
+    "Las necesidades de magnesio aumentan con el estrés. Presta especial atención a comidas ricas en magnesio."
+  ],
+  "Zinkquellen einbauen": [
+    "Include zinc sources",
+    "Incluye fuentes de zinc"
+  ],
+  "Kürbiskerne, Haferflocken, Käse oder Fleisch können zur Zinkzufuhr beitragen.": [
+    "Pumpkin seeds, oats, cheese or meat can contribute zinc.",
+    "Semillas de calabaza, avena, queso o carne pueden aportar zinc."
+  ],
+  "Hülsenfrüchte vorbereiten": [
+    "Prepare legumes",
+    "Prepara las legumbres"
+  ],
+  "Einweichen und gründliches Garen kann die Verfügbarkeit von Mineralstoffen verbessern.": [
+    "Soaking and thorough cooking can improve mineral availability.",
+    "El remojo y la cocción completa pueden mejorar la disponibilidad de minerales."
+  ],
+  "Tierische und pflanzliche Quellen mischen": [
+    "Combine animal and plant sources",
+    "Combina fuentes animales y vegetales"
+  ],
+  "Zink aus Fleisch, Käse und Eiern wird gut aufgenommen; pflanzliche Quellen ergänzen die Zufuhr.": [
+    "Zinc from meat, cheese and eggs is well absorbed; plant sources complement intake.",
+    "El zinc de carne, queso y huevos se absorbe bien; las fuentes vegetales complementan el aporte."
+  ],
+  "Abwechslungsreich essen": [
+    "Eat a varied diet",
+    "Come de forma variada"
+  ],
+  "Fisch, Eier und andere proteinreiche Lebensmittel können Selen liefern; der Gehalt schwankt je nach Herkunft.": [
+    "Fish, eggs and other protein-rich foods can provide selenium; content varies by origin.",
+    "Pescado, huevos y otros alimentos proteicos aportan selenio; el contenido varía según el origen."
+  ],
+  "Menge besprechen": [
+    "Discuss the amount",
+    "Consulta la cantidad"
+  ],
+  "Selen sollte nicht ungezielt hoch dosiert werden. Kläre deinen Wert vor der Einnahme ab.": [
+    "Do not take high-dose selenium without guidance. Check your levels before taking it.",
+    "No tomes dosis altas de selenio sin orientación. Comprueba tu nivel antes de tomarlo."
+  ],
+  "Paranüsse in kleiner Menge": [
+    "Brazil nuts in small amounts",
+    "Nueces de Brasil en cantidades pequeñas"
+  ],
+  "Schon ein bis zwei Paranüsse am Tag können einen relevanten Beitrag zur Selenzufuhr leisten.": [
+    "One or two Brazil nuts daily can contribute significantly to selenium intake.",
+    "Una o dos nueces de Brasil al día pueden contribuir notablemente al aporte de selenio."
+  ],
+  "Calciumquellen verteilen": [
+    "Spread calcium sources throughout the day",
+    "Distribuye las fuentes de calcio"
+  ],
+  "Milchprodukte oder calciumangereicherte Pflanzendrinks lassen sich über den Tag verteilen.": [
+    "Spread dairy or calcium-fortified plant drinks throughout the day.",
+    "Distribuye lácteos o bebidas vegetales enriquecidas con calcio durante el día."
+  ],
+  "Mineralwasser prüfen": [
+    "Check mineral water",
+    "Revisa el agua mineral"
+  ],
+  "Ein calciumreiches Mineralwasser kann die tägliche Zufuhr ergänzen.": [
+    "Calcium-rich mineral water can complement daily intake.",
+    "El agua mineral rica en calcio puede complementar el aporte diario."
+  ],
+  "Belastung stärkt die Knochen": [
+    "Weight-bearing activity strengthens bones",
+    "El ejercicio con carga fortalece los huesos"
+  ],
+  "Gehen, Treppensteigen und leichtes Krafttraining unterstützen den Knochenstoffwechsel.": [
+    "Walking, stairs and light strength training support bone metabolism.",
+    "Caminar, subir escaleras y el entrenamiento de fuerza ligero favorecen el metabolismo óseo."
+  ],
+  "Vielfältige Quellen wählen": [
+    "Choose varied sources",
+    "Elige fuentes variadas"
+  ],
+  "Nüsse, Hülsenfrüchte und Vollkornprodukte liefern Kupfer.": [
+    "Nuts, legumes and whole grains provide copper.",
+    "Frutos secos, legumbres e integrales aportan cobre."
+  ],
+  "Ursache abklären": [
+    "Check the cause",
+    "Aclara la causa"
+  ],
+  "Besprich den Befund ärztlich, insbesondere wenn du bereits Zinkpräparate einnimmst.": [
+    "Discuss results with your doctor, especially if you take zinc supplements.",
+    "Consulta los resultados con tu médico, especialmente si tomas suplementos de zinc."
+  ],
+  "Kakao und Bitterschokolade": [
+    "Cocoa and dark chocolate",
+    "Cacao y chocolate negro"
+  ],
+  "Dunkle Schokolade mit hohem Kakaoanteil liefert neben Genuss auch Kupfer.": [
+    "Dark chocolate with high cocoa content also provides copper.",
+    "El chocolate negro con alto contenido de cacao también aporta cobre."
+  ],
+  "Buntes Gemüse essen": [
+    "Eat colorful vegetables",
+    "Come verduras de colores"
+  ],
+  "Karotten, Süßkartoffeln und grünes Blattgemüse liefern Provitamin A.": [
+    "Carrots, sweet potatoes and leafy greens provide provitamin A.",
+    "Zanahorias, boniatos y verduras de hoja verde aportan provitamina A."
+  ],
+  "Mit etwas Fett kombinieren": [
+    "Combine with a little fat",
+    "Combina con un poco de grasa"
+  ],
+  "Ein wenig Öl zum Gemüse hilft bei der Aufnahme fettlöslicher Pflanzenstoffe.": [
+    "A little oil with vegetables helps absorb fat-soluble plant compounds.",
+    "Un poco de aceite con las verduras ayuda a absorber compuestos vegetales liposolubles."
+  ],
+  "Orange und grün kombinieren": [
+    "Combine orange and green",
+    "Combina naranja y verde"
+  ],
+  "Karotten, Kürbis, Spinat und Grünkohl auf dem Teller abwechseln – so bleibt die Versorgung stabil.": [
+    "Alternate carrots, pumpkin, spinach and kale to maintain a varied supply.",
+    "Alterna zanahorias, calabaza, espinacas y col rizada para mantener un aporte variado."
+  ],
+  "Frisches Obst und Gemüse": [
+    "Fresh fruit and vegetables",
+    "Frutas y verduras frescas"
+  ],
+  "Paprika, Beeren und Zitrusfrüchte sind praktische Vitamin-C-Quellen.": [
+    "Peppers, berries and citrus fruit are convenient vitamin C sources.",
+    "Pimientos, bayas y cítricos son fuentes prácticas de vitamina C."
+  ],
+  "Gemüse nicht unnötig lange kochen, damit weniger Vitamin C verloren geht.": [
+    "Avoid overcooking vegetables to reduce vitamin C loss.",
+    "Evita cocinar demasiado las verduras para reducir la pérdida de vitamina C."
+  ],
+  "Rohkost einplanen": [
+    "Include raw foods",
+    "Incluye alimentos crudos"
+  ],
+  "Ein täglicher roher Snack wie Paprika, Apfel oder Beeren sichert die Vitamin-C-Zufuhr.": [
+    "A daily raw snack such as peppers, apples or berries supports vitamin C intake.",
+    "Un tentempié crudo diario como pimiento, manzana o bayas favorece el aporte de vitamina C."
+  ],
+  "Pflanzliche Öle nutzen": [
+    "Use plant oils",
+    "Usa aceites vegetales"
+  ],
+  "Sonnenblumenöl und andere Pflanzenöle können Vitamin E liefern.": [
+    "Sunflower and other plant oils can provide vitamin E.",
+    "El aceite de girasol y otros aceites vegetales pueden aportar vitamina E."
+  ],
+  "Nüsse einbauen": [
+    "Include nuts",
+    "Incluye frutos secos"
+  ],
+  "Mandeln und Haselnüsse passen als kleine Ergänzung zu Mahlzeiten.": [
+    "Almonds and hazelnuts are good small additions to meals.",
+    "Almendras y avellanas son pequeños complementos de las comidas."
+  ],
+  "Avocado und Vollkorn nutzen": [
+    "Include avocado and whole grains",
+    "Incluye aguacate e integrales"
+  ],
+  "Avocado, Vollkornprodukte und Keimlinge ergänzen die Vitamin-E-Zufuhr im Alltag.": [
+    "Avocado, whole grains and sprouts complement daily vitamin E intake.",
+    "Aguacate, integrales y brotes complementan el aporte diario de vitamina E."
+  ],
+  "Grünes Gemüse wählen": [
+    "Choose green vegetables",
+    "Elige verduras verdes"
+  ],
+  "Brokkoli, Spinat und Grünkohl sind Vitamin-K-Quellen.": [
+    "Broccoli, spinach and kale provide vitamin K.",
+    "Brócoli, espinacas y col rizada aportan vitamina K."
+  ],
+  "Bei Medikamenten nachfragen": [
+    "Check with your doctor about medication",
+    "Consulta si tomas medicamentos"
+  ],
+  "Wenn du Gerinnungshemmer einnimmst, besprich Änderungen deiner Vitamin-K-Zufuhr mit deiner Praxis.": [
+    "If you take anticoagulants, discuss vitamin K intake changes with your doctor.",
+    "Si tomas anticoagulantes, consulta los cambios del aporte de vitamina K con tu médico."
+  ],
+  "Fermentiertes probieren": [
+    "Try fermented foods",
+    "Prueba alimentos fermentados"
+  ],
+  "Sauerkraut und andere fermentierte Gemüse liefern Vitamin K und Abwechslung auf den Teller.": [
+    "Sauerkraut and other fermented vegetables provide vitamin K and variety.",
+    "El chucrut y otras verduras fermentadas aportan vitamina K y variedad."
+  ],
+  "Eisenreiche Mahlzeiten wählen": [
+    "Choose iron-rich meals",
+    "Elige comidas ricas en hierro"
+  ],
+  "Hülsenfrüchte, Vollkornprodukte oder je nach Ernährungsweise mageres Fleisch liefern Eisen aus dem Essen.": [
+    "Legumes, whole grains or, depending on your diet, lean meat supply dietary iron.",
+    "Legumbres, integrales o, según tu dieta, carne magra aportan hierro."
+  ],
+  "Mit Vitamin C kombinieren": [
+    "Combine with vitamin C",
+    "Combina con vitamina C"
+  ],
+  "Paprika, Zitrusfrüchte oder Beeren zur Mahlzeit können die Eisenaufnahme aus der Nahrung unterstützen.": [
+    "Peppers, citrus fruit or berries with meals can support iron absorption.",
+    "Pimientos, cítricos o bayas con las comidas pueden favorecer la absorción de hierro."
+  ],
+  "Kaffee und schwarzer Tee mit etwas Abstand zu den Mahlzeiten genießen.": [
+    "Enjoy coffee and black tea some time away from meals.",
+    "Toma café y té negro separados de las comidas."
+  ],
+  "Ursache ärztlich einordnen": [
+    "Have the cause medically evaluated",
+    "Solicita una valoración médica de la causa"
+  ],
+  "Ein Hämoglobinwert unter dem Zielbereich kann verschiedene Ursachen haben. Lass ihn ärztlich abklären, besonders bei Müdigkeit oder Schwindel.": [
+    "Low hemoglobin can have various causes. Have it medically evaluated, especially with fatigue or dizziness.",
+    "La hemoglobina baja puede tener distintas causas. Solicita una valoración médica, especialmente si hay fatiga o mareos."
+  ],
+  "Bewegung in den Alltag einbauen": [
+    "Add movement to your day",
+    "Añade movimiento a tu día"
+  ],
+  "Zügiges Gehen, Radfahren oder Treppensteigen an den meisten Tagen wirken sich günstig auf die Blutfette aus.": [
+    "Brisk walking, cycling or stairs on most days benefit blood lipids.",
+    "Caminar rápido, pedalear o subir escaleras la mayoría de los días beneficia los lípidos sanguíneos."
+  ],
+  "Gute Fette wählen": [
+    "Choose healthy fats",
+    "Elige grasas saludables"
+  ],
+  "Olivenöl, Nüsse und fetter Seefisch statt vielen gehärteten und gesättigten Fetten einsetzen.": [
+    "Choose olive oil, nuts and oily fish rather than many hydrogenated or saturated fats.",
+    "Elige aceite de oliva, frutos secos y pescado graso en lugar de muchas grasas hidrogenadas o saturadas."
+  ],
+  "Ballaststoffe ergänzen": [
+    "Include fiber",
+    "Incluye fibra"
+  ],
+  "Haferflocken, Hülsenfrüchte und Gemüse liefern Ballaststoffe, die zur Blutfettbalance beitragen können.": [
+    "Oats, legumes and vegetables provide fiber that can support lipid balance.",
+    "Avena, legumbres y verduras aportan fibra que puede favorecer el equilibrio de lípidos."
+  ],
+  "Zucker und Alkohol reduzieren": [
+    "Reduce sugar and alcohol",
+    "Reduce el azúcar y el alcohol"
+  ],
+  "Weniger Süßes und Alkohol entlastet die Blutfettwerte spürbar.": [
+    "Reducing sweets and alcohol benefits blood lipids.",
+    "Reducir dulces y alcohol beneficia los lípidos sanguíneos."
+  ],
+  "Regelmäßige Mahlzeiten einnehmen": [
+    "Eat regular meals",
+    "Come regularmente"
+  ],
+  "Ausgewogene Mahlzeiten mit Protein und Ballaststoffen halten die Energie über den Tag gleichmäßiger.": [
+    "Balanced meals with protein and fiber help keep energy steady.",
+    "Las comidas equilibradas con proteína y fibra ayudan a mantener la energía estable."
+  ],
+  "Ballaststoffe bevorzugen": [
+    "Prioritize fiber",
+    "Prioriza la fibra"
+  ],
+  "Vollkorn, Hülsenfrüchte und Gemüse statt stark verarbeiteten Kohlenhydraten wählen.": [
+    "Choose whole grains, legumes and vegetables over highly processed carbohydrates.",
+    "Elige integrales, legumbres y verduras en lugar de carbohidratos muy procesados."
+  ],
+  "Nach dem Essen bewegen": [
+    "Move after meals",
+    "Muévete después de comer"
+  ],
+  "Ein kurzer Spaziergang nach der Mahlzeit kann den Blutzuckerverlauf unterstützen.": [
+    "A short walk after meals can support blood sugar regulation.",
+    "Un breve paseo después de comer puede favorecer la regulación de la glucemia."
+  ],
+  "Süßgetränke ersetzen": [
+    "Replace sugary drinks",
+    "Sustituye las bebidas azucaradas"
+  ],
+  "Wasser oder ungesüßter Tee statt Softdrinks und Säften vermeidet starke Blutzuckerspitzen.": [
+    "Water or unsweetened tea instead of soft drinks and juice helps avoid sharp blood sugar spikes.",
+    "Agua o té sin azúcar en lugar de refrescos y zumos ayuda a evitar picos de glucemia."
+  ],
+  "Selen und Jod beachten": [
+    "Pay attention to selenium and iodine",
+    "Presta atención al selenio y yodo"
+  ],
+  "Seefisch, Eier und Nüsse liefern Nährstoffe, die für die Schilddrüse relevant sind.": [
+    "Sea fish, eggs and nuts provide nutrients relevant to thyroid health.",
+    "Pescado marino, huevos y frutos secos aportan nutrientes relevantes para la tiroides."
+  ],
+  "Werte im Zusammenhang besprechen": [
+    "Discuss results in context",
+    "Consulta los resultados en contexto"
+  ],
+  "Schilddrüsenwerte werden immer im Gesamtbild betrachtet. Nimm deine Ergebnisse zum nächsten Arzttermin mit.": [
+    "Thyroid values are assessed as a whole. Bring your results to your next appointment.",
+    "Los valores tiroideos se evalúan en conjunto. Lleva los resultados a tu próxima cita."
+  ],
+  "Regelmäßigkeit schafft Ruhe": [
+    "Regularity brings calm",
+    "La regularidad aporta calma"
+  ],
+  "Feste Schlaf- und Essenszeiten entlasten den Hormonhaushalt und unterstützen das Wohlbefinden.": [
+    "Regular sleep and meal times support hormone balance and well-being.",
+    "Los horarios regulares de sueño y comidas favorecen el equilibrio hormonal y el bienestar."
+  ],
+  "Bunt und ausgewogen essen": [
+    "Eat a colorful, balanced diet",
+    "Come de forma variada y equilibrada"
+  ],
+  "Gemüse, Vollkornprodukte und eine Proteinquelle in jeder Mahlzeit decken viele Nährstoffe ab.": [
+    "Vegetables, whole grains and a protein source in every meal provide many nutrients.",
+    "Verduras, integrales y una fuente de proteína en cada comida aportan muchos nutrientes."
+  ],
+  "Täglich in Bewegung bleiben": [
+    "Stay active daily",
+    "Mantente activo cada día"
+  ],
+  "Etwa 30 Minuten Bewegung am Tag – gerne in kleinen Etappen wie Treppensteigen oder Gehen.": [
+    "About 30 minutes of movement daily, including short bouts of stairs or walking.",
+    "Unos 30 minutos de movimiento diario, también en tramos cortos de escaleras o caminatas."
+  ],
+  "Schlaf ernst nehmen": [
+    "Prioritize sleep",
+    "Prioriza el sueño"
+  ],
+  "Regelmäßige Schlafzeiten unterstützen Erholung und allgemeines Wohlbefinden.": [
+    "Regular sleep times support recovery and well-being.",
+    "Los horarios regulares de sueño favorecen la recuperación y el bienestar."
+  ],
+  "Tageslicht am Vormittag": [
+    "Morning daylight",
+    "Luz natural por la mañana"
+  ],
+  "Schon 15 Minuten Tageslicht am Vormittag helfen dem inneren Rhythmus und der Stimmung.": [
+    "Just 15 minutes of morning daylight supports your internal rhythm and mood.",
+    "Solo 15 minutos de luz natural por la mañana favorecen tu ritmo interno y ánimo."
+  ],
+  "Kleine Pausen einplanen": [
+    "Plan short breaks",
+    "Planifica pequeñas pausas"
+  ],
+  "Kurze bewusste Pausen über den Tag senken Stress und verbessern die Konzentration.": [
+    "Short mindful breaks reduce stress and improve concentration.",
+    "Las pausas breves y conscientes reducen el estrés y mejoran la concentración."
+  ],
+  "Etwa 1,5 bis 2 Liter Wasser oder ungesüßter Tee über den Tag verteilt unterstützen Kreislauf und Konzentration.": [
+    "About 1.5 to 2 liters of water or unsweetened tea throughout the day supports circulation and concentration.",
+    "Unos 1,5 a 2 litros de agua o té sin azúcar durante el día favorecen la circulación y concentración."
   ]
 }
