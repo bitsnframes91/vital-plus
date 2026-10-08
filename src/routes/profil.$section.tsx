@@ -1,3 +1,5 @@
+import { Localized, useLanguage } from "@/components/Localized";
+import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { ArrowLeft, ChevronRight, UserRound, CalendarDays, UsersRound, Ruler, Weight, Heart, Activity, Mail, KeyRound, Shield, Trash2, Bell, Globe, Moon, Clock, FileText, Download, MessageSquare, CircleHelp, LayoutGrid, Phone, type LucideIcon } from "lucide-react";
@@ -28,13 +30,15 @@ export const Route = createFileRoute("/profil/$section")({
 });
 
 function Row({ title, sub, icon: Icon, onClick, danger = false, green = false }: { title: string; sub?: string; icon: LucideIcon; onClick: () => void; danger?: boolean; green?: boolean }) {
+  useLanguage();
   return <Button variant="ghost" onClick={onClick} className={`h-auto min-h-16 w-full justify-start gap-3 whitespace-normal px-3 py-3 text-left ${green ? "min-h-20 rounded-2xl bg-card" : "rounded-lg bg-card"} ${danger ? "text-destructive" : "text-foreground"}`}>
     <span className={`grid shrink-0 place-items-center rounded-full ${green ? "size-12 bg-fresh-soft text-fv-deep" : "size-9"}`}><Icon className={`${green ? "size-6!" : "size-5!"}`} strokeWidth={1.6} /></span>
-    <span className="min-w-0 flex-1"><span className="block text-[13px] font-semibold leading-5">{title}</span>{sub && <span className={`block break-words text-[12px] font-normal leading-4 ${danger ? "text-destructive" : "text-muted-foreground"}`}>{sub}</span>}</span><ChevronRight className="size-4! shrink-0 text-muted-foreground" />
+    <span className="min-w-0 flex-1"><span className="block text-[13px] font-semibold leading-5"><Localized>{title}</Localized></span>{sub && <span className={`block break-words text-[12px] font-normal leading-4 ${danger ? "text-destructive" : "text-muted-foreground"}`}><Localized>{sub}</Localized></span>}</span><ChevronRight className="size-4! shrink-0 text-muted-foreground" />
   </Button>;
 }
 
 function ProfileSubmenu() {
+  useLanguage();
   const { section } = Route.useParams();
   const navigate = Route.useNavigate();
   const { s, set } = useStore();
@@ -79,60 +83,60 @@ function ProfileSubmenu() {
   const value = (n: number | null | undefined, unit: string) => n == null ? "Nicht angegeben" : `${n} ${unit}`;
   return <AppShell>
     <header className="flex min-h-20 items-center gap-2 px-3 py-5">
-      <Button variant="ghost" size="icon" asChild className="shrink-0"><Link to="/profil" aria-label="Zurück zum Profil"><ArrowLeft className="size-5!" /></Link></Button>
-      <h1 className="flex-1 text-center text-[17px] font-bold leading-6">{titles[section] ?? "Profil"}</h1><span className="w-9" aria-hidden="true" />
+      <Button variant="ghost" size="icon" asChild className="shrink-0"><Link to="/profil" aria-label={translateText("Zurück zum Profil")}><ArrowLeft className="size-5!" /></Link></Button>
+      <h1 className="flex-1 text-center text-[17px] font-bold leading-6"><Localized>{titles[section] ?? "Profil"}</Localized></h1><span className="w-9" aria-hidden="true" />
     </header>
     <div className="space-y-4 px-4 pb-6">
       {section === "personal" && <div className="space-y-px overflow-hidden rounded-lg">
-        <Row title="Name" sub={s.name || "Nicht angegeben"} icon={UserRound} onClick={() => { setName(s.name); setDetail({ title: "Name", name: true }); }} />
-        <Row title="Alter" sub={value(s.body.age, "Jahre")} icon={CalendarDays} onClick={() => openField("age", "Alter")} />
-        <Row title="Geschlecht" sub={({ female: "Weiblich", male: "Männlich", diverse: "Diverse", unspecified: "Keine Angabe" })[s.body.sex ?? "unspecified"]} icon={UsersRound} onClick={() => openField("sex", "Geschlecht")} />
-        <Row title="Größe" sub={value(s.body.heightCm, "cm")} icon={Ruler} onClick={() => openField("height", "Größe")} />
-        <Row title="Gewicht" sub={value(s.body.weightKg, "kg")} icon={Weight} onClick={() => openField("weight", "Gewicht")} />
-        <Row title="Zielgewicht" sub={s.body.targetWeightKg ? `${s.body.targetWeightKg} kg` : "Nicht angegeben"} icon={Weight} onClick={() => { setTargetWeight(s.body.targetWeightKg?.toString() ?? ""); setDetail({ title: "Zielgewicht", target: true }); }} />
-        <Row title="Aktivitätslevel" sub={activityLevels.find(a => a.value === s.body.activity)?.label ?? "Nicht angegeben"} icon={Activity} onClick={() => openField("activity", "Aktivitätslevel")} />
-        <Row title="Gesundheitsziele" sub={s.goals.join(", ") || "Nicht angegeben"} icon={Heart} onClick={() => openField("goals", "Gesundheitsziele")} />
+        <Row title={translateText("Name")} sub={translateText(s.name || "Nicht angegeben")} icon={UserRound} onClick={() => { setName(s.name); setDetail({ title: "Name", name: true }); }} />
+        <Row title={translateText("Alter")} sub={translateText(value(s.body.age, "Jahre"))} icon={CalendarDays} onClick={() => openField("age", "Alter")} />
+        <Row title={translateText("Geschlecht")} sub={translateText(({ female: "Weiblich", male: "Männlich", diverse: "Diverse", unspecified: "Keine Angabe" })[s.body.sex ?? "unspecified"])} icon={UsersRound} onClick={() => openField("sex", "Geschlecht")} />
+        <Row title={translateText("Größe")} sub={translateText(value(s.body.heightCm, "cm"))} icon={Ruler} onClick={() => openField("height", "Größe")} />
+        <Row title={translateText("Gewicht")} sub={translateText(value(s.body.weightKg, "kg"))} icon={Weight} onClick={() => openField("weight", "Gewicht")} />
+        <Row title={translateText("Zielgewicht")} sub={translateText(s.body.targetWeightKg ? `${s.body.targetWeightKg} kg` : "Nicht angegeben")} icon={Weight} onClick={() => { setTargetWeight(s.body.targetWeightKg?.toString() ?? ""); setDetail({ title: "Zielgewicht", target: true }); }} />
+        <Row title={translateText("Aktivitätslevel")} sub={translateText(activityLevels.find(a => a.value === s.body.activity)?.label ?? "Nicht angegeben")} icon={Activity} onClick={() => openField("activity", "Aktivitätslevel")} />
+        <Row title={translateText("Gesundheitsziele")} sub={translateText(s.goals.join(", ") || "Nicht angegeben")} icon={Heart} onClick={() => openField("goals", "Gesundheitsziele")} />
       </div>}
       {(section === "security" || section === "account") && <>
-        {section === "account" && <h2 className="eyebrow">Vivo Konto</h2>}
-        <div className="space-y-px overflow-hidden rounded-lg"><div className="flex min-h-16 w-full items-center gap-3 rounded-lg bg-card px-3 py-3 text-left text-foreground"><span className="grid size-9 shrink-0 place-items-center rounded-full"><Mail className="size-5!" strokeWidth={1.6} /></span><span className="min-w-0 flex-1"><span className="block text-[13px] font-semibold leading-5">E-Mail-Adresse</span><span className="block break-words text-[12px] font-normal leading-4 text-muted-foreground">{s.account?.email ?? "Nicht angemeldet"}</span></span></div><Row title="Passwort ändern" sub="Reset-Link per E-Mail" icon={KeyRound} onClick={password} /><Row title="App Lock" sub="Gerätecode oder Biometrie" icon={Shield} onClick={appLock} />
-        {section === "account" && <Row title="Verbundene Apps" sub="Apple Health, Health Connect" icon={LayoutGrid} onClick={() => notice("Verbundene Apps", "Apple Health und Google Health Connect sind noch nicht verbunden. In dieser Web-App ist kein direkter Zugriff verfügbar.")} />}</div>
-        <Row title="Konto löschen" icon={Trash2} danger onClick={deletion} />
+        {section === "account" && <h2 className="eyebrow"><Localized>{"Vivo Konto"}</Localized></h2>}
+        <div className="space-y-px overflow-hidden rounded-lg"><div className="flex min-h-16 w-full items-center gap-3 rounded-lg bg-card px-3 py-3 text-left text-foreground"><span className="grid size-9 shrink-0 place-items-center rounded-full"><Mail className="size-5!" strokeWidth={1.6} /></span><span className="min-w-0 flex-1"><span className="block text-[13px] font-semibold leading-5"><Localized>{"E-Mail-Adresse"}</Localized></span><span className="block break-words text-[12px] font-normal leading-4 text-muted-foreground"><Localized>{s.account?.email ?? "Nicht angemeldet"}</Localized></span></span></div><Row title={translateText("Passwort ändern")} sub={translateText("Reset-Link per E-Mail")} icon={KeyRound} onClick={password} /><Row title={translateText("App Lock")} sub={translateText("Gerätecode oder Biometrie")} icon={Shield} onClick={appLock} />
+        {section === "account" && <Row title={translateText("Verbundene Apps")} sub={translateText("Apple Health, Health Connect")} icon={LayoutGrid} onClick={() => notice("Verbundene Apps", "Apple Health und Google Health Connect sind noch nicht verbunden. In dieser Web-App ist kein direkter Zugriff verfügbar.")} />}</div>
+        <Row title={translateText("Konto löschen")} icon={Trash2} danger onClick={deletion} />
       </>}
       {section === "settings" && <AppSettingsControls />}
       {section === "privacy" && <><div className="space-y-2">
-        <Row title="Meine Daten herunterladen" sub="Eine Kopie deiner Daten herunterladen" icon={Download} green onClick={download} />
-      </div><Row title="Konto löschen" sub="Alle Daten und dein Konto dauerhaft löschen" icon={Trash2} danger onClick={deletion} /></>}
-      {section === "help" && <><p className="text-sm leading-5 text-muted-foreground">Wir sind für dich da. Wähle eine Option, um uns zu kontaktieren.</p><div className="space-y-2">
-        <Row title="Anrufen" sub="+49 2234 2190482" icon={Phone} green onClick={() => { window.location.href = "tel:+4922342190482"; }} />
-        <Row title="E-Mail" sub="support@vivohealth.com" icon={Mail} green onClick={() => { window.location.href = "mailto:support@vivohealth.com"; }} />
-        <Row title="FAQ" sub="Häufige Fragen und Antworten" icon={CircleHelp} green onClick={() => setDetail({ title: "FAQ", faq: true })} />
-        <Row title="Feedback geben" sub="Hilf uns, die App zu verbessern" icon={MessageSquare} green onClick={() => navigate({ to: "/profil/feedback" })} />
+        <Row title={translateText("Meine Daten herunterladen")} sub={translateText("Eine Kopie deiner Daten herunterladen")} icon={Download} green onClick={download} />
+      </div><Row title={translateText("Konto löschen")} sub={translateText("Alle Daten und dein Konto dauerhaft löschen")} icon={Trash2} danger onClick={deletion} /></>}
+      {section === "help" && <><p className="text-sm leading-5 text-muted-foreground"><Localized>{"Wir sind für dich da. Wähle eine Option, um uns zu kontaktieren."}</Localized></p><div className="space-y-2">
+        <Row title={translateText("Anrufen")} sub={translateText("+49 2234 2190482")} icon={Phone} green onClick={() => { window.location.href = "tel:+4922342190482"; }} />
+        <Row title={translateText("E-Mail")} sub={translateText("support@vivohealth.com")} icon={Mail} green onClick={() => { window.location.href = "mailto:support@vivohealth.com"; }} />
+        <Row title={translateText("FAQ")} sub={translateText("Häufige Fragen und Antworten")} icon={CircleHelp} green onClick={() => setDetail({ title: "FAQ", faq: true })} />
+        <Row title={translateText("Feedback geben")} sub={translateText("Hilf uns, die App zu verbessern")} icon={MessageSquare} green onClick={() => navigate({ to: "/profil/feedback" })} />
       </div></>}
       {section === "legal" && <div className="space-y-2">
-        <Row title="Allgemeine Geschäftsbedingungen (AGB)" icon={FileText} onClick={() => notice("Allgemeine Geschäftsbedingungen", "Die Nutzungsbedingungen für Vivo wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.")} />
-        <Row title="Datenschutzerklärung" icon={Shield} onClick={privacy} />
-        <Row title="Impressum" icon={FileText} onClick={() => notice("Impressum", "Das offizielle Impressum für Vivo wurde noch nicht hinterlegt.")} />
-        <Row title="Lizenzen" sub="Open Source Lizenzen" icon={FileText} onClick={() => notice("Lizenzen", "Vivo verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.")} />
+        <Row title={translateText("Allgemeine Geschäftsbedingungen (AGB)")} icon={FileText} onClick={() => notice("Allgemeine Geschäftsbedingungen", "Die Nutzungsbedingungen für Vivo wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.")} />
+        <Row title={translateText("Datenschutzerklärung")} icon={Shield} onClick={privacy} />
+        <Row title={translateText("Impressum")} icon={FileText} onClick={() => notice("Impressum", "Das offizielle Impressum für Vivo wurde noch nicht hinterlegt.")} />
+        <Row title={translateText("Lizenzen")} sub={translateText("Open Source Lizenzen")} icon={FileText} onClick={() => notice("Lizenzen", "Vivo verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.")} />
       </div>}
-      {!titles[section] && <p className="text-sm text-muted-foreground">Dieser Profilbereich ist nicht verfügbar.</p>}
+      {!titles[section] && <p className="text-sm text-muted-foreground"><Localized>{"Dieser Profilbereich ist nicht verfügbar."}</Localized></p>}
     </div>
-    <Dialog open={detail !== null} onOpenChange={open => { if (!open) { setDetail(null); setField(null); } }}><DialogContent className="max-h-[85dvh] max-w-sm overflow-y-auto rounded-2xl"><DialogHeader><DialogTitle>{detail?.title}</DialogTitle></DialogHeader>
-      {detail?.text && <p className="text-sm leading-6 text-muted-foreground">{detail.text}</p>}
+    <Dialog open={detail !== null} onOpenChange={open => { if (!open) { setDetail(null); setField(null); } }}><DialogContent className="max-h-[85dvh] max-w-sm overflow-y-auto rounded-2xl"><DialogHeader><DialogTitle><Localized>{detail?.title}</Localized></DialogTitle></DialogHeader>
+      {detail?.text && <p className="text-sm leading-6 text-muted-foreground"><Localized>{detail.text}</Localized></p>}
       {detail && field && <form className="space-y-4" onSubmit={saveField}>
-        {(field === "age" || field === "height" || field === "weight") && <label className="block text-sm">{numFields[field].label}<input autoFocus type="text" inputMode="decimal" className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={draft} onChange={e => setDraft(e.target.value)} /></label>}
-        {field === "sex" && <div className="grid grid-cols-2 gap-2">{sexOptions.map(([v, l]) => <button type="button" key={v} onClick={() => setDraft(v)} className={`rounded-full border px-3 py-2 text-sm ${draft === v ? "border-fresh bg-fresh text-ink" : "border-input bg-muted"}`}>{l}</button>)}</div>}
-        {field === "activity" && <div className="space-y-2">{activityLevels.map(a => <button type="button" key={a.value} onClick={() => setDraft(a.value)} className={`w-full rounded-lg border px-3 py-3 text-left text-sm ${draft === a.value ? "border-fresh bg-fresh text-ink" : "border-input bg-muted"}`}>{a.label}</button>)}</div>}
-        {field === "goals" && <div className="flex flex-wrap gap-2">{goalOptions.map(g => { const on = draftGoals.includes(g); return <button type="button" key={g} aria-pressed={on} onClick={() => setDraftGoals(on ? draftGoals.filter(x => x !== g) : [...draftGoals, g])} className={`rounded-full border px-3 py-2 text-sm ${on ? "border-fresh bg-fresh text-ink" : "border-input bg-muted"}`}>{g}</button>; })}</div>}
-        <Button type="submit" className="w-full bg-fresh text-ink hover:bg-fresh/90">Speichern</Button>
+        {(field === "age" || field === "height" || field === "weight") && <label className="block text-sm"><Localized>{numFields[field].label}</Localized><input autoFocus type="text" inputMode="decimal" className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={draft} onChange={e => setDraft(e.target.value)} /></label>}
+        {field === "sex" && <div className="grid grid-cols-2 gap-2">{sexOptions.map(([v, l]) => <button type="button" key={v} onClick={() => setDraft(v)} className={`rounded-full border px-3 py-2 text-sm ${draft === v ? "border-fresh bg-fresh text-ink" : "border-input bg-muted"}`}><Localized>{l}</Localized></button>)}</div>}
+        {field === "activity" && <div className="space-y-2">{activityLevels.map(a => <button type="button" key={a.value} onClick={() => setDraft(a.value)} className={`w-full rounded-lg border px-3 py-3 text-left text-sm ${draft === a.value ? "border-fresh bg-fresh text-ink" : "border-input bg-muted"}`}><Localized>{a.label}</Localized></button>)}</div>}
+        {field === "goals" && <div className="flex flex-wrap gap-2">{goalOptions.map(g => { const on = draftGoals.includes(g); return <button type="button" key={g} aria-pressed={on} onClick={() => setDraftGoals(on ? draftGoals.filter(x => x !== g) : [...draftGoals, g])} className={`rounded-full border px-3 py-2 text-sm ${on ? "border-fresh bg-fresh text-ink" : "border-input bg-muted"}`}><Localized>{g}</Localized></button>; })}</div>}
+        <Button type="submit" className="w-full bg-fresh text-ink hover:bg-fresh/90"><Localized>{"Speichern"}</Localized></Button>
       </form>}
       {detail?.password && <PasswordResetForm initialEmail={s.account?.email ?? ""} />}
       {detail?.lock && <AppLockSettings />}
-      {detail?.name && <form className="space-y-4" onSubmit={e => { e.preventDefault(); set({ name: name.trim() }); setDetail(null); }}><label className="block text-sm">Name<input className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={name} onChange={e => setName(e.target.value)} /></label><Button type="submit" className="w-full bg-fresh text-ink hover:bg-fresh/90">Speichern</Button></form>}
-      {detail?.target && <form className="space-y-4" onSubmit={e => { e.preventDefault(); const n = Number(targetWeight.replace(",", ".")); if (targetWeight.trim() && !isNaN(n) && n >= 30 && n <= 300) { set({ body: { ...s.body, targetWeightKg: Math.round(n * 10) / 10 } }); setDetail(null); } }}><label className="block text-sm">Zielgewicht in kg<input type="text" inputMode="decimal" className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={targetWeight} onChange={e => setTargetWeight(e.target.value)} placeholder="z. B. 78" /></label><Button type="submit" className="w-full bg-fresh text-ink hover:bg-fresh/90">Speichern</Button>{s.body.targetWeightKg != null && <Button type="button" variant="ghost" className="w-full" onClick={() => { set({ body: { ...s.body, targetWeightKg: null } }); setDetail(null); }}>Zielgewicht entfernen</Button>}</form>}
+      {detail?.name && <form className="space-y-4" onSubmit={e => { e.preventDefault(); set({ name: name.trim() }); setDetail(null); }}><label className="block text-sm"><Localized>{"Name"}</Localized><input className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={name} onChange={e => setName(e.target.value)} /></label><Button type="submit" className="w-full bg-fresh text-ink hover:bg-fresh/90"><Localized>{"Speichern"}</Localized></Button></form>}
+      {detail?.target && <form className="space-y-4" onSubmit={e => { e.preventDefault(); const n = Number(targetWeight.replace(",", ".")); if (targetWeight.trim() && !isNaN(n) && n >= 30 && n <= 300) { set({ body: { ...s.body, targetWeightKg: Math.round(n * 10) / 10 } }); setDetail(null); } }}><label className="block text-sm"><Localized>{"Zielgewicht in kg"}</Localized><input type="text" inputMode="decimal" className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={targetWeight} onChange={e => setTargetWeight(e.target.value)} placeholder={translateText("z. B. 78")} /></label><Button type="submit" className="w-full bg-fresh text-ink hover:bg-fresh/90"><Localized>{"Speichern"}</Localized></Button>{s.body.targetWeightKg != null && <Button type="button" variant="ghost" className="w-full" onClick={() => { set({ body: { ...s.body, targetWeightKg: null } }); setDetail(null); }}><Localized>{"Zielgewicht entfernen"}</Localized></Button>}</form>}
 
-      {detail?.data && <div className="space-y-4"><p className="text-sm text-muted-foreground">Deine Werte, Mahlzeiten und Ziele sind deinem Konto zugeordnet.</p><div className="flex items-center justify-between gap-3"><label htmlFor="profile-analytics" className="text-sm">Anonyme Nutzungsstatistik</label><Switch id="profile-analytics" checked={s.consent.analytics} onCheckedChange={analytics => set({ consent: { ...s.consent, analytics } })} /></div><Button onClick={download} className="w-full bg-fresh text-ink hover:bg-fresh/90"><Download /> Daten herunterladen</Button></div>}
-      {detail?.faq && <div className="space-y-4 text-sm"><details><summary className="cursor-pointer font-semibold">Wie ändere ich Werte und Ziele?</summary><p className="mt-2 text-muted-foreground">Unter Profil → Gesundheitsprofil bearbeiten öffnest du die passende Frage im Fragebogen.</p></details><details><summary className="cursor-pointer font-semibold">Wie lade ich einen neuen Befund hoch?</summary><p className="mt-2 text-muted-foreground">Unter Labor kannst du alte Werte löschen und einen PDF-Befund oder ein Foto hochladen.</p></details><details><summary className="cursor-pointer font-semibold">Ich habe mein Passwort vergessen.</summary><p className="mt-2 text-muted-foreground">Auf der Anmeldeseite kannst du über „Passwort vergessen?“ einen neuen Link anfordern.</p></details></div>}
+      {detail?.data && <div className="space-y-4"><p className="text-sm text-muted-foreground"><Localized>{"Deine Werte, Mahlzeiten und Ziele sind deinem Konto zugeordnet."}</Localized></p><div className="flex items-center justify-between gap-3"><label htmlFor="profile-analytics" className="text-sm"><Localized>{"Anonyme Nutzungsstatistik"}</Localized></label><Switch id="profile-analytics" checked={s.consent.analytics} onCheckedChange={analytics => set({ consent: { ...s.consent, analytics } })} /></div><Button onClick={download} className="w-full bg-fresh text-ink hover:bg-fresh/90"><Download /><Localized>{" Daten herunterladen"}</Localized></Button></div>}
+      {detail?.faq && <div className="space-y-4 text-sm"><details><summary className="cursor-pointer font-semibold"><Localized>{"Wie ändere ich Werte und Ziele?"}</Localized></summary><p className="mt-2 text-muted-foreground"><Localized>{"Unter Profil → Gesundheitsprofil bearbeiten öffnest du die passende Frage im Fragebogen."}</Localized></p></details><details><summary className="cursor-pointer font-semibold"><Localized>{"Wie lade ich einen neuen Befund hoch?"}</Localized></summary><p className="mt-2 text-muted-foreground"><Localized>{"Unter Labor kannst du alte Werte löschen und einen PDF-Befund oder ein Foto hochladen."}</Localized></p></details><details><summary className="cursor-pointer font-semibold"><Localized>{"Ich habe mein Passwort vergessen."}</Localized></summary><p className="mt-2 text-muted-foreground"><Localized>{"Auf der Anmeldeseite kannst du über „Passwort vergessen?“ einen neuen Link anfordern."}</Localized></p></details></div>}
     </DialogContent></Dialog>
   </AppShell>;
 }

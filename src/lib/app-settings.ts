@@ -1,10 +1,11 @@
-export type AppSettings = { theme: "light" | "dark"; notifications: boolean; reminders: boolean; reminderTime: string };
-export const defaultSettings: AppSettings = { theme: "light", notifications: false, reminders: false, reminderTime: "19:00" };
+import { validLanguage, type Language } from "./language";
+export type AppSettings = { language: Language; theme: "light" | "dark"; notifications: boolean; reminders: boolean; reminderTime: string };
+export const defaultSettings: AppSettings = { language: "de", theme: "light", notifications: false, reminders: false, reminderTime: "19:00" };
 export const SETTINGS_KEY = "vivo-app-settings";
 export function parseSettings(value: string | null): AppSettings {
   try {
     const s = JSON.parse(value ?? "null");
-    return { theme: s?.theme === "dark" ? "dark" : "light", notifications: s?.notifications === true, reminders: s?.reminders === true, reminderTime: typeof s?.reminderTime === "string" && /^([01]\d|2[0-3]):[0-5]\d$/.test(s.reminderTime) ? s.reminderTime : "19:00" };
+    return { language: validLanguage(s?.language), theme: s?.theme === "dark" ? "dark" : "light", notifications: s?.notifications === true, reminders: s?.reminders === true, reminderTime: typeof s?.reminderTime === "string" && /^([01]\d|2[0-3]):[0-5]\d$/.test(s.reminderTime) ? s.reminderTime : "19:00" };
   } catch { return { ...defaultSettings }; }
 }
 export function reminderDue(settings: AppSettings, now: Date, lastDay: string | null) {

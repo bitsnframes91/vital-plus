@@ -1,3 +1,5 @@
+import { Localized, useLanguage } from "@/components/Localized";
+import { translateText, languageLocale } from "@/lib/language";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { LockKeyhole } from "lucide-react";
 import { useStore } from "@/lib/store";
@@ -14,6 +16,7 @@ export function useAppLock() {
   return context;
 }
 export function AppLockProvider({ children }: { children: ReactNode }) {
+  useLanguage();
   const { s } = useStore();
   const userId = s.account?.userId;
   const [owner, setOwner] = useState<string | undefined>();
@@ -69,25 +72,26 @@ export function AppLockProvider({ children }: { children: ReactNode }) {
   const blocked = Boolean(userId && (owner !== userId || (enabled && locked)));
   return <Context.Provider value={{ enabled, supported, busy, error, enable, disable, lock: () => setLocked(true) }}>
     {blocked ? <div className="grid min-h-dvh place-items-center bg-background px-6"><div className="w-full max-w-sm space-y-5 text-center">
-      <LockKeyhole className="mx-auto size-12 text-fv-deep" /><h1 className="text-2xl font-bold">Vivo ist gesperrt</h1>
-      <p className="text-sm text-muted-foreground">Entsperre Vivo mit deiner Gerätebestätigung.</p>
-      {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
-      <Button disabled={busy || owner !== userId} onClick={unlock} className="w-full bg-fresh text-ink hover:bg-fresh/90">{busy ? "Bitte warten…" : "App entsperren"}</Button>
-      <Button disabled={busy} variant="ghost" onClick={signOut}>Abmelden und App Lock zurücksetzen</Button>
+      <LockKeyhole className="mx-auto size-12 text-fv-deep" /><h1 className="text-2xl font-bold"><Localized>{"Vivo ist gesperrt"}</Localized></h1>
+      <p className="text-sm text-muted-foreground"><Localized>{"Entsperre Vivo mit deiner Gerätebestätigung."}</Localized></p>
+      {error && <p role="alert" className="text-sm text-destructive"><Localized>{error}</Localized></p>}
+      <Button disabled={busy || owner !== userId} onClick={unlock} className="w-full bg-fresh text-ink hover:bg-fresh/90"><Localized>{busy ? "Bitte warten…" : "App entsperren"}</Localized></Button>
+      <Button disabled={busy} variant="ghost" onClick={signOut}><Localized>{"Abmelden und App Lock zurücksetzen"}</Localized></Button>
     </div></div> : children}
   </Context.Provider>;
 }
 export function AppLockSettings() {
+  useLanguage();
   const { enabled, supported, busy, error, enable, disable } = useAppLock();
   const { s } = useStore();
   const available = !!s.account && supported !== false;
   return <div className="space-y-3 text-sm">
     <div className="flex items-center justify-between gap-4 rounded-xl border p-4">
-      <label htmlFor="app-lock-toggle" className="font-semibold">Face ID, Passcode, PIN, Muster</label>
+      <label htmlFor="app-lock-toggle" className="font-semibold"><Localized>{"Face ID, Passcode, PIN, Muster"}</Localized></label>
       <Switch id="app-lock-toggle" checked={enabled} disabled={busy || !available || supported === null} onCheckedChange={(on) => (on ? enable() : disable())} />
     </div>
-    {!s.account && <p className="text-muted-foreground">Bitte anmelden.</p>}
-    {s.account && supported === false && !enabled && <p className="text-muted-foreground">Auf diesem Gerät nicht verfügbar.</p>}
-    {error && <p role="alert" className="text-destructive">{error}</p>}
+    {!s.account && <p className="text-muted-foreground"><Localized>{"Bitte anmelden."}</Localized></p>}
+    {s.account && supported === false && !enabled && <p className="text-muted-foreground"><Localized>{"Auf diesem Gerät nicht verfügbar."}</Localized></p>}
+    {error && <p role="alert" className="text-destructive"><Localized>{error}</Localized></p>}
   </div>;
 }

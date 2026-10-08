@@ -1,3 +1,5 @@
+import { Localized, useLanguage } from "@/components/Localized";
+import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
@@ -20,6 +22,7 @@ export const Route = createFileRoute("/reset-password")({
 const field = "w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring";
 
 function ResetPassword() {
+  useLanguage();
   const navigate = useNavigate();
   const [ready, setReady] = useState(false);
   const [pw, setPw] = useState("");
@@ -49,14 +52,14 @@ function ResetPassword() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow="Vivo Konto" title="Neues Passwort" sub="Lege ein neues Passwort für dein Konto fest." />
+      <PageHeader eyebrow={translateText("Vivo Konto")} title={translateText("Neues Passwort")} sub={translateText("Lege ein neues Passwort für dein Konto fest.")} />
       <div className="card-surface mx-4 mt-4 space-y-3 p-5">
         <form onSubmit={submit} className="space-y-3">
-          <input required type="password" autoComplete="new-password" minLength={8} placeholder="Neues Passwort" value={pw} onChange={(e) => setPw(e.target.value)} className={field} />
-          <input required type="password" autoComplete="new-password" minLength={8} placeholder="Passwort wiederholen" value={pw2} onChange={(e) => setPw2(e.target.value)} className={field} />
-          {msg && <p className="rounded-xl bg-warn/15 px-3 py-2 text-[13px]">{msg}</p>}
+          <input required type="password" autoComplete="new-password" minLength={8} placeholder={translateText("Neues Passwort")} value={pw} onChange={(e) => setPw(e.target.value)} className={field} />
+          <input required type="password" autoComplete="new-password" minLength={8} placeholder={translateText("Passwort wiederholen")} value={pw2} onChange={(e) => setPw2(e.target.value)} className={field} />
+          {msg && <p className="rounded-xl bg-warn/15 px-3 py-2 text-[13px]"><Localized>{msg}</Localized></p>}
           <button disabled={busy || !ready} className="w-full rounded-full bg-fresh py-2.5 text-sm font-medium text-ink disabled:opacity-50">
-            {busy ? "Bitte warten…" : "Passwort speichern"}
+            <Localized>{busy ? "Bitte warten…" : "Passwort speichern"}</Localized>
           </button>
         </form>
       </div>

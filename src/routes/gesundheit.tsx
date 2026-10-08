@@ -1,3 +1,5 @@
+import { Localized, useLanguage } from "@/components/Localized";
+import { translateText, languageLocale } from "@/lib/language";
 import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useRef, useState } from "react";
@@ -27,20 +29,22 @@ export const Route = createFileRoute("/gesundheit")({
 
 /** Icon that opens the matching Fragebogen step on double tap (manual timing so mobile taps work too). */
 function EditIcon({ step, label, children }: { step: number; label: string; children: React.ReactNode }) {
+  useLanguage();
   const nav = useNavigate();
   const last = useRef(0);
   const open = () => nav({ to: "/onboarding", search: { step } });
   return (
     <div className="flex flex-col items-center">
-      <button type="button" aria-label={`${label} im Fragebogen ändern (doppelt tippen)`} onDoubleClick={open}
+      <button type="button" aria-label={translateText(`${label} im Fragebogen ändern (doppelt tippen)`)} onDoubleClick={open}
         onClick={() => { const t = Date.now(); if (t - last.current < 350) { last.current = 0; open(); } else last.current = t; }}
-        className="grid size-11 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 transition active:scale-95">{children}</button>
-      <span className="mt-1 text-[11px] text-ink/55">Doppelt tippen zum Ändern</span>
+        className="grid size-11 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 transition active:scale-95"><Localized>{children}</Localized></button>
+      <span className="mt-1 text-[11px] text-ink/55"><Localized>{"Doppelt tippen zum Ändern"}</Localized></span>
     </div>
   );
 }
 
 function HealthTrends() {
+  useLanguage();
   const metrics = [
     { name: "Bewegung", unit: "kcal/Tag", color: "text-trend-move", soft: "bg-trend-move-soft" },
     { name: "Distanz", unit: "km/Tag", color: "text-trend-distance", soft: "bg-trend-distance-soft" },
@@ -50,9 +54,9 @@ function HealthTrends() {
   return (
     <section aria-labelledby="health-trends-title" className="card-surface p-5 text-trend-foreground sm:p-6">
       <div className="flex items-center justify-between gap-4">
-        <h2 id="health-trends-title" className="text-[26px] font-bold">Trends</h2>
+        <h2 id="health-trends-title" className="text-[26px] font-bold"><Localized>{"Trends"}</Localized></h2>
             <Button asChild variant="ghost" size="icon" className="rounded-full bg-trend-control text-trend-foreground hover:bg-trend-control/80 hover:text-trend-foreground">
-              <Link to="/trends" aria-label="Details zu Trends">
+              <Link to="/trends" aria-label={translateText("Details zu Trends")}>
               <ChevronRight className="!size-6" />
               </Link>
             </Button>
@@ -64,10 +68,10 @@ function HealthTrends() {
               <Minus className="size-7" strokeWidth={4} />
             </span>
             <div className="min-w-0">
-              <h3 className="text-[22px] font-medium leading-tight">{metric.name}</h3>
-              <p aria-label={`${metric.name}: noch keine Daten`} className={`mt-1 flex flex-wrap items-baseline gap-1.5 ${metric.color}`}>
-                <span className="text-[30px] font-semibold leading-tight">–/–</span>
-                <span className="text-[18px] font-semibold">{metric.unit}</span>
+              <h3 className="text-[22px] font-medium leading-tight"><Localized>{metric.name}</Localized></h3>
+              <p aria-label={translateText(`${metric.name}: noch keine Daten`)} className={`mt-1 flex flex-wrap items-baseline gap-1.5 ${metric.color}`}>
+                <span className="text-[30px] font-semibold leading-tight"><Localized>{"–/–"}</Localized></span>
+                <span className="text-[18px] font-semibold"><Localized>{metric.unit}</Localized></span>
               </p>
             </div>
           </div>
@@ -78,6 +82,7 @@ function HealthTrends() {
 }
 
 function NumInput({ value, onSave, placeholder, unit, onDraftChange }: { value: number | null; onSave: (v: number | null) => void; placeholder: string; unit: string; onDraftChange?: (text: string) => void }) {
+  useLanguage();
   const [text, setText] = useState(value?.toString() ?? "");
   return (
     <form
@@ -95,15 +100,16 @@ function NumInput({ value, onSave, placeholder, unit, onDraftChange }: { value: 
           onDraftChange?.(e.target.value);
         }}
         inputMode="decimal"
-        placeholder={placeholder}
+        placeholder={translateText(placeholder)}
         className="w-full rounded-xl bg-muted px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
       />
-      <button className="shrink-0 rounded-full bg-fresh px-4 text-[13px] font-medium text-ink">{unit}</button>
+      <button className="shrink-0 rounded-full bg-fresh px-4 text-[13px] font-medium text-ink"><Localized>{unit}</Localized></button>
     </form>
   );
 }
 
 function Health() {
+  useLanguage();
   const { s, set } = useStore();
   const b = s.body;
   const setBody = (p: Partial<typeof b>) => set({ body: { ...b, ...p } });
@@ -123,56 +129,54 @@ function Health() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow="Gesundheit" title="Deine Messwerte" sub="Messwerte und Verläufe verständlich an einem Ort." subClass="max-w-[17ch]" image={healthRidge.url} imageAlt="Läuferin in Bewegung auf einem alpinen Grat vor verschneiten Bergen" imageOverlay="ridge-image-overlay" />
+      <PageHeader eyebrow={translateText("Gesundheit")} title={translateText("Deine Messwerte")} sub={translateText("Messwerte und Verläufe verständlich an einem Ort.")} subClass="max-w-[17ch]" image={healthRidge.url} imageAlt={translateText("Läuferin in Bewegung auf einem alpinen Grat vor verschneiten Bergen")} imageOverlay="ridge-image-overlay" />
       <div className="grid grid-cols-1 gap-3 px-4 pt-4">
         <div className="card-surface p-5">
           <div className="flex justify-center">
-            <Link to="/labor" aria-label="Blutwerte öffnen" className="grid size-11 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 transition active:scale-95"><img src={bloodGfx.url} alt="" className="object-contain size-7" /></Link>
+            <Link to="/labor" aria-label={translateText("Blutwerte öffnen")} className="grid size-11 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 transition active:scale-95"><img src={bloodGfx.url} alt="" className="object-contain size-7" /></Link>
           </div>
-          <div className="mt-2 text-[18px] font-semibold">Blutwerte</div>
-          <p className="mt-1 text-[14px] text-ink/55">Laborwerte manuell erfassen und zeitlich vergleichen.</p>
-          <Link to="/labor" className="mt-2 inline-block text-[15px] font-semibold text-fv-deep">Meine Blutwerte →</Link>
+          <div className="mt-2 text-[18px] font-semibold"><Localized>{"Blutwerte"}</Localized></div>
+          <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Laborwerte manuell erfassen und zeitlich vergleichen."}</Localized></p>
+          <Link to="/labor" className="mt-2 inline-block text-[15px] font-semibold text-fv-deep"><Localized>{"Meine Blutwerte →"}</Localized></Link>
         </div>
 
         <div className="card-surface p-5">
-          <EditIcon step={3} label="Körperdaten"><img src={bodyGfx.url} alt="" className="object-contain size-7" /></EditIcon>
-          <div className="mt-2 text-[18px] font-semibold">Körperdaten</div>
-          <p className="mt-1 text-[14px] text-ink/55">{b.weightKg ? `Gewicht: ${b.weightKg} kg` : "Gewicht noch nicht erfasst"}</p>
-          <p className="mt-1 text-[14px] text-ink/55">{b.heightCm ? `Größe: ${b.heightCm} cm` : "Größe noch nicht erfasst"}</p>
+          <EditIcon step={3} label={translateText("Körperdaten")}><img src={bodyGfx.url} alt="" className="object-contain size-7" /></EditIcon>
+          <div className="mt-2 text-[18px] font-semibold"><Localized>{"Körperdaten"}</Localized></div>
+          <p className="mt-1 text-[14px] text-ink/55"><Localized>{b.weightKg ? `Gewicht: ${b.weightKg} kg` : "Gewicht noch nicht erfasst"}</Localized></p>
+          <p className="mt-1 text-[14px] text-ink/55"><Localized>{b.heightCm ? `Größe: ${b.heightCm} cm` : "Größe noch nicht erfasst"}</Localized></p>
           {bmi != null && cat && (
-            <p className={`mt-1 text-[15px] font-semibold ${cat.className}`}>BMI {bmi.toFixed(1).replace(".", ",")} · {cat.label}</p>
+            <p className={`mt-1 text-[15px] font-semibold ${cat.className}`}><Localized>{"BMI "}</Localized><Localized>{bmi.toFixed(1).replace(".", ",")}</Localized><Localized>{" · "}</Localized><Localized>{cat.label}</Localized></p>
           )}
-          <NumInput value={b.weightKg} onDraftChange={setWeightDraft} onSave={(v) => setBody({ weightKg: v, stepGoal: stepGoalFor(calcBmi(v, liveHeight)) })} placeholder="Gewicht" unit="kg" />
-          <NumInput value={b.heightCm ?? null} onDraftChange={setHeightDraft} onSave={(v) => setBody({ heightCm: v, stepGoal: stepGoalFor(calcBmi(liveWeight, v)) })} placeholder="Größe" unit="cm" />
+          <NumInput value={b.weightKg} onDraftChange={setWeightDraft} onSave={(v) => setBody({ weightKg: v, stepGoal: stepGoalFor(calcBmi(v, liveHeight)) })} placeholder={translateText("Gewicht")} unit="kg" />
+          <NumInput value={b.heightCm ?? null} onDraftChange={setHeightDraft} onSave={(v) => setBody({ heightCm: v, stepGoal: stepGoalFor(calcBmi(liveWeight, v)) })} placeholder={translateText("Größe")} unit="cm" />
         </div>
 
         <div className="card-surface p-5">
           <div className="flex items-center gap-2.5">
             <img src={sleepGfx.url} alt="" className="vivo-sway size-7" />
-            <div className="text-[18px] font-semibold">Schlaf letzte Nacht</div>
+            <div className="text-[18px] font-semibold"><Localized>{"Schlaf letzte Nacht"}</Localized></div>
           </div>
           <p className="mt-1 text-[14px] text-ink/55">
-            {b.sleepHours ? `Erfasst: ${b.sleepHours} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}
+            <Localized>{b.sleepHours ? `Erfasst: ${b.sleepHours} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}</Localized>
           </p>
-          <NumInput value={b.sleepHours} onSave={(v) => setBody({ sleepHours: v })} placeholder="Stunden, z. B. 7,5 (empfohlen: 8 h)" unit="h" />
+          <NumInput value={b.sleepHours} onSave={(v) => setBody({ sleepHours: v })} placeholder={translateText("Stunden, z. B. 7,5 (empfohlen: 8 h)")} unit="h" />
         </div>
 
         <div className="card-surface p-5">
-          <EditIcon step={4} label="Alltag und Aktivität"><StepsIcon /></EditIcon>
-          <div className="mt-2 text-[18px] font-semibold">Schritte heute</div>
+          <EditIcon step={4} label={translateText("Alltag und Aktivität")}><StepsIcon /></EditIcon>
+          <div className="mt-2 text-[18px] font-semibold"><Localized>{"Schritte heute"}</Localized></div>
           <p className="mt-1 text-[14px] text-ink/55">
-            {b.steps ? `Heute: ${b.steps.toLocaleString("de-DE")} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}
+            <Localized>{b.steps ? `Heute: ${b.steps.toLocaleString(languageLocale())} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}</Localized>
           </p>
-          {(goal ?? b.stepGoal) ? <p className="mt-1 text-[14px] text-ink/55">Dein Tagesziel: {(goal ?? b.stepGoal)!.toLocaleString("de-DE")} Schritte (aus deinem BMI)</p> : null}
-          <NumInput value={b.steps ?? 0} onSave={(v) => setBody({ steps: v })} placeholder="z. B. 8000" unit="Speichern" />
+          {(goal ?? b.stepGoal) ? <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Dein Tagesziel: "}</Localized><Localized>{(goal ?? b.stepGoal)!.toLocaleString(languageLocale())}</Localized><Localized>{" Schritte (aus deinem BMI)"}</Localized></p> : null}
+          <NumInput value={b.steps ?? 0} onSave={(v) => setBody({ steps: v })} placeholder={translateText("z. B. 8000")} unit="Speichern" />
         </div>
 
         <HealthTrends />
 
         <div className="rounded-[20px] border border-dashed p-5 text-[13px] text-ink/50">
-          <div className="eyebrow mb-1">Bald verfügbar</div>
-          Apple Health, Google Health Connect und Wearables als automatische Datenquellen.
-        </div>
+          <div className="eyebrow mb-1"><Localized>{"Bald verfügbar"}</Localized></div><Localized>{" Apple Health, Google Health Connect und Wearables als automatische Datenquellen. "}</Localized></div>
       </div>
     </AppShell>
   );

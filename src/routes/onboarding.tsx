@@ -1,3 +1,5 @@
+import { Localized, useLanguage } from "@/components/Localized";
+import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useStore } from "@/lib/store";
@@ -29,6 +31,7 @@ import { goalOptions } from "@/lib/goal-options";
 const dietOptions = ["Mischkost", "Vegetarisch", "Vegan", "Pescetarisch"];
 
 function Onboarding() {
+  useLanguage();
   const { s, set } = useStore();
   const nav = useNavigate();
   const { step: editStep, from } = Route.useSearch();
@@ -70,7 +73,7 @@ function Onboarding() {
         <div className="flex flex-wrap gap-2">
           {goalOptions.map((g) => {
             const on = goals.includes(g);
-            return <Button variant="outline" key={g} onClick={() => setGoals(on ? goals.filter((x) => x !== g) : [...goals, g])} className={`rounded-full px-4 py-2 text-sm ring-1 ring-border ${on ? "bg-fresh text-ink hover:bg-fresh hover:text-ink" : "bg-card text-ink"}`}>{g}</Button>;
+            return <Button variant="outline" key={g} onClick={() => setGoals(on ? goals.filter((x) => x !== g) : [...goals, g])} className={`rounded-full px-4 py-2 text-sm ring-1 ring-border ${on ? "bg-fresh text-ink hover:bg-fresh hover:text-ink" : "bg-card text-ink"}`}><Localized>{g}</Localized></Button>;
           })}
         </div>
       ),
@@ -80,7 +83,7 @@ function Onboarding() {
       t: "Wie ernährst du dich?",
       body: (
         <div className="grid grid-cols-2 gap-2">
-          {dietOptions.map((d) => <Button variant="outline" key={d} onClick={() => setDiet(d)} className={`rounded-2xl px-4 py-4 text-sm ring-1 ring-border ${diet === d ? "bg-fresh text-ink hover:bg-fresh hover:text-ink" : "bg-card text-ink"}`}>{d}</Button>)}
+          {dietOptions.map((d) => <Button variant="outline" key={d} onClick={() => setDiet(d)} className={`rounded-2xl px-4 py-4 text-sm ring-1 ring-border ${diet === d ? "bg-fresh text-ink hover:bg-fresh hover:text-ink" : "bg-card text-ink"}`}><Localized>{d}</Localized></Button>)}
         </div>
       ),
       valid: true,
@@ -89,21 +92,19 @@ function Onboarding() {
       t: "Gewicht und Größe",
       body: (
         <div className="space-y-3">
-          <label className="block text-sm text-ink/70">Gewicht (kg)
-            <input inputMode="decimal" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="z. B. 72,5" className={`mt-1 ${field}`} />
+          <label className="block text-sm text-ink/70"><Localized>{"Gewicht (kg) "}</Localized><input inputMode="decimal" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder={translateText("z. B. 72,5")} className={`mt-1 ${field}`} />
           </label>
-          <label className="block text-sm text-ink/70">Größe (cm)
-            <input inputMode="numeric" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="z. B. 175" className={`mt-1 ${field}`} />
+          <label className="block text-sm text-ink/70"><Localized>{"Größe (cm) "}</Localized><input inputMode="numeric" value={height} onChange={(e) => setHeight(e.target.value)} placeholder={translateText("z. B. 175")} className={`mt-1 ${field}`} />
           </label>
           <div className="rounded-2xl bg-card p-4 ring-1 ring-border">
-            <div className="eyebrow">Dein BMI</div>
+            <div className="eyebrow"><Localized>{"Dein BMI"}</Localized></div>
             {bmi != null && cat ? (
               <>
-                <div className={`mt-1 text-[32px] font-semibold ${cat.className}`}>{bmi.toFixed(1).replace(".", ",")}</div>
-                <div className={`text-[15px] font-semibold ${cat.className}`}>{cat.label}</div>
+                <div className={`mt-1 text-[32px] font-semibold ${cat.className}`}><Localized>{bmi.toFixed(1).replace(".", ",")}</Localized></div>
+                <div className={`text-[15px] font-semibold ${cat.className}`}><Localized>{cat.label}</Localized></div>
               </>
             ) : (
-              <div className="mt-1 text-sm text-ink/55">Gib Gewicht und Größe ein, um deinen BMI zu sehen.</div>
+              <div className="mt-1 text-sm text-ink/55"><Localized>{"Gib Gewicht und Größe ein, um deinen BMI zu sehen."}</Localized></div>
             )}
           </div>
         </div>
@@ -120,7 +121,7 @@ function Onboarding() {
       body: (
         <label className="flex items-start gap-3 rounded-2xl bg-card p-4 text-sm ring-1 ring-border">
           <input type="checkbox" checked={ok} onChange={(e) => setOk(e.target.checked)} className="mt-1 accent-[var(--fv-deep)]" />
-          <span className="text-ink/70">Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. Vivo ersetzt keine ärztliche Beratung.</span>
+          <span className="text-ink/70"><Localized>{"Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. Vivo ersetzt keine ärztliche Beratung."}</Localized></span>
         </label>
       ),
       valid: ok,
@@ -144,18 +145,18 @@ function Onboarding() {
       <div className="mx-auto flex min-h-screen w-full max-w-[440px] flex-col bg-background sm:min-h-[860px] sm:overflow-hidden sm:rounded-[28px] sm:ring-1 sm:ring-border">
         <div className="relative overflow-hidden bg-header px-6 pb-10 pt-10">
           <div className="relative">
-            <div className="font-data text-[12px] uppercase tracking-normal text-on-ink/40">Vivo · Schritt {step + 1}/{steps.length}</div>
+            <div className="font-data text-[12px] uppercase tracking-normal text-on-ink/40"><Localized>{"Vivo · Schritt "}</Localized><Localized>{step + 1}</Localized><Localized>{"/"}</Localized><Localized>{steps.length}</Localized></div>
             <div className="mt-3 flex gap-1">
               {steps.map((_, i) => <span key={i} className={`h-1 flex-1 rounded-full ${i <= step ? "bg-fv" : "bg-on-ink/15"}`} />)}
             </div>
-            <h1 className="mt-6 text-[32px] font-semibold leading-[1.05] text-on-ink">{cur.t}</h1>
+            <h1 className="mt-6 text-[32px] font-semibold leading-[1.05] text-on-ink"><Localized>{cur.t}</Localized></h1>
           </div>
         </div>
-        <div className="flex-1 px-6 pt-6">{cur.body}</div>
+        <div className="flex-1 px-6 pt-6"><Localized>{cur.body}</Localized></div>
         <div className="flex gap-2 px-6 pb-8 pt-6">
-          {editing ? <Button onClick={returnToOrigin} className="rounded-full px-5 py-3 text-sm ring-1 ring-border">Abbrechen</Button> : step > 0 && <Button onClick={() => setStep(step - 1)} className="rounded-full px-5 py-3 text-sm ring-1 ring-border">Zurück</Button>}
+          {editing ? <Button onClick={returnToOrigin} className="rounded-full px-5 py-3 text-sm ring-1 ring-border"><Localized>{"Abbrechen"}</Localized></Button> : step > 0 && <Button onClick={() => setStep(step - 1)} className="rounded-full px-5 py-3 text-sm ring-1 ring-border"><Localized>{"Zurück"}</Localized></Button>}
           <Button disabled={!cur.valid} onClick={next} className="flex-1 rounded-full bg-fresh py-3 text-sm font-medium text-ink disabled:opacity-40">
-            {editing ? "Speichern" : step === steps.length - 1 ? "Los geht's" : "Weiter"}
+            <Localized>{editing ? "Speichern" : step === steps.length - 1 ? "Los geht's" : "Weiter"}</Localized>
           </Button>
         </div>
       </div>

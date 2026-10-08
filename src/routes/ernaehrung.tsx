@@ -1,3 +1,5 @@
+import { Localized, useLanguage } from "@/components/Localized";
+import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
@@ -30,11 +32,12 @@ export const Route = createFileRoute("/ernaehrung")({
 
 const labels = ["Frühstück", "Mittagessen", "Abendessen", "Snack"];
 const todayISO = () => new Date().toISOString().slice(0, 10);
-const nowTime = () => new Date().toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+const nowTime = () => new Date().toLocaleTimeString(languageLocale(), { hour: "2-digit", minute: "2-digit" });
 const fmtDay = (iso: string) =>
-  new Date(iso + "T12:00:00").toLocaleDateString("de-DE", { weekday: "long", day: "2-digit", month: "long", year: "numeric" });
+  new Date(iso + "T12:00:00").toLocaleDateString(languageLocale(), { weekday: "long", day: "2-digit", month: "long", year: "numeric" });
 
 function Nutrition() {
+  useLanguage();
   const { s, set } = useStore();
   const [profile, setProfile] = useState<NutritionProfile>({ age: s.body.age ?? null, sex: s.body.sex ?? null, activity: s.body.activity ?? null });
   const [name, setName] = useState("");
@@ -133,46 +136,46 @@ function Nutrition() {
     bad: { color: "text-bmi-bad", mood: "bad", label: "Deutlich vom Richtwert entfernt" },
   };
   const neutral: { color: string; mood: StatusMood; label: string } = { color: "text-muted-foreground", mood: "neutral", label: "Kein Richtwert gesetzt" };
-  const format = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 1 });
+  const format = (n: number) => n.toLocaleString(languageLocale(), { maximumFractionDigits: 1 });
   const gaps = nutritionGaps(totals, targets, s.meals.filter((m) => m.date === today).length);
 
   return (
     <AppShell>
-      <PageHeader eyebrow="Ernährung" title="Was hast du heute gegessen?" sub="Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett." subClass="max-w-[26ch]" image={ernaehrungVeg.url} imageAlt="Angeschnittene Orangenscheibe in leuchtend orangefarbenem Saft mit schwebenden Tropfen" imageOverlay="citrus-image-overlay" />
+      <PageHeader eyebrow={translateText("Ernährung")} title={translateText("Was hast du heute gegessen?")} sub={translateText("Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett.")} subClass="max-w-[26ch]" image={ernaehrungVeg.url} imageAlt={translateText("Angeschnittene Orangenscheibe in leuchtend orangefarbenem Saft mit schwebenden Tropfen")} imageOverlay="citrus-image-overlay" />
       <div className="space-y-4 px-4 pt-4">
         <div className="grid grid-cols-2 gap-3">
           {statCards.map((c) => {
             const target = targets?.[c.key];
             const state = target ? feedback[nutrientStatus(c.key, totals[c.key], target)] : neutral;
             return <div key={c.key} data-nutrition={c.key} className="card-surface min-w-0 p-4">
-              <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words">{c.label}</div><StatusFace mood={state.mood} alt={state.label} className="size-5" /></div>
+              <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{c.label}</Localized></div><StatusFace mood={state.mood} alt={translateText(state.label)} className="size-5" /></div>
               <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${target ? state.color : "text-foreground"}`}>
-                <span className="text-[23px] font-semibold">{format(totals[c.key])} {c.unit}</span>
-                <span className="text-[13px]">/ {target ? `${format(target)} ${c.unit}` : "—"}</span>
+                <span className="text-[23px] font-semibold"><Localized>{format(totals[c.key])}</Localized> <Localized>{c.unit}</Localized></span>
+                <span className="text-[13px]"><Localized>{"/ "}</Localized><Localized>{target ? `${format(target)} ${c.unit}` : "—"}</Localized></span>
               </div>
-              <div className="mt-2 text-[11px] text-muted-foreground">Heute / Tagesrichtwert · ca.</div>
+              <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{"Heute / Tagesrichtwert · ca."}</Localized></div>
             </div>;
           })}
         </div>
         {gaps.length > 0 && <section className="space-y-3" data-nutrition-gaps>
-          <h2 className="text-[17px] font-semibold">Das fehlt dir noch für heute:</h2>
+          <h2 className="text-[17px] font-semibold"><Localized>{"Das fehlt dir noch für heute:"}</Localized></h2>
           {gaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
-            <img src={g.product.image} alt={g.product.name} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
+            <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
             <div className="min-w-0 flex-1">
-              <div className="eyebrow">{g.key === "protein" ? "Protein" : "Ballaststoffe"} · noch ca. {format(Math.max(g.missing, 0))} g</div>
-              <div className="mt-1 text-[15px] font-semibold">{g.product.name}</div>
-              <div className="text-xs text-muted-foreground">{g.reason}</div>
-              <div className="mt-1 text-xs font-semibold text-fv-deep">Bei Fairvital ansehen →</div>
+              <div className="eyebrow"><Localized>{g.key === "protein" ? "Protein" : "Ballaststoffe"}</Localized><Localized>{" · noch ca. "}</Localized><Localized>{format(Math.max(g.missing, 0))}</Localized><Localized>{" g"}</Localized></div>
+              <div className="mt-1 text-[15px] font-semibold"><Localized>{g.product.name}</Localized></div>
+              <div className="text-xs text-muted-foreground"><Localized>{g.reason}</Localized></div>
+              <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
             </div>
           </a>)}
-          <p className="text-[11px] text-muted-foreground">Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten.</p>
+          <p className="text-[11px] text-muted-foreground"><Localized>{"Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten."}</Localized></p>
         </section>}
-        {targets ? <p className="text-[11px] leading-relaxed text-muted-foreground">Geschätzte Richtwerte zum Gewichtserhalt, keine medizinischen Grenzwerte. Mehr Protein oder Ballaststoffe ist nicht automatisch ungesund. Bei Schwangerschaft, Stillzeit oder Erkrankungen ärztlich abstimmen.</p> : <section className="space-y-3 border-y border-border py-4">
-          <h2 className="text-[15px] font-semibold">Deine Tagesrichtwerte</h2>
+        {targets ? <p className="text-[11px] leading-relaxed text-muted-foreground"><Localized>{"Geschätzte Richtwerte zum Gewichtserhalt, keine medizinischen Grenzwerte. Mehr Protein oder Ballaststoffe ist nicht automatisch ungesund. Bei Schwangerschaft, Stillzeit oder Erkrankungen ärztlich abstimmen."}</Localized></p> : <section className="space-y-3 border-y border-border py-4">
+          <h2 className="text-[15px] font-semibold"><Localized>{"Deine Tagesrichtwerte"}</Localized></h2>
           <NutritionProfileFields value={profile} onChange={setProfile} />
-          {(!s.body.weightKg || !s.body.heightCm) && <Link to="/gesundheit" className="block text-sm text-fv-deep underline">Gewicht und Größe ergänzen</Link>}
-          {profile.sex === "unspecified" && <p className="text-xs text-muted-foreground">Ohne diese Angabe ist keine persönliche Schätzung möglich.</p>}
-          <Button disabled={!profile.age || profile.age < 18 || profile.age > 120 || !profile.sex || !profile.activity} onClick={() => set({ body: { ...s.body, ...profile } })} className="w-full bg-fresh text-ink">Angaben speichern</Button>
+          {(!s.body.weightKg || !s.body.heightCm) && <Link to="/gesundheit" className="block text-sm text-fv-deep underline"><Localized>{"Gewicht und Größe ergänzen"}</Localized></Link>}
+          {profile.sex === "unspecified" && <p className="text-xs text-muted-foreground"><Localized>{"Ohne diese Angabe ist keine persönliche Schätzung möglich."}</Localized></p>}
+          <Button disabled={!profile.age || profile.age < 18 || profile.age > 120 || !profile.sex || !profile.activity} onClick={() => set({ body: { ...s.body, ...profile } })} className="w-full bg-fresh text-ink"><Localized>{"Angaben speichern"}</Localized></Button>
         </section>}
 
 
@@ -187,35 +190,34 @@ function Nutrition() {
               <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
             </span>
             <div className="min-w-0 flex-1">
-              <div className="text-[15px] font-medium">{vs === "rec" ? "Ich höre zu… tippen zum Beenden" : vs === "busy" ? "Wird verarbeitet…" : "Erzähl mir, was du gegessen hast"}</div>
-              <div className="text-[12px] text-ink/45">z. B. „Mittags hatte ich Nudeln mit Hähnchen und einen Apfel“</div>
+              <div className="text-[15px] font-medium"><Localized>{vs === "rec" ? "Ich höre zu… tippen zum Beenden" : vs === "busy" ? "Wird verarbeitet…" : "Erzähl mir, was du gegessen hast"}</Localized></div>
+              <div className="text-[12px] text-ink/45"><Localized>{"z. B. „Mittags hatte ich Nudeln mit Hähnchen und einen Apfel“"}</Localized></div>
             </div>
           </span>
         </button>
-        {vmsg && <p className="rounded-xl bg-muted px-4 py-3 text-[13px] text-ink/70">{vmsg}</p>}
+        {vmsg && <p className="rounded-xl bg-muted px-4 py-3 text-[13px] text-ink/70"><Localized>{vmsg}</Localized></p>}
 
         <div className="space-y-4">
-          <div className="eyebrow px-1">Ernährungstagebuch</div>
-          {days.length === 0 && <p className="text-[14px] text-ink/50">Noch keine Einträge. Sprich oder tippe deine erste Mahlzeit.</p>}
+          <div className="eyebrow px-1"><Localized>{"Ernährungstagebuch"}</Localized></div>
+          {days.length === 0 && <p className="text-[14px] text-ink/50"><Localized>{"Noch keine Einträge. Sprich oder tippe deine erste Mahlzeit."}</Localized></p>}
           {days.map((day) => {
             const meals = s.meals.filter((m) => m.date === day);
             const dayKcal = meals.reduce((a, m) => a + (m.kcal || 0), 0);
             return (
               <div key={day} className="card-surface overflow-hidden">
                 <div className="flex items-baseline justify-between border-b border-border px-4 py-3">
-                  <div className="text-[14px] font-medium">{day === today ? "Heute" : fmtDay(day)}</div>
-                  <div className="font-data text-[12px] text-ink/45">ca. {dayKcal} kcal</div>
+                  <div className="text-[14px] font-medium"><Localized>{day === today ? "Heute" : fmtDay(day)}</Localized></div>
+                  <div className="font-data text-[12px] text-ink/45"><Localized>{"ca. "}</Localized><Localized>{dayKcal}</Localized><Localized>{" kcal"}</Localized></div>
                 </div>
                 {meals.map((m) => (
                   <div key={m.id} className="flex items-center gap-3 border-b border-border px-4 py-3 last:border-0">
                     <div className="min-w-0 flex-1">
-                      <div className="font-data text-[12px] uppercase tracking-normal text-fv-deep">{m.label} · {m.time}</div>
-                      <div className="text-[15px] font-medium">{m.name}</div>
+                      <div className="font-data text-[12px] uppercase tracking-normal text-fv-deep"><Localized>{m.label}</Localized><Localized>{" · "}</Localized><Localized>{m.time}</Localized></div>
+                      <div className="text-[15px] font-medium"><Localized>{m.name}</Localized></div>
                       <div className="font-data text-[12px] text-ink/45">
-                        {m.kcal} kcal · {m.protein} g Protein · {m.carbs} g KH · {m.fat} g Fett · {m.fiber} g Ballaststoffe
-                      </div>
+                        <Localized>{m.kcal}</Localized><Localized>{" kcal · "}</Localized><Localized>{m.protein}</Localized><Localized>{" g Protein · "}</Localized><Localized>{m.carbs}</Localized><Localized>{" g KH · "}</Localized><Localized>{m.fat}</Localized><Localized>{" g Fett · "}</Localized><Localized>{m.fiber}</Localized><Localized>{" g Ballaststoffe "}</Localized></div>
                     </div>
-                    <button onClick={() => removeMeal(m.id)} className="text-ink/30" aria-label="Entfernen">×</button>
+                    <button onClick={() => removeMeal(m.id)} className="text-ink/30" aria-label={translateText("Entfernen")}><Localized>{"×"}</Localized></button>
                   </div>
                 ))}
               </div>
@@ -224,21 +226,21 @@ function Nutrition() {
         </div>
 
         <form onSubmit={(e) => void add(e)} className="card-surface space-y-3 p-5">
-          <div className="eyebrow">Mahlzeit hinzufügen</div>
+          <div className="eyebrow"><Localized>{"Mahlzeit hinzufügen"}</Localized></div>
           <div className="flex flex-wrap gap-1.5">
             {labels.map((l) => (
-              <button type="button" key={l} onClick={() => setLabel(l)} className={`rounded-full px-3 py-1 text-[13px] ring-1 ring-border ${label === l ? "bg-fresh text-ink" : ""}`}>{l}</button>
+              <button type="button" key={l} onClick={() => setLabel(l)} className={`rounded-full px-3 py-1 text-[13px] ring-1 ring-border ${label === l ? "bg-fresh text-ink" : ""}`}><Localized>{l}</Localized></button>
             ))}
           </div>
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="z. B. Lachs mit Ofengemüse" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder={translateText("z. B. Lachs mit Ofengemüse")} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
           <div className="flex gap-2">
-            <input value={kcal} onChange={(e) => setKcal(e.target.value)} inputMode="numeric" placeholder="kcal (automatisch)" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
-            <input value={protein} onChange={(e) => setProtein(e.target.value)} inputMode="numeric" placeholder="Protein in g (automatisch)" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
+            <input value={kcal} onChange={(e) => setKcal(e.target.value)} inputMode="numeric" placeholder={translateText("kcal (automatisch)")} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
+            <input value={protein} onChange={(e) => setProtein(e.target.value)} inputMode="numeric" placeholder={translateText("Protein in g (automatisch)")} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
           </div>
-          {estBusy && <p className="text-[12px] text-ink/55">Nährwerte werden berechnet…</p>}
-          {!estBusy && est?.name === name.trim() && <p className="text-[12px] text-ink/55">Geschätzt: ca. {est.kcal} kcal · {est.protein} g Protein · {est.carbs} g KH · {est.fat} g Fett · {est.fiber} g Ballaststoffe</p>}
-          {estErr && <p className="text-[12px] text-destructive">{estErr}</p>}
-          <button disabled={estBusy} className="w-full rounded-full bg-fresh py-2.5 text-sm font-semibold text-ink disabled:opacity-60">{estBusy ? "Berechne…" : "Speichern"}</button>
+          {estBusy && <p className="text-[12px] text-ink/55"><Localized>{"Nährwerte werden berechnet…"}</Localized></p>}
+          {!estBusy && est?.name === name.trim() && <p className="text-[12px] text-ink/55"><Localized>{"Geschätzt: ca. "}</Localized><Localized>{est.kcal}</Localized><Localized>{" kcal · "}</Localized><Localized>{est.protein}</Localized><Localized>{" g Protein · "}</Localized><Localized>{est.carbs}</Localized><Localized>{" g KH · "}</Localized><Localized>{est.fat}</Localized><Localized>{" g Fett · "}</Localized><Localized>{est.fiber}</Localized><Localized>{" g Ballaststoffe"}</Localized></p>}
+          {estErr && <p className="text-[12px] text-destructive"><Localized>{estErr}</Localized></p>}
+          <button disabled={estBusy} className="w-full rounded-full bg-fresh py-2.5 text-sm font-semibold text-ink disabled:opacity-60"><Localized>{estBusy ? "Berechne…" : "Speichern"}</Localized></button>
         </form>
       </div>
     </AppShell>
