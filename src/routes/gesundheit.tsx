@@ -10,7 +10,7 @@ import { StepsIcon } from "@/components/StepsIcon";
 import sleepGfx from "@/assets/schlaf.png.asset.json";
 import bodyGfx from "@/assets/koerperdaten.png.asset.json";
 import bloodGfx from "@/assets/blutwerte.png.asset.json";
-import { ChevronRight, Minus } from "lucide-react";
+import { ChevronRight, Minus, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/gesundheit")({
