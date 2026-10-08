@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { mealPlanContext } from "./meal-plan-context";
+import { micronutrientPrompt, parseMicronutrients, type MicronutrientAmounts } from "./micronutrients";
 
 const GATEWAY = "https://ai.gateway.lovable.dev/v1";
 const MODEL = "openai/gpt-6-astra";
@@ -87,8 +88,8 @@ export const mealFromVoice = createServerFn({ method: "POST" })
       {
         type: "input_text",
         text: `Jemand beschreibt, was er gegessen hat: "${transcript}"
-Teile das in Mahlzeiten auf. Schätze pro Mahlzeit realistisch: protein, kcal, fiber (Ballaststoffe), carbs (Kohlenhydrate), fat (Fett) – jeweils in Gramm bzw. kcal. label ist eine von: Frühstück, Mittagessen, Abendessen, Snack.
-Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,"kcal":number,"fiber":number,"carbs":number,"fat":number}]}`,
+Teile das in Mahlzeiten auf. Schätze pro Mahlzeit realistisch: protein, kcal, fiber (Ballaststoffe), carbs (Kohlenhydrate), fat (Fett) – jeweils in Gramm bzw. kcal. label ist eine von: Frühstück, Mittagessen, Abendessen, Snack. ${micronutrientPrompt}
+Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,"kcal":number,"fiber":number,"carbs":number,"fat":number,"micronutrients":{"vitamins":{key:number},"minerals":{key:number}}}]}`,
       },
     ]);
     if (!r.ok) return r;
@@ -96,9 +97,9 @@ Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,
     const num = (v: any) => Math.max(0, Math.round(Number(v) || 0));
     const meals = (Array.isArray(r.data.meals) ? r.data.meals : [])
       .filter((m: any) => typeof m?.name === "string")
-      .map((m: any) => ({ label: labels.includes(m.label) ? m.label : "Snack", name: m.name.slice(0, 120), protein: num(m.protein), kcal: num(m.kcal), fiber: num(m.fiber), carbs: num(m.carbs), fat: num(m.fat) }));
+      .map((m: any) => ({ label: labels.includes(m.label) ? m.label : "Snack", name: m.name.slice(0, 120), protein: num(m.protein), kcal: num(m.kcal), fiber: num(m.fiber), carbs: num(m.carbs), fat: num(m.fat), micronutrients: parseMicronutrients(m.micronutrients) }));
     if (!meals.length) return { ok: false as const, error: `Verstanden: „${transcript}“ – aber keine Mahlzeit erkannt.` };
-    return { ok: true as const, transcript, meals: meals as { label: string; name: string; protein: number; kcal: number; fiber: number; carbs: number; fat: number }[] };
+    return { ok: true as const, transcript, meals: meals as { label: string; name: string; protein: number; kcal: number; fiber: number; carbs: number; fat: number; micronutrients?: MicronutrientAmounts | undefined }[] };
   });
 
 export const mealNutrition = createServerFn({ method: "POST" })
@@ -107,11 +108,11 @@ export const mealNutrition = createServerFn({ method: "POST" })
     const r = await askJson([
       {
         type: "input_text",
-        text: `Schätze realistische Nährwerte für eine übliche Portion dieser Mahlzeit: "${data.name.replace(/"/g, "'")}".
-Antworte NUR mit JSON: {"kcal":number,"protein":number,"fiber":number,"carbs":number,"fat":number} (kcal bzw. Gramm).`,
+        text: `Schätze realistische Nährwerte für eine übliche Portion dieser Mahlzeit: "${data.name.replace(/"/g, "'")}". ${micronutrientPrompt}
+Antworte NUR mit JSON: {"kcal":number,"protein":number,"fiber":number,"carbs":number,"fat":number,"micronutrients":{"vitamins":{key:number},"minerals":{key:number}}} (Makronährwerte in kcal bzw. Gramm, Mikronährwerte in den oben angegebenen Einheiten).`,
       },
     ]);
     if (!r.ok) return r;
     const num = (v: any) => Math.max(0, Math.round(Number(v) || 0));
-    return { ok: true as const, kcal: num(r.data.kcal), protein: num(r.data.protein), fiber: num(r.data.fiber), carbs: num(r.data.carbs), fat: num(r.data.fat) };
+    return { ok: true as const, kcal: num(r.data.kcal), protein: num(r.data.protein), fiber: num(r.data.fiber), carbs: num(r.data.carbs), fat: num(r.data.fat), micronutrients: parseMicronutrients(r.data.micronutrients) };
   });
