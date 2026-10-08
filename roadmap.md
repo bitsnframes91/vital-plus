@@ -1,5 +1,6 @@
 # Vivo redesign
-- [ ] Remove Sprache/Einheiten, enable saved Hell/Dunkel and functional notification/reminder switches, and verify them.
+- [x] Enable saved Hell/Dunkel and functional notification/reminder switches; keep Einheiten removed.
+- [ ] Restore language selection for Deutsch, English and Spanish with Apply, saved preference and app-wide translated interface; verify switching and persistence.
 - [x] Open an email reset form from Passwort ändern in both Profile account menus; verified both dialogs and reset request tests without sending an unsolicited email.
 - [x] Add device-only App Lock with verified platform signatures, reload/background locking and unsupported-device handling; simulated device enable/unlock/failure/disable tested. Actual Apple/Android methods depend on the user's phone and browser.
 - [x] Match the expanded profile submenu reference; verified all seven pages, back navigation, questionnaire links, downloads and safe cancellation of account deletion. Unsupported settings and missing support/legal content remain explicitly marked.
