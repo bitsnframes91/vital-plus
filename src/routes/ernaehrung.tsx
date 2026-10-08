@@ -39,6 +39,8 @@ const fmtDay = (iso: string) =>
 
 function Nutrition() {
   useLanguage();
+  const isChild = useRouterState({ select: (state) => state.location.pathname !== "/ernaehrung" });
+  if (isChild) return <Outlet />;
   const { s, set } = useStore();
   const [profile, setProfile] = useState<NutritionProfile>({ age: s.body.age ?? null, sex: s.body.sex ?? null, activity: s.body.activity ?? null });
   const [name, setName] = useState("");
