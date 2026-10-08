@@ -39,6 +39,38 @@ export function parseMicronutrients(input: unknown): MicronutrientAmounts | unde
   return Object.keys(result).length ? result : undefined;
 }
 
+/** German display names for detail pages. */
+export const micronutrientNames: Record<string, string> = {
+  a: "Vitamin A", d: "Vitamin D", e: "Vitamin E", k: "Vitamin K", c: "Vitamin C",
+  b1: "Vitamin B1 (Thiamin)", b2: "Vitamin B2 (Riboflavin)", b3: "Vitamin B3 (Niacin)",
+  b6: "Vitamin B6", folate: "Folsäure", b12: "Vitamin B12", biotin: "Biotin", b5: "Pantothensäure",
+  potassium: "Kalium", chloride: "Chlorid", calcium: "Calcium", phosphorus: "Phosphor",
+  magnesium: "Magnesium", iron: "Eisen", zinc: "Zink", copper: "Kupfer", manganese: "Mangan",
+  fluoride: "Fluorid", selenium: "Selen", chromium: "Chrom", molybdenum: "Molybdän", iodine: "Jod",
+};
+
+/** Summed per-nutrient amounts across meals; only nutrients with at least one measured entry appear. */
+export function micronutrientTotals(meals: { micronutrients?: MicronutrientAmounts | undefined }[], group: "vitamins" | "minerals") {
+  const totals: Record<string, number> = {};
+  for (const { key } of micronutrients[group]) {
+    let sum = 0; let found = false;
+    for (const meal of meals) {
+      const amount = meal.micronutrients?.[group]?.[key];
+      if (typeof amount === "number" && Number.isFinite(amount) && amount >= 0) { sum += amount; found = true; }
+    }
+    if (found) totals[key] = sum;
+  }
+  return totals;
+}
+
+/** Detail-page status from percent of reference intake: ≥70 % good, 50–70 % near, below bad. */
+export function micronutrientStatus(value: number, target: number): "good" | "near" | "bad" {
+  const pct = (value / target) * 100;
+  if (pct >= 70) return "good";
+  if (pct >= 50) return "near";
+  return "bad";
+}
+
 export function micronutrientSummary(meals: { micronutrients?: MicronutrientAmounts | undefined }[], group: "vitamins" | "minerals") {
   const entries = micronutrients[group];
   const known = entries.filter(({ key }) => meals.some(m => typeof m.micronutrients?.[group]?.[key] === "number"));
