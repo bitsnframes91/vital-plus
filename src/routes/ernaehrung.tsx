@@ -178,7 +178,7 @@ function Nutrition() {
           {(["vitamins", "minerals"] as const).map((group) => {
             const summary = micronutrientSummary(todayMeals, group);
             const state = summary.available ? feedback[nutrientStatus("protein", summary.reached, summary.total)] : neutral;
-            return <div key={group} data-nutrition={group} className="card-surface min-w-0 p-4">
+            return <Link key={group} to={group === "vitamins" ? "/ernaehrung/vitamine" : "/ernaehrung/mineralien"} data-nutrition={group} className="card-surface block min-w-0 p-4">
               <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{group === "vitamins" ? "Vitamine" : "Mineralien"}</Localized></div><StatusFace mood={state.mood} alt={translateText(summary.available ? state.label : "Noch keine Nährstoffdaten")} className="size-5" /></div>
               <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${state.color}`}><span className="text-[23px] font-semibold">{summary.available ? summary.reached : "—"}</span><span className="text-[13px]">/ {summary.total}</span></div>
               <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{summary.available ? "Tagesziele erreicht · ca." : "Noch keine Nährstoffdaten"}</Localized></div>
