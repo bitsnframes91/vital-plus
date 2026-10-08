@@ -183,7 +183,7 @@ function Nutrition() {
               <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${state.color}`}><span className="text-[23px] font-semibold">{summary.available ? summary.reached : "—"}</span><span className="text-[13px]">/ {summary.total}</span></div>
               <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{summary.available ? "Tagesziele erreicht · ca." : "Noch keine Nährstoffdaten"}</Localized></div>
               <div className="mt-1 text-[11px] text-muted-foreground"><Localized>{summary.available && summary.partial ? "Teilweise erfasst · heute" : "Heute / Tagesrichtwert · ca."}</Localized></div>
-            </div>;
+            </Link>;
           })}
         </div>
         <p className="text-[11px] leading-relaxed text-muted-foreground"><Localized>{"Vitamine und Mineralien: geschätzte Mengen aus erfassten Mahlzeiten, verglichen mit EU-Referenzmengen für Erwachsene. Keine Laborwerte oder persönlichen Bedarfswerte."}</Localized></p>
