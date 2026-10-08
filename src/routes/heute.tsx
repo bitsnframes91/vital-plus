@@ -19,6 +19,8 @@ import { dailyGoals, todayKey } from "@/lib/daily-goals";
 import type { RoutineTip } from "@/lib/deficiency-routines";
 import { nutritionTargets } from "@/lib/nutrition-targets";
 import { nutritionGaps } from "@/lib/nutrition-products";
+import { suggestedProducts } from "@/lib/plan-products";
+import { goalProducts } from "@/lib/goal-plan";
 
 const tipIcon = {
   food: Salad,
@@ -70,6 +72,8 @@ function Today() {
   const mealTotals = { kcal: 0, protein: 0, fiber: 0, carbs: 0, fat: 0 };
   for (const m of todayMeals) { mealTotals.kcal += m.kcal || 0; mealTotals.protein += m.protein || 0; mealTotals.fiber += m.fiber || 0; mealTotals.carbs += m.carbs || 0; mealTotals.fat += m.fat || 0; }
   const gaps = nutritionGaps(mealTotals, nutritionTargets(s.body), todayMeals.length);
+  const labIds = new Set(suggestedProducts(s.aiPlan, s.labs).map((e) => e.product.shopwareId));
+  const goalSuggestions = goalProducts(s.onboarded ? s.goals : []).filter((e) => !labIds.has(e.product.shopwareId));
   const fmtNum = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 1 });
 
   useEffect(() => {
@@ -221,6 +225,20 @@ function Today() {
           </div>
         )}
       </section>
+
+      {goalSuggestions.length > 0 && <section className="mt-4 space-y-3 px-4" aria-label="Fairvital Empfehlungen zu deinen Zielen">
+        <h2 className="px-1 text-[15px] font-semibold">Passend zu deinen Zielen</h2>
+        {goalSuggestions.map(({ product, goals }) => <a key={product.shopwareId} href={product.url} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
+          <img src={product.image} alt={product.name} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
+          <div className="min-w-0 flex-1">
+            <div className="eyebrow">{goals.join(" · ")}</div>
+            <div className="mt-1 text-[15px] font-semibold">{product.name}</div>
+            <div className="text-xs text-muted-foreground">{product.short}</div>
+            <div className="mt-1 text-xs font-semibold text-fv-deep">Bei Fairvital ansehen →</div>
+          </div>
+        </a>)}
+        <p className="px-1 text-[11px] text-muted-foreground">Einnahme bitte ärztlich abklären, besonders bei Vorerkrankungen oder Medikamenten.</p>
+      </section>}
 
       {gaps.length > 0 && <section className="mt-4 space-y-3 px-4" data-nutrition-gaps>
         <h2 className="px-1 text-[15px] font-semibold">Das fehlt dir noch für heute:</h2>
