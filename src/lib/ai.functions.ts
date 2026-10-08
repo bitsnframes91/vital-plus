@@ -89,7 +89,7 @@ export const mealFromVoice = createServerFn({ method: "POST" })
         type: "input_text",
         text: `Jemand beschreibt, was er gegessen hat: "${transcript}"
 Teile das in Mahlzeiten auf. Schätze pro Mahlzeit realistisch: protein, kcal, fiber (Ballaststoffe), carbs (Kohlenhydrate), fat (Fett) – jeweils in Gramm bzw. kcal. label ist eine von: Frühstück, Mittagessen, Abendessen, Snack. ${micronutrientPrompt}
-Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,"kcal":number,"fiber":number,"carbs":number,"fat":number}]}`,
+Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,"kcal":number,"fiber":number,"carbs":number,"fat":number,"micronutrients":{"vitamins":{key:number},"minerals":{key:number}}}]}`,
       },
     ]);
     if (!r.ok) return r;
@@ -109,7 +109,7 @@ export const mealNutrition = createServerFn({ method: "POST" })
       {
         type: "input_text",
         text: `Schätze realistische Nährwerte für eine übliche Portion dieser Mahlzeit: "${data.name.replace(/"/g, "'")}". ${micronutrientPrompt}
-Antworte NUR mit JSON: {"kcal":number,"protein":number,"fiber":number,"carbs":number,"fat":number} (kcal bzw. Gramm).`,
+Antworte NUR mit JSON: {"kcal":number,"protein":number,"fiber":number,"carbs":number,"fat":number,"micronutrients":{"vitamins":{key:number},"minerals":{key:number}}} (Makronährwerte in kcal bzw. Gramm, Mikronährwerte in den oben angegebenen Einheiten).`,
       },
     ]);
     if (!r.ok) return r;
