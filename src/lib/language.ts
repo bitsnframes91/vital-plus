@@ -18,21 +18,23 @@ export function translateText(text: string): string {
   const direct = i18next.t(source);
   if (direct !== source) return text.replace(text.trim(), direct);
   // Mixed labels retain their numbers, names, units and punctuation.
-  const parts = source.split(/( · |, | → |: )/);
+  const parts = text.split(/( · |, | → |: )/);
   if (parts.length > 1) return parts.map(part => translateExact(part)).join("");
-  return translateExact(source);
+  return translateExact(text);
 }
-function translateExact(source: string): string {
+function translateExact(text: string): string {
+  const source = text.trim();
+  if (!source) return text;
   const direct = i18next.t(source);
-  if (direct !== source) return direct;
-  // Templates cover runtime counts without sending personal text to a translation service.
+  if (direct !== source) return text.replace(source, direct);
   for (const [pattern, values] of Object.entries(catalogue)) {
-    if (!pattern.includes("{value}")) continue;
-    const escaped = pattern.split("{value}").map(part => part.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("(.+?)");
+    if (!/\{[^}]+\}/.test(pattern)) continue;
+    const names = [...pattern.matchAll(/\{([^}]+)\}/g)].map(match => match[1]!);
+    const escaped = pattern.split(/\{[^}]+\}/).map(part => part.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("(.+?)");
     const match = source.match(new RegExp(`^${escaped}$`));
     if (!match) continue;
-    let index = 1;
-    return (values[currentLanguage() === "en" ? 0 : 1] ?? source).replaceAll("{value}", () => match[index++] ?? "");
+    const translated = (values[currentLanguage() === "en" ? 0 : 1] ?? source).replace(/\{([^}]+)\}/g, (_, name: string) => match[names.indexOf(name) + 1] ?? "");
+    return text.replace(source, translated);
   }
-  return source;
+  return text;
 }

@@ -1,3 +1,4 @@
+import { languageLocale } from "./language";
 // Mock data for version 1. Products/prices will later come from the Fairvital Shopware API
 // (see src/lib/shopware.ts); lab values will later come from a laboratory API.
 
@@ -254,7 +255,7 @@ export const initialSupplements: Supplement[] = [
 ];
 
 export const fmtDate = (d: string) =>
-  new Date(d).toLocaleDateString("de-DE", { day: "2-digit", month: "short", year: "numeric" });
+  new Date(d).toLocaleDateString(languageLocale(), { day: "2-digit", month: "short", year: "numeric" });
 
 export type LabLevel = "optimal" | "high" | "low" | "very_high" | "very_low";
 export type LabStatus = { label: string; level: LabLevel; tone: "ok" | "warn" | "severe" };
