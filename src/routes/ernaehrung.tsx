@@ -79,6 +79,23 @@ function Nutrition() {
   const totals = { kcal: sum("kcal"), protein: sum("protein"), fiber: sum("fiber"), carbs: sum("carbs"), fat: sum("fat") };
   const targets = nutritionTargets(s.body);
 
+  // Fill in vitamins/minerals for diary entries saved without them.
+  const sRef = useRef(s); sRef.current = s;
+  const tried = useRef(new Set<string>());
+  useEffect(() => {
+    const missing = todayMeals.filter((m) => !m.micronutrients && !tried.current.has(m.id));
+    if (!missing.length) return;
+    missing.forEach((m) => tried.current.add(m.id));
+    void (async () => {
+      const found: Record<string, Meal["micronutrients"]> = {};
+      for (const m of missing) {
+        try { const r = await estimate({ data: { name: m.name } }); if (r.ok && r.micronutrients) found[m.id] = r.micronutrients; } catch { /* keep unavailable */ }
+      }
+      if (Object.keys(found).length) set({ meals: sRef.current.meals.map((x) => found[x.id] ? { ...x, micronutrients: found[x.id] } : x) });
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [todayMeals.map((m) => m.id + (m.micronutrients ? "1" : "0")).join()]);
+
   // Diary: group meals by day, newest first.
   const days = [...new Set(s.meals.map((m) => m.date))].sort().reverse();
 
@@ -111,7 +128,7 @@ function Nutrition() {
     const n = name.trim();
     if (!n || estBusy) return;
     let e2 = est?.name === n ? est : null;
-    if (!e2 && !kcal && !protein) e2 = await runEstimate(n);
+    if (!e2) e2 = await runEstimate(n);
     const meal: Meal = {
       id: crypto.randomUUID(), label, name: n,
       protein: Number(protein.replace(",", ".")) || e2?.protein || 0, kcal: Number(kcal.replace(",", ".")) || e2?.kcal || 0,
