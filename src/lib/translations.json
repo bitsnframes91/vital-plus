@@ -1554,5 +1554,493 @@
   "über dem Zielbereich": [
     "above target range",
     "por encima del rango objetivo"
+  ],
+  "Guten Morgen,": [
+    "Good morning,",
+    "Buenos días,"
+  ],
+  "Tipp des Tages öffnen": [
+    "Open tip of the day",
+    "Abrir consejo del día"
+  ],
+  "aus deinem Plan": [
+    "from your plan",
+    "de tu plan"
+  ],
+  "Beispielziele. Wähle deine Ziele im Fragebogen oder lade deinen Laborbefund hoch – dann entstehen deine Tagesziele aus deinem Plan →": [
+    "Example goals. Choose your questionnaire goals or upload a lab report to create your daily goals →",
+    "Objetivos de ejemplo. Elige tus objetivos en el cuestionario o sube un informe para crear tus objetivos diarios →"
+  ],
+  "Keine Schritte für heute ausgewählt. Wähle sie in deinem Plan aus →": [
+    "No steps selected for today. Select them in your plan →",
+    "No hay acciones seleccionadas para hoy. Selecciónalas en tu plan →"
+  ],
+  "Alle Tagesziele erreicht – Tag abgeschlossen": [
+    "All daily goals achieved – day complete",
+    "Todos los objetivos diarios alcanzados: día completado"
+  ],
+  "Fairvital Empfehlungen zu deinen Zielen": [
+    "Fairvital recommendations for your goals",
+    "Recomendaciones Fairvital según tus objetivos"
+  ],
+  "Im Shop →": [
+    "View in shop →",
+    "Ver en la tienda →"
+  ],
+  "Nachkontrolle empfohlen in": [
+    "Follow-up recommended in",
+    "Control recomendado en"
+  ],
+  "Wochen.": [
+    "weeks.",
+    "semanas."
+  ],
+  "Die letzten 7 Tage": [
+    "The last 7 days",
+    "Los últimos 7 días"
+  ],
+  "Tagesziele erledigt": [
+    "Daily goals completed",
+    "Objetivos diarios completados"
+  ],
+  "Gewicht erfasst": [
+    "Weight recorded",
+    "Peso registrado"
+  ],
+  "Gewicht erfassen": [
+    "Record weight",
+    "Registrar peso"
+  ],
+  "Gesünder leben. Glücklicher sein.": [
+    "Live healthier. Be happier.",
+    "Vive más sano. Sé más feliz."
+  ],
+  "Vivo Startseite": [
+    "Vivo homepage",
+    "Página de inicio Vivo"
+  ],
+  "Ganzheitliches Leben in Bewegung — Forschung, Sport und Vitalität": [
+    "Holistic living in motion — science, sport and vitality",
+    "Vida integral en movimiento: ciencia, deporte y vitalidad"
+  ],
+  "Nährwerte konnten nicht berechnet werden.": [
+    "Nutrition could not be calculated.",
+    "No se pudieron calcular los nutrientes."
+  ],
+  "Mikrofon nicht verfügbar. Bitte Zugriff erlauben.": [
+    "Microphone unavailable. Please allow access.",
+    "Micrófono no disponible. Permite el acceso."
+  ],
+  "Aufnahme fehlgeschlagen.": [
+    "Recording failed.",
+    "La grabación falló."
+  ],
+  "Angeschnittene Orangenscheibe in leuchtend orangefarbenem Saft mit schwebenden Tropfen": [
+    "Sliced orange in bright juice with floating drops",
+    "Rodaja de naranja en zumo brillante con gotas flotantes"
+  ],
+  "Läuferin in Bewegung auf einem alpinen Grat vor verschneiten Bergen": [
+    "Runner on an alpine ridge before snowy mountains",
+    "Corredora en una cresta alpina ante montañas nevadas"
+  ],
+  "z. B. 8000": [
+    "e.g. 8000",
+    "p. ej. 8000"
+  ],
+  "Forschende im weißen Kittel arbeiten im Labor an einem Mikroskop": [
+    "Researchers in white coats working at a laboratory microscope",
+    "Investigadores de bata blanca trabajando en un microscopio"
+  ],
+  "E-Mail oder Passwort ist falsch.": [
+    "Email or password is incorrect.",
+    "El correo o la contraseña son incorrectos."
+  ],
+  "Für diese E-Mail gibt es bereits ein Konto.": [
+    "An account already exists for this email.",
+    "Ya existe una cuenta con este correo."
+  ],
+  "Konto konnte nicht angelegt werden (Passwort mind. 8 Zeichen).": [
+    "Unable to create account (password must have at least 8 characters).",
+    "No se pudo crear la cuenta (contraseña de al menos 8 caracteres)."
+  ],
+  "Fast geschafft: Bitte bestätige deine E-Mail-Adresse über den Link, den wir dir geschickt haben.": [
+    "Almost there: confirm your email using the link we sent.",
+    "Casi listo: confirma tu correo con el enlace que te enviamos."
+  ],
+  "Deine Werte sicher gespeichert – auf allen Geräten.": [
+    "Your values saved securely – on all devices.",
+    "Tus valores guardados de forma segura, en todos tus dispositivos."
+  ],
+  "Gewicht (kg)": [
+    "Weight (kg)",
+    "Peso (kg)"
+  ],
+  "Größe (cm)": [
+    "Height (cm)",
+    "Altura (cm)"
+  ],
+  "z. B. 72,5": [
+    "e.g. 72.5",
+    "p. ej. 72,5"
+  ],
+  "z. B. 175": [
+    "e.g. 175",
+    "p. ej. 175"
+  ],
+  "Vivo · Schritt": [
+    "Vivo · Step",
+    "Vivo · Paso"
+  ],
+  "Wähle im Fragebogen, was dir wichtig ist – oder lade deinen Laborbefund hoch. Daraus entstehen dein Plan und deine Tagesziele.": [
+    "Choose your questionnaire priorities or upload your lab report to create your plan and daily goals.",
+    "Elige tus prioridades en el cuestionario o sube tu informe para crear tu plan y tus objetivos diarios."
+  ],
+  "Aus deinen Zielen": [
+    "From your goals",
+    "De tus objetivos"
+  ],
+  "Empfehlungen bei niedrigen Werten": [
+    "Recommendations for low values",
+    "Recomendaciones para valores bajos"
+  ],
+  "Einnahme und mögliche Ursache bitte ärztlich abklären.": [
+    "Discuss supplements and possible causes with your doctor.",
+    "Consulta la toma y las posibles causas con tu médico."
+  ],
+  "Konto verwalten": [
+    "Manage account",
+    "Gestionar cuenta"
+  ],
+  "Die offizielle Datenschutzerklärung für Vivo wurde noch nicht hinterlegt.": [
+    "Vivo’s official privacy policy has not yet been provided.",
+    "La política de privacidad oficial de Vivo aún no está disponible."
+  ],
+  "Zurück zum Profil": [
+    "Back to Profile",
+    "Volver al Perfil"
+  ],
+  "Nicht angemeldet": [
+    "Not signed in",
+    "Sesión no iniciada"
+  ],
+  "Apple Health und Google Health Connect sind noch nicht verbunden. In dieser Web-App ist kein direkter Zugriff verfügbar.": [
+    "Apple Health and Google Health Connect are not connected yet. This web app cannot access them directly.",
+    "Apple Health y Google Health Connect aún no están conectados. Esta aplicación web no tiene acceso directo."
+  ],
+  "Meine Daten herunterladen": [
+    "Download my data",
+    "Descargar mis datos"
+  ],
+  "Eine Kopie deiner Daten herunterladen": [
+    "Download a copy of your data",
+    "Descargar una copia de tus datos"
+  ],
+  "Alle Daten und dein Konto dauerhaft löschen": [
+    "Permanently delete all data and your account",
+    "Eliminar permanentemente todos los datos y tu cuenta"
+  ],
+  "Wir sind für dich da. Wähle eine Option, um uns zu kontaktieren.": [
+    "We’re here for you. Choose an option to contact us.",
+    "Estamos aquí para ayudarte. Elige una opción para contactarnos."
+  ],
+  "Allgemeine Geschäftsbedingungen": [
+    "Terms and conditions",
+    "Condiciones generales"
+  ],
+  "Die Nutzungsbedingungen für Vivo wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.": [
+    "Vivo’s terms have not yet been provided. Purchases take place exclusively in the Fairvital shop.",
+    "Las condiciones de Vivo aún no están disponibles. Las compras se realizan exclusivamente en la tienda Fairvital."
+  ],
+  "Das offizielle Impressum für Vivo wurde noch nicht hinterlegt.": [
+    "Vivo’s official legal notice has not yet been provided.",
+    "El aviso legal oficial de Vivo aún no está disponible."
+  ],
+  "Vivo verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.": [
+    "Vivo uses open-source software including React, TanStack, Radix UI and Lucide. A complete license overview has not yet been provided.",
+    "Vivo utiliza software de código abierto como React, TanStack, Radix UI y Lucide. La lista completa de licencias aún no está disponible."
+  ],
+  "Zielgewicht in kg": [
+    "Target weight in kg",
+    "Peso objetivo en kg"
+  ],
+  "z. B. 78": [
+    "e.g. 78",
+    "p. ej. 78"
+  ],
+  "Daten herunterladen": [
+    "Download data",
+    "Descargar datos"
+  ],
+  "Hilf uns, die Vivo App zu verbessern.": [
+    "Help us improve the Vivo app.",
+    "Ayúdanos a mejorar la aplicación Vivo."
+  ],
+  "Feedback konnte nicht gesendet werden. Bitte später erneut versuchen.": [
+    "Unable to send feedback. Try again later.",
+    "No se pudieron enviar los comentarios. Inténtalo más tarde."
+  ],
+  "Zurück zum Kundenservice": [
+    "Back to customer service",
+    "Volver a atención al cliente"
+  ],
+  "Wird gesendet…": [
+    "Sending…",
+    "Enviando…"
+  ],
+  "Es wurden in kurzer Zeit zu viele E-Mails gesendet. Bitte versuche es in etwa einer Stunde erneut – oder nutze den letzten Code aus deinem Postfach.": [
+    "Too many emails were sent in a short time. Try again in about an hour or use the latest code in your inbox.",
+    "Se enviaron demasiados correos en poco tiempo. Inténtalo en una hora o usa el último código de tu bandeja de entrada."
+  ],
+  "Code konnte nicht gesendet werden. Bitte später erneut versuchen.": [
+    "Unable to send code. Try again later.",
+    "No se pudo enviar el código. Inténtalo más tarde."
+  ],
+  "Der Code ist ungültig oder abgelaufen.": [
+    "The code is invalid or expired.",
+    "El código no es válido o ha caducado."
+  ],
+  "Ärztin am Schreibtisch": [
+    "Doctor at a desk",
+    "Médica en un escritorio"
+  ],
+  "Angemeldet als": [
+    "Signed in as",
+    "Sesión iniciada como"
+  ],
+  "Alle Werte, Mahlzeiten und dein Plan werden dauerhaft gelöscht. Wir senden dir dazu einen Bestätigungscode an": [
+    "All values, meals and your plan will be permanently deleted. We will send a confirmation code to",
+    "Todos los valores, comidas y tu plan se eliminarán permanentemente. Enviaremos un código de confirmación a"
+  ],
+  "Wir haben einen Code an": [
+    "We sent a code to",
+    "Enviamos un código a"
+  ],
+  "gesendet.": [
+    ".",
+    "."
+  ],
+  "Der Link ist ungültig oder abgelaufen. Bitte fordere einen neuen an.": [
+    "The link is invalid or expired. Request a new one.",
+    "El enlace no es válido o ha caducado. Solicita uno nuevo."
+  ],
+  "Lege ein neues Passwort für dein Konto fest.": [
+    "Set a new password for your account.",
+    "Establece una nueva contraseña para tu cuenta."
+  ],
+  "Passwort speichern": [
+    "Save password",
+    "Guardar contraseña"
+  ],
+  "Wir haben dir einen Bestätigungslink an": [
+    "We sent a confirmation link to",
+    "Enviamos un enlace de confirmación a"
+  ],
+  "gesendet. Bitte öffne dein Postfach und klicke auf den Link, um dein Profil zu aktivieren.": [
+    ". Open your inbox and click the link to activate your profile.",
+    ". Abre tu bandeja de entrada y pulsa el enlace para activar tu perfil."
+  ],
+  "30 verschiedene Pflanzen pro Woche": [
+    "30 different plants per week",
+    "30 plantas diferentes por semana"
+  ],
+  "Gemüse, Obst, Hülsenfrüchte, Nüsse und Kräuter zählen – Vielfalt stärkt Darm und Zellschutz.": [
+    "Vegetables, fruit, legumes, nuts and herbs count – variety supports gut and cell health.",
+    "Verduras, frutas, legumbres, frutos secos y hierbas cuentan: la variedad favorece el intestino y la salud celular."
+  ],
+  "30 Minuten Bewegung": [
+    "30 minutes of movement",
+    "30 minutos de movimiento"
+  ],
+  "Zügiges Gehen, Radfahren oder Schwimmen – so, dass du dich noch unterhalten kannst.": [
+    "Brisk walking, cycling or swimming at a pace where you can still talk.",
+    "Camina rápido, pedalea o nada a un ritmo que te permita conversar."
+  ],
+  "Proteinreiches Frühstück": [
+    "Protein-rich breakfast",
+    "Desayuno rico en proteínas"
+  ],
+  "Etwa 25–30 g Protein am Morgen, z. B. Skyr, Eier oder Haferflocken mit Nüssen, halten den Blutzucker stabil.": [
+    "About 25–30 g of protein in the morning, such as skyr, eggs or oats with nuts, helps keep blood sugar stable.",
+    "Unos 25–30 g de proteína por la mañana, como skyr, huevos o avena con frutos secos, ayudan a mantener estable la glucemia."
+  ],
+  "10 Minuten Tageslicht am Vormittag": [
+    "10 minutes of morning daylight",
+    "10 minutos de luz natural por la mañana"
+  ],
+  "Licht am Morgen stabilisiert deinen Tag-Nacht-Rhythmus und macht wacher.": [
+    "Morning light stabilizes your day-night rhythm and increases alertness.",
+    "La luz matinal estabiliza tu ritmo día-noche y mejora la atención."
+  ],
+  "Bildschirme 60 Minuten vor dem Schlafen aus": [
+    "Turn screens off 60 minutes before bed",
+    "Apaga las pantallas 60 minutos antes de dormir"
+  ],
+  "Weniger helles Licht am Abend erleichtert das Einschlafen.": [
+    "Less bright evening light makes falling asleep easier.",
+    "Menos luz brillante por la noche facilita conciliar el sueño."
+  ],
+  "Gleiche Schlafenszeit": [
+    "Consistent bedtime",
+    "Horario regular para dormir"
+  ],
+  "Geh möglichst jeden Tag zur selben Zeit ins Bett – auch am Wochenende.": [
+    "Try to go to bed at the same time every day, including weekends.",
+    "Intenta acostarte a la misma hora cada día, también los fines de semana."
+  ],
+  "Zwei Portionen buntes Obst und Gemüse": [
+    "Two portions of colorful fruit and vegetables",
+    "Dos raciones de frutas y verduras de colores"
+  ],
+  "Paprika, Beeren, Zitrusfrüchte und Brokkoli liefern Vitamin C und Pflanzenstoffe.": [
+    "Peppers, berries, citrus fruit and broccoli provide vitamin C and plant compounds.",
+    "Pimientos, bayas, cítricos y brócoli aportan vitamina C y compuestos vegetales."
+  ],
+  "Regelmäßige, moderate Bewegung an der frischen Luft unterstützt die Abwehr.": [
+    "Regular moderate outdoor activity supports your immune system.",
+    "El ejercicio moderado y regular al aire libre favorece tus defensas."
+  ],
+  "Omega-3-Quelle einplanen": [
+    "Include an omega-3 source",
+    "Incluye una fuente de omega-3"
+  ],
+  "Leinsamen, Walnüsse oder zweimal pro Woche fetter Fisch.": [
+    "Flaxseed, walnuts or oily fish twice a week.",
+    "Semillas de lino, nueces o pescado graso dos veces por semana."
+  ],
+  "Zügiger Spaziergang": [
+    "Brisk walk",
+    "Paseo a buen ritmo"
+  ],
+  "20–30 Minuten in einem Tempo, das dich leicht ins Schwitzen bringt.": [
+    "20–30 minutes at a pace that makes you sweat slightly.",
+    "20–30 minutos a un ritmo que te haga sudar ligeramente."
+  ],
+  "Halber Teller Gemüse": [
+    "Half a plate of vegetables",
+    "Medio plato de verduras"
+  ],
+  "Bei Mittag- und Abendessen zuerst Gemüse auffüllen – sättigt mit Ballaststoffen.": [
+    "Fill your lunch and dinner plate with vegetables first – fiber helps you feel full.",
+    "Llena primero el plato de verduras en el almuerzo y la cena; la fibra sacia."
+  ],
+  "1,5–2 Liter Wasser trinken": [
+    "Drink 1.5–2 liters of water",
+    "Bebe 1,5–2 litros de agua"
+  ],
+  "Ein Glas Wasser vor jeder Mahlzeit hilft, Hunger und Durst zu unterscheiden.": [
+    "A glass of water before meals helps distinguish hunger from thirst.",
+    "Un vaso de agua antes de comer ayuda a distinguir el hambre de la sed."
+  ],
+  "Protein nach dem Training": [
+    "Protein after exercise",
+    "Proteína después del ejercicio"
+  ],
+  "Innerhalb von zwei Stunden nach dem Sport eine proteinreiche Mahlzeit.": [
+    "Eat a protein-rich meal within two hours of exercise.",
+    "Come una comida rica en proteínas en las dos horas posteriores al ejercicio."
+  ],
+  "10 Minuten Mobility": [
+    "10 minutes of mobility",
+    "10 minutos de movilidad"
+  ],
+  "Dehnen oder lockere Mobilisation an trainingsfreien Tagen.": [
+    "Stretch or do gentle mobility on rest days.",
+    "Haz estiramientos o movilidad suave en días de descanso."
+  ],
+  "Tageslicht hebt die Stimmung und stabilisiert den Rhythmus.": [
+    "Daylight improves mood and stabilizes your rhythm.",
+    "La luz natural mejora el ánimo y estabiliza tu ritmo."
+  ],
+  "Bewusste Pause": [
+    "Mindful break",
+    "Pausa consciente"
+  ],
+  "Fünf Minuten Atemübung, ein Telefonat mit einem lieben Menschen oder ein kurzer Spaziergang.": [
+    "Five minutes of breathing exercises, a call to a loved one or a short walk.",
+    "Cinco minutos de respiración, una llamada a un ser querido o un breve paseo."
+  ],
+  "Gesunde Fette einbauen": [
+    "Include healthy fats",
+    "Incluye grasas saludables"
+  ],
+  "Avocado, Nüsse, Leinöl oder Olivenöl liefern Bausteine für den Hormonstoffwechsel.": [
+    "Avocado, nuts, flaxseed oil and olive oil supply building blocks for hormone metabolism.",
+    "Aguacate, frutos secos, aceite de lino y de oliva aportan componentes para el metabolismo hormonal."
+  ],
+  "Ein fester Schlafrhythmus unterstützt einen ausgeglichenen Hormonhaushalt.": [
+    "A regular sleep schedule supports hormone balance.",
+    "Un horario de sueño regular favorece el equilibrio hormonal."
+  ],
+  "Calciumreiche Lebensmittel": [
+    "Calcium-rich foods",
+    "Alimentos ricos en calcio"
+  ],
+  "Joghurt, Käse, grünes Gemüse oder calciumreiches Mineralwasser für deine Knochen.": [
+    "Yogurt, cheese, green vegetables or calcium-rich mineral water for your bones.",
+    "Yogur, queso, verduras verdes o agua mineral rica en calcio para tus huesos."
+  ],
+  "Krafttraining 2× pro Woche": [
+    "Strength training twice a week",
+    "Entrenamiento de fuerza dos veces por semana"
+  ],
+  "Kurze Einheiten mit dem eigenen Körpergewicht erhalten Muskeln und Knochen.": [
+    "Short bodyweight sessions maintain muscles and bones.",
+    "Las sesiones cortas con tu peso corporal mantienen músculos y huesos."
+  ],
+  "Grünes Blattgemüse": [
+    "Leafy green vegetables",
+    "Verduras de hoja verde"
+  ],
+  "Spinat, Feldsalat oder Brokkoli liefern natürliches Folat.": [
+    "Spinach, lamb’s lettuce and broccoli provide natural folate.",
+    "Espinacas, canónigos y brócoli aportan folato natural."
+  ],
+  "Alkoholfreier Tag": [
+    "Alcohol-free day",
+    "Día sin alcohol"
+  ],
+  "Verzichte möglichst auf Alkohol und Nikotin.": [
+    "Avoid alcohol and nicotine where possible.",
+    "Evita el alcohol y la nicotina en lo posible."
+  ],
+  "Zinkreiche Mahlzeit": [
+    "Zinc-rich meal",
+    "Comida rica en zinc"
+  ],
+  "Kürbiskerne, Haferflocken, Linsen oder Rindfleisch einplanen.": [
+    "Include pumpkin seeds, oats, lentils or beef.",
+    "Incluye semillas de calabaza, avena, lentejas o carne de vacuno."
+  ],
+  "Kurze Einheiten mit dem eigenen Körpergewicht erhalten Muskelkraft.": [
+    "Short bodyweight sessions maintain muscle strength.",
+    "Las sesiones cortas con tu peso corporal mantienen la fuerza muscular."
+  ],
+  "Fokusblöcke mit Pausen": [
+    "Focus sessions with breaks",
+    "Bloques de concentración con pausas"
+  ],
+  "45 Minuten konzentriert arbeiten, dann 5 Minuten bewegen und Wasser trinken.": [
+    "Focus for 45 minutes, then move for 5 minutes and drink water.",
+    "Concéntrate 45 minutos, luego muévete 5 minutos y bebe agua."
+  ],
+  "Leinsamen, Walnüsse oder fetter Fisch unterstützen die Gehirnfunktion.": [
+    "Flaxseed, walnuts or oily fish support brain function.",
+    "Semillas de lino, nueces o pescado graso favorecen la función cerebral."
+  ],
+  "12 Stunden Essenspause über Nacht": [
+    "12-hour overnight eating break",
+    "Pausa nocturna de 12 horas sin comer"
+  ],
+  "Zum Beispiel von 20 bis 8 Uhr – Wasser und ungesüßter Tee sind erlaubt.": [
+    "For example, 8 p.m. to 8 a.m. – water and unsweetened tea are allowed.",
+    "Por ejemplo, de 20:00 a 8:00; puedes beber agua y té sin azúcar."
+  ],
+  "Ausreichend trinken": [
+    "Drink enough",
+    "Bebe suficiente agua"
+  ],
+  "Gerade beim Fasten ist ausreichend Flüssigkeit wichtig.": [
+    "Adequate fluids are especially important while fasting.",
+    "Beber suficientes líquidos es especialmente importante durante el ayuno."
   ]
 }
