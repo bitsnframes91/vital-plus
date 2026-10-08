@@ -1,11 +1,32 @@
 {
-  "Vitamine": ["Vitamins", "Vitaminas"],
-  "Mineralien": ["Minerals", "Minerales"],
-  "Tagesziele erreicht · ca.": ["Daily targets reached · approx.", "Objetivos diarios alcanzados · aprox."],
-  "Noch keine Nährstoffdaten": ["No nutrient data yet", "Aún no hay datos de nutrientes"],
-  "Teilweise erfasst · heute": ["Partially logged · today", "Registro parcial · hoy"],
-  "Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett – sowie Vitaminen und Mineralien.": ["Your food diary with calories, protein, fiber, carbohydrates and fat — plus vitamins and minerals.", "Tu diario de alimentación con calorías, proteínas, fibra, carbohidratos y grasas — además de vitaminas y minerales."],
-  "Vitamine und Mineralien: geschätzte Mengen aus erfassten Mahlzeiten, verglichen mit EU-Referenzmengen für Erwachsene. Keine Laborwerte oder persönlichen Bedarfswerte.": ["Vitamins and minerals: estimated amounts from logged meals, compared with EU adult reference intakes. Not lab results or individual requirements.", "Vitaminas y minerales: cantidades estimadas de comidas registradas, comparadas con ingestas de referencia de la UE para adultos. No son resultados de laboratorio ni necesidades individuales."],
+  "Vitamine": [
+    "Vitamins",
+    "Vitaminas"
+  ],
+  "Mineralien": [
+    "Minerals",
+    "Minerales"
+  ],
+  "Tagesziele erreicht · ca.": [
+    "Daily targets reached · approx.",
+    "Objetivos diarios alcanzados · aprox."
+  ],
+  "Noch keine Nährstoffdaten": [
+    "No nutrient data yet",
+    "Aún no hay datos de nutrientes"
+  ],
+  "Teilweise erfasst · heute": [
+    "Partially logged · today",
+    "Registro parcial · hoy"
+  ],
+  "Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett – sowie Vitaminen und Mineralien.": [
+    "Your food diary with calories, protein, fiber, carbohydrates and fat — plus vitamins and minerals.",
+    "Tu diario de alimentación con calorías, proteínas, fibra, carbohidratos y grasas — además de vitaminas y minerales."
+  ],
+  "Vitamine und Mineralien: geschätzte Mengen aus erfassten Mahlzeiten, verglichen mit EU-Referenzmengen für Erwachsene. Keine Laborwerte oder persönlichen Bedarfswerte.": [
+    "Vitamins and minerals: estimated amounts from logged meals, compared with EU adult reference intakes. Not lab results or individual requirements.",
+    "Vitaminas y minerales: cantidades estimadas de comidas registradas, comparadas con ingestas de referencia de la UE para adultos. No son resultados de laboratorio ni necesidades individuales."
+  ],
   "Sprache": [
     "Language",
     "Idioma"
@@ -2825,5 +2846,57 @@
   "Tagesziel": [
     "Daily goal",
     "Objetivo diario"
+  ],
+  "Beta-Carotin als Vorstufe von Vitamin A": [
+    "Beta-carotene, a precursor of vitamin A",
+    "Betacaroteno, precursor de la vitamina A"
+  ],
+  "Vitamin D3 mit K2 MK7": [
+    "Vitamin D3 with K2 MK7",
+    "Vitamina D3 con K2 MK7"
+  ],
+  "Hochdosiertes Vitamin E": [
+    "High-dose vitamin E",
+    "Vitamina E de alta dosis"
+  ],
+  "Vitamin K1 und K2 kombiniert": [
+    "Vitamin K1 and K2 combined",
+    "Vitamina K1 y K2 combinadas"
+  ],
+  "Natürliches Vitamin C aus Acerola": [
+    "Natural vitamin C from acerola",
+    "Vitamina C natural de acerola"
+  ],
+  "Vitamin B12 mit Folsäure": [
+    "Vitamin B12 with folic acid",
+    "Vitamina B12 con ácido fólico"
+  ],
+  "Folsäure mit Vitamin B12": [
+    "Folic acid with vitamin B12",
+    "Ácido fólico con vitamina B12"
+  ],
+  "Eisen mit Vitamin C für bessere Aufnahme": [
+    "Iron with vitamin C for better absorption",
+    "Hierro con vitamina C para una mejor absorción"
+  ],
+  "Zink mit Histidin und Vitamin C": [
+    "Zinc with histidine and vitamin C",
+    "Zinc con histidina y vitamina C"
+  ],
+  "Selen für den Tagesbedarf": [
+    "Selenium for your daily needs",
+    "Selenio para tus necesidades diarias"
+  ],
+  "Gut verträgliches Magnesium-Malat": [
+    "Well-tolerated magnesium malate",
+    "Malato de magnesio bien tolerado"
+  ],
+  "Calcium mit Magnesium und Zink": [
+    "Calcium with magnesium and zinc",
+    "Calcio con magnesio y zinc"
+  ],
+  "Kupfer als Spurenelement": [
+    "Copper as a trace element",
+    "Cobre como oligoelemento"
   ]
 }

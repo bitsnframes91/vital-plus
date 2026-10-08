@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { NutritionProfileFields } from "@/components/NutritionProfileFields";
 import { nutrientStatus, nutritionTargets, type NutritionProfile } from "@/lib/nutrition-targets";
 import type { Meal } from "@/lib/data";
-import { nutritionGaps } from "@/lib/nutrition-products";
+import { micronutrientGaps, nutritionGaps } from "@/lib/nutrition-products";
 import { micronutrientSummary } from "@/lib/micronutrients";
 import ernaehrungVeg from "@/assets/ernaehrung-veg.jpg.asset.json";
 import voiceCardBg from "@/assets/voice-card-bg.png";
@@ -162,6 +162,7 @@ function NutritionPage() {
   const neutral: { color: string; mood: StatusMood; label: string } = { color: "text-muted-foreground", mood: "neutral", label: "Kein Richtwert gesetzt" };
   const format = (n: number) => n.toLocaleString(languageLocale(), { maximumFractionDigits: 1 });
   const gaps = nutritionGaps(totals, targets, s.meals.filter((m) => m.date === today).length);
+  const microGaps = micronutrientGaps(s.meals.filter((m) => m.date === today));
 
   return (
     <AppShell>
@@ -192,12 +193,21 @@ function NutritionPage() {
           })}
         </div>
         <p className="text-[11px] leading-relaxed text-muted-foreground"><Localized>{"Vitamine und Mineralien: geschätzte Mengen aus erfassten Mahlzeiten, verglichen mit EU-Referenzmengen für Erwachsene. Keine Laborwerte oder persönlichen Bedarfswerte."}</Localized></p>
-        {gaps.length > 0 && <section className="space-y-3" data-nutrition-gaps>
+        {(gaps.length > 0 || microGaps.length > 0) && <section className="space-y-3" data-nutrition-gaps>
           <h2 className="text-[17px] font-semibold"><Localized>{"Das fehlt dir noch für heute:"}</Localized></h2>
           {gaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
             <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
             <div className="min-w-0 flex-1">
               <div className="eyebrow"><Localized>{g.key === "protein" ? "Protein" : "Ballaststoffe"}</Localized><Localized>{" · noch ca. "}</Localized><Localized>{format(Math.max(g.missing, 0))}</Localized><Localized>{" g"}</Localized></div>
+              <div className="mt-1 text-[15px] font-semibold"><Localized>{g.product.name}</Localized></div>
+              <div className="text-xs text-muted-foreground"><Localized>{g.reason}</Localized></div>
+              <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
+            </div>
+          </a>)}
+          {microGaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
+            <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
+            <div className="min-w-0 flex-1">
+              <div className="eyebrow"><Localized>{g.name}</Localized><Localized>{" · noch ca. "}</Localized><Localized>{format(Math.max(g.missing, 0))}</Localized>{" "}{g.unit}</div>
               <div className="mt-1 text-[15px] font-semibold"><Localized>{g.product.name}</Localized></div>
               <div className="text-xs text-muted-foreground"><Localized>{g.reason}</Localized></div>
               <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>

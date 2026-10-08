@@ -20,7 +20,7 @@ import { Activity, ChevronRight, Clock, FlaskConical, Heart, Leaf, Plus, Salad, 
 import { dailyGoals, todayKey } from "@/lib/daily-goals";
 import type { RoutineTip } from "@/lib/deficiency-routines";
 import { nutritionTargets } from "@/lib/nutrition-targets";
-import { nutritionGaps } from "@/lib/nutrition-products";
+import { micronutrientGaps, nutritionGaps } from "@/lib/nutrition-products";
 import { suggestedProducts } from "@/lib/plan-products";
 import { goalProducts } from "@/lib/goal-plan";
 
@@ -75,6 +75,7 @@ function Today() {
   const mealTotals = { kcal: 0, protein: 0, fiber: 0, carbs: 0, fat: 0 };
   for (const m of todayMeals) { mealTotals.kcal += m.kcal || 0; mealTotals.protein += m.protein || 0; mealTotals.fiber += m.fiber || 0; mealTotals.carbs += m.carbs || 0; mealTotals.fat += m.fat || 0; }
   const gaps = nutritionGaps(mealTotals, nutritionTargets(s.body), todayMeals.length);
+  const microGaps = micronutrientGaps(todayMeals);
   const labIds = new Set(suggestedProducts(s.aiPlan, s.labs).map((e) => e.product.shopwareId));
   const goalSuggestions = goalProducts(s.onboarded ? s.goals : []).filter((e) => !labIds.has(e.product.shopwareId));
   const fmtNum = (n: number) => n.toLocaleString(languageLocale(), { maximumFractionDigits: 1 });
@@ -237,7 +238,7 @@ function Today() {
         <p className="px-1 text-[11px] text-muted-foreground"><Localized>{"Einnahme bitte ärztlich abklären, besonders bei Vorerkrankungen oder Medikamenten."}</Localized></p>
       </section>}
 
-      {gaps.length > 0 && <section className="mt-4 space-y-3 px-4" data-nutrition-gaps>
+      {(gaps.length > 0 || microGaps.length > 0) && <section className="mt-4 space-y-3 px-4" data-nutrition-gaps>
         <h2 className="px-1 text-[15px] font-semibold"><Localized>{"Das fehlt dir noch für heute:"}</Localized></h2>
         {gaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
           <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
@@ -248,6 +249,15 @@ function Today() {
             <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
           </div>
         </a>)}
+          {microGaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
+            <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
+            <div className="min-w-0 flex-1">
+              <div className="eyebrow"><Localized>{g.name}</Localized><Localized>{" · noch ca. "}</Localized><Localized>{fmtNum(Math.max(g.missing, 0))}</Localized>{" "}{g.unit}</div>
+              <div className="mt-1 text-[15px] font-semibold"><Localized>{g.product.name}</Localized></div>
+              <div className="text-xs text-muted-foreground"><Localized>{g.reason}</Localized></div>
+              <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
+            </div>
+          </a>)}
         <p className="px-1 text-[11px] text-muted-foreground"><Localized>{"Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten."}</Localized></p>
       </section>}
 

@@ -16,3 +16,12 @@ describe("nutritionGaps", () => {
     expect(nutritionGaps({ ...totals, protein: 120, fiber: 30 }, targets, 2)).toEqual([]);
   });
 });
+
+import { micronutrientGaps } from "@/lib/nutrition-products";
+describe("micronutrientGaps", () => {
+  it("suggests products only for measured values below 70 % of reference", () => {
+    const meals = [{ micronutrients: { vitamins: { d: 1, c: 80 }, minerals: { magnesium: 100 } } }];
+    expect(micronutrientGaps(meals).map((g) => g.key)).toEqual(["d", "magnesium"]);
+    expect(micronutrientGaps([])).toEqual([]);
+  });
+});

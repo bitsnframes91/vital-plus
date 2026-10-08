@@ -1,5 +1,6 @@
 import { products, type Product } from "./data";
 import { nutrientStatus, type NutrientKey } from "./nutrition-targets";
+import { micronutrients, micronutrientNames, micronutrientStatus, micronutrientTotals, type MicronutrientAmounts } from "./micronutrients";
 import { productUrl } from "./shopware";
 import imgPektin from "@/assets/apfelpektin.webp.asset.json";
 
@@ -36,4 +37,41 @@ export function nutritionGaps(
     out.push({ key, missing: Math.round(target - totals[key]), ...entry, href: productUrl(entry.product) });
   }
   return out;
+}
+
+const micro = (id: string, reason: string) => ({ product: products.find((p) => p.shopwareId === id)!, reason });
+/** Catalog products that directly supply a vitamin or mineral; nutrients without a fitting product get no suggestion. */
+const byMicronutrient: Record<string, { product: Product; reason: string }> = {
+  a: micro("84309", "Beta-Carotin als Vorstufe von Vitamin A"),
+  d: micro("73905", "Vitamin D3 mit K2 MK7"),
+  e: micro("87950", "Hochdosiertes Vitamin E"),
+  k: micro("101512", "Vitamin K1 und K2 kombiniert"),
+  c: micro("98106", "Natürliches Vitamin C aus Acerola"),
+  b12: micro("82609", "Vitamin B12 mit Folsäure"),
+  folate: micro("82609", "Folsäure mit Vitamin B12"),
+  iron: micro("79824", "Eisen mit Vitamin C für bessere Aufnahme"),
+  zinc: micro("52509", "Zink mit Histidin und Vitamin C"),
+  selenium: micro("80709", "Selen für den Tagesbedarf"),
+  magnesium: micro("77950", "Gut verträgliches Magnesium-Malat"),
+  calcium: micro("76925", "Calcium mit Magnesium und Zink"),
+  copper: micro("72110", "Kupfer als Spurenelement"),
+};
+
+export type MicronutrientGap = { key: string; name: string; missing: number; unit: string; product: Product; reason: string; href: string };
+
+/** Products for measured vitamins/minerals below 70 % of today's reference; one card per product, largest gaps first. */
+export function micronutrientGaps(meals: { micronutrients?: MicronutrientAmounts | undefined }[], limit = 4): MicronutrientGap[] {
+  const found: (MicronutrientGap & { pct: number })[] = [];
+  for (const group of ["vitamins", "minerals"] as const) {
+    const totals = micronutrientTotals(meals, group);
+    for (const { key, target, unit } of micronutrients[group]) {
+      const value = totals[key];
+      const entry = byMicronutrient[key];
+      if (value === undefined || !entry || micronutrientStatus(value, target) === "good") continue;
+      found.push({ key, name: micronutrientNames[key] ?? key, missing: target - value, unit, ...entry, href: productUrl(entry.product), pct: value / target });
+    }
+  }
+  found.sort((a, b) => a.pct - b.pct);
+  const seen = new Set<string>();
+  return found.filter((g) => !seen.has(g.product.shopwareId) && seen.add(g.product.shopwareId)).slice(0, limit).map(({ pct: _pct, ...g }) => g);
 }
