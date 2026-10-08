@@ -1,6 +1,1558 @@
 {
-  "Sprache": ["Language", "Idioma"],
-  "Übernehmen": ["Apply", "Aplicar"],
-  "App-Einstellungen": ["App settings", "Ajustes de la app"],
-  "Benachrichtigungen, Sprache, Design": ["Notifications, language, appearance", "Notificaciones, idioma, apariencia"]
+  "Sprache": [
+    "Language",
+    "Idioma"
+  ],
+  "Übernehmen": [
+    "Apply",
+    "Aplicar"
+  ],
+  "App-Einstellungen": [
+    "App settings",
+    "Ajustes de la app"
+  ],
+  "Benachrichtigungen, Sprache, Design": [
+    "Notifications, language, appearance",
+    "Notificaciones, idioma, apariencia"
+  ],
+  "Heute": [
+    "Today",
+    "Hoy"
+  ],
+  "Ernährung": [
+    "Nutrition",
+    "Nutrición"
+  ],
+  "Gesundheit": [
+    "Health",
+    "Salud"
+  ],
+  "Labor": [
+    "Lab",
+    "Laboratorio"
+  ],
+  "Plan": [
+    "Plan",
+    "Plan"
+  ],
+  "Profil": [
+    "Profile",
+    "Perfil"
+  ],
+  "Hauptnavigation": [
+    "Main navigation",
+    "Navegación principal"
+  ],
+  "Gesünder leben.": [
+    "Live healthier.",
+    "Vive más sano."
+  ],
+  "Glücklicher sein.": [
+    "Be happier.",
+    "Sé más feliz."
+  ],
+  "Tipp des Tages": [
+    "Tip of the day",
+    "Consejo del día"
+  ],
+  "Dein Fortschritt": [
+    "Your progress",
+    "Tu progreso"
+  ],
+  "Alle ansehen": [
+    "View all",
+    "Ver todo"
+  ],
+  "Schritte": [
+    "Steps",
+    "Pasos"
+  ],
+  "Tagesziele": [
+    "Daily goals",
+    "Objetivos diarios"
+  ],
+  "Schlaf": [
+    "Sleep",
+    "Sueño"
+  ],
+  "Schnellzugriff": [
+    "Quick access",
+    "Acceso rápido"
+  ],
+  "Bewegung": [
+    "Movement",
+    "Movimiento"
+  ],
+  "Mein Plan": [
+    "My plan",
+    "Mi plan"
+  ],
+  "Aus deinem Plan": [
+    "From your plan",
+    "De tu plan"
+  ],
+  "Alle Tagesziele erreicht": [
+    "All daily goals achieved",
+    "Todos los objetivos diarios alcanzados"
+  ],
+  "Tag abgeschlossen": [
+    "Day completed",
+    "Día completado"
+  ],
+  "Tag 1 in Folge": [
+    "Day 1 in a row",
+    "Día 1 seguido"
+  ],
+  "Tage in Folge": [
+    "days in a row",
+    "días seguidos"
+  ],
+  "morgen starten neue Ziele": [
+    "new goals start tomorrow",
+    "mañana empiezan nuevos objetivos"
+  ],
+  "erreicht": [
+    "achieved",
+    "alcanzado"
+  ],
+  "ausstehend": [
+    "pending",
+    "pendiente"
+  ],
+  "Passend zu deinen Zielen": [
+    "Matching your goals",
+    "Según tus objetivos"
+  ],
+  "Bei Fairvital ansehen →": [
+    "View at Fairvital →",
+    "Ver en Fairvital →"
+  ],
+  "Einnahme bitte ärztlich abklären, besonders bei Vorerkrankungen oder Medikamenten.": [
+    "Please discuss supplements with your doctor, especially if you have medical conditions or take medication.",
+    "Consulta la toma de suplementos con tu médico, especialmente si tienes enfermedades previas o tomas medicamentos."
+  ],
+  "Das fehlt dir noch für heute:": [
+    "What you’re still missing for today:",
+    "Lo que aún te falta para hoy:"
+  ],
+  "noch ca.": [
+    "still approx.",
+    "todavía aprox."
+  ],
+  "Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten.": [
+    "Supplement to a balanced diet, not a replacement for meals.",
+    "Complemento de una dieta equilibrada, no sustituye las comidas."
+  ],
+  "Als erledigt markieren": [
+    "Mark as done",
+    "Marcar como completado"
+  ],
+  "Erledigung zurücknehmen": [
+    "Undo completion",
+    "Deshacer finalización"
+  ],
+  "Zielbereich": [
+    "Target range",
+    "Rango objetivo"
+  ],
+  "Vom": [
+    "From",
+    "Del"
+  ],
+  "Dein persönlicher Plan": [
+    "Your personal plan",
+    "Tu plan personal"
+  ],
+  "Aus deinen Zielen und deinem Laborbefund – keine medizinische Beratung.": [
+    "Based on your goals and lab report – not medical advice.",
+    "Basado en tus objetivos e informe de laboratorio, no es asesoramiento médico."
+  ],
+  "Aus deinen Fragebogen-Zielen – keine medizinische Beratung.": [
+    "Based on your questionnaire goals – not medical advice.",
+    "Basado en los objetivos de tu cuestionario, no es asesoramiento médico."
+  ],
+  "Läuferin überspringt eine Hürde auf der Laufbahn": [
+    "Runner jumping over a hurdle on the track",
+    "Corredora saltando una valla en la pista"
+  ],
+  "Noch kein persönlicher Plan": [
+    "No personal plan yet",
+    "Aún no hay plan personal"
+  ],
+  "Fragebogen öffnen →": [
+    "Open questionnaire →",
+    "Abrir cuestionario →"
+  ],
+  "Befund vom": [
+    "Report from",
+    "Informe del"
+  ],
+  "deine Ziele": [
+    "your goals",
+    "tus objetivos"
+  ],
+  "heute": [
+    "today",
+    "hoy"
+  ],
+  "Heute erledigt": [
+    "Completed today",
+    "Completado hoy"
+  ],
+  "Aus deinem Laborbefund": [
+    "From your lab report",
+    "De tu informe de laboratorio"
+  ],
+  "Ziel:": [
+    "Goal:",
+    "Objetivo:"
+  ],
+  "In meinen Tageszielen anzeigen": [
+    "Show in my daily goals",
+    "Mostrar en mis objetivos diarios"
+  ],
+  "Automatisch erstellt – keine Diagnose. Bitte mit deiner Ärztin oder deinem Arzt besprechen.": [
+    "Automatically generated – not a diagnosis. Please discuss with your doctor.",
+    "Generado automáticamente, no es un diagnóstico. Consulta con tu médico."
+  ],
+  "Laborbefund hochladen und Plan ergänzen →": [
+    "Upload lab report and expand plan →",
+    "Subir informe de laboratorio y ampliar plan →"
+  ],
+  "Fairvital Ergänzungen zu dem, was dir im Fragebogen wichtig war.": [
+    "Fairvital supplements based on your questionnaire priorities.",
+    "Suplementos Fairvital según tus prioridades del cuestionario."
+  ],
+  "Im Fairvital Shop ansehen": [
+    "View in Fairvital shop",
+    "Ver en la tienda Fairvital"
+  ],
+  "Deine niedrigen Werte": [
+    "Your low values",
+    "Tus valores bajos"
+  ],
+  "Ergänzungen und Alltagstipps passend zu deinen gemessenen Werten.": [
+    "Supplements and daily tips tailored to your measured values.",
+    "Suplementos y consejos diarios adaptados a tus valores medidos."
+  ],
+  "Aktuell keine Werte unter dem Zielbereich.": [
+    "Currently no values below the target range.",
+    "Actualmente no hay valores por debajo del rango objetivo."
+  ],
+  "Zuletzt gemessen:": [
+    "Last measured:",
+    "Última medición:"
+  ],
+  "Fairvital Ergänzung": [
+    "Fairvital supplement",
+    "Suplemento Fairvital"
+  ],
+  "Keine passende Ergänzung zugeordnet.": [
+    "No suitable supplement assigned.",
+    "No se ha asignado un suplemento adecuado."
+  ],
+  "Tipps für deinen Alltag": [
+    "Tips for everyday life",
+    "Consejos para tu día a día"
+  ],
+  "Nachkontrolle in": [
+    "Follow-up in",
+    "Control en"
+  ],
+  "Wochen – Zeitpunkt mit deiner Praxis abstimmen.": [
+    "weeks – discuss timing with your doctor.",
+    "semanas; acuerda la fecha con tu médico."
+  ],
+  "Niedrig": [
+    "Low",
+    "Bajo"
+  ],
+  "Hoch": [
+    "High",
+    "Alto"
+  ],
+  "Sehr hoch": [
+    "Very high",
+    "Muy alto"
+  ],
+  "Sehr niedrig": [
+    "Very low",
+    "Muy bajo"
+  ],
+  "Optimal": [
+    "Optimal",
+    "Óptimo"
+  ],
+  "Woche im Rückblick": [
+    "Week in review",
+    "Resumen de la semana"
+  ],
+  "Ziele erledigt": [
+    "Goals completed",
+    "Objetivos completados"
+  ],
+  "Mahlzeiten erfasst": [
+    "Meals logged",
+    "Comidas registradas"
+  ],
+  "Gewichtstrend": [
+    "Weight trend",
+    "Tendencia del peso"
+  ],
+  "Kalorien": [
+    "Calories",
+    "Calorías"
+  ],
+  "Protein": [
+    "Protein",
+    "Proteína"
+  ],
+  "Ballaststoffe": [
+    "Fiber",
+    "Fibra"
+  ],
+  "Kohlenhydrate": [
+    "Carbohydrates",
+    "Carbohidratos"
+  ],
+  "Fett": [
+    "Fat",
+    "Grasa"
+  ],
+  "Im grünen Bereich": [
+    "Within the healthy range",
+    "En el rango óptimo"
+  ],
+  "Richtwert fast erreicht": [
+    "Target almost reached",
+    "Valor de referencia casi alcanzado"
+  ],
+  "Deutlich vom Richtwert entfernt": [
+    "Far from target",
+    "Lejos del valor de referencia"
+  ],
+  "Kein Richtwert gesetzt": [
+    "No target set",
+    "Sin valor de referencia"
+  ],
+  "Was hast du heute gegessen?": [
+    "What did you eat today?",
+    "¿Qué has comido hoy?"
+  ],
+  "Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett.": [
+    "Your food diary with calories, protein, fiber, carbohydrates and fat.",
+    "Tu diario de alimentación con calorías, proteínas, fibra, carbohidratos y grasa."
+  ],
+  "Heute / Tagesrichtwert · ca.": [
+    "Today / Daily target · approx.",
+    "Hoy / Referencia diaria · aprox."
+  ],
+  "Protein · noch ca.": [
+    "Protein · still approx.",
+    "Proteína · todavía aprox."
+  ],
+  "Ballaststoffe · noch ca.": [
+    "Fiber · still approx.",
+    "Fibra · todavía aprox."
+  ],
+  "Geschätzte Richtwerte zum Gewichtserhalt, keine medizinischen Grenzwerte. Mehr Protein oder Ballaststoffe ist nicht automatisch ungesund. Bei Schwangerschaft, Stillzeit oder Erkrankungen ärztlich abstimmen.": [
+    "Estimated weight-maintenance targets, not medical limits. More protein or fiber is not automatically unhealthy. Consult your doctor during pregnancy, breastfeeding or illness.",
+    "Referencias estimadas para mantener el peso, no son límites médicos. Más proteína o fibra no es automáticamente perjudicial. Consulta con tu médico durante el embarazo, la lactancia o si tienes enfermedades."
+  ],
+  "Deine Tagesrichtwerte": [
+    "Your daily targets",
+    "Tus referencias diarias"
+  ],
+  "Gewicht und Größe ergänzen": [
+    "Add weight and height",
+    "Añadir peso y altura"
+  ],
+  "Ohne diese Angabe ist keine persönliche Schätzung möglich.": [
+    "A personal estimate requires this information.",
+    "Esta información es necesaria para una estimación personal."
+  ],
+  "Angaben speichern": [
+    "Save details",
+    "Guardar datos"
+  ],
+  "Ich höre zu… tippen zum Beenden": [
+    "Listening… tap to finish",
+    "Te escucho… pulsa para terminar"
+  ],
+  "Wird verarbeitet…": [
+    "Processing…",
+    "Procesando…"
+  ],
+  "Erzähl mir, was du gegessen hast": [
+    "Tell me what you ate",
+    "Cuéntame qué has comido"
+  ],
+  "z. B. „Mittags hatte ich Nudeln mit Hähnchen und einen Apfel“": [
+    "e.g. “For lunch I had pasta with chicken and an apple”",
+    "p. ej. «Almorcé pasta con pollo y una manzana»"
+  ],
+  "Ernährungstagebuch": [
+    "Food diary",
+    "Diario de alimentación"
+  ],
+  "Noch keine Einträge. Sprich oder tippe deine erste Mahlzeit.": [
+    "No entries yet. Speak or type your first meal.",
+    "Aún no hay entradas. Habla o escribe tu primera comida."
+  ],
+  "ca.": [
+    "approx.",
+    "aprox."
+  ],
+  "g Protein ·": [
+    "g protein ·",
+    "g de proteína ·"
+  ],
+  "g KH ·": [
+    "g carbs ·",
+    "g de carbohidratos ·"
+  ],
+  "g Fett ·": [
+    "g fat ·",
+    "g de grasa ·"
+  ],
+  "g Ballaststoffe": [
+    "g fiber",
+    "g de fibra"
+  ],
+  "Entfernen": [
+    "Remove",
+    "Eliminar"
+  ],
+  "Mahlzeit hinzufügen": [
+    "Add meal",
+    "Añadir comida"
+  ],
+  "Frühstück": [
+    "Breakfast",
+    "Desayuno"
+  ],
+  "Mittagessen": [
+    "Lunch",
+    "Almuerzo"
+  ],
+  "Abendessen": [
+    "Dinner",
+    "Cena"
+  ],
+  "Snack": [
+    "Snack",
+    "Tentempié"
+  ],
+  "z. B. Lachs mit Ofengemüse": [
+    "e.g. salmon with roasted vegetables",
+    "p. ej. salmón con verduras al horno"
+  ],
+  "kcal (automatisch)": [
+    "kcal (automatic)",
+    "kcal (automático)"
+  ],
+  "Protein in g (automatisch)": [
+    "Protein in g (automatic)",
+    "Proteína en g (automático)"
+  ],
+  "Nährwerte werden berechnet…": [
+    "Calculating nutrition…",
+    "Calculando nutrientes…"
+  ],
+  "Geschätzt: ca.": [
+    "Estimated: approx.",
+    "Estimado: aprox."
+  ],
+  "Berechne…": [
+    "Calculating…",
+    "Calculando…"
+  ],
+  "Speichern": [
+    "Save",
+    "Guardar"
+  ],
+  "Bitte eine PDF-Datei oder ein Foto wählen.": [
+    "Please select a PDF file or photo.",
+    "Selecciona un archivo PDF o una foto."
+  ],
+  "Die Datei ist größer als 10 MB.": [
+    "The file is larger than 10 MB.",
+    "El archivo supera los 10 MB."
+  ],
+  "Aus deinem Laborbefund übernommen.": [
+    "Imported from your lab report.",
+    "Importado de tu informe de laboratorio."
+  ],
+  "Der Befund konnte nicht gelesen werden.": [
+    "The report could not be read.",
+    "No se pudo leer el informe."
+  ],
+  "Deine Laborwerte": [
+    "Your lab values",
+    "Tus valores de laboratorio"
+  ],
+  "Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen.": [
+    "Record values, track changes, remember follow-ups.",
+    "Registra valores, observa la evolución y recuerda los controles."
+  ],
+  "Befund wird gelesen…": [
+    "Reading report…",
+    "Leyendo informe…"
+  ],
+  "Laborbefund hochladen": [
+    "Upload lab report",
+    "Subir informe de laboratorio"
+  ],
+  "Die App liest deine Werte aus und erstellt deinen Plan.": [
+    "The app reads your values and creates your plan.",
+    "La aplicación lee tus valores y crea tu plan."
+  ],
+  "Befund fotografieren": [
+    "Photograph report",
+    "Fotografiar informe"
+  ],
+  "Kamera öffnen und deine Blutwerte abfotografieren.": [
+    "Open the camera and photograph your blood results.",
+    "Abre la cámara y fotografía tus resultados sanguíneos."
+  ],
+  "Fertig – Werte übernommen": [
+    "Done – values imported",
+    "Listo: valores importados"
+  ],
+  "Befund wird hochgeladen und gelesen…": [
+    "Uploading and reading report…",
+    "Subiendo y leyendo informe…"
+  ],
+  "Zum Plan →": [
+    "Go to plan →",
+    "Ir al plan →"
+  ],
+  "Noch keine Laborwerte": [
+    "No lab values yet",
+    "Aún no hay valores de laboratorio"
+  ],
+  "Noch keine Laborwerte. Lade einen Befund hoch oder trage unten einen Standardwert ein.": [
+    "No lab values yet. Upload a report or enter a standard value below.",
+    "Aún no hay valores de laboratorio. Sube un informe o introduce un valor estándar abajo."
+  ],
+  "Ziel": [
+    "Target",
+    "Objetivo"
+  ],
+  "Löschen": [
+    "Delete",
+    "Eliminar"
+  ],
+  "Nein": [
+    "No",
+    "No"
+  ],
+  "Ja": [
+    "Yes",
+    "Sí"
+  ],
+  "Werte für": [
+    "Values for",
+    "Valores de"
+  ],
+  "löschen": [
+    "delete",
+    "eliminar"
+  ],
+  "Nachkontrolle in {value} Wochen.": [
+    "Follow-up in {value} weeks.",
+    "Control en {value} semanas."
+  ],
+  "Alle Werte löschen? Danach kannst du direkt einen neuen Befund hochladen.": [
+    "Delete all values? You can then upload a new report immediately.",
+    "¿Eliminar todos los valores? Después podrás subir un nuevo informe directamente."
+  ],
+  "Behalten": [
+    "Keep",
+    "Mantener"
+  ],
+  "Alle löschen": [
+    "Delete all",
+    "Eliminar todos"
+  ],
+  "Alle Werte löschen": [
+    "Delete all values",
+    "Eliminar todos los valores"
+  ],
+  "Neuen Wert eintragen": [
+    "Enter new value",
+    "Introducir nuevo valor"
+  ],
+  "Wert": [
+    "Value",
+    "Valor"
+  ],
+  "Hinweis: Vivo stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.": [
+    "Note: Vivo does not diagnose conditions. Discuss abnormal values with your doctor. Lab integration is coming.",
+    "Nota: Vivo no realiza diagnósticos. Consulta los valores anómalos con tu médico. La conexión de laboratorio llegará próximamente."
+  ],
+  "Doppelt tippen zum Ändern": [
+    "Double tap to change",
+    "Pulsa dos veces para cambiar"
+  ],
+  "Distanz": [
+    "Distance",
+    "Distancia"
+  ],
+  "Gehtempo": [
+    "Walking pace",
+    "Ritmo al caminar"
+  ],
+  "Lauftempo": [
+    "Running pace",
+    "Ritmo al correr"
+  ],
+  "kcal/Tag": [
+    "kcal/day",
+    "kcal/día"
+  ],
+  "km/Tag": [
+    "km/day",
+    "km/día"
+  ],
+  "Trends": [
+    "Trends",
+    "Tendencias"
+  ],
+  "Details zu Trends": [
+    "Trend details",
+    "Detalles de tendencias"
+  ],
+  "noch keine Daten": [
+    "no data yet",
+    "aún no hay datos"
+  ],
+  "Deine Messwerte": [
+    "Your measurements",
+    "Tus mediciones"
+  ],
+  "Messwerte und Verläufe verständlich an einem Ort.": [
+    "Measurements and trends, clearly in one place.",
+    "Mediciones y evolución, de forma clara en un solo lugar."
+  ],
+  "Blutwerte öffnen": [
+    "Open blood values",
+    "Abrir valores sanguíneos"
+  ],
+  "Blutwerte": [
+    "Blood values",
+    "Valores sanguíneos"
+  ],
+  "Laborwerte manuell erfassen und zeitlich vergleichen.": [
+    "Record lab values manually and compare them over time.",
+    "Registra valores de laboratorio manualmente y compáralos en el tiempo."
+  ],
+  "Meine Blutwerte →": [
+    "My blood values →",
+    "Mis valores sanguíneos →"
+  ],
+  "Körperdaten": [
+    "Body data",
+    "Datos corporales"
+  ],
+  "Gewicht:": [
+    "Weight:",
+    "Peso:"
+  ],
+  "Gewicht noch nicht erfasst": [
+    "Weight not yet recorded",
+    "Peso aún no registrado"
+  ],
+  "Größe:": [
+    "Height:",
+    "Altura:"
+  ],
+  "Größe noch nicht erfasst": [
+    "Height not yet recorded",
+    "Altura aún no registrada"
+  ],
+  "BMI": [
+    "BMI",
+    "IMC"
+  ],
+  "Gewicht": [
+    "Weight",
+    "Peso"
+  ],
+  "Größe": [
+    "Height",
+    "Altura"
+  ],
+  "Schlaf letzte Nacht": [
+    "Sleep last night",
+    "Sueño de anoche"
+  ],
+  "Erfasst:": [
+    "Recorded:",
+    "Registrado:"
+  ],
+  "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten.": [
+    "No sleep data yet. You can log sleep manually or prepare a data source.",
+    "Aún no hay datos de sueño. Puedes registrarlos manualmente o preparar una fuente de datos."
+  ],
+  "Stunden, z. B. 7,5 (empfohlen: 8 h)": [
+    "Hours, e.g. 7.5 (recommended: 8 h)",
+    "Horas, p. ej. 7,5 (recomendado: 8 h)"
+  ],
+  "Alltag und Aktivität": [
+    "Daily life and activity",
+    "Vida diaria y actividad"
+  ],
+  "Schritte heute": [
+    "Steps today",
+    "Pasos hoy"
+  ],
+  "Heute:": [
+    "Today:",
+    "Hoy:"
+  ],
+  "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich.": [
+    "No steps today yet. You can enter them manually anytime.",
+    "Aún no hay pasos para hoy. Puedes introducirlos manualmente cuando quieras."
+  ],
+  "Dein Tagesziel:": [
+    "Your daily goal:",
+    "Tu objetivo diario:"
+  ],
+  "(aus deinem BMI)": [
+    "(from your BMI)",
+    "(según tu IMC)"
+  ],
+  "Bald verfügbar": [
+    "Coming soon",
+    "Próximamente"
+  ],
+  "Apple Health, Google Health Connect und Wearables als automatische Datenquellen.": [
+    "Apple Health, Google Health Connect and wearables as automatic data sources.",
+    "Apple Health, Google Health Connect y dispositivos portátiles como fuentes automáticas de datos."
+  ],
+  "Zurück zu Gesundheit": [
+    "Back to Health",
+    "Volver a Salud"
+  ],
+  "Deine Aktivität im Überblick. Für persönliche Trends fehlen noch aufgezeichnete Gesundheitsdaten.": [
+    "Your activity at a glance. Recorded health data is needed for personal trends.",
+    "Tu actividad de un vistazo. Se necesitan datos de salud registrados para las tendencias personales."
+  ],
+  "Noch keine Messdaten": [
+    "No measurement data yet",
+    "Aún no hay mediciones"
+  ],
+  "Deine Datenbasis": [
+    "Your data sources",
+    "Tus fuentes de datos"
+  ],
+  "Deine aktive Energie zeigt, wie viel Energie du durch Bewegung im Alltag und beim Sport verbrauchst.": [
+    "Your active energy shows energy used through daily movement and exercise.",
+    "Tu energía activa muestra la energía consumida por el movimiento diario y el ejercicio."
+  ],
+  "Deine täglich zurückgelegte Strecke beim Gehen und Laufen. Regelmäßige Spaziergänge bringen Bewegung in deinen Alltag.": [
+    "Your daily walking and running distance. Regular walks add movement to your day.",
+    "Tu distancia diaria caminando y corriendo. Los paseos regulares añaden movimiento a tu día."
+  ],
+  "Zeigt, wie viele Minuten du bei aufgezeichneten Gehtrainings für einen Kilometer brauchst.": [
+    "Minutes per kilometer in recorded walking workouts.",
+    "Minutos por kilómetro en entrenamientos de caminata registrados."
+  ],
+  "Zeigt, wie viele Minuten du bei aufgezeichneten Lauftrainings für einen Kilometer brauchst.": [
+    "Minutes per kilometer in recorded running workouts.",
+    "Minutos por kilómetro en entrenamientos de carrera registrados."
+  ],
+  "Apple Health und Google Health Connect sind noch nicht verbunden. Manuell eingegebene Schritte ersetzen keine gemessene Energie, Distanz oder Geschwindigkeit. Ohne Messdaten lässt sich noch kein Aufwärts- oder Abwärtstrend bestimmen.": [
+    "Apple Health and Google Health Connect are not connected yet. Manual steps do not replace measured energy, distance or speed. Trends require recorded measurements.",
+    "Apple Health y Google Health Connect aún no están conectados. Los pasos manuales no sustituyen las mediciones de energía, distancia o velocidad. Las tendencias requieren mediciones registradas."
+  ],
+  "Als Nächstes": [
+    "Up next",
+    "A continuación"
+  ],
+  "Alles erledigt": [
+    "All done",
+    "Todo completado"
+  ],
+  "Erledigt": [
+    "Done",
+    "Completado"
+  ],
+  "Nächster Bildschirm": [
+    "Next screen",
+    "Siguiente pantalla"
+  ],
+  "Tippe auf das Display, um zum nächsten Bildschirm zu wechseln.": [
+    "Tap the display to go to the next screen.",
+    "Pulsa la pantalla para pasar a la siguiente."
+  ],
+  "← Zur Handy-App": [
+    "← To mobile app",
+    "← A la aplicación móvil"
+  ],
+  "Deine Daten gehören dir.": [
+    "Your data belongs to you.",
+    "Tus datos son tuyos."
+  ],
+  "Persönlich": [
+    "Personal",
+    "Personal"
+  ],
+  "Gesundheitsprofil bearbeiten": [
+    "Edit health profile",
+    "Editar perfil de salud"
+  ],
+  "Name, Größe, Gewicht, Ziele und mehr": [
+    "Name, height, weight, goals and more",
+    "Nombre, altura, peso, objetivos y más"
+  ],
+  "Konto": [
+    "Account",
+    "Cuenta"
+  ],
+  "Konto & Sicherheit": [
+    "Account & security",
+    "Cuenta y seguridad"
+  ],
+  "E-Mail-Adresse, Passwort, Konto löschen": [
+    "Email address, password, delete account",
+    "Correo electrónico, contraseña, eliminar cuenta"
+  ],
+  "Einstellungen": [
+    "Settings",
+    "Ajustes"
+  ],
+  "Privatsphäre": [
+    "Privacy",
+    "Privacidad"
+  ],
+  "Meine Daten": [
+    "My data",
+    "Mis datos"
+  ],
+  "Deine Daten herunterladen": [
+    "Download your data",
+    "Descargar tus datos"
+  ],
+  "Hilfe": [
+    "Help",
+    "Ayuda"
+  ],
+  "Kundenservice kontaktieren": [
+    "Contact customer service",
+    "Contactar con atención al cliente"
+  ],
+  "Telefon oder E-Mail": [
+    "Phone or email",
+    "Teléfono o correo electrónico"
+  ],
+  "Rechtliches": [
+    "Legal",
+    "Información legal"
+  ],
+  "Allgemeine Geschäftsbedingungen, Impressum": [
+    "Terms and conditions, legal notice",
+    "Condiciones generales, aviso legal"
+  ],
+  "Vivo Konto": [
+    "Vivo account",
+    "Cuenta Vivo"
+  ],
+  "Angemeldet als {email}.": [
+    "Signed in as {email}.",
+    "Sesión iniciada como {email}."
+  ],
+  "Deine Daten werden automatisch gesichert.": [
+    "Your data is backed up automatically.",
+    "Tus datos se guardan automáticamente."
+  ],
+  "Konto verwalten →": [
+    "Manage account →",
+    "Gestionar cuenta →"
+  ],
+  "Lege ein Konto mit E-Mail und Passwort an, um deine Werte auf allen Geräten zu sichern.": [
+    "Create an account with email and password to save your values across devices.",
+    "Crea una cuenta con correo y contraseña para guardar tus valores en todos tus dispositivos."
+  ],
+  "Anmelden oder Konto anlegen →": [
+    "Sign in or create account →",
+    "Iniciar sesión o crear cuenta →"
+  ],
+  "Abmelden": [
+    "Sign out",
+    "Cerrar sesión"
+  ],
+  "Willst du dein Profil wirklich löschen?": [
+    "Do you really want to delete your profile?",
+    "¿Seguro que quieres eliminar tu perfil?"
+  ],
+  "Alle Werte, Mahlzeiten und dein Plan werden dauerhaft gelöscht. Wir senden dir dazu einen Bestätigungscode an {email}.": [
+    "All values, meals and your plan will be permanently deleted. We will send a confirmation code to {email}.",
+    "Todos los valores, comidas y tu plan se eliminarán permanentemente. Enviaremos un código de confirmación a {email}."
+  ],
+  "Code eingeben": [
+    "Enter code",
+    "Introducir código"
+  ],
+  "Wir haben einen Code an {email} gesendet.": [
+    "We sent a code to {email}.",
+    "Enviamos un código a {email}."
+  ],
+  "Bestätigungscode": [
+    "Confirmation code",
+    "Código de confirmación"
+  ],
+  "Wird gelöscht…": [
+    "Deleting…",
+    "Eliminando…"
+  ],
+  "Konto endgültig löschen": [
+    "Delete account permanently",
+    "Eliminar cuenta permanentemente"
+  ],
+  "Code erneut senden": [
+    "Resend code",
+    "Reenviar código"
+  ],
+  "Alter": [
+    "Age",
+    "Edad"
+  ],
+  "Alter in Jahren": [
+    "Age in years",
+    "Edad en años"
+  ],
+  "Größe in cm": [
+    "Height in cm",
+    "Altura en cm"
+  ],
+  "Gewicht in kg": [
+    "Weight in kg",
+    "Peso en kg"
+  ],
+  "Weiblich": [
+    "Female",
+    "Femenino"
+  ],
+  "Männlich": [
+    "Male",
+    "Masculino"
+  ],
+  "Diverse": [
+    "Diverse",
+    "Diverso"
+  ],
+  "Keine Angabe": [
+    "Not specified",
+    "No especificado"
+  ],
+  "Nicht angegeben": [
+    "Not specified",
+    "No especificado"
+  ],
+  "Zielgewicht": [
+    "Target weight",
+    "Peso objetivo"
+  ],
+  "Aktivitätslevel": [
+    "Activity level",
+    "Nivel de actividad"
+  ],
+  "Gesundheitsziele": [
+    "Health goals",
+    "Objetivos de salud"
+  ],
+  "Passwort ändern": [
+    "Change password",
+    "Cambiar contraseña"
+  ],
+  "Reset-Link per E-Mail": [
+    "Reset link by email",
+    "Enlace de restablecimiento por correo"
+  ],
+  "App Lock": [
+    "App Lock",
+    "Bloqueo de aplicación"
+  ],
+  "Gerätecode oder Biometrie": [
+    "Device code or biometrics",
+    "Código del dispositivo o biometría"
+  ],
+  "Verbundene Apps": [
+    "Connected apps",
+    "Aplicaciones conectadas"
+  ],
+  "Konto löschen": [
+    "Delete account",
+    "Eliminar cuenta"
+  ],
+  "Anrufen": [
+    "Call",
+    "Llamar"
+  ],
+  "E-Mail": [
+    "Email",
+    "Correo electrónico"
+  ],
+  "FAQ": [
+    "FAQ",
+    "Preguntas frecuentes"
+  ],
+  "Häufige Fragen und Antworten": [
+    "Frequently asked questions",
+    "Preguntas frecuentes y respuestas"
+  ],
+  "Feedback geben": [
+    "Give feedback",
+    "Enviar comentarios"
+  ],
+  "Hilf uns, die App zu verbessern": [
+    "Help us improve the app",
+    "Ayúdanos a mejorar la aplicación"
+  ],
+  "Allgemeine Geschäftsbedingungen (AGB)": [
+    "Terms and conditions",
+    "Condiciones generales"
+  ],
+  "Datenschutzerklärung": [
+    "Privacy policy",
+    "Política de privacidad"
+  ],
+  "Impressum": [
+    "Legal notice",
+    "Aviso legal"
+  ],
+  "Lizenzen": [
+    "Licenses",
+    "Licencias"
+  ],
+  "Open Source Lizenzen": [
+    "Open source licenses",
+    "Licencias de código abierto"
+  ],
+  "Dieser Profilbereich ist nicht verfügbar.": [
+    "This profile section is unavailable.",
+    "Esta sección del perfil no está disponible."
+  ],
+  "Zielgewicht entfernen": [
+    "Remove target weight",
+    "Eliminar peso objetivo"
+  ],
+  "Anonyme Nutzungsstatistik": [
+    "Anonymous usage statistics",
+    "Estadísticas de uso anónimo"
+  ],
+  "Deine Werte, Mahlzeiten und Ziele sind deinem Konto zugeordnet.": [
+    "Your values, meals and goals are linked to your account.",
+    "Tus valores, comidas y objetivos están vinculados a tu cuenta."
+  ],
+  "Wie ändere ich Werte und Ziele?": [
+    "How do I change values and goals?",
+    "¿Cómo cambio mis valores y objetivos?"
+  ],
+  "Unter Profil → Gesundheitsprofil bearbeiten öffnest du die passende Frage im Fragebogen.": [
+    "Under Profile → Edit health profile, open the relevant questionnaire question.",
+    "En Perfil → Editar perfil de salud, abre la pregunta correspondiente del cuestionario."
+  ],
+  "Wie lade ich einen neuen Befund hoch?": [
+    "How do I upload a new report?",
+    "¿Cómo subo un nuevo informe?"
+  ],
+  "Unter Labor kannst du alte Werte löschen und einen PDF-Befund oder ein Foto hochladen.": [
+    "Under Lab, delete old values and upload a PDF report or photo.",
+    "En Laboratorio, puedes eliminar valores antiguos y subir un informe PDF o una foto."
+  ],
+  "Ich habe mein Passwort vergessen.": [
+    "I forgot my password.",
+    "He olvidado mi contraseña."
+  ],
+  "Auf der Anmeldeseite kannst du über „Passwort vergessen?“ einen neuen Link anfordern.": [
+    "On the sign-in page, request a new link via “Forgot password?”.",
+    "En la página de inicio de sesión, solicita un enlace con «¿Olvidaste tu contraseña?»."
+  ],
+  "Deine Meinung hilft uns, die App zu verbessern.": [
+    "Your opinion helps us improve the app.",
+    "Tu opinión nos ayuda a mejorar la aplicación."
+  ],
+  "Wie zufrieden bist du mit der App?": [
+    "How satisfied are you with the app?",
+    "¿Qué tan satisfecho estás con la aplicación?"
+  ],
+  "Zufriedenheit von 1 bis 5": [
+    "Satisfaction from 1 to 5",
+    "Satisfacción de 1 a 5"
+  ],
+  "{n} von 5 Sternen": [
+    "{n} out of 5 stars",
+    "{n} de 5 estrellas"
+  ],
+  "Sehr unzufrieden": [
+    "Very dissatisfied",
+    "Muy insatisfecho"
+  ],
+  "Sehr zufrieden": [
+    "Very satisfied",
+    "Muy satisfecho"
+  ],
+  "Was können wir verbessern?": [
+    "What can we improve?",
+    "¿Qué podemos mejorar?"
+  ],
+  "Du kannst mehrere Optionen auswählen.": [
+    "You can select several options.",
+    "Puedes seleccionar varias opciones."
+  ],
+  "Dein Feedback": [
+    "Your feedback",
+    "Tus comentarios"
+  ],
+  "Schreib uns, was du denkst …": [
+    "Tell us what you think…",
+    "Cuéntanos qué piensas…"
+  ],
+  "Feedback senden": [
+    "Send feedback",
+    "Enviar comentarios"
+  ],
+  "Danke für dein Feedback!": [
+    "Thank you for your feedback!",
+    "¡Gracias por tus comentarios!"
+  ],
+  "Wir lesen jedes Feedback sorgfältig.": [
+    "We read all feedback carefully.",
+    "Leemos todos los comentarios con atención."
+  ],
+  "Schließen": [
+    "Close",
+    "Cerrar"
+  ],
+  "Dein Vivo-Konto – deine Werte auf allen Geräten.": [
+    "Your Vivo account – your values on all devices.",
+    "Tu cuenta Vivo: tus valores en todos tus dispositivos."
+  ],
+  "Neu hier": [
+    "New here",
+    "Soy nuevo"
+  ],
+  "Anmelden": [
+    "Sign in",
+    "Iniciar sesión"
+  ],
+  "Konto anlegen": [
+    "Create account",
+    "Crear cuenta"
+  ],
+  "Passwort": [
+    "Password",
+    "Contraseña"
+  ],
+  "Bitte warten…": [
+    "Please wait…",
+    "Espera un momento…"
+  ],
+  "Passwort vergessen?": [
+    "Forgot password?",
+    "¿Olvidaste tu contraseña?"
+  ],
+  "Bitte gib zuerst deine E-Mail-Adresse ein.": [
+    "Please enter your email address first.",
+    "Introduce primero tu dirección de correo electrónico."
+  ],
+  "Senden nicht möglich – bitte in einer Minute erneut versuchen.": [
+    "Unable to send – try again in one minute.",
+    "No se pudo enviar; vuelve a intentarlo en un minuto."
+  ],
+  "Wir haben dir einen Link zum Zurücksetzen deines Passworts geschickt.": [
+    "We sent you a password reset link.",
+    "Te enviamos un enlace para restablecer tu contraseña."
+  ],
+  "Lege ein neues Passwort für dein Vivo-Konto fest.": [
+    "Set a new password for your Vivo account.",
+    "Establece una nueva contraseña para tu cuenta Vivo."
+  ],
+  "Neues Passwort": [
+    "New password",
+    "Nueva contraseña"
+  ],
+  "Passwort wiederholen": [
+    "Repeat password",
+    "Repetir contraseña"
+  ],
+  "Die Passwörter stimmen nicht überein.": [
+    "The passwords do not match.",
+    "Las contraseñas no coinciden."
+  ],
+  "Passwort konnte nicht gespeichert werden (mind. 8 Zeichen).": [
+    "Unable to save password (at least 8 characters).",
+    "No se pudo guardar la contraseña (mínimo 8 caracteres)."
+  ],
+  "Passwort gespeichert – du wirst weitergeleitet…": [
+    "Password saved – redirecting…",
+    "Contraseña guardada; redirigiendo…"
+  ],
+  "Konto bestätigt": [
+    "Account confirmed",
+    "Cuenta confirmada"
+  ],
+  "Link ungültig": [
+    "Invalid link",
+    "Enlace no válido"
+  ],
+  "Wird bestätigt …": [
+    "Confirming…",
+    "Confirmando…"
+  ],
+  "Danke! Deine E-Mail-Adresse ist bestätigt und dein Profil ist jetzt aktiv.": [
+    "Thank you! Your email is confirmed and your profile is active.",
+    "¡Gracias! Tu correo está confirmado y tu perfil ya está activo."
+  ],
+  "Der Link ist abgelaufen oder ungültig. Melde dich an und fordere über den Hinweis oben einen neuen Link an.": [
+    "The link has expired or is invalid. Sign in and request a new link using the notice above.",
+    "El enlace ha caducado o no es válido. Inicia sesión y solicita uno nuevo mediante el aviso superior."
+  ],
+  "Weiter zu Heute →": [
+    "Continue to Today →",
+    "Continuar a Hoy →"
+  ],
+  "Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern.": [
+    "Your personal companion for nutrition, nutrients and healthy ageing.",
+    "Tu compañero personal para nutrición, nutrientes y envejecimiento saludable."
+  ],
+  "Wie dürfen wir dich nennen?": [
+    "What should we call you?",
+    "¿Cómo te llamas?"
+  ],
+  "Was ist dir wichtig?": [
+    "What matters to you?",
+    "¿Qué es importante para ti?"
+  ],
+  "Wie ernährst du dich?": [
+    "What is your diet?",
+    "¿Cómo es tu alimentación?"
+  ],
+  "Gewicht und Größe": [
+    "Weight and height",
+    "Peso y altura"
+  ],
+  "Dein BMI": [
+    "Your BMI",
+    "Tu IMC"
+  ],
+  "Gib Gewicht und Größe ein, um deinen BMI zu sehen.": [
+    "Enter weight and height to see your BMI.",
+    "Introduce peso y altura para ver tu IMC."
+  ],
+  "Dein Alltag und Energiebedarf": [
+    "Your daily life and energy needs",
+    "Tu vida diaria y necesidades energéticas"
+  ],
+  "Deine Daten, deine Entscheidung.": [
+    "Your data, your decision.",
+    "Tus datos, tu decisión."
+  ],
+  "Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. Vivo ersetzt keine ärztliche Beratung.": [
+    "I consent to processing my health data for display in the app. Vivo does not replace medical advice.",
+    "Consiento el tratamiento de mis datos de salud para mostrarlos en la aplicación. Vivo no sustituye el consejo médico."
+  ],
+  "Los geht's": [
+    "Let's go",
+    "Empezar"
+  ],
+  "Weiter": [
+    "Next",
+    "Siguiente"
+  ],
+  "Zurück": [
+    "Back",
+    "Atrás"
+  ],
+  "Abbrechen": [
+    "Cancel",
+    "Cancelar"
+  ],
+  "MESSEN → VERSTEHEN → HANDELN → ÜBERPRÜFEN": [
+    "MEASURE → UNDERSTAND → ACT → REVIEW",
+    "MEDIR → ENTENDER → ACTUAR → REVISAR"
+  ],
+  "Einloggen": [
+    "Log in",
+    "Iniciar sesión"
+  ],
+  "Kostenlos Registrieren": [
+    "Register for free",
+    "Registrarse gratis"
+  ],
+  "Longevity": [
+    "Longevity",
+    "Longevidad"
+  ],
+  "Mehr Energie": [
+    "More energy",
+    "Más energía"
+  ],
+  "Besser schlafen": [
+    "Sleep better",
+    "Dormir mejor"
+  ],
+  "Immunsystem": [
+    "Immune system",
+    "Sistema inmunitario"
+  ],
+  "Herz & Kreislauf": [
+    "Heart & circulation",
+    "Corazón y circulación"
+  ],
+  "Gewicht halten": [
+    "Maintain weight",
+    "Mantener el peso"
+  ],
+  "Sport & Regeneration": [
+    "Sport & recovery",
+    "Deporte y recuperación"
+  ],
+  "Stimmung aufhellen": [
+    "Improve mood",
+    "Mejorar el ánimo"
+  ],
+  "Hormon Balance": [
+    "Hormone balance",
+    "Equilibrio hormonal"
+  ],
+  "Menopause-Heldin": [
+    "Menopause heroine",
+    "Heroína de la menopausia"
+  ],
+  "Kinderwunsch": [
+    "Planning pregnancy",
+    "Deseo de tener hijos"
+  ],
+  "Male Health": [
+    "Male health",
+    "Salud masculina"
+  ],
+  "Konzentration": [
+    "Concentration",
+    "Concentración"
+  ],
+  "Fastenzeit": [
+    "Fasting period",
+    "Periodo de ayuno"
+  ],
+  "Wenig aktiv · überwiegend sitzend": [
+    "Low activity · mostly sedentary",
+    "Poco activo · mayormente sedentario"
+  ],
+  "Leicht aktiv · Sport 1–3 Tage/Woche": [
+    "Lightly active · exercise 1–3 days/week",
+    "Ligeramente activo · deporte 1–3 días/semana"
+  ],
+  "Aktiv · Sport 3–5 Tage/Woche": [
+    "Active · exercise 3–5 days/week",
+    "Activo · deporte 3–5 días/semana"
+  ],
+  "Sehr aktiv · Sport 6–7 Tage/Woche": [
+    "Very active · exercise 6–7 days/week",
+    "Muy activo · deporte 6–7 días/semana"
+  ],
+  "Alter (Jahre)": [
+    "Age (years)",
+    "Edad (años)"
+  ],
+  "Geschlecht": [
+    "Gender",
+    "Género"
+  ],
+  "Bitte wählen": [
+    "Please select",
+    "Selecciona una opción"
+  ],
+  "Aktivität": [
+    "Activity",
+    "Actividad"
+  ],
+  "Vivo ist gesperrt": [
+    "Vivo is locked",
+    "Vivo está bloqueado"
+  ],
+  "Entsperre Vivo mit deiner Gerätebestätigung.": [
+    "Unlock Vivo with your device verification.",
+    "Desbloquea Vivo con la verificación de tu dispositivo."
+  ],
+  "App entsperren": [
+    "Unlock app",
+    "Desbloquear aplicación"
+  ],
+  "Abmelden und App Lock zurücksetzen": [
+    "Sign out and reset App Lock",
+    "Cerrar sesión y restablecer el bloqueo"
+  ],
+  "Face ID, Passcode, PIN, Muster": [
+    "Face ID, passcode, PIN, pattern",
+    "Face ID, código de acceso, PIN, patrón"
+  ],
+  "Bitte anmelden.": [
+    "Please sign in.",
+    "Inicia sesión."
+  ],
+  "Auf diesem Gerät nicht verfügbar.": [
+    "Not available on this device.",
+    "No disponible en este dispositivo."
+  ],
+  "App Lock konnte nicht geladen werden. Melde dich erneut an.": [
+    "App Lock could not be loaded. Sign in again.",
+    "No se pudo cargar el bloqueo. Inicia sesión de nuevo."
+  ],
+  "Gerätebestätigung fehlgeschlagen oder abgebrochen. Bitte versuche es erneut.": [
+    "Device verification failed or was cancelled. Try again.",
+    "La verificación del dispositivo falló o se canceló. Inténtalo de nuevo."
+  ],
+  "Zeit für deinen täglichen Check-in.": [
+    "Time for your daily check-in.",
+    "Es hora de tu registro diario."
+  ],
+  "Dein täglicher Check-in": [
+    "Your daily check-in",
+    "Tu registro diario"
+  ],
+  "Zeit für deine Mahlzeiten und Tagesziele.": [
+    "Time for your meals and daily goals.",
+    "Es hora de tus comidas y objetivos diarios."
+  ],
+  "Alles klar": [
+    "Got it",
+    "Entendido"
+  ],
+  "Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte Vivo zum Home-Bildschirm hinzufügen.": [
+    "Notifications are not supported here. On iPhone, add Vivo to your home screen.",
+    "Las notificaciones no son compatibles aquí. En iPhone, añade Vivo a tu pantalla de inicio."
+  ],
+  "Bitte erlaube Benachrichtigungen für Vivo in deinen Geräte- oder Browser-Einstellungen.": [
+    "Allow Vivo notifications in your device or browser settings.",
+    "Permite las notificaciones de Vivo en los ajustes del dispositivo o navegador."
+  ],
+  "Benachrichtigungen konnten nicht aktiviert werden.": [
+    "Notifications could not be enabled.",
+    "No se pudieron activar las notificaciones."
+  ],
+  "Deine Benachrichtigungen sind aktiviert.": [
+    "Your notifications are enabled.",
+    "Tus notificaciones están activadas."
+  ],
+  "Benachrichtigung nicht möglich. Prüfe die Erlaubnis auf deinem Gerät.": [
+    "Unable to notify. Check your device permissions.",
+    "No se pudo notificar. Comprueba los permisos de tu dispositivo."
+  ],
+  "Benachrichtigungen": [
+    "Notifications",
+    "Notificaciones"
+  ],
+  "An": [
+    "On",
+    "Activado"
+  ],
+  "Aus": [
+    "Off",
+    "Desactivado"
+  ],
+  "Testbenachrichtigung": [
+    "Test notification",
+    "Notificación de prueba"
+  ],
+  "Testbenachrichtigung gesendet.": [
+    "Test notification sent.",
+    "Notificación de prueba enviada."
+  ],
+  "Design": [
+    "Appearance",
+    "Diseño"
+  ],
+  "Hell": [
+    "Light",
+    "Claro"
+  ],
+  "Dunkel": [
+    "Dark",
+    "Oscuro"
+  ],
+  "Erinnerungen": [
+    "Reminders",
+    "Recordatorios"
+  ],
+  "Täglich um": [
+    "Daily at",
+    "Cada día a las"
+  ],
+  "Erinnerungen erscheinen, solange Vivo geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App.": [
+    "Reminders appear while Vivo is open or the next time you open it. No delivery while the app is closed.",
+    "Los recordatorios aparecen mientras Vivo está abierto o al volver a abrirlo. No se entregan con la app cerrada."
+  ],
+  "Neuer Link wurde gesendet.": [
+    "A new link was sent.",
+    "Se envió un nuevo enlace."
+  ],
+  "Konto noch nicht bestätigt": [
+    "Account not confirmed yet",
+    "Cuenta aún no confirmada"
+  ],
+  "Link erneut senden": [
+    "Resend link",
+    "Reenviar enlace"
+  ],
+  "Stundenverlauf erscheint, sobald Apple Health oder Google Health Connect verbunden ist.": [
+    "Hourly trends appear once Apple Health or Google Health Connect is connected.",
+    "La evolución por horas aparecerá al conectar Apple Health o Google Health Connect."
+  ],
+  "Schritte-Ziel": [
+    "Step goal",
+    "Objetivo de pasos"
+  ],
+  "Schritte-Ring": [
+    "Step ring",
+    "Anillo de pasos"
+  ],
+  "Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt Vivo deine selbst eingetragenen Schritte.": [
+    "Apple Health and Google Health Connect are not connected yet. Until then, Vivo shows your manually entered steps.",
+    "Apple Health y Google Health Connect aún no están conectados. Hasta entonces, Vivo muestra tus pasos introducidos manualmente."
+  ],
+  "Schritte in Gesundheit eintragen →": [
+    "Enter steps in Health →",
+    "Introducir pasos en Salud →"
+  ],
+  "Wenn ein Konto mit dieser E-Mail-Adresse existiert, erhältst du einen Link zum Zurücksetzen deines Passworts. Bitte prüfe auch deinen Spam-Ordner.": [
+    "If an account exists with this email, you will receive a password reset link. Check your spam folder too.",
+    "Si existe una cuenta con este correo, recibirás un enlace para restablecer tu contraseña. Revisa también la carpeta de spam."
+  ],
+  "Senden nicht möglich – bitte prüfe deine Verbindung und versuche es erneut.": [
+    "Unable to send – check your connection and try again.",
+    "No se pudo enviar; comprueba tu conexión e inténtalo de nuevo."
+  ],
+  "Gib deine E-Mail-Adresse ein, um einen Link zum Zurücksetzen deines Passworts zu erhalten.": [
+    "Enter your email to receive a password reset link.",
+    "Introduce tu correo para recibir un enlace de restablecimiento de contraseña."
+  ],
+  "E-Mail-Adresse": [
+    "Email address",
+    "Dirección de correo electrónico"
+  ],
+  "Reset-Link senden": [
+    "Send reset link",
+    "Enviar enlace de restablecimiento"
+  ],
+  "Dein Wert:": [
+    "Your value:",
+    "Tu valor:"
+  ],
+  "im Zielbereich": [
+    "within target range",
+    "dentro del rango objetivo"
+  ],
+  "unter dem Zielbereich": [
+    "below target range",
+    "por debajo del rango objetivo"
+  ],
+  "über dem Zielbereich": [
+    "above target range",
+    "por encima del rango objetivo"
+  ]
 }
