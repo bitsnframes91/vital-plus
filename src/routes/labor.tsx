@@ -1,3 +1,5 @@
+import { Localized, useLanguage } from "@/components/Localized";
+import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
@@ -30,6 +32,7 @@ export const Route = createFileRoute("/labor")({
 const toneMood: Record<"ok" | "warn" | "severe", StatusMood> = { ok: "good", warn: "neutral", severe: "bad" };
 
 function Labs() {
+  useLanguage();
   const { s, set } = useStore();
   // New accounts start without lab values; offer the standard markers for manual entry.
   const options: LabMarker[] = [...s.labs, ...catalog.filter((c) => !s.labs.some((l) => l.id === c.id)).map((c) => ({ ...c, history: [] }))];
@@ -123,13 +126,13 @@ function Labs() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow="Labor" title="Deine Laborwerte" sub="Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen." image={laborLab.url} imageAlt="Forschende im weißen Kittel arbeiten im Labor an einem Mikroskop" imageOverlay="labor-image-overlay" />
+      <PageHeader eyebrow={translateText("Labor")} title={translateText("Deine Laborwerte")} sub={translateText("Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen.")} image={laborLab.url} imageAlt={translateText("Forschende im weißen Kittel arbeiten im Labor an einem Mikroskop")} imageOverlay="labor-image-overlay" />
       <div className="space-y-3 px-4 pt-4">
         <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
           <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv/10 text-fv-deep"><Upload size={20} strokeWidth={2.2} aria-hidden="true" /></span>
           <div className="min-w-0 flex-1">
-            <div className="text-[15px] font-medium">{busy ? "Befund wird gelesen…" : "Laborbefund hochladen"}</div>
-            <div className="text-[12px] text-ink/45">Die App liest deine Werte aus und erstellt deinen Plan.</div>
+            <div className="text-[15px] font-medium"><Localized>{busy ? "Befund wird gelesen…" : "Laborbefund hochladen"}</Localized></div>
+            <div className="text-[12px] text-ink/45"><Localized>{"Die App liest deine Werte aus und erstellt deinen Plan."}</Localized></div>
           </div>
           <input type="file" accept="application/pdf,image/*" className="sr-only" disabled={busy}
             onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
@@ -137,8 +140,8 @@ function Labs() {
         <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
           <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv/10 text-fv-deep"><Camera size={20} strokeWidth={2.2} aria-hidden="true" /></span>
           <div className="min-w-0 flex-1">
-            <div className="text-[15px] font-medium">Befund fotografieren</div>
-            <div className="text-[12px] text-ink/45">Kamera öffnen und deine Blutwerte abfotografieren.</div>
+            <div className="text-[15px] font-medium"><Localized>{"Befund fotografieren"}</Localized></div>
+            <div className="text-[12px] text-ink/45"><Localized>{"Kamera öffnen und deine Blutwerte abfotografieren."}</Localized></div>
           </div>
           <input type="file" accept="image/*" capture="environment" className="sr-only" disabled={busy}
             onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
@@ -146,19 +149,19 @@ function Labs() {
         {(busy || progress === 100) && (
           <div className="card-surface space-y-2 p-4">
             <div className="flex items-center justify-between text-[12px]">
-              <span className="text-ink/55">{progress === 100 ? "Fertig – Werte übernommen" : "Befund wird hochgeladen und gelesen…"}</span>
-              <span className="font-data text-fv-deep">{Math.round(progress)}%</span>
+              <span className="text-ink/55"><Localized>{progress === 100 ? "Fertig – Werte übernommen" : "Befund wird hochgeladen und gelesen…"}</Localized></span>
+              <span className="font-data text-fv-deep"><Localized>{Math.round(progress)}</Localized><Localized>{"%"}</Localized></span>
             </div>
             <Progress value={progress} className="h-2 bg-fv/10 [&_[data-slot=progress-indicator]]:bg-fresh" />
           </div>
         )}
         {msg && (
           <div className={`rounded-xl px-4 py-3 text-[13px] ${msg.ok ? "bg-fv/10 text-fv-deep" : "bg-warn/15"}`}>
-            {msg.text} {msg.ok && <Link to="/plan" className="font-medium underline">Zum Plan →</Link>}
+            <Localized>{msg.text}</Localized> {msg.ok && <Link to="/plan" className="font-medium underline"><Localized>{"Zum Plan →"}</Localized></Link>}
           </div>
         )}
         {s.labs.length === 0 && (
-          <p className="card-surface p-5 text-[14px] text-ink/55">Noch keine Laborwerte. Lade einen Befund hoch oder trage unten einen Standardwert ein.</p>
+          <p className="card-surface p-5 text-[14px] text-ink/55"><Localized>{"Noch keine Laborwerte. Lade einen Befund hoch oder trage unten einen Standardwert ein."}</Localized></p>
         )}
         {s.labs.map((m) => {
           const last = m.history[m.history.length - 1]!;
@@ -167,32 +170,32 @@ function Labs() {
             <div key={m.id} className="card-surface p-5">
               <div className="flex items-start justify-between">
                 <div>
-                  <div className="eyebrow">{m.name}</div>
+                  <div className="eyebrow"><Localized>{m.name}</Localized></div>
                   <div className="mt-1 flex items-baseline gap-1.5">
-                    <span className="font-data text-[28px] font-medium">{last.value}</span>
-                    <span className="font-data text-[13px] text-ink/45">{m.unit}</span>
+                    <span className="font-data text-[28px] font-medium"><Localized>{last.value}</Localized></span>
+                    <span className="font-data text-[13px] text-ink/45"><Localized>{m.unit}</Localized></span>
                   </div>
-                  <div className="text-[12px] text-ink/45">Ziel {m.target[0]}–{m.target[1]} · {fmtDate(last.date)}</div>
+                  <div className="text-[12px] text-ink/45"><Localized>{"Ziel "}</Localized><Localized>{m.target[0]}</Localized><Localized>{"–"}</Localized><Localized>{m.target[1]}</Localized><Localized>{" · "}</Localized><Localized>{fmtDate(last.date)}</Localized></div>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <span className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 font-data text-[12px] uppercase tracking-normal ${st.tone === "ok" ? "bg-fv/10 text-fv-deep" : st.tone === "warn" ? "bg-warn/20 text-ink" : "bg-bmi-bad/10 text-bmi-bad"}`}>
                     <StatusFace mood={toneMood[st.tone]} className="size-4" />
-                    {st.label}
+                    <Localized>{st.label}</Localized>
                   </span>
                   {confirmDelete === m.id ? (
                     <div className="flex items-center gap-1">
-                      <button onClick={() => removeOne(m.id)} className="rounded-full bg-bmi-bad/10 px-2.5 py-1 text-[12px] font-medium text-bmi-bad">Löschen</button>
-                      <button onClick={() => setConfirmDelete(null)} className="rounded-full border border-border px-2.5 py-1 text-[12px] text-ink/55">Nein</button>
+                      <button onClick={() => removeOne(m.id)} className="rounded-full bg-bmi-bad/10 px-2.5 py-1 text-[12px] font-medium text-bmi-bad"><Localized>{"Löschen"}</Localized></button>
+                      <button onClick={() => setConfirmDelete(null)} className="rounded-full border border-border px-2.5 py-1 text-[12px] text-ink/55"><Localized>{"Nein"}</Localized></button>
                     </div>
                   ) : (
-                    <button onClick={() => setConfirmDelete(m.id)} aria-label={`Werte für ${m.name} löschen`} className="grid size-8 place-items-center rounded-full text-ink/35 hover:bg-muted hover:text-bmi-bad">
+                    <button onClick={() => setConfirmDelete(m.id)} aria-label={translateText(`Werte für ${m.name} löschen`)} className="grid size-8 place-items-center rounded-full text-ink/35 hover:bg-muted hover:text-bmi-bad">
                       <Trash2 size={16} strokeWidth={2} aria-hidden="true" />
                     </button>
                   )}
                 </div>
               </div>
               <div className="mt-4"><RangeBar marker={m} /></div>
-              <p className="mt-3 border-t pt-3 text-[13px] text-ink/55">{m.note} Nachkontrolle in {m.retestWeeks} Wochen.</p>
+              <p className="mt-3 border-t pt-3 text-[13px] text-ink/55"><Localized>{m.note}</Localized><Localized>{" Nachkontrolle in "}</Localized><Localized>{m.retestWeeks}</Localized><Localized>{" Wochen."}</Localized></p>
             </div>
           );
         })}
@@ -200,29 +203,28 @@ function Labs() {
         {s.labs.length > 0 && (
           confirmAll ? (
             <div className="card-surface flex items-center justify-between gap-3 p-4">
-              <span className="text-[13px] text-ink/70">Alle Werte löschen? Danach kannst du direkt einen neuen Befund hochladen.</span>
+              <span className="text-[13px] text-ink/70"><Localized>{"Alle Werte löschen? Danach kannst du direkt einen neuen Befund hochladen."}</Localized></span>
               <div className="flex shrink-0 gap-2">
-                <button onClick={() => setConfirmAll(false)} className="rounded-full border border-border px-3 py-1.5 text-[12px] font-medium">Behalten</button>
-                <button onClick={removeAll} className="rounded-full bg-bmi-bad/10 px-3 py-1.5 text-[12px] font-medium text-bmi-bad">Alle löschen</button>
+                <button onClick={() => setConfirmAll(false)} className="rounded-full border border-border px-3 py-1.5 text-[12px] font-medium"><Localized>{"Behalten"}</Localized></button>
+                <button onClick={removeAll} className="rounded-full bg-bmi-bad/10 px-3 py-1.5 text-[12px] font-medium text-bmi-bad"><Localized>{"Alle löschen"}</Localized></button>
               </div>
             </div>
           ) : (
             <button onClick={() => setConfirmAll(true)} className="mx-auto flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] text-ink/45 underline underline-offset-2 hover:text-bmi-bad">
-              <Trash2 size={14} strokeWidth={2} aria-hidden="true" />Alle Werte löschen
-            </button>
+              <Trash2 size={14} strokeWidth={2} aria-hidden="true" /><Localized>{"Alle Werte löschen "}</Localized></button>
           )
         )}
 
         <form onSubmit={add} className="card-surface space-y-3 p-5">
-          <div className="eyebrow">Neuen Wert eintragen</div>
+          <div className="eyebrow"><Localized>{"Neuen Wert eintragen"}</Localized></div>
           <select value={marker} onChange={(e) => setMarker(e.target.value)} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none">
-            {options.map((l) => <option key={l.id} value={l.id}>{l.name} ({l.unit})</option>)}
+            {options.map((l) => <option key={l.id} value={l.id}><Localized>{l.name}</Localized><Localized>{" ("}</Localized><Localized>{l.unit}</Localized><Localized>{")"}</Localized></option>)}
           </select>
-          <input value={value} onChange={(e) => setValue(e.target.value)} inputMode="decimal" placeholder="Wert" className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
-          <button className="w-full rounded-full bg-fresh py-2.5 text-sm font-medium text-ink">Speichern</button>
+          <input value={value} onChange={(e) => setValue(e.target.value)} inputMode="decimal" placeholder={translateText("Wert")} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
+          <button className="w-full rounded-full bg-fresh py-2.5 text-sm font-medium text-ink"><Localized>{"Speichern"}</Localized></button>
         </form>
 
-        <p className="px-1 text-[12px] text-ink/40">Hinweis: Vivo stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.</p>
+        <p className="px-1 text-[12px] text-ink/40"><Localized>{"Hinweis: Vivo stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt."}</Localized></p>
       </div>
     </AppShell>
   );

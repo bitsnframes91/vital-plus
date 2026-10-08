@@ -1,3 +1,5 @@
+import { Localized, useLanguage } from "@/components/Localized";
+import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
@@ -18,6 +20,7 @@ export const Route = createFileRoute("/bestaetigt")({
 });
 
 function Confirmed() {
+  useLanguage();
   const [state, setState] = useState<"wait" | "ok" | "fail">("wait");
   useEffect(() => {
     let done = false;
@@ -36,11 +39,11 @@ function Confirmed() {
   }, []);
   return (
     <AppShell>
-      <PageHeader eyebrow="Vivo Konto" title={state === "ok" ? "Konto bestätigt" : state === "fail" ? "Link ungültig" : "Wird bestätigt …"} />
+      <PageHeader eyebrow={translateText("Vivo Konto")} title={translateText(state === "ok" ? "Konto bestätigt" : state === "fail" ? "Link ungültig" : "Wird bestätigt …")} />
       <div className="card-surface mx-4 mt-4 space-y-3 p-5 text-sm">
-        {state === "ok" && <p>Danke! Deine E-Mail-Adresse ist bestätigt und dein Profil ist jetzt aktiv.</p>}
-        {state === "fail" && <p>Der Link ist abgelaufen oder ungültig. Melde dich an und fordere über den Hinweis oben einen neuen Link an.</p>}
-        <Link to="/heute" className="inline-block font-semibold text-primary">Weiter zu Heute →</Link>
+        {state === "ok" && <p><Localized>{"Danke! Deine E-Mail-Adresse ist bestätigt und dein Profil ist jetzt aktiv."}</Localized></p>}
+        {state === "fail" && <p><Localized>{"Der Link ist abgelaufen oder ungültig. Melde dich an und fordere über den Hinweis oben einen neuen Link an."}</Localized></p>}
+        <Link to="/heute" className="inline-block font-semibold text-primary"><Localized>{"Weiter zu Heute →"}</Localized></Link>
       </div>
     </AppShell>
   );

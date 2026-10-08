@@ -1,3 +1,5 @@
+import { Localized, useLanguage } from "@/components/Localized";
+import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Info, Minus } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
@@ -25,31 +27,32 @@ const metrics = [
 ];
 
 function TrendsPage() {
+  useLanguage();
   return (
     <AppShell>
       <div className="min-h-full bg-card px-5 pb-8 pt-6 text-foreground sm:px-6">
         <header>
-          <Button asChild variant="ghost" size="icon" className="rounded-full bg-secondary" title="Zurück zu Gesundheit">
-            <Link to="/gesundheit" aria-label="Zurück zu Gesundheit"><ArrowLeft className="size-5" /></Link>
+          <Button asChild variant="ghost" size="icon" className="rounded-full bg-secondary" title={translateText("Zurück zu Gesundheit")}>
+            <Link to="/gesundheit" aria-label={translateText("Zurück zu Gesundheit")}><ArrowLeft className="size-5" /></Link>
           </Button>
-          <p className="eyebrow mt-6 text-fv-deep">Gesundheit</p>
-          <h1 className="mt-2 text-[32px] font-bold leading-tight">Trends</h1>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">Deine Aktivität im Überblick. Für persönliche Trends fehlen noch aufgezeichnete Gesundheitsdaten.</p>
+          <p className="eyebrow mt-6 text-fv-deep"><Localized>{"Gesundheit"}</Localized></p>
+          <h1 className="mt-2 text-[32px] font-bold leading-tight"><Localized>{"Trends"}</Localized></h1>
+          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground"><Localized>{"Deine Aktivität im Überblick. Für persönliche Trends fehlen noch aufgezeichnete Gesundheitsdaten."}</Localized></p>
         </header>
 
         <section aria-labelledby="trends-missing-title" className="mt-7">
-          <h2 id="trends-missing-title" className="text-[19px] font-semibold">Noch keine Messdaten</h2>
+          <h2 id="trends-missing-title" className="text-[19px] font-semibold"><Localized>{"Noch keine Messdaten"}</Localized></h2>
           <div className="mt-4 space-y-3">
             {metrics.map((metric) => (
               <article key={metric.name} className="card-surface p-5">
                 <div className="flex items-start gap-3.5">
                   <span aria-hidden="true" className={`grid size-11 shrink-0 place-items-center rounded-full ${metric.soft} ${metric.color}`}><Minus className="size-6" strokeWidth={3.5} /></span>
                   <div className="min-w-0">
-                    <h3 className="text-[19px] font-semibold">{metric.name}</h3>
-                    <p aria-label={`${metric.name}: noch keine Daten`} className={`mt-1 flex flex-wrap items-baseline gap-1.5 ${metric.color}`}>
-                      <span className="text-[28px] font-bold leading-tight">–/–</span><span className="text-[15px] font-semibold">{metric.unit}</span>
+                    <h3 className="text-[19px] font-semibold"><Localized>{metric.name}</Localized></h3>
+                    <p aria-label={translateText(`${metric.name}: noch keine Daten`)} className={`mt-1 flex flex-wrap items-baseline gap-1.5 ${metric.color}`}>
+                      <span className="text-[28px] font-bold leading-tight"><Localized>{"–/–"}</Localized></span><span className="text-[15px] font-semibold"><Localized>{metric.unit}</Localized></span>
                     </p>
-                    <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">{metric.description}</p>
+                    <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground"><Localized>{metric.description}</Localized></p>
                   </div>
                 </div>
               </article>
@@ -58,8 +61,8 @@ function TrendsPage() {
         </section>
 
         <section aria-labelledby="trends-source-title" className="mt-7 border-t border-border pt-5">
-          <div className="flex items-center gap-2 text-fv-deep"><Info className="size-4" /><h2 id="trends-source-title" className="text-[15px] font-semibold">Deine Datenbasis</h2></div>
-          <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">Apple Health und Google Health Connect sind noch nicht verbunden. Manuell eingegebene Schritte ersetzen keine gemessene Energie, Distanz oder Geschwindigkeit. Ohne Messdaten lässt sich noch kein Aufwärts- oder Abwärtstrend bestimmen.</p>
+          <div className="flex items-center gap-2 text-fv-deep"><Info className="size-4" /><h2 id="trends-source-title" className="text-[15px] font-semibold"><Localized>{"Deine Datenbasis"}</Localized></h2></div>
+          <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground"><Localized>{"Apple Health und Google Health Connect sind noch nicht verbunden. Manuell eingegebene Schritte ersetzen keine gemessene Energie, Distanz oder Geschwindigkeit. Ohne Messdaten lässt sich noch kein Aufwärts- oder Abwärtstrend bestimmen."}</Localized></p>
         </section>
       </div>
     </AppShell>

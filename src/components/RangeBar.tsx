@@ -1,7 +1,10 @@
+import { Localized, useLanguage } from "@/components/Localized";
+import { translateText, languageLocale } from "@/lib/language";
 import type { LabMarker } from "@/lib/data";
 
 /** Comparison bar: target range band vs. actual value marker. */
 export function RangeBar({ marker: m }: { marker: LabMarker }) {
+  useLanguage();
   const value = m.history[m.history.length - 1]!.value;
   const [lo, hi] = m.target;
   const max = Math.max(hi * 1.5, value * 1.15);
@@ -20,12 +23,11 @@ export function RangeBar({ marker: m }: { marker: LabMarker }) {
         />
       </div>
       <div className="mt-1.5 flex justify-between font-data text-[11px] text-ink/45">
-        <span>0</span>
-        <span className="text-fv-deep">Ziel {lo}–{hi}</span>
-        <span>{Math.round(max)}</span>
+        <span><Localized>{"0"}</Localized></span>
+        <span className="text-fv-deep"><Localized>{"Ziel "}</Localized><Localized>{lo}</Localized><Localized>{"–"}</Localized><Localized>{hi}</Localized></span>
+        <span><Localized>{Math.round(max)}</Localized></span>
       </div>
-      <div className="mt-1 font-data text-[12px] text-ink/55">
-        Dein Wert: <span className={inRange ? "text-fv-deep" : "text-warn"}>{value} {m.unit}</span>
+      <div className="mt-1 font-data text-[12px] text-ink/55"><Localized>{" Dein Wert: "}</Localized><span className={inRange ? "text-fv-deep" : "text-warn"}><Localized>{value}</Localized> <Localized>{m.unit}</Localized></span>
         {inRange ? " – im Zielbereich" : value < lo ? " – unter dem Zielbereich" : " – über dem Zielbereich"}
       </div>
     </div>

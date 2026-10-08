@@ -1,3 +1,5 @@
+import { Localized, useLanguage } from "@/components/Localized";
+import { translateText, languageLocale } from "@/lib/language";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,6 +17,7 @@ async function sendLink(email: string) {
 }
 
 export function ConfirmBanner() {
+  useLanguage();
   const [user, setUser] = useState<User | null>(null);
   const [info, setInfo] = useState<string | null>(null);
 
@@ -37,10 +40,10 @@ export function ConfirmBanner() {
   };
   return (
     <div role="alert" className="sticky top-0 z-40 border-b border-destructive/30 bg-destructive/10 px-4 py-3 text-[13px] text-ink">
-      <p className="font-semibold text-destructive">Konto noch nicht bestätigt</p>
-      <p className="mt-0.5">Wir haben dir einen Bestätigungslink an <b>{email}</b> gesendet. Bitte öffne dein Postfach und klicke auf den Link, um dein Profil zu aktivieren.</p>
-      <button onClick={resend} className="mt-1 font-semibold underline">Link erneut senden</button>
-      {info && <span className="ml-2 text-ink/60">{info}</span>}
+      <p className="font-semibold text-destructive"><Localized>{"Konto noch nicht bestätigt"}</Localized></p>
+      <p className="mt-0.5"><Localized>{"Wir haben dir einen Bestätigungslink an "}</Localized><b><Localized>{email}</Localized></b><Localized>{" gesendet. Bitte öffne dein Postfach und klicke auf den Link, um dein Profil zu aktivieren."}</Localized></p>
+      <button onClick={resend} className="mt-1 font-semibold underline"><Localized>{"Link erneut senden"}</Localized></button>
+      {info && <span className="ml-2 text-ink/60"><Localized>{info}</Localized></span>}
     </div>
   );
 }
