@@ -2774,5 +2774,49 @@
   "Spanish": [
     "Spanish",
     "Spanish"
+  ],
+  "Name": [
+    "Name",
+    "Nombre"
+  ],
+  " – im Zielbereich": [
+    " – within target range",
+    " – dentro del rango objetivo"
+  ],
+  " – unter dem Zielbereich": [
+    " – below target range",
+    " – por debajo del rango objetivo"
+  ],
+  " – über dem Zielbereich": [
+    " – above target range",
+    " – por encima del rango objetivo"
+  ],
+  "– im Zielbereich": [
+    "– within target range",
+    "– dentro del rango objetivo"
+  ],
+  "– unter dem Zielbereich": [
+    "– below target range",
+    "– por debajo del rango objetivo"
+  ],
+  "– über dem Zielbereich": [
+    "– above target range",
+    "– por encima del rango objetivo"
+  ],
+  "Jahre": [
+    "years",
+    "años"
+  ],
+  "Schritte (aus deinem BMI)": [
+    "steps (from your BMI)",
+    "pasos (según tu IMC)"
+  ],
+  "· noch ca.": [
+    "· still approx.",
+    "· todavía aprox."
+  ],
+  "Tagesziel": [
+    "Daily goal",
+    "Objetivo diario"
   ]
 }
