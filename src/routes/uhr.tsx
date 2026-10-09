@@ -7,6 +7,7 @@ import { status } from "@/lib/data";
 import { dailyGoals } from "@/lib/daily-goals";
 
 export const Route = createFileRoute("/uhr")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Uhr — Vitalplus" },

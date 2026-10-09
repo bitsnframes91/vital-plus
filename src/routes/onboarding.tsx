@@ -10,12 +10,13 @@ import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
 import { questionnaireReturn } from "@/lib/questionnaire-return";
 
 export const Route = createFileRoute("/onboarding")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Willkommen — Vitalplus" },
       { name: "description", content: "Lege in wenigen Schritten dein Gesundheitsprofil an." },
       { property: "og:title", content: "Willkommen — Vitalplus" },
-      { property: "og:description", content: "Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
+      { property: "og:description", content: "Starte mit Vitalplus und lege in wenigen Schritten dein persönliches Gesundheitsprofil an." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

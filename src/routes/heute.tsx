@@ -35,6 +35,7 @@ const tipIcon = {
 } satisfies Record<RoutineTip["icon"], React.ComponentType<{ className?: string }>>;
 
 export const Route = createFileRoute("/heute")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Heute — Vitalplus" },
@@ -86,8 +87,8 @@ function Today() {
           <div className="flex items-center justify-between">
             <Link to="/" aria-label={translateText("Vitalplus Startseite")}><VivoBrand /></Link>
             <div className="flex gap-2">
-              <Button asChild variant="ghost" size="icon" className="rounded-full text-muted-foreground" title={translateText("Uhr")}><Link to="/uhr"><Watch /></Link></Button>
-              <Button asChild variant="ghost" size="icon" className="rounded-full bg-warm-soft text-muted-foreground" title={translateText("Profil")}><Link to="/profil"><UserRound /></Link></Button>
+              <Button asChild variant="ghost" size="icon" className="rounded-full text-muted-foreground" title={translateText("Uhr")}><Link to="/uhr" aria-label={translateText("Uhr")}><Watch /></Link></Button>
+              <Button asChild variant="ghost" size="icon" className="rounded-full bg-warm-soft text-muted-foreground" title={translateText("Profil")}><Link to="/profil" aria-label={translateText("Profil")}><UserRound /></Link></Button>
             </div>
           </div>
           <p className="today-mascot-greeting mt-8 text-[13px] font-medium text-foreground"><Localized>{"Guten Morgen, "}</Localized><Localized>{s.name}</Localized><Localized>{"."}</Localized></p>

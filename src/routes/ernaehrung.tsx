@@ -23,6 +23,7 @@ import { omegaSummary } from "@/lib/omega3";
 import voiceCardBg from "@/assets/voice-card-bg.png";
 
 export const Route = createFileRoute("/ernaehrung")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Ernährung — Vitalplus" },

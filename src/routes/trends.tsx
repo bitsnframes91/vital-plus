@@ -6,6 +6,7 @@ import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/trends")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Aktivitätstrends — Vitalplus" },

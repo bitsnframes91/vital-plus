@@ -71,6 +71,7 @@ const termsCopy = {
 };
 
 export const Route = createFileRoute("/profil/$section")({
+  staticData: { sitemap: false },
   head: ({ params }) => {
     const title = `${titles[params.section] ?? "Profil"} — Vitalplus`;
     const description = `Dein Vitalplus Profil: ${titles[params.section] ?? "Einstellungen"} verwalten.`;

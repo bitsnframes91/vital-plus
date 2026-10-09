@@ -15,6 +15,7 @@ import { routineTips, type RoutineTip } from "@/lib/deficiency-routines";
 import { PlanMascot } from "@/components/PlanMascot";
 
 export const Route = createFileRoute("/plan")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Mein Plan — Vitalplus" },
