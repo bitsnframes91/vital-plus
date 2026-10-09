@@ -8,10 +8,10 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/bestaetigt")({
   head: () => ({
     meta: [
-      { title: "E-Mail bestätigt — Vivo" },
-      { name: "description", content: "Bestätigung deines Vivo-Kontos." },
-      { property: "og:title", content: "E-Mail bestätigt — Vivo" },
-      { property: "og:description", content: "Bestätigung deines Vivo-Kontos." },
+      { title: "E-Mail bestätigt — Vitalplus" },
+      { name: "description", content: "Bestätigung deines Vitalplus-Kontos." },
+      { property: "og:title", content: "E-Mail bestätigt — Vitalplus" },
+      { property: "og:description", content: "Bestätigung deines Vitalplus-Kontos." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -39,7 +39,7 @@ function Confirmed() {
   }, []);
   return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Vivo Konto")} title={translateText(state === "ok" ? "Konto bestätigt" : state === "fail" ? "Link ungültig" : "Wird bestätigt …")} />
+      <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText(state === "ok" ? "Konto bestätigt" : state === "fail" ? "Link ungültig" : "Wird bestätigt …")} />
       <div className="card-surface mx-4 mt-4 space-y-3 p-5 text-sm">
         {state === "ok" && <p><Localized>{"Danke! Deine E-Mail-Adresse ist bestätigt und dein Profil ist jetzt aktiv."}</Localized></p>}
         {state === "fail" && <p><Localized>{"Der Link ist abgelaufen oder ungültig. Melde dich an und fordere über den Hinweis oben einen neuen Link an."}</Localized></p>}

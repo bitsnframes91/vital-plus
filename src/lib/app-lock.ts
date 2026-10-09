@@ -19,8 +19,8 @@ export async function supportsAppLock() {
 export async function createLock(userId: string): Promise<LockCredential> {
   const credential = await navigator.credentials.create({ publicKey: {
     challenge: crypto.getRandomValues(new Uint8Array(32)),
-    rp: { name: "Vivo App Lock", id: window.location.hostname },
-    user: { id: new TextEncoder().encode(userId), name: "Vivo App Lock", displayName: "Vivo App Lock" },
+    rp: { name: "Vitalplus App Lock", id: window.location.hostname },
+    user: { id: new TextEncoder().encode(userId), name: "Vitalplus App Lock", displayName: "Vitalplus App Lock" },
     pubKeyCredParams: [{ type: "public-key", alg: -7 }],
     authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required", residentKey: "discouraged" },
     timeout: 60000, attestation: "none",

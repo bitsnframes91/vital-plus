@@ -33,6 +33,6 @@ export function registerAppServiceWorker() {
     return;
   }
   void navigator.serviceWorker.register(SW_URL, { scope: "/" }).catch((e) => {
-    console.error("Vivo: service worker registration failed", e);
+    console.error("Vitalplus: service worker registration failed", e);
   });
 }

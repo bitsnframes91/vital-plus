@@ -14,9 +14,9 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/profil")({
   head: () => ({
     meta: [
-      { title: "Profil & Meine Daten — Vivo" },
-      { name: "description", content: "Dein Vivo Profil, deine Daten und Einstellungen verwalten." },
-      { property: "og:title", content: "Profil & Meine Daten — Vivo" },
+      { title: "Profil & Meine Daten — Vitalplus" },
+      { name: "description", content: "Dein Vitalplus Profil, deine Daten und Einstellungen verwalten." },
+      { property: "og:title", content: "Profil & Meine Daten — Vitalplus" },
       { property: "og:description", content: "Du entscheidest, wer deine Gesundheitsdaten sieht." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -94,7 +94,7 @@ function Profile() {
         <MenuRow category={translateText("Rechtliches")} title={translateText("Rechtliches")} sub={translateText("Allgemeine Geschäftsbedingungen, Impressum")} icon={FileText} onClick={() => openMenu("legal")} />
         <div className="border-t border-border pt-4">
         <div className="rounded-2xl border border-border bg-card p-4 text-[13px] text-muted-foreground">
-          <div className="eyebrow mb-1"><Localized>{"Vivo Konto"}</Localized></div>
+          <div className="eyebrow mb-1"><Localized>{"Vitalplus Konto"}</Localized></div>
           <div className="mt-3 flex items-start gap-3">
           <span className="grid size-12 shrink-0 place-items-center rounded-full bg-fresh-soft text-fv-deep"><Mail className="size-6" strokeWidth={1.6} /></span>
           <div className="min-w-0 flex-1">

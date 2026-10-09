@@ -35,9 +35,9 @@ const tipIcon = {
 export const Route = createFileRoute("/heute")({
   head: () => ({
     meta: [
-      { title: "Heute — Vivo" },
+      { title: "Heute — Vitalplus" },
       { name: "description", content: "Dein persönliches Tages-Dashboard für Ernährung, Vitalstoffe und Laborwerte." },
-      { property: "og:title", content: "Heute — Vivo" },
+      { property: "og:title", content: "Heute — Vitalplus" },
       { property: "og:description", content: "Messen, verstehen, handeln, überprüfen – dein Gesundheitsbegleiter von Fairvital." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -104,7 +104,7 @@ function Today() {
         <TodayMascot />
         <div className="relative">
           <div className="flex items-center justify-between">
-            <Link to="/" aria-label={translateText("Vivo Startseite")}><VivoBrand /></Link>
+            <Link to="/" aria-label={translateText("Vitalplus Startseite")}><VivoBrand /></Link>
             <div className="flex gap-2">
               <Button asChild variant="ghost" size="icon" className="rounded-full text-muted-foreground" title={translateText("Uhr")}><Link to="/uhr"><Watch /></Link></Button>
               <Button asChild variant="ghost" size="icon" className="rounded-full bg-warm-soft text-muted-foreground" title={translateText("Profil")}><Link to="/profil"><UserRound /></Link></Button>

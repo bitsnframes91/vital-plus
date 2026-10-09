@@ -4,9 +4,9 @@ import { MicronutrientDetail } from "@/components/MicronutrientDetail";
 export const Route = createFileRoute("/ernaehrung/mineralien")({
   head: () => ({
     meta: [
-      { title: "Mineralien — Vivo" },
+      { title: "Mineralien — Vitalplus" },
       { name: "description", content: "Geschätzte Mineralstoffmengen aus den heute erfassten Mahlzeiten im Vergleich zu EU-Referenzmengen." },
-      { property: "og:title", content: "Mineralien — Vivo" },
+      { property: "og:title", content: "Mineralien — Vitalplus" },
       { property: "og:description", content: "Mineralien aus dem Ernährungstagebuch im Tagesüberblick." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

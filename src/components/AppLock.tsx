@@ -72,8 +72,8 @@ export function AppLockProvider({ children }: { children: ReactNode }) {
   const blocked = Boolean(userId && (owner !== userId || (enabled && locked)));
   return <Context.Provider value={{ enabled, supported, busy, error, enable, disable, lock: () => setLocked(true) }}>
     {blocked ? <div className="grid min-h-dvh place-items-center bg-background px-6"><div className="w-full max-w-sm space-y-5 text-center">
-      <LockKeyhole className="mx-auto size-12 text-fv-deep" /><h1 className="text-2xl font-bold"><Localized>{"Vivo ist gesperrt"}</Localized></h1>
-      <p className="text-sm text-muted-foreground"><Localized>{"Entsperre Vivo mit deiner Gerätebestätigung."}</Localized></p>
+      <LockKeyhole className="mx-auto size-12 text-fv-deep" /><h1 className="text-2xl font-bold"><Localized>{"Vitalplus ist gesperrt"}</Localized></h1>
+      <p className="text-sm text-muted-foreground"><Localized>{"Entsperre Vitalplus mit deiner Gerätebestätigung."}</Localized></p>
       {error && <p role="alert" className="text-sm text-destructive"><Localized>{error}</Localized></p>}
       <Button disabled={busy || owner !== userId} onClick={unlock} className="w-full bg-fresh text-ink hover:bg-fresh/90"><Localized>{busy ? "Bitte warten…" : "App entsperren"}</Localized></Button>
       <Button disabled={busy} variant="ghost" onClick={signOut}><Localized>{"Abmelden und App Lock zurücksetzen"}</Localized></Button>

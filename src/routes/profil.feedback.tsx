@@ -11,10 +11,10 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/profil/feedback")({
   head: () => ({
     meta: [
-      { title: "Feedback geben — Vivo" },
-      { name: "description", content: "Teile dein Feedback zur Vivo App: Sterne, Themen und Nachricht." },
-      { property: "og:title", content: "Feedback geben — Vivo" },
-      { property: "og:description", content: "Hilf uns, die Vivo App zu verbessern." },
+      { title: "Feedback geben — Vitalplus" },
+      { name: "description", content: "Teile dein Feedback zur Vitalplus App: Sterne, Themen und Nachricht." },
+      { property: "og:title", content: "Feedback geben — Vitalplus" },
+      { property: "og:description", content: "Hilf uns, die Vitalplus App zu verbessern." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

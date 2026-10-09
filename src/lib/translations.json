@@ -615,9 +615,9 @@
     "Value",
     "Valor"
   ],
-  "Hinweis: Vivo stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.": [
-    "Note: Vivo does not diagnose conditions. Discuss abnormal values with your doctor. Lab integration is coming.",
-    "Nota: Vivo no realiza diagnósticos. Consulta los valores anómalos con tu médico. La conexión de laboratorio llegará próximamente."
+  "Hinweis: Vitalplus stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.": [
+    "Note: Vitalplus does not diagnose conditions. Discuss abnormal values with your doctor. Lab integration is coming.",
+    "Nota: Vitalplus no realiza diagnósticos. Consulta los valores anómalos con tu médico. La conexión de laboratorio llegará próximamente."
   ],
   "Doppelt tippen zum Ändern": [
     "Double tap to change",
@@ -883,9 +883,9 @@
     "Terms and conditions, legal notice",
     "Condiciones generales, aviso legal"
   ],
-  "Vivo Konto": [
-    "Vivo account",
-    "Cuenta Vivo"
+  "Vitalplus Konto": [
+    "Vitalplus account",
+    "Cuenta Vitalplus"
   ],
   "Angemeldet als {email}.": [
     "Signed in as {email}.",
@@ -1155,9 +1155,9 @@
     "Close",
     "Cerrar"
   ],
-  "Dein Vivo-Konto – deine Werte auf allen Geräten.": [
-    "Your Vivo account – your values on all devices.",
-    "Tu cuenta Vivo: tus valores en todos tus dispositivos."
+  "Dein Vitalplus-Konto – deine Werte auf allen Geräten.": [
+    "Your Vitalplus account – your values on all devices.",
+    "Tu cuenta Vitalplus: tus valores en todos tus dispositivos."
   ],
   "Neu hier": [
     "New here",
@@ -1195,9 +1195,9 @@
     "We sent you a password reset link.",
     "Te enviamos un enlace para restablecer tu contraseña."
   ],
-  "Lege ein neues Passwort für dein Vivo-Konto fest.": [
-    "Set a new password for your Vivo account.",
-    "Establece una nueva contraseña para tu cuenta Vivo."
+  "Lege ein neues Passwort für dein Vitalplus-Konto fest.": [
+    "Set a new password for your Vitalplus account.",
+    "Establece una nueva contraseña para tu cuenta Vitalplus."
   ],
   "Neues Passwort": [
     "New password",
@@ -1279,9 +1279,9 @@
     "Your data, your decision.",
     "Tus datos, tu decisión."
   ],
-  "Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. Vivo ersetzt keine ärztliche Beratung.": [
-    "I consent to processing my health data for display in the app. Vivo does not replace medical advice.",
-    "Consiento el tratamiento de mis datos de salud para mostrarlos en la aplicación. Vivo no sustituye el consejo médico."
+  "Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. Vitalplus ersetzt keine ärztliche Beratung.": [
+    "I consent to processing my health data for display in the app. Vitalplus does not replace medical advice.",
+    "Consiento el tratamiento de mis datos de salud para mostrarlos en la aplicación. Vitalplus no sustituye el consejo médico."
   ],
   "Los geht's": [
     "Let's go",
@@ -1399,13 +1399,13 @@
     "Activity",
     "Actividad"
   ],
-  "Vivo ist gesperrt": [
-    "Vivo is locked",
-    "Vivo está bloqueado"
+  "Vitalplus ist gesperrt": [
+    "Vitalplus is locked",
+    "Vitalplus está bloqueado"
   ],
-  "Entsperre Vivo mit deiner Gerätebestätigung.": [
-    "Unlock Vivo with your device verification.",
-    "Desbloquea Vivo con la verificación de tu dispositivo."
+  "Entsperre Vitalplus mit deiner Gerätebestätigung.": [
+    "Unlock Vitalplus with your device verification.",
+    "Desbloquea Vitalplus con la verificación de tu dispositivo."
   ],
   "App entsperren": [
     "Unlock app",
@@ -1451,13 +1451,13 @@
     "Got it",
     "Entendido"
   ],
-  "Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte Vivo zum Home-Bildschirm hinzufügen.": [
-    "Notifications are not supported here. On iPhone, add Vivo to your home screen.",
-    "Las notificaciones no son compatibles aquí. En iPhone, añade Vivo a tu pantalla de inicio."
+  "Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte Vitalplus zum Home-Bildschirm hinzufügen.": [
+    "Notifications are not supported here. On iPhone, add Vitalplus to your home screen.",
+    "Las notificaciones no son compatibles aquí. En iPhone, añade Vitalplus a tu pantalla de inicio."
   ],
-  "Bitte erlaube Benachrichtigungen für Vivo in deinen Geräte- oder Browser-Einstellungen.": [
-    "Allow Vivo notifications in your device or browser settings.",
-    "Permite las notificaciones de Vivo en los ajustes del dispositivo o navegador."
+  "Bitte erlaube Benachrichtigungen für Vitalplus in deinen Geräte- oder Browser-Einstellungen.": [
+    "Allow Vitalplus notifications in your device or browser settings.",
+    "Permite las notificaciones de Vitalplus en los ajustes del dispositivo o navegador."
   ],
   "Benachrichtigungen konnten nicht aktiviert werden.": [
     "Notifications could not be enabled.",
@@ -1511,9 +1511,9 @@
     "Daily at",
     "Cada día a las"
   ],
-  "Erinnerungen erscheinen, solange Vivo geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App.": [
-    "Reminders appear while Vivo is open or the next time you open it. No delivery while the app is closed.",
-    "Los recordatorios aparecen mientras Vivo está abierto o al volver a abrirlo. No se entregan con la app cerrada."
+  "Erinnerungen erscheinen, solange Vitalplus geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App.": [
+    "Reminders appear while Vitalplus is open or the next time you open it. No delivery while the app is closed.",
+    "Los recordatorios aparecen mientras Vitalplus está abierto o al volver a abrirlo. No se entregan con la app cerrada."
   ],
   "Neuer Link wurde gesendet.": [
     "A new link was sent.",
@@ -1539,9 +1539,9 @@
     "Step ring",
     "Anillo de pasos"
   ],
-  "Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt Vivo deine selbst eingetragenen Schritte.": [
-    "Apple Health and Google Health Connect are not connected yet. Until then, Vivo shows your manually entered steps.",
-    "Apple Health y Google Health Connect aún no están conectados. Hasta entonces, Vivo muestra tus pasos introducidos manualmente."
+  "Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt Vitalplus deine selbst eingetragenen Schritte.": [
+    "Apple Health and Google Health Connect are not connected yet. Until then, Vitalplus shows your manually entered steps.",
+    "Apple Health y Google Health Connect aún no están conectados. Hasta entonces, Vitalplus muestra tus pasos introducidos manualmente."
   ],
   "Schritte in Gesundheit eintragen →": [
     "Enter steps in Health →",
@@ -1643,9 +1643,9 @@
     "Live healthier. Be happier.",
     "Vive más sano. Sé más feliz."
   ],
-  "Vivo Startseite": [
-    "Vivo homepage",
-    "Página de inicio Vivo"
+  "Vitalplus Startseite": [
+    "Vitalplus homepage",
+    "Página de inicio Vitalplus"
   ],
   "Ganzheitliches Leben in Bewegung — Forschung, Sport und Vitalität": [
     "Holistic living in motion — science, sport and vitality",
@@ -1715,9 +1715,9 @@
     "e.g. 175",
     "p. ej. 175"
   ],
-  "Vivo · Schritt": [
-    "Vivo · Step",
-    "Vivo · Paso"
+  "Vitalplus · Schritt": [
+    "Vitalplus · Step",
+    "Vitalplus · Paso"
   ],
   "Wähle im Fragebogen, was dir wichtig ist – oder lade deinen Laborbefund hoch. Daraus entstehen dein Plan und deine Tagesziele.": [
     "Choose your questionnaire priorities or upload your lab report to create your plan and daily goals.",
@@ -1739,9 +1739,9 @@
     "Manage account",
     "Gestionar cuenta"
   ],
-  "Die offizielle Datenschutzerklärung für Vivo wurde noch nicht hinterlegt.": [
-    "Vivo’s official privacy policy has not yet been provided.",
-    "La política de privacidad oficial de Vivo aún no está disponible."
+  "Die offizielle Datenschutzerklärung für Vitalplus wurde noch nicht hinterlegt.": [
+    "Vitalplus’s official privacy policy has not yet been provided.",
+    "La política de privacidad oficial de Vitalplus aún no está disponible."
   ],
   "Zurück zum Profil": [
     "Back to Profile",
@@ -1775,17 +1775,17 @@
     "Terms and conditions",
     "Condiciones generales"
   ],
-  "Die Nutzungsbedingungen für Vivo wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.": [
-    "Vivo’s terms have not yet been provided. Purchases take place exclusively in the Fairvital shop.",
-    "Las condiciones de Vivo aún no están disponibles. Las compras se realizan exclusivamente en la tienda Fairvital."
+  "Die Nutzungsbedingungen für Vitalplus wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.": [
+    "Vitalplus’s terms have not yet been provided. Purchases take place exclusively in the Fairvital shop.",
+    "Las condiciones de Vitalplus aún no están disponibles. Las compras se realizan exclusivamente en la tienda Fairvital."
   ],
-  "Das offizielle Impressum für Vivo wurde noch nicht hinterlegt.": [
-    "Vivo’s official legal notice has not yet been provided.",
-    "El aviso legal oficial de Vivo aún no está disponible."
+  "Das offizielle Impressum für Vitalplus wurde noch nicht hinterlegt.": [
+    "Vitalplus’s official legal notice has not yet been provided.",
+    "El aviso legal oficial de Vitalplus aún no está disponible."
   ],
-  "Vivo verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.": [
-    "Vivo uses open-source software including React, TanStack, Radix UI and Lucide. A complete license overview has not yet been provided.",
-    "Vivo utiliza software de código abierto como React, TanStack, Radix UI y Lucide. La lista completa de licencias aún no está disponible."
+  "Vitalplus verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.": [
+    "Vitalplus uses open-source software including React, TanStack, Radix UI and Lucide. A complete license overview has not yet been provided.",
+    "Vitalplus utiliza software de código abierto como React, TanStack, Radix UI y Lucide. La lista completa de licencias aún no está disponible."
   ],
   "Zielgewicht in kg": [
     "Target weight in kg",
@@ -1799,9 +1799,9 @@
     "Download data",
     "Descargar datos"
   ],
-  "Hilf uns, die Vivo App zu verbessern.": [
-    "Help us improve the Vivo app.",
-    "Ayúdanos a mejorar la aplicación Vivo."
+  "Hilf uns, die Vitalplus App zu verbessern.": [
+    "Help us improve the Vitalplus app.",
+    "Ayúdanos a mejorar la aplicación Vitalplus."
   ],
   "Feedback konnte nicht gesendet werden. Bitte später erneut versuchen.": [
     "Unable to send feedback. Try again later.",
