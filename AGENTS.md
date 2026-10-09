@@ -10,7 +10,7 @@
 <!-- LOVABLE:END -->
 
 # Project rules
-- Heute mascot media lives in TodayMascot with a bundled CDN video pointer and still fallback, respecting reduced motion. Why: keep header animation independent of health state and readable on small screens.
+- TodayMascot uses a CDN video pointer, still fallback and reduced-motion support. Why: keep animation independent of health state and readable on small screens.
 - Interface localization uses bundled German-source translation catalogues and React-rendered Localized text, with the applied language saved by AppSettingsProvider; never translate persisted goal identifiers or send health data for translation. Why: all screens switch safely without changing profile data or depending on online translation.
 - Step and walking-category icons use the shared StepsIcon component. Why: uploaded artwork and reduced-motion-aware animation stay consistent across views.
 - Device presentation preferences use AppSettingsProvider and semantic dark-mode tokens; notification permission is requested only on opt-in, and reminders run only while the app is open. Why: browser-only scheduling must not promise background push delivery.
@@ -18,13 +18,12 @@
 - Questionnaire edits carry a validated origin so Save and Cancel return Profile users to their personal submenu and Gesundheit users to Gesundheit. Why: editing must preserve the user's navigation context.
 - Profile submenus use the dynamic /profil/$section content route with persistent AppShell navigation; small editors and unavailable-feature notices use accessible dialogs, while account deletion reuses the verified profile flow. Why: full-page menus preserve back navigation without fabricating unconfigured services.
 
-- Fairvital Health is a companion app; Shopware (fairvital.com) owns products, prices, cart and checkout — the app only links out to product pages. Why: the shop must not be replaced.
-- Product lookups go through `src/lib/shopware.ts` placeholder so a real Shopware Store API can be dropped in later.
+- Shopware (fairvital.com) owns products, prices, cart and checkout; the companion app only links out. Lookups use `src/lib/shopware.ts`. Why: preserve shop ownership and allow later Store API integration.
 - Supplement suggestions (Plan and Heute) use measured out-of-range markers matched to catalog products in the product's own direction (`helpsWhen`, default low). Why: never suggest for normal values or the wrong direction.
 - Deficiency-specific routine tips live in `src/lib/deficiency-routines.ts` and share the supplement marker categories. Why: each measured low value needs relevant, maintainable advice rather than generic tips.
 - Brand colors/fonts are defined only as tokens in `src/styles.css` so the exact Fairvital CI can be swapped in.
 - App logo placements use the shared VivoBrand component backed by a CDN asset pointer, with proportionally padded raster browser and PWA icons; partner-shop references remain separate. Why: keep logo replacements consistent without changing shop ownership.
-- App accounts (email, Google, Apple) use Lovable Cloud auth; health state syncs as one JSON row per user in `user_data` from `src/lib/store.tsx`. Why: users need accounts independent of the shop.
+- App accounts use Lovable Cloud auth; `src/lib/store.tsx` syncs health state as one JSON row per user in `user_data`. Why: accounts remain independent of the shop.
 - Restore account health state only after verifying identity, and clear it and pending saves on sign-out. Why: shared devices must not display a previous user's personal data.
 - AI features (lab PDF reading, voice meal logging) run via server functions in `src/lib/ai.functions.ts` calling the Lovable AI Gateway. Why: keeps the API key server-side.
 - The public introduction is `/`, while the existing interactive daily dashboard lives at `/heute`; sign-in continues into `/heute`. Why: preserve the health workflow alongside the requested public home screen.
