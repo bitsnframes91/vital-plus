@@ -9,6 +9,7 @@ export const Route = createFileRoute("/reset-password")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex" },
       { title: "Neues Passwort — Vitalplus" },
       { name: "description", content: "Lege ein neues Passwort für dein Vitalplus-Konto fest." },
       { property: "og:title", content: "Neues Passwort — Vitalplus" },
