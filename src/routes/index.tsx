@@ -2,7 +2,7 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import heroImage from "@/assets/ganzheitlich.png.asset.json";
-import mark from "@/assets/vivo-mark.png";
+import { VivoBrand } from "@/components/VivoBrand";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,10 +22,10 @@ function Home() {
   useLanguage();
   return (
     <div className="min-h-screen bg-card font-sans text-foreground">
-      <header className="mx-auto grid h-[76px] max-w-[1600px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 sm:h-[92px] sm:px-8">
-        <span aria-hidden="true" />
-        <Link to="/" aria-label={translateText("Vivo Startseite")} className="justify-self-center"><img src={mark} width={48} height={48} alt={translateText("Vivo")} className="size-[48px] object-contain" /></Link>
-        <div className="flex shrink-0 items-center justify-self-end gap-2 sm:gap-5">
+      <header className="mx-auto grid min-h-[128px] max-w-[1600px] grid-cols-1 items-center gap-2 px-5 py-2 sm:min-h-[92px] sm:grid-cols-[1fr_auto_1fr] sm:gap-4 sm:px-8">
+        <span aria-hidden="true" className="hidden sm:block" />
+        <Link to="/" aria-label={translateText("Vivo Startseite")} className="justify-self-center"><VivoBrand /></Link>
+        <div className="flex shrink-0 items-center justify-self-center gap-2 sm:justify-self-end sm:gap-5">
           <Link to="/login" search={{ mode: "login" }} className="rounded-md border border-border px-3 py-2.5 text-sm font-semibold text-home-green transition-colors hover:bg-muted sm:px-6 sm:text-base"><Localized>{"Einloggen"}</Localized></Link>
           <Link to="/login" search={{ mode: "register" }} className="rounded-md bg-home-green px-3 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-7 sm:text-base"><Localized>{"Kostenlos Registrieren"}</Localized></Link>
         </div>

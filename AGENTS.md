@@ -23,7 +23,7 @@
 - Supplement suggestions (Plan and Heute) use measured out-of-range markers matched to catalog products in the product's own direction (`helpsWhen`, default low). Why: never suggest for normal values or the wrong direction.
 - Deficiency-specific routine tips live in `src/lib/deficiency-routines.ts` and share the supplement marker categories. Why: each measured low value needs relevant, maintainable advice rather than generic tips.
 - Brand colors/fonts are defined only as tokens in `src/styles.css` so the exact Fairvital CI can be swapped in.
-- App identity uses a shared VivoBrand component and global semantic tokens; partner-shop references remain separate. Why: keep rebranding consistent without changing shop ownership.
+- App logo placements use the shared VivoBrand component backed by a CDN asset pointer, with proportionally padded raster browser and PWA icons; partner-shop references remain separate. Why: keep logo replacements consistent without changing shop ownership.
 - App accounts (email, Google, Apple) use Lovable Cloud auth; health state syncs as one JSON row per user in `user_data` from `src/lib/store.tsx`. Why: users need accounts independent of the shop.
 - Restore account health state only after verifying identity, and clear it and pending saves on sign-out. Why: shared devices must not display a previous user's personal data.
 - AI features (lab PDF reading, voice meal logging) run via server functions in `src/lib/ai.functions.ts` calling the Lovable AI Gateway. Why: keeps the API key server-side.
