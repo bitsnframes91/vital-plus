@@ -16,6 +16,7 @@ import { StatusFace, type StatusMood } from "@/components/StatusFace";
 import { LaborMascot } from "@/components/LaborMascot";
 
 export const Route = createFileRoute("/labor")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Laborwerte — Vitalplus" },

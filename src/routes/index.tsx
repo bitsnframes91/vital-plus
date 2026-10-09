@@ -5,6 +5,7 @@ import heroImage from "@/assets/ganzheitlich.png.asset.json";
 import { VivoBrand } from "@/components/VivoBrand";
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Vitalplus — Gesünder leben. Glücklicher sein." },
@@ -37,7 +38,7 @@ function Home() {
           <div className="today-image-overlay absolute inset-0" aria-hidden="true" />
           <div className="relative z-10 flex w-full max-w-[1000px] flex-col items-center">
             <p className="text-xs font-semibold uppercase text-fv-deep sm:text-sm"><Localized>{"MESSEN → VERSTEHEN → HANDELN → ÜBERPRÜFEN"}</Localized></p>
-            <h1 className="mt-7 max-w-[1000px] text-balance text-[36px] font-bold leading-[1.1] text-foreground sm:mt-8 sm:text-[56px]"><Localized>{"Vitalplus"}</Localized></h1>
+            <h1 className="mt-7 max-w-[1000px] text-balance text-[36px] font-bold leading-[1.1] text-foreground sm:mt-8 sm:text-[56px]"><Localized>{"Vitalplus"}</Localized><span className="sr-only"> – <Localized>{"Gesünder leben mit Ernährung und Laborwerten"}</Localized></span></h1>
             <p className="mt-4 text-[24px] font-semibold text-foreground"><Localized>{"Gesünder leben. Glücklicher sein."}</Localized></p>
             <p className="mt-5 max-w-[700px] text-pretty text-base font-medium text-foreground sm:text-lg"><Localized>{"Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern."}</Localized></p>
           </div>

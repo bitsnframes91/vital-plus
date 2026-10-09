@@ -12,6 +12,7 @@ import { useStore } from "@/lib/store";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/profil")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Profil & Meine Daten — Vitalplus" },

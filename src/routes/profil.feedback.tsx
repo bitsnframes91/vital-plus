@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/profil/feedback")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Feedback geben — Vitalplus" },

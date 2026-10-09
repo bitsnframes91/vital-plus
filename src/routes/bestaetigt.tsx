@@ -6,6 +6,7 @@ import { AppShell, PageHeader } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/bestaetigt")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "E-Mail bestätigt — Vitalplus" },

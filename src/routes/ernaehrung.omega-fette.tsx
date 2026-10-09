@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { OmegaDetail } from "@/components/OmegaDetail";
 
 export const Route = createFileRoute("/ernaehrung/omega-fette")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Omega fette — Vitalplus" },
