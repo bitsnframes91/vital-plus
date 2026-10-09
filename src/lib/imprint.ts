@@ -43,23 +43,8 @@ IBAN: AT64 1500 0003 5107 9207
 
 BIC: OBKLAT2LXXX
 
-Kundenservice: Werktags 8:00-16:00:
-0031-43 74 104 49` },
-  { title: "Sie erreichen uns täglich rund um die Uhr!", text: `international gebührenfrei 00800-11 77 99 33
-
-gebührenfrei aus Deutschland 0800-11 77 99 3
-
-gebührenfrei aus Großbritannien 0800-27 92 889
-
-gebührenfrei aus Frankreich 0800-94 16 98
-
-gebührenfrei aus Spanien 800-60 05 47
-
-gebührenfrei aus Italien 800-14 69 64
-
-Fax: 00800-11 77 99 11 gebührenfrei aus Deutschland, Österreich, Schweiz
-
-Fax: +31-20 718 37 27` },
+ Kundenservice: Werktags 8:00-16:00:
++49 2234 2190482` },
   { text: "E-Mail: ", links: [{ label: "info@fairvital.com", href: "mailto:info@fairvital.com", prefix: "" }, { prefix: ", Internet: ", label: "www.fairvital.com", href: "http://www.fairvital.com/" }] },
   { text: 'Mitglied der Initiative "Fairness im Handel".' },
   { text: "Informationen zur Initiative: ", links: [{ label: "fairness-im-handel.de", href: "http://www.fairness-im-handel.de/" }] },
