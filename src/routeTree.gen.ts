@@ -23,6 +23,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TrendsRouteImport } from './routes/trends'
 import { Route as UhrRouteImport } from './routes/uhr'
 import { Route as ErnaehrungMineralienRouteImport } from './routes/ernaehrung.mineralien'
+import { Route as ErnaehrungOmegaFetteRouteImport } from './routes/ernaehrung.omega-fette'
 import { Route as ErnaehrungVitamineRouteImport } from './routes/ernaehrung.vitamine'
 import { Route as ProfilSectionRouteImport } from './routes/profil.$section'
 import { Route as ProfilFeedbackRouteImport } from './routes/profil.feedback'
@@ -97,6 +98,11 @@ const ErnaehrungMineralienRoute = ErnaehrungMineralienRouteImport.update({
   path: '/mineralien',
   getParentRoute: () => ErnaehrungRoute,
 } as any)
+const ErnaehrungOmegaFetteRoute = ErnaehrungOmegaFetteRouteImport.update({
+  id: '/omega-fette',
+  path: '/omega-fette',
+  getParentRoute: () => ErnaehrungRoute,
+} as any)
 const ErnaehrungVitamineRoute = ErnaehrungVitamineRouteImport.update({
   id: '/vitamine',
   path: '/vitamine',
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
   '/ernaehrung/mineralien': typeof ErnaehrungMineralienRoute
+  '/ernaehrung/omega-fette': typeof ErnaehrungOmegaFetteRoute
   '/ernaehrung/vitamine': typeof ErnaehrungVitamineRoute
   '/profil/$section': typeof ProfilSectionRoute
   '/profil/feedback': typeof ProfilFeedbackRoute
@@ -147,6 +154,7 @@ export interface FileRoutesByTo {
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
   '/ernaehrung/mineralien': typeof ErnaehrungMineralienRoute
+  '/ernaehrung/omega-fette': typeof ErnaehrungOmegaFetteRoute
   '/ernaehrung/vitamine': typeof ErnaehrungVitamineRoute
   '/profil/$section': typeof ProfilSectionRoute
   '/profil/feedback': typeof ProfilFeedbackRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
   '/ernaehrung/mineralien': typeof ErnaehrungMineralienRoute
+  '/ernaehrung/omega-fette': typeof ErnaehrungOmegaFetteRoute
   '/ernaehrung/vitamine': typeof ErnaehrungVitamineRoute
   '/profil/$section': typeof ProfilSectionRoute
   '/profil/feedback': typeof ProfilFeedbackRoute
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/trends'
     | '/uhr'
     | '/ernaehrung/mineralien'
+    | '/ernaehrung/omega-fette'
     | '/ernaehrung/vitamine'
     | '/profil/$section'
     | '/profil/feedback'
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/trends'
     | '/uhr'
     | '/ernaehrung/mineralien'
+    | '/ernaehrung/omega-fette'
     | '/ernaehrung/vitamine'
     | '/profil/$section'
     | '/profil/feedback'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/trends'
     | '/uhr'
     | '/ernaehrung/mineralien'
+    | '/ernaehrung/omega-fette'
     | '/ernaehrung/vitamine'
     | '/profil/$section'
     | '/profil/feedback'
@@ -347,6 +359,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ErnaehrungMineralienRouteImport
       parentRoute: typeof ErnaehrungRoute
     }
+    '/ernaehrung/omega-fette': {
+      id: '/ernaehrung/omega-fette'
+      path: '/omega-fette'
+      fullPath: '/ernaehrung/omega-fette'
+      preLoaderRoute: typeof ErnaehrungOmegaFetteRouteImport
+      parentRoute: typeof ErnaehrungRoute
+    }
     '/ernaehrung/vitamine': {
       id: '/ernaehrung/vitamine'
       path: '/vitamine'
@@ -373,11 +392,13 @@ declare module '@tanstack/react-router' {
 
 interface ErnaehrungRouteChildren {
   ErnaehrungMineralienRoute: typeof ErnaehrungMineralienRoute
+  ErnaehrungOmegaFetteRoute: typeof ErnaehrungOmegaFetteRoute
   ErnaehrungVitamineRoute: typeof ErnaehrungVitamineRoute
 }
 
 const ErnaehrungRouteChildren: ErnaehrungRouteChildren = {
   ErnaehrungMineralienRoute: ErnaehrungMineralienRoute,
+  ErnaehrungOmegaFetteRoute: ErnaehrungOmegaFetteRoute,
   ErnaehrungVitamineRoute: ErnaehrungVitamineRoute,
 }
 
