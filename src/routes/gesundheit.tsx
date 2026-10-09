@@ -3,9 +3,9 @@ import { translateText, languageLocale } from "@/lib/language";
 import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useRef, useState } from "react";
-import { AppShell, PageHeader } from "@/components/AppShell";
+import { AppShell } from "@/components/AppShell";
+import { HealthMascot } from "@/components/HealthMascot";
 import { useStore } from "@/lib/store";
-import healthRidge from "@/assets/gesundheit-ridge.jpg.asset.json";
 import { StepsIcon } from "@/components/StepsIcon";
 import sleepGfx from "@/assets/schlaf.png.asset.json";
 import bodyGfx from "@/assets/koerperdaten.png.asset.json";
@@ -134,7 +134,14 @@ function Health() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Gesundheit")} title={translateText("Deine Messwerte")} sub={translateText("Messwerte und Verläufe verständlich an einem Ort.")} subClass="max-w-[17ch]" image={healthRidge.url} imageAlt={translateText("Läuferin in Bewegung auf einem alpinen Grat vor verschneiten Bergen")} imageOverlay="ridge-image-overlay" />
+      <header className="health-mascot-header relative overflow-hidden bg-card px-6 pb-8 pt-9">
+        <div className="health-mascot-copy relative">
+          <span className="font-data text-[12px] uppercase text-fv-deep"><Localized>Gesundheit</Localized></span>
+          <h1 className="mt-4 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>Deine Messwerte</Localized></h1>
+          <p className="mt-3 text-sm text-muted-foreground"><Localized>Messwerte und Verläufe verständlich an einem Ort.</Localized></p>
+        </div>
+        <HealthMascot />
+      </header>
       <div className="grid grid-cols-1 gap-3 px-4 pt-4">
         <div className="card-surface p-5">
           <div className="flex justify-center">

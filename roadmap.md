@@ -1,4 +1,5 @@
 # Vivo redesign
+- [x] Add the supplied doctor mascot to Gesundheit in the matching header position; signed-in desktop/mobile framing, playback and reduced-motion still fallback verified without page errors.
 - [x] Place the supplied salad mascot in Ernährung with matching header position, transparent animation and reduced-motion fallback; signed-in desktop/mobile playback verified without page errors.
 - [x] Add the supplied animated scientist mascot to Labor; signed-in desktop/mobile playback and reduced-motion fallback verified without changing account data.
 - [x] Enable saved Hell/Dunkel and functional notification/reminder switches; keep Einheiten removed.
