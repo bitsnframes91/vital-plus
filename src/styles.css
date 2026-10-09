@@ -239,7 +239,12 @@
   .nutrition-mascot-copy h1 { font-size: 25px; overflow-wrap: anywhere; }
   .nutrition-mascot { right: 4px; width: 110px; }
 }
-@media (prefers-reduced-motion: reduce) { .nutrition-mascot video { display: none; } }
+.nutrition-mascot-img { transform-origin: 50% 100%; animation: nutrition-mascot-sway 5s ease-in-out infinite; will-change: transform; }
+@keyframes nutrition-mascot-sway {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(-1.2deg); }
+}
+@media (prefers-reduced-motion: reduce) { .nutrition-mascot-img { animation: none; } }
 .health-mascot-header { min-height: 256px; }
 .health-mascot-copy { width: calc(100% - 132px); }
 .health-mascot { top: 22px; right: 14px; width: 120px; height: 218px; }
