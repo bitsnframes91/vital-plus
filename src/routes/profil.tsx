@@ -10,7 +10,6 @@ import { deleteAccount } from "@/lib/account.functions";
 import { AppShell } from "@/components/AppShell";
 import { useStore } from "@/lib/store";
 import { supabase } from "@/integrations/supabase/client";
-import profileDesk from "@/assets/profil-desk.jpg.asset.json";
 
 export const Route = createFileRoute("/profil")({
   head: () => ({
@@ -84,8 +83,6 @@ function Profile() {
   return (
     <AppShell>
       <header className="relative overflow-hidden bg-header px-5 pb-5 pt-6">
-        <img src={profileDesk.url} alt={translateText("Ärztin am Schreibtisch")} className="absolute inset-0 size-full object-cover object-center" />
-        <div className="profile-image-overlay absolute inset-0" aria-hidden="true" />
         <div className="relative"><h1 className="text-[29px] font-bold leading-tight"><Localized>{"Profil"}</Localized></h1><p className="mt-1 text-sm text-muted-foreground"><Localized>{"Deine Daten gehören dir."}</Localized></p></div>
       </header>
       <div className="space-y-4 px-4 pt-4">
