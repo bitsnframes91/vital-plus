@@ -22,8 +22,8 @@ describe("Heute nutrition priorities", () => {
     expect(nutritionAlerts([], targets)).toEqual([]);
     expect(nutritionAlerts([meal], null)).toEqual([]);
     const omega = nutritionAlerts([{ ...meal, omega3Mg: 600 }], null)[0];
-    expect(omega.target).toBeUndefined();
-    expect(omega.label).toBe("Kein Richtwert gesetzt");
+    expect(omega?.target).toBeUndefined();
+    expect(omega?.label).toBe("Kein Richtwert gesetzt");
   });
   it("removes vitamin and mineral cards when all their references are reached", () => {
     const vitamins = Object.fromEntries(micronutrients.vitamins.map(entry => [entry.key, entry.target]));
