@@ -1,4 +1,4 @@
-import mascotStill from "@/assets/nutrition-mascot-full.png.asset.json";
+import mascotStill from "@/assets/nutrition-mascot-salad.png.asset.json";
 
 // Smooth CSS motion on the still artwork: the AI-generated video made the bowl jitter.
 export function NutritionMascot() {
