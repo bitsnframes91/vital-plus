@@ -1,4 +1,11 @@
 {
+  "Essen fotografieren": ["Photograph food", "Fotografiar comida"],
+  "Essensfoto auswählen": ["Choose food photo", "Elegir foto de comida"],
+  "Protein in g": ["Protein in g", "Proteína en g"],
+  "Foto-Schätzung · Portionsgröße und Zutaten können abweichen.": ["Photo estimate · Portion size and ingredients may vary.", "Estimación por foto · La porción y los ingredientes pueden variar."],
+  "Kein Essen erkannt. Bitte fotografiere die Mahlzeit erneut.": ["No food recognized. Please photograph the meal again.", "No se reconoció comida. Fotografía la comida de nuevo."],
+  "Das Foto konnte nicht ausgewertet werden. Bitte versuche es später erneut.": ["The photo could not be analyzed. Please try again later.", "No se pudo analizar la foto. Inténtalo más tarde."],
+  "Bitte wähle ein Foto bis 20 MB.": ["Please choose a photo up to 20 MB.", "Elige una foto de hasta 20 MB."],
   "Unter dem Tagesrichtwert": ["Below the daily reference", "Por debajo de la referencia diaria"],
   "Über dem Tagesrichtwert": ["Above the daily reference", "Por encima de la referencia diaria"],
   "Keine gelben oder roten Ernährungswerte mit Richtwert für heute.": ["No yellow or red nutrition values with a reference today.", "No hay valores nutricionales amarillos o rojos con referencia hoy."],
