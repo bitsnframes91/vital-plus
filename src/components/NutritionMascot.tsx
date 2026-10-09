@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import mascotVideo from "@/assets/nutrition-mascot-transparent.webm.asset.json";
-import mascotStill from "@/assets/nutrition-mascot-transparent.png.asset.json";
+import mascotVideo from "@/assets/nutrition-mascot-full.webm.asset.json";
+import mascotStill from "@/assets/nutrition-mascot-full.png.asset.json";
 
 export function NutritionMascot() {
   const videoRef = useRef<HTMLVideoElement>(null);
