@@ -14,6 +14,7 @@
 - [x] Verify the detail page and return navigation.
 
 # Nutrition recommendations
+- [ ] Replace Heute plan-task Tagesziele with prioritized yellow/red nutrition cards; preserve plan/history and verify dynamic updates.
 - [x] Expand Omega fette to daily Omega-3/6/9 amounts and a Mineralien-style submenu; tests and signed-in meal-to-submenu flow passed with account writes blocked.
 - [x] Add a matching Omega-3 card with daily meal-based estimates; intake tests and signed-in typed-meal-to-card check passed with account writes blocked.
 - [x] Add Vitamine and Mineralien daily cards with meal-based estimates, reached-target counts and status faces; tests and signed-in estimate-to-card check passed with account writes blocked.
