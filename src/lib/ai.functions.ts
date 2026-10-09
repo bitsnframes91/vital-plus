@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { mealPlanContext } from "./meal-plan-context";
 import { micronutrientPrompt, parseMicronutrients, type MicronutrientAmounts } from "./micronutrients";
 
@@ -43,6 +44,7 @@ export type LabReading = { id: string | null; name: string; unit: string; value:
 export type PlanItem = { title: string; detail: string };
 
 export const analyzeLabPdf = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((d) =>
     z.object({ filename: z.string().max(200), mimeType: z.enum(["application/pdf", "image/jpeg", "image/png", "image/webp"]).default("application/pdf"), base64: z.string().min(100).max(14_000_000), knownIds: z.array(z.string()).max(50), meals: z.array(z.object({ name: z.string().max(200), date: z.string().max(10), kcal: z.number().nonnegative(), protein: z.number().nonnegative(), fiber: z.number().nonnegative(), carbs: z.number().nonnegative(), fat: z.number().nonnegative() })).max(100).default([]) }).parse(d),
   )
@@ -70,6 +72,7 @@ Antworte NUR mit JSON in dieser Form:
   });
 
 export const mealFromVoice = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ base64: z.string().min(1000).max(14_000_000) }).parse(d))
   .handler(async ({ data }) => {
     const key = process.env["LOVABLE_API_KEY"];
