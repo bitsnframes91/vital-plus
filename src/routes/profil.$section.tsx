@@ -20,6 +20,7 @@ import { AppSettingsControls } from "@/components/AppSettings";
 
 const titles: Record<string, string> = { personal: "Gesundheitsprofil bearbeiten", security: "Konto & Sicherheit", settings: "App-Einstellungen", privacy: "Meine Daten", help: "Kundenservice kontaktieren", legal: "Rechtliches", account: "Konto verwalten" };
 
+import { privacyCopy } from "@/lib/privacy-policy";
 const termsCopy = {
   de: {
     date: "Stand: 9. Oktober 2026",
@@ -87,7 +88,8 @@ function Row({ title, sub, icon: Icon, onClick, danger = false, green = false }:
 
 function ProfileSubmenu() {
   const language = useLanguage();
-  const terms = termsCopy[language];
+  const [doc, setDoc] = useState<"terms" | "privacy">("terms");
+  const terms = doc === "privacy" ? privacyCopy[language] : termsCopy[language];
   const { section } = Route.useParams();
   const navigate = Route.useNavigate();
   const { s, set } = useStore();
@@ -128,7 +130,7 @@ function ProfileSubmenu() {
   };
   const password = () => setDetail({ title: "Passwort ändern", password: true });
   const appLock = () => setDetail({ title: "App Lock", lock: true });
-  const privacy = () => notice("Datenschutzerklärung", "Die offizielle Datenschutzerklärung für Vitalplus wurde noch nicht hinterlegt.");
+  const privacy = () => { setDoc("privacy"); setDetail({ title: "Datenschutzerklärung", terms: true }); };
   const value = (n: number | null | undefined, unit: string) => n == null ? "Nicht angegeben" : `${n} ${unit}`;
   return <AppShell>
     <header className="flex min-h-20 items-center gap-2 px-3 py-5">
@@ -163,7 +165,7 @@ function ProfileSubmenu() {
         <Row title={translateText("Feedback geben")} sub={translateText("Hilf uns, die App zu verbessern")} icon={MessageSquare} green onClick={() => navigate({ to: "/profil/feedback" })} />
       </div></>}
       {section === "legal" && <div className="space-y-2">
-        <Row title={translateText("Allgemeine Geschäftsbedingungen (AGB)")} icon={FileText} onClick={() => setDetail({ title: "Allgemeine Geschäftsbedingungen (AGB)", terms: true })} />
+        <Row title={translateText("Allgemeine Geschäftsbedingungen (AGB)")} icon={FileText} onClick={() => { setDoc("terms"); setDetail({ title: "Allgemeine Geschäftsbedingungen (AGB)", terms: true }); }} />
         <Row title={translateText("Datenschutzerklärung")} icon={Shield} onClick={privacy} />
         <Row title={translateText("Impressum")} icon={FileText} onClick={() => notice("Impressum", "Das offizielle Impressum für Vitalplus wurde noch nicht hinterlegt.")} />
         <Row title={translateText("Lizenzen")} sub={translateText("Open Source Lizenzen")} icon={FileText} onClick={() => notice("Lizenzen", "Vitalplus verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.")} />
