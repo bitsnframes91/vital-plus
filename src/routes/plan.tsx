@@ -4,7 +4,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { ChevronDown, Clock3, ExternalLink, HeartPulse, Salad, Sun } from "lucide-react";
 import { StepsIcon } from "@/components/StepsIcon";
-import { AppShell, Icon, PageHeader } from "@/components/AppShell";
+import { AppShell, Icon } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
 import { useStore } from "@/lib/store";
 import { status } from "@/lib/data";
@@ -12,7 +12,7 @@ import { todayKey } from "@/lib/daily-goals";
 import { suggestedProducts } from "@/lib/plan-products";
 import { combinedPlan, goalProducts } from "@/lib/goal-plan";
 import { routineTips, type RoutineTip } from "@/lib/deficiency-routines";
-import planRunner from "@/assets/plan-runner-top.png.asset.json";
+import { PlanMascot } from "@/components/PlanMascot";
 
 export const Route = createFileRoute("/plan")({
   head: () => ({
@@ -55,7 +55,14 @@ function Plan() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Plan")} title={translateText("Dein persönlicher Plan")} sub={translateText(s.aiPlan ? "Aus deinen Zielen und deinem Laborbefund – keine medizinische Beratung." : "Aus deinen Fragebogen-Zielen – keine medizinische Beratung.")} image={planRunner.url} imageAlt={translateText("Läuferin überspringt eine Hürde auf der Laufbahn")} />
+      <header className="plan-mascot-header relative bg-card px-6 pb-8 pt-9">
+        <PlanMascot />
+        <div className="plan-mascot-copy relative">
+          <div className="font-data text-[12px] uppercase text-fv-deep"><Localized>{"Plan"}</Localized></div>
+          <h1 className="mt-4 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>{"Dein persönlicher Plan"}</Localized></h1>
+          <p className="mt-2 text-sm text-muted-foreground"><Localized>{s.aiPlan ? "Aus deinen Zielen und deinem Laborbefund – keine medizinische Beratung." : "Aus deinen Fragebogen-Zielen – keine medizinische Beratung."}</Localized></p>
+        </div>
+      </header>
       <div className="space-y-3 px-4 pt-4">
         {!items.length && (
           <Link to="/onboarding" className="card-surface block p-5">
