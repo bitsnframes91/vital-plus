@@ -245,6 +245,15 @@
   .health-mascot { right: 8px; width: 100px; }
 }
 @media (prefers-reduced-motion: reduce) { .health-mascot video { display: none; } }
+.plan-mascot-header { min-height: 256px; }
+.plan-mascot-copy { width: calc(100% - 140px); }
+.plan-mascot { top: 22px; right: 8px; width: 132px; height: 218px; }
+@media (max-width: 360px) {
+  .plan-mascot-copy { width: calc(100% - 114px); }
+  .plan-mascot-copy h1 { font-size: 25px; overflow-wrap: anywhere; }
+  .plan-mascot { right: 4px; width: 110px; }
+}
+@media (prefers-reduced-motion: reduce) { .plan-mascot video { display: none; } }
 .today-mascot { top: 91px; right: 16px; width: 132px; height: 165px; }
 .today-mascot-heading, .today-mascot-greeting { max-width: calc(100% - 130px); }
 .today-mascot-heading { min-height: 100px; }
