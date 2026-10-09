@@ -10,7 +10,7 @@
 <!-- LOVABLE:END -->
 
 # Project rules
-- TodayMascot uses a CDN video pointer, still fallback and reduced-motion support. Why: keep animation independent of health state and readable on small screens.
+- Mascots use transparent CDN videos, still fallbacks and reduced-motion support. Why: blend with either theme without obstructing controls.
 - Interface localization uses bundled German-source translation catalogues and React-rendered Localized text, with the applied language saved by AppSettingsProvider; never translate persisted goal identifiers or send health data for translation. Why: all screens switch safely without changing profile data or depending on online translation.
 - Step and walking-category icons use the shared StepsIcon component. Why: uploaded artwork and reduced-motion-aware animation stay consistent across views.
 - Device presentation preferences use AppSettingsProvider and semantic dark-mode tokens; notification permission is requested only on opt-in, and reminders run only while the app is open. Why: browser-only scheduling must not promise background push delivery.

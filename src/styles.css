@@ -218,6 +218,15 @@
 .bg-header { --on-ink: var(--ink); }
 .vivo-today-header { min-height: 348px; }
 .today-mascot-header { background: var(--card); }
+.labor-mascot-header { min-height: 256px; }
+.labor-mascot-copy { width: calc(100% - 132px); }
+.labor-mascot { top: 22px; right: 14px; width: 120px; height: 218px; }
+@media (max-width: 360px) {
+  .labor-mascot-copy { width: calc(100% - 110px); }
+  .labor-mascot-copy h1 { font-size: 25px; overflow-wrap: anywhere; }
+  .labor-mascot { right: 8px; width: 100px; }
+}
+@media (prefers-reduced-motion: reduce) { .labor-mascot video { display: none; } }
 .today-mascot { top: 91px; right: 16px; width: 132px; height: 165px; }
 .today-mascot-heading, .today-mascot-greeting { max-width: calc(100% - 130px); }
 .today-mascot-heading { min-height: 100px; }

@@ -5,7 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { Camera, Upload, Trash2 } from "lucide-react";
 import { useEffect } from "react";
-import { AppShell, PageHeader } from "@/components/AppShell";
+import { AppShell } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
 import { useStore } from "@/lib/store";
 import { fmtDate, status, labMarkers as catalog, type LabMarker } from "@/lib/data";
@@ -13,7 +13,7 @@ import { analyzeLabPdf } from "@/lib/ai.functions";
 import { blobToBase64 } from "@/lib/record-wav";
 import { RangeBar } from "@/components/RangeBar";
 import { StatusFace, type StatusMood } from "@/components/StatusFace";
-import laborLab from "@/assets/labor-lab.jpg.asset.json";
+import { LaborMascot } from "@/components/LaborMascot";
 
 export const Route = createFileRoute("/labor")({
   head: () => ({
@@ -126,7 +126,14 @@ function Labs() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Labor")} title={translateText("Deine Laborwerte")} sub={translateText("Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen.")} image={laborLab.url} imageAlt={translateText("Forschende im weißen Kittel arbeiten im Labor an einem Mikroskop")} imageOverlay="labor-image-overlay" />
+      <header className="labor-mascot-header relative overflow-hidden bg-card px-6 pb-8 pt-9">
+        <div className="labor-mascot-copy relative">
+          <span className="font-data text-[12px] uppercase text-fv-deep"><Localized>Labor</Localized></span>
+          <h1 className="mt-4 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>Deine Laborwerte</Localized></h1>
+          <p className="mt-3 text-sm text-muted-foreground"><Localized>Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen.</Localized></p>
+        </div>
+        <LaborMascot />
+      </header>
       <div className="space-y-3 px-4 pt-4">
         <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
           <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv/10 text-fv-deep"><Upload size={20} strokeWidth={2.2} aria-hidden="true" /></span>
