@@ -1,4 +1,5 @@
 # Vivo redesign
+- [ ] Add the supplied animated scientist mascot to Labor with a background-free presentation and reduced-motion fallback; verify signed-in rendering.
 - [x] Enable saved Hell/Dunkel and functional notification/reminder switches; keep Einheiten removed.
 - [x] Restore language selection for Deutsch, English and Spanish with Apply, saved preference and app-wide translated interface; verify switching and persistence.
 - [x] Open an email reset form from Passwort ändern in both Profile account menus; verified both dialogs and reset request tests without sending an unsolicited email.
