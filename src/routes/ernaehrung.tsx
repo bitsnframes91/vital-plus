@@ -14,7 +14,7 @@ import { nutrientStatus, nutritionTargets, type NutritionProfile } from "@/lib/n
 import type { Meal } from "@/lib/data";
 import { micronutrientGaps, nutritionGaps } from "@/lib/nutrition-products";
 import { micronutrientSummary } from "@/lib/micronutrients";
-import { omega3Summary } from "@/lib/omega3";
+import { omegaSummary } from "@/lib/omega3";
 import ernaehrungVeg from "@/assets/ernaehrung-veg.jpg.asset.json";
 import voiceCardBg from "@/assets/voice-card-bg.png";
 
@@ -53,7 +53,7 @@ function NutritionPage() {
   const [kcal, setKcal] = useState("");
   const voice = useServerFn(mealFromVoice);
   const estimate = useServerFn(mealNutrition);
-   type Est = Pick<Meal, "name" | "kcal" | "protein" | "fiber" | "carbs" | "fat" | "micronutrients" | "omega3Mg">;
+   type Est = Pick<Meal, "name" | "kcal" | "protein" | "fiber" | "carbs" | "fat" | "micronutrients" | "omega3Mg" | "omega6Mg" | "omega9Mg">;
   const [est, setEst] = useState<Est | null>(null);
   const [estBusy, setEstBusy] = useState(false);
   const [estErr, setEstErr] = useState<string | null>(null);
@@ -62,7 +62,7 @@ function NutritionPage() {
     try {
       const r = await estimate({ data: { name: n } });
       if (!r.ok) { setEstErr(r.error); return null; }
-      const e: Est = { name: n, kcal: r.kcal, protein: r.protein, fiber: r.fiber, carbs: r.carbs, fat: r.fat, micronutrients: r.micronutrients, omega3Mg: r.omega3Mg };
+      const e: Est = { name: n, kcal: r.kcal, protein: r.protein, fiber: r.fiber, carbs: r.carbs, fat: r.fat, micronutrients: r.micronutrients, omega3Mg: r.omega3Mg, omega6Mg: r.omega6Mg, omega9Mg: r.omega9Mg };
       setEst(e); setKcal(String(e.kcal)); setProtein(String(e.protein));
       return e;
     } catch { setEstErr("Nährwerte konnten nicht berechnet werden."); return null; }
@@ -89,18 +89,18 @@ function NutritionPage() {
   const sRef = useRef(s); sRef.current = s;
   const tried = useRef(new Set<string>());
   useEffect(() => {
-    const missing = todayMeals.filter((m) => (!m.micronutrients || m.omega3Mg === undefined) && !tried.current.has(m.id));
+    const missing = todayMeals.filter((m) => (!m.micronutrients || m.omega3Mg === undefined || m.omega6Mg === undefined || m.omega9Mg === undefined) && !tried.current.has(m.id));
     if (!missing.length) return;
     missing.forEach((m) => tried.current.add(m.id));
     void (async () => {
-      const found: Record<string, Pick<Meal, "micronutrients" | "omega3Mg">> = {};
+      const found: Record<string, Pick<Meal, "micronutrients" | "omega3Mg" | "omega6Mg" | "omega9Mg">> = {};
       for (const m of missing) {
-        try { const r = await estimate({ data: { name: m.name } }); if (r.ok) found[m.id] = { micronutrients: m.micronutrients ?? r.micronutrients, omega3Mg: m.omega3Mg ?? r.omega3Mg }; } catch { /* keep unavailable */ }
+        try { const r = await estimate({ data: { name: m.name } }); if (r.ok) found[m.id] = { micronutrients: m.micronutrients ?? r.micronutrients, omega3Mg: m.omega3Mg ?? r.omega3Mg, omega6Mg: m.omega6Mg ?? r.omega6Mg, omega9Mg: m.omega9Mg ?? r.omega9Mg }; } catch { /* keep unavailable */ }
       }
       if (Object.keys(found).length) set({ meals: sRef.current.meals.map((x) => found[x.id] ? { ...x, ...found[x.id] } : x) });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todayMeals.map((m) => `${m.id}:${Boolean(m.micronutrients)}:${m.omega3Mg}`).join()]);
+  }, [todayMeals.map((m) => `${m.id}:${Boolean(m.micronutrients)}:${m.omega3Mg}:${m.omega6Mg}:${m.omega9Mg}`).join()]);
 
   // Diary: group meals by day, newest first.
   const days = [...new Set(s.meals.map((m) => m.date))].sort().reverse();
@@ -140,7 +140,7 @@ function NutritionPage() {
       protein: Number(protein.replace(",", ".")) || e2?.protein || 0, kcal: Number(kcal.replace(",", ".")) || e2?.kcal || 0,
       fiber: e2?.fiber ?? 0, carbs: e2?.carbs ?? 0, fat: e2?.fat ?? 0,
        micronutrients: e2?.micronutrients,
-      omega3Mg: e2?.omega3Mg,
+      omega3Mg: e2?.omega3Mg, omega6Mg: e2?.omega6Mg, omega9Mg: e2?.omega9Mg,
       time: nowTime(), date: today,
     };
     set({ meals: [...s.meals, meal] });
@@ -166,7 +166,7 @@ function NutritionPage() {
   const gaps = nutritionGaps(totals, targets, s.meals.filter((m) => m.date === today).length);
   const microGaps = micronutrientGaps(s.meals.filter((m) => m.date === today));
 
-  const omega3 = omega3Summary(todayMeals);
+  const omega = omegaSummary(todayMeals);
 
   return (
     <AppShell>
@@ -185,12 +185,12 @@ function NutritionPage() {
               <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{"Heute / Tagesrichtwert · ca."}</Localized></div>
             </div>;
           })}
-          <div data-nutrition="omega3" className="card-surface min-w-0 p-4">
-            <div className="flex items-center justify-between gap-1"><div className="eyebrow">Omega-3</div><StatusFace mood="neutral" alt={translateText(omega3.available ? "Geschätzte Aufnahme" : "Noch keine Nährstoffdaten")} className="size-5" /></div>
-            <div className="font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 text-foreground"><span className="text-[23px] font-semibold">{omega3.available ? format(omega3.total) : "—"}</span><span className="text-[13px]">mg</span></div>
-            <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{omega3.available ? "Heute · geschätzt" : "Noch keine Nährstoffdaten"}</Localized></div>
-            {omega3.available && omega3.partial && <div className="mt-1 text-[11px] text-muted-foreground"><Localized>{"Teilweise erfasst · heute"}</Localized></div>}
-          </div>
+          <Link to="/ernaehrung/omega-fette" data-nutrition="omega" className="card-surface block min-w-0 p-4">
+            <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{"Omega fette"}</Localized></div><StatusFace mood="neutral" alt={translateText(omega.available ? "Geschätzte Aufnahme" : "Noch keine Nährstoffdaten")} className="size-5" /></div>
+            <div className="font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 text-foreground"><span className="text-[23px] font-semibold">{omega.available ? format(omega.total) : "—"}</span><span className="text-[13px]">mg</span></div>
+            <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{omega.available ? "Heute · geschätzt" : "Noch keine Nährstoffdaten"}</Localized></div>
+            {omega.available && omega.partial && <div className="mt-1 text-[11px] text-muted-foreground"><Localized>{"Teilweise erfasst · heute"}</Localized></div>}
+          </Link>
           {(["vitamins", "minerals"] as const).map((group) => {
             const summary = micronutrientSummary(todayMeals, group);
             const state = summary.available ? feedback[nutrientStatus("protein", summary.reached, summary.total)] : neutral;

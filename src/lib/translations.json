@@ -1,4 +1,7 @@
 {
+  "Omega fette": ["Omega fats", "Grasas omega"],
+  "Anteil der erfassten Omega-Fette": ["Share of logged omega fats", "Proporción de grasas omega registradas"],
+  "Omega-Fette: geschätzte Mengen aus heutigen Mahlzeiten. Die Balken zeigen den Anteil an der erfassten Gesamtmenge, keinen Tagesbedarf.": ["Omega fats: estimated amounts from today’s meals. Bars show the share of the logged total, not a daily requirement.", "Grasas omega: cantidades estimadas de las comidas de hoy. Las barras muestran la proporción del total registrado, no una necesidad diaria."],
   "Geschätzte Aufnahme": ["Estimated intake", "Ingesta estimada"],
   "Heute · geschätzt": ["Today · estimated", "Hoy · estimado"],
   "Vitamine": [

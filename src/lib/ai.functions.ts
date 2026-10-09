@@ -3,7 +3,7 @@ import { z } from "zod";
 import { mealPlanContext } from "./meal-plan-context";
 import { micronutrientPrompt, parseMicronutrients, type MicronutrientAmounts } from "./micronutrients";
 
-import { omega3Prompt, parseOmega3 } from "./omega3";
+import { omega3Prompt, parseOmegaAmounts } from "./omega3";
 
 const GATEWAY = "https://ai.gateway.lovable.dev/v1";
 const MODEL = "openai/gpt-6-astra";
@@ -91,7 +91,7 @@ export const mealFromVoice = createServerFn({ method: "POST" })
         type: "input_text",
         text: `Jemand beschreibt, was er gegessen hat: "${transcript}"
 Teile das in Mahlzeiten auf. Schätze pro Mahlzeit realistisch: protein, kcal, fiber (Ballaststoffe), carbs (Kohlenhydrate), fat (Fett) – jeweils in Gramm bzw. kcal. label ist eine von: Frühstück, Mittagessen, Abendessen, Snack. ${micronutrientPrompt} ${omega3Prompt}
-Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,"kcal":number,"fiber":number,"carbs":number,"fat":number,"omega3Mg":number|null,"micronutrients":{"vitamins":{key:number},"minerals":{key:number}}}]}`,
+Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,"kcal":number,"fiber":number,"carbs":number,"fat":number,"omega3Mg":number|null,"omega6Mg":number|null,"omega9Mg":number|null,"micronutrients":{"vitamins":{key:number},"minerals":{key:number}}}]}`,
       },
     ]);
     if (!r.ok) return r;
@@ -99,9 +99,9 @@ Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,
     const num = (v: any) => Math.max(0, Math.round(Number(v) || 0));
     const meals = (Array.isArray(r.data.meals) ? r.data.meals : [])
       .filter((m: any) => typeof m?.name === "string")
-      .map((m: any) => ({ label: labels.includes(m.label) ? m.label : "Snack", name: m.name.slice(0, 120), protein: num(m.protein), kcal: num(m.kcal), fiber: num(m.fiber), carbs: num(m.carbs), fat: num(m.fat), omega3Mg: parseOmega3(m.omega3Mg), micronutrients: parseMicronutrients(m.micronutrients) }));
+      .map((m: any) => ({ label: labels.includes(m.label) ? m.label : "Snack", name: m.name.slice(0, 120), protein: num(m.protein), kcal: num(m.kcal), fiber: num(m.fiber), carbs: num(m.carbs), fat: num(m.fat), ...parseOmegaAmounts(m), micronutrients: parseMicronutrients(m.micronutrients) }));
     if (!meals.length) return { ok: false as const, error: `Verstanden: „${transcript}“ – aber keine Mahlzeit erkannt.` };
-    return { ok: true as const, transcript, meals: meals as { label: string; name: string; protein: number; kcal: number; fiber: number; carbs: number; fat: number; omega3Mg?: number | undefined; micronutrients?: MicronutrientAmounts | undefined }[] };
+    return { ok: true as const, transcript, meals: meals as { label: string; name: string; protein: number; kcal: number; fiber: number; carbs: number; fat: number; omega3Mg?: number | undefined; omega6Mg?: number | undefined; omega9Mg?: number | undefined; micronutrients?: MicronutrientAmounts | undefined }[] };
   });
 
 export const mealNutrition = createServerFn({ method: "POST" })
@@ -111,10 +111,10 @@ export const mealNutrition = createServerFn({ method: "POST" })
       {
         type: "input_text",
         text: `Schätze realistische Nährwerte für eine übliche Portion dieser Mahlzeit: "${data.name.replace(/"/g, "'")}". ${micronutrientPrompt} ${omega3Prompt}
-Antworte NUR mit JSON: {"kcal":number,"protein":number,"fiber":number,"carbs":number,"fat":number,"omega3Mg":number|null,"micronutrients":{"vitamins":{key:number},"minerals":{key:number}}} (Makronährwerte in kcal bzw. Gramm, Mikronährwerte in den oben angegebenen Einheiten).`,
+Antworte NUR mit JSON: {"kcal":number,"protein":number,"fiber":number,"carbs":number,"fat":number,"omega3Mg":number|null,"omega6Mg":number|null,"omega9Mg":number|null,"micronutrients":{"vitamins":{key:number},"minerals":{key:number}}} (Makronährwerte in kcal bzw. Gramm, Mikronährwerte in den oben angegebenen Einheiten).`,
       },
     ]);
     if (!r.ok) return r;
     const num = (v: any) => Math.max(0, Math.round(Number(v) || 0));
-    return { ok: true as const, kcal: num(r.data.kcal), protein: num(r.data.protein), fiber: num(r.data.fiber), carbs: num(r.data.carbs), fat: num(r.data.fat), omega3Mg: parseOmega3(r.data.omega3Mg), micronutrients: parseMicronutrients(r.data.micronutrients) };
+    return { ok: true as const, kcal: num(r.data.kcal), protein: num(r.data.protein), fiber: num(r.data.fiber), carbs: num(r.data.carbs), fat: num(r.data.fat), ...parseOmegaAmounts(r.data), micronutrients: parseMicronutrients(r.data.micronutrients) };
   });
