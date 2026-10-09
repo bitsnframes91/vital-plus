@@ -18,6 +18,7 @@
 - [x] Verify the detail page and return navigation.
 
 # Nutrition recommendations
+- [ ] Add food-photo capture to the meal form with animated calculation and editable automatic name/calorie/protein filling; verify live AI and saving without changing existing meals.
 - [x] Replace Heute plan-task Tagesziele with prioritized yellow/red nutrition cards; preserve plan/history; tests and signed-in meal-to-He ute navigation verified with account writes blocked.
 - [x] Expand Omega fette to daily Omega-3/6/9 amounts and a Mineralien-style submenu; tests and signed-in meal-to-submenu flow passed with account writes blocked.
 - [x] Add a matching Omega-3 card with daily meal-based estimates; intake tests and signed-in typed-meal-to-card check passed with account writes blocked.
