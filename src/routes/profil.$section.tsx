@@ -21,6 +21,7 @@ import { AppSettingsControls } from "@/components/AppSettings";
 const titles: Record<string, string> = { personal: "Gesundheitsprofil bearbeiten", security: "Konto & Sicherheit", settings: "App-Einstellungen", privacy: "Meine Daten", help: "Kundenservice kontaktieren", legal: "Rechtliches", account: "Konto verwalten" };
 
 import { privacyCopy } from "@/lib/privacy-policy";
+import { imprintSections } from "@/lib/imprint";
 const termsCopy = {
   de: {
     date: "Stand: 9. Oktober 2026",
@@ -93,7 +94,7 @@ function ProfileSubmenu() {
   const { section } = Route.useParams();
   const navigate = Route.useNavigate();
   const { s, set } = useStore();
-  const [detail, setDetail] = useState<{ title: string; text?: string; name?: boolean; data?: boolean; faq?: boolean; password?: boolean; lock?: boolean; target?: boolean; terms?: boolean } | null>(null);
+  const [detail, setDetail] = useState<{ title: string; text?: string; name?: boolean; data?: boolean; faq?: boolean; password?: boolean; lock?: boolean; target?: boolean; terms?: boolean; imprint?: boolean } | null>(null);
   const [name, setName] = useState(s.name);
   const [targetWeight, setTargetWeight] = useState("");
   const [field, setField] = useState<Field | null>(null);
@@ -167,12 +168,18 @@ function ProfileSubmenu() {
       {section === "legal" && <div className="space-y-2">
         <Row title={translateText("Allgemeine Geschäftsbedingungen (AGB)")} icon={FileText} onClick={() => { setDoc("terms"); setDetail({ title: "Allgemeine Geschäftsbedingungen (AGB)", terms: true }); }} />
         <Row title={translateText("Datenschutzerklärung")} icon={Shield} onClick={privacy} />
-        <Row title={translateText("Impressum")} icon={FileText} onClick={() => notice("Impressum", "Das offizielle Impressum für Vitalplus wurde noch nicht hinterlegt.")} />
+        <Row title={translateText("Impressum")} icon={FileText} onClick={() => setDetail({ title: "Impressum", imprint: true })} />
         <Row title={translateText("Lizenzen")} sub={translateText("Open Source Lizenzen")} icon={FileText} onClick={() => notice("Lizenzen", "Vitalplus verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.")} />
       </div>}
       {!titles[section] && <p className="text-sm text-muted-foreground"><Localized>{"Dieser Profilbereich ist nicht verfügbar."}</Localized></p>}
     </div>
-    <Dialog open={detail !== null} onOpenChange={open => { if (!open) { setDetail(null); setField(null); } }}><DialogContent className={`max-h-[85dvh] overflow-y-auto rounded-2xl ${detail?.terms ? "max-w-2xl" : "max-w-sm"}`}><DialogHeader><DialogTitle><Localized>{detail?.title}</Localized></DialogTitle></DialogHeader>
+    <Dialog open={detail !== null} onOpenChange={open => { if (!open) { setDetail(null); setField(null); } }}><DialogContent className={`max-h-[85dvh] overflow-y-auto rounded-2xl ${detail?.terms || detail?.imprint ? "max-w-2xl" : "max-w-sm"}`}><DialogHeader><DialogTitle><Localized>{detail?.title}</Localized></DialogTitle></DialogHeader>
+      {detail?.imprint && <article lang="de" className="space-y-5 break-words text-sm leading-6">
+        {imprintSections.map((block, index) => <section key={index}>
+          {"title" in block && <h2 className="mb-2 font-semibold text-foreground">{block.title}</h2>}
+          <p className="whitespace-pre-line text-muted-foreground">{block.text}{"links" in block && block.links?.map(link => <span key={link.href}>{"prefix" in link ? link.prefix : ""}<a className="text-primary underline underline-offset-4" href={link.href} target={link.href.startsWith("mailto:") ? undefined : "_blank"} rel="noopener noreferrer">{link.label}</a></span>)}</p>
+        </section>)}
+      </article>}
       {detail?.terms && <article className="space-y-5 break-words text-sm leading-6">
         <p className="text-xs text-muted-foreground">{terms.date}</p>
 
