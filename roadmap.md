@@ -14,6 +14,7 @@
 - [x] Verify the detail page and return navigation.
 
 # Nutrition recommendations
+- [ ] Add and verify a matching Omega-3 card with daily meal-based estimates.
 - [x] Add Vitamine and Mineralien daily cards with meal-based estimates, reached-target counts and status faces; tests and signed-in estimate-to-card check passed with account writes blocked.
 - [x] Include logged meals when preparing the plan, reinforcing balanced choices and suggesting improvements.
 - [x] Ask age, sex and activity in onboarding and calculate daily maintenance estimates.
