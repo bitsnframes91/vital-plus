@@ -227,6 +227,15 @@
   .labor-mascot { right: 8px; width: 100px; }
 }
 @media (prefers-reduced-motion: reduce) { .labor-mascot video { display: none; } }
+.nutrition-mascot-header { min-height: 256px; }
+.nutrition-mascot-copy { width: calc(100% - 132px); }
+.nutrition-mascot { top: 22px; right: 8px; width: 132px; height: 218px; }
+@media (max-width: 360px) {
+  .nutrition-mascot-copy { width: calc(100% - 110px); }
+  .nutrition-mascot-copy h1 { font-size: 25px; overflow-wrap: anywhere; }
+  .nutrition-mascot { right: 4px; width: 110px; }
+}
+@media (prefers-reduced-motion: reduce) { .nutrition-mascot video { display: none; } }
 .today-mascot { top: 91px; right: 16px; width: 132px; height: 165px; }
 .today-mascot-heading, .today-mascot-greeting { max-width: calc(100% - 130px); }
 .today-mascot-heading { min-height: 100px; }

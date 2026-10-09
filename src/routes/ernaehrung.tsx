@@ -4,7 +4,8 @@ import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-r
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
 import { StatusFace, type StatusMood } from "@/components/StatusFace";
-import { AppShell, PageHeader } from "@/components/AppShell";
+import { AppShell } from "@/components/AppShell";
+import { NutritionMascot } from "@/components/NutritionMascot";
 import { useStore } from "@/lib/store";
 import { mealFromVoice, mealNutrition } from "@/lib/ai.functions";
 import { blobToBase64, recordWav } from "@/lib/record-wav";
@@ -15,7 +16,6 @@ import type { Meal } from "@/lib/data";
 import { micronutrientGaps, nutritionGaps } from "@/lib/nutrition-products";
 import { micronutrientSummary } from "@/lib/micronutrients";
 import { omegaSummary } from "@/lib/omega3";
-import ernaehrungVeg from "@/assets/ernaehrung-veg.jpg.asset.json";
 import voiceCardBg from "@/assets/voice-card-bg.png";
 
 export const Route = createFileRoute("/ernaehrung")({
@@ -170,7 +170,14 @@ function NutritionPage() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Ernährung")} title={translateText("Was hast du heute gegessen?")} sub={translateText("Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett – sowie Vitaminen und Mineralien.")} subClass="max-w-[26ch]" image={ernaehrungVeg.url} imageAlt={translateText("Angeschnittene Orangenscheibe in leuchtend orangefarbenem Saft mit schwebenden Tropfen")} imageOverlay="citrus-image-overlay" />
+      <header className="nutrition-mascot-header relative overflow-hidden bg-card px-6 pb-8 pt-9">
+        <div className="nutrition-mascot-copy relative">
+          <span className="font-data text-[12px] uppercase text-fv-deep"><Localized>Ernährung</Localized></span>
+          <h1 className="mt-4 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>Was hast du heute gegessen?</Localized></h1>
+          <p className="mt-3 text-sm text-muted-foreground"><Localized>Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett – sowie Vitaminen und Mineralien.</Localized></p>
+        </div>
+        <NutritionMascot />
+      </header>
       <div className="space-y-4 px-4 pt-4">
         <div className="grid grid-cols-2 gap-3">
           {statCards.map((c) => {
