@@ -2,7 +2,7 @@
 export function parseOmega3(input: unknown): number | undefined {
   return typeof input === "number" && Number.isFinite(input) && input >= 0 ? input : undefined;
 }
-export function omega3Summary(meals: { omega3Mg?: number }[]) {
+export function omega3Summary(meals: { omega3Mg?: number | undefined }[]) {
   const known = meals.map(meal => parseOmega3(meal.omega3Mg)).filter((amount): amount is number => amount !== undefined);
   return { total: known.reduce((sum, amount) => sum + amount, 0), available: known.length > 0, partial: known.length < meals.length };
 }
