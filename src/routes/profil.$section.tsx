@@ -24,7 +24,6 @@ const termsCopy = {
   de: {
     date: "Stand: 9. Oktober 2026",
     draft: "Entwurf zur rechtlichen Prüfung. Angelehnt an die Fairvital-Shop-AGB und für Vitalplus angepasst. Vor verbindlicher Verwendung müssen insbesondere der App-Betreiber und dessen vollständige Anbieterangaben bestätigt werden. Dieser Text allein ersetzt keine wirksame Vereinbarung der Bedingungen.",
-    source: "Original-AGB des Fairvital-Shops",
     sections: [
       ["1. Geltungsbereich und Anbieter", "Diese Nutzungsbedingungen betreffen die Gesundheits- und Ernährungs-App Vitalplus und deren digitale Funktionen. Die verlinkten Shop-AGB nennen Fairvital BV als Verkäufer von Waren; daraus folgt nicht automatisch, dass Fairvital BV auch Vertragspartner der App-Nutzung ist. Die verbindlichen Anbieterangaben für Vitalplus sind vor Freigabe dieser Bedingungen zu ergänzen. Die App richtet sich an volljährige Personen zur persönlichen Nutzung. Verbraucher ist eine natürliche Person, die überwiegend außerhalb ihrer gewerblichen oder selbständigen beruflichen Tätigkeit handelt."],
       ["2. Registrierung und Nutzerkonto", "Für personalisierte Funktionen ist ein eigenes Konto mit E-Mail-Adresse und Passwort erforderlich. Angaben sollen zutreffend sein; Zugangsdaten sind vertraulich zu behandeln. Bitte verwende eine erreichbare E-Mail-Adresse für Bestätigung, Passwortwiederherstellung und Kontosicherheit. App-Konto und Fairvital-Shop-Konto sind getrennt. Diese Bedingungen werden nicht allein durch das Öffnen dieses Textes akzeptiert; eine rechtlich erforderliche Einbeziehung ist gesondert sicherzustellen."],
@@ -41,7 +40,6 @@ const termsCopy = {
   en: {
     date: "Updated: 9 October 2026",
     draft: "Draft for legal review. Adapted from the Fairvital shop terms for Vitalplus. Before binding use, the app operator and full provider details must be confirmed. Displaying this text alone does not establish an effective agreement.",
-    source: "Original Fairvital shop terms",
     sections: [
       ["1. Scope and provider", "These terms concern the Vitalplus health and nutrition app and its digital features. The linked shop terms identify Fairvital BV as the seller of goods; this does not automatically establish Fairvital BV as the contractual provider of the app. Binding Vitalplus provider details must be added before approval. The app is intended for adults for personal use. A consumer is an individual acting predominantly outside their trade or profession."],
       ["2. Registration and account", "Personalized features require an individual email and password account. Provide accurate information and keep credentials confidential. Use an accessible email address for confirmation, password recovery and account security. App and Fairvital shop accounts are separate. Opening these terms does not constitute acceptance; any legally required incorporation must be ensured separately."],
@@ -58,7 +56,6 @@ const termsCopy = {
   es: {
     date: "Actualizado: 9 de octubre de 2026",
     draft: "Borrador para revisión jurídica. Adaptado de las condiciones de la tienda Fairvital para Vitalplus. Antes de su uso vinculante deben confirmarse el operador de la app y los datos completos del proveedor. Mostrar este texto no constituye por sí solo un acuerdo válido.",
-    source: "Condiciones originales de la tienda Fairvital",
     sections: [
       ["1. Ámbito y proveedor", "Estas condiciones se refieren a la app de salud y nutrición Vitalplus y sus funciones digitales. Las condiciones de la tienda enlazada identifican a Fairvital BV como vendedor de productos; esto no demuestra automáticamente que sea el proveedor contractual de la app. Los datos vinculantes del proveedor de Vitalplus deben añadirse antes de la aprobación. La app está dirigida a adultos para uso personal. Un consumidor es una persona física que actúa principalmente fuera de su actividad comercial o profesional."],
       ["2. Registro y cuenta", "Las funciones personalizadas requieren una cuenta propia con correo electrónico y contraseña. Facilita información correcta y mantén tus credenciales confidenciales. Utiliza un correo accesible para la confirmación, la recuperación de contraseña y la seguridad. Las cuentas de la app y de la tienda Fairvital son independientes. Abrir este texto no supone aceptar las condiciones; cualquier incorporación legalmente necesaria debe garantizarse por separado."],
@@ -181,7 +178,6 @@ function ProfileSubmenu() {
         <p className="text-xs text-muted-foreground">{terms.date}</p>
         <p id="vitalplus-terms-notice" className="rounded-lg border border-border bg-muted p-3 text-muted-foreground">{terms.draft}</p>
         {terms.sections.map(([title, text]) => <section key={title}><h2 className="mb-2 font-semibold text-foreground">{title}</h2><p className="text-muted-foreground">{text}</p></section>)}
-        <a href="https://fairvital.com/AGB" target="_blank" rel="noopener noreferrer" className="inline-block text-primary underline underline-offset-4">{terms.source}</a>
       </article>}
       {detail?.text && <p className="text-sm leading-6 text-muted-foreground"><Localized>{detail.text}</Localized></p>}
       {detail && field && <form className="space-y-4" onSubmit={saveField}>
