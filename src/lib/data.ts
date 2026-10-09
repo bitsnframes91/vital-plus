@@ -233,6 +233,8 @@ export const catalogSpotlight: Product = spotlightBase;
 
 export type Meal = {
   omega3Mg?: number | undefined;
+  omega6Mg?: number | undefined;
+  omega9Mg?: number | undefined;
   micronutrients?: MicronutrientAmounts | undefined;
   id: string;
   label: string;
