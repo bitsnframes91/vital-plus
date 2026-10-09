@@ -16,7 +16,8 @@
 - Device presentation preferences use AppSettingsProvider and semantic dark-mode tokens; notification permission is requested only on opt-in, and reminders run only while the app is open. Why: browser-only scheduling must not promise background push delivery.
 - App Lock is an account-scoped, device-local privacy gate using verified WebAuthn platform assertions, not account MFA or data encryption; lock on reload and backgrounding, and require verification to disable. Why: browser devices control biometric methods and cannot provide native OS app protection.
 - Questionnaire edits carry a validated origin so Save and Cancel return Profile users to their personal submenu and Gesundheit users to Gesundheit. Why: editing must preserve the user's navigation context.
-- Profile submenus use the dynamic /profil/$section content route with persistent AppShell navigation; small editors and unavailable-feature notices use accessible dialogs, while account deletion reuses the verified profile flow. Why: full-page menus preserve back navigation without fabricating unconfigured services.
+- Profile submenus use /profil/$section with AppShell; editors/notices use dialogs; deletion reuses the verified flow. Why: preserve navigation and verified services.
+- Impressum uses a bundled data module without translation. Why: preserve verbatim legal wording.
 
 - Shopware (fairvital.com) owns products, prices, cart and checkout; the companion app only links out. Lookups use `src/lib/shopware.ts`. Why: preserve shop ownership and allow later Store API integration.
 - Supplement suggestions (Plan and Heute) use measured out-of-range markers matched to catalog products in the product's own direction (`helpsWhen`, default low). Why: never suggest for normal values or the wrong direction.
