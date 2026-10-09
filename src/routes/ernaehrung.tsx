@@ -8,6 +8,10 @@ import { AppShell } from "@/components/AppShell";
 import { NutritionMascot } from "@/components/NutritionMascot";
 import { useStore } from "@/lib/store";
 import { mealFromVoice, mealNutrition } from "@/lib/ai.functions";
+import { mealFromPhoto } from "@/lib/food-photo.functions";
+import { prepareFoodPhoto } from "@/lib/food-photo/image";
+import { currentLanguage } from "@/lib/language";
+import { Camera, LoaderCircle } from "lucide-react";
 import { blobToBase64, recordWav } from "@/lib/record-wav";
 import { Button } from "@/components/ui/button";
 import { NutritionProfileFields } from "@/components/NutritionProfileFields";
@@ -53,28 +57,53 @@ function NutritionPage() {
   const [kcal, setKcal] = useState("");
   const voice = useServerFn(mealFromVoice);
   const estimate = useServerFn(mealNutrition);
+  const photoEstimate = useServerFn(mealFromPhoto);
+  const photoInput = useRef<HTMLInputElement>(null);
+  const estimateVersion = useRef(0);
+  const [photoBusy, setPhotoBusy] = useState(false);
+  const [photoFill, setPhotoFill] = useState(0);
+  const mounted = useRef(true);
+  useEffect(() => { mounted.current = true; return () => { mounted.current = false; estimateVersion.current++; }; }, []);
    type Est = Pick<Meal, "name" | "kcal" | "protein" | "fiber" | "carbs" | "fat" | "micronutrients" | "omega3Mg" | "omega6Mg" | "omega9Mg">;
   const [est, setEst] = useState<Est | null>(null);
   const [estBusy, setEstBusy] = useState(false);
   const [estErr, setEstErr] = useState<string | null>(null);
   const runEstimate = async (n: string): Promise<Est | null> => {
+    const version = ++estimateVersion.current;
     setEstBusy(true); setEstErr(null);
     try {
       const r = await estimate({ data: { name: n } });
+      if (!mounted.current || version !== estimateVersion.current) return null;
       if (!r.ok) { setEstErr(r.error); return null; }
       const e: Est = { name: n, kcal: r.kcal, protein: r.protein, fiber: r.fiber, carbs: r.carbs, fat: r.fat, micronutrients: r.micronutrients, omega3Mg: r.omega3Mg, omega6Mg: r.omega6Mg, omega9Mg: r.omega9Mg };
       setEst(e); setKcal(String(e.kcal)); setProtein(String(e.protein));
       return e;
-    } catch { setEstErr("Nährwerte konnten nicht berechnet werden."); return null; }
-    finally { setEstBusy(false); }
+    } catch { if (mounted.current && version === estimateVersion.current) setEstErr("Nährwerte konnten nicht berechnet werden."); return null; }
+    finally { if (mounted.current && version === estimateVersion.current) setEstBusy(false); }
+  };
+  const readPhoto = async (file: File) => {
+    const version = ++estimateVersion.current;
+    setPhotoBusy(true); setEstBusy(false); setEstErr(null); setPhotoFill(0);
+    try {
+      const blob = await prepareFoodPhoto(file);
+      const r = await photoEstimate({ data: { base64: await blobToBase64(blob), mimeType: "image/jpeg", language: currentLanguage() } });
+      if (!mounted.current || version !== estimateVersion.current) return;
+      if (!r.ok) { setEstErr(r.error); return; }
+      const next: Est = { name: r.name, kcal: r.kcal, protein: r.protein, fiber: r.fiber, carbs: r.carbs, fat: r.fat };
+      setEst(next); setName(next.name); setKcal(String(next.kcal)); setProtein(String(next.protein)); setPhotoFill(version);
+    } catch (error) {
+      if (mounted.current && version === estimateVersion.current) setEstErr(error instanceof Error ? error.message : "Das Foto konnte nicht ausgewertet werden.");
+    } finally {
+      if (mounted.current && version === estimateVersion.current) setPhotoBusy(false);
+    }
   };
   useEffect(() => {
     const n = name.trim();
-    if (n.length < 3 || est?.name === n) return;
+    if (photoBusy || n.length < 3 || est?.name === n) return;
     const t = setTimeout(() => { void runEstimate(n); }, 900);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name]);
+  }, [name, photoBusy]);
   const rec = useRef<{ stop: () => Promise<Blob> } | null>(null);
   const [vs, setVs] = useState<"idle" | "rec" | "busy">("idle");
   const [vmsg, setVmsg] = useState<string | null>(null);
@@ -132,7 +161,7 @@ function NutritionPage() {
   const add = async (e: React.FormEvent) => {
     e.preventDefault();
     const n = name.trim();
-    if (!n || estBusy) return;
+    if (!n || estBusy || photoBusy) return;
     let e2 = est?.name === n ? est : null;
     if (!e2) e2 = await runEstimate(n);
     const meal: Meal = {
@@ -144,7 +173,7 @@ function NutritionPage() {
       time: nowTime(), date: today,
     };
     set({ meals: [...s.meals, meal] });
-    setName(""); setProtein(""); setKcal(""); setEst(null);
+    setName(""); setProtein(""); setKcal(""); setEst(null); setPhotoFill(0);
   };
 
   const removeMeal = (id: string) => set({ meals: s.meals.filter((x) => x.id !== id) });
@@ -288,21 +317,30 @@ function NutritionPage() {
         </div>
 
         <form onSubmit={(e) => void add(e)} className="card-surface space-y-3 p-5">
-          <div className="eyebrow"><Localized>{"Mahlzeit hinzufügen"}</Localized></div>
+          <div className="flex items-center justify-between gap-3">
+            <div className="eyebrow"><Localized>{"Mahlzeit hinzufügen"}</Localized></div>
+            <Button type="button" size="icon" variant="secondary" className="size-9 shrink-0 rounded-full bg-fresh text-ink" disabled={photoBusy || estBusy}
+              onClick={() => photoInput.current?.click()} aria-label={translateText("Essen fotografieren")} title={translateText("Essen fotografieren")}><Camera className="size-4" /></Button>
+            <input ref={photoInput} type="file" accept="image/*" capture="environment" className="sr-only" aria-label={translateText("Essensfoto auswählen")}
+              onChange={event => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void readPhoto(file); }} />
+          </div>
           <div className="flex flex-wrap gap-1.5">
             {labels.map((l) => (
               <button type="button" key={l} onClick={() => setLabel(l)} className={`rounded-full px-3 py-1 text-[13px] ring-1 ring-border ${label === l ? "bg-fresh text-ink" : ""}`}><Localized>{l}</Localized></button>
             ))}
           </div>
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder={translateText("z. B. Lachs mit Ofengemüse")} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
+          <div key={photoFill} className={photoFill ? "food-photo-fill space-y-3" : "space-y-3"}>
+          <input aria-label={translateText("Mahlzeit")} disabled={photoBusy} value={name} onChange={(e) => { estimateVersion.current++; setEstBusy(false); setName(e.target.value); }} placeholder={translateText("z. B. Lachs mit Ofengemüse")} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
           <div className="flex gap-2">
-            <input value={kcal} onChange={(e) => setKcal(e.target.value)} inputMode="numeric" placeholder={translateText("kcal (automatisch)")} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
-            <input value={protein} onChange={(e) => setProtein(e.target.value)} inputMode="numeric" placeholder={translateText("Protein in g (automatisch)")} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
+            <input aria-label={translateText("Kalorien")} disabled={photoBusy} value={kcal} onChange={(e) => setKcal(e.target.value)} inputMode="numeric" placeholder={translateText("kcal (automatisch)")} className="min-w-0 w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
+            <input aria-label={translateText("Protein in g")} disabled={photoBusy} value={protein} onChange={(e) => setProtein(e.target.value)} inputMode="numeric" placeholder={translateText("Protein in g (automatisch)")} className="min-w-0 w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
           </div>
-          {estBusy && <p className="text-[12px] text-ink/55"><Localized>{"Nährwerte werden berechnet…"}</Localized></p>}
+          </div>
+          {(estBusy || photoBusy) && <div role="status" className="flex items-center gap-2 text-[12px] text-muted-foreground"><LoaderCircle className="size-5 motion-safe:animate-spin text-fresh" aria-hidden="true" /><Localized>{"Nährwerte werden berechnet…"}</Localized></div>}
+          {photoFill > 0 && !photoBusy && <p className="text-[11px] text-muted-foreground"><Localized>{"Foto-Schätzung · Portionsgröße und Zutaten können abweichen."}</Localized></p>}
           {!estBusy && est?.name === name.trim() && <p className="text-[12px] text-ink/55"><Localized>{"Geschätzt: ca. "}</Localized><Localized>{est.kcal}</Localized><Localized>{" kcal · "}</Localized><Localized>{est.protein}</Localized><Localized>{" g Protein · "}</Localized><Localized>{est.carbs}</Localized><Localized>{" g KH · "}</Localized><Localized>{est.fat}</Localized><Localized>{" g Fett · "}</Localized><Localized>{est.fiber}</Localized><Localized>{" g Ballaststoffe"}</Localized></p>}
           {estErr && <p className="text-[12px] text-destructive"><Localized>{estErr}</Localized></p>}
-          <button disabled={estBusy} className="w-full rounded-full bg-fresh py-2.5 text-sm font-semibold text-ink disabled:opacity-60"><Localized>{estBusy ? "Berechne…" : "Speichern"}</Localized></button>
+          <Button type="submit" disabled={estBusy || photoBusy} className="w-full rounded-full bg-fresh text-ink"><Localized>{estBusy || photoBusy ? "Berechne…" : "Speichern"}</Localized></Button>
         </form>
       </div>
     </AppShell>

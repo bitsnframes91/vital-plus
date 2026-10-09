@@ -1,0 +1,1 @@
+- Food photos use authenticated server functions, structured streaming Responses output and device-side JPEG resizing; never persist source photos. Why: bounded uploads and editable estimates without storing meal imagery.
