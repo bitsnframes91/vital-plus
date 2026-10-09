@@ -28,7 +28,7 @@
 - AI features (lab PDF reading, voice meal logging) run via server functions in `src/lib/ai.functions.ts` calling the Lovable AI Gateway. Why: keeps the API key server-side.
 - The public introduction is `/`, while the existing interactive daily dashboard lives at `/heute`; sign-in continues into `/heute`. Why: preserve the health workflow alongside the requested public home screen.
 - The Gesundheit activity summary renders unavailable measurements as empty states, independently of manually entered steps. Why: step totals cannot establish measured activity energy, distance, or pace.
-- Expanded activity trends live on a dedicated `/trends` route reached from Gesundheit. Why: detailed metric explanations need a full page with a clear return path rather than a popup.
+- Activity details use `/trends` from Gesundheit. Why: explanations need a full page with a return path, not a popup.
 
 - Nutrition targets are computed centrally from saved adult body and activity data using maintenance estimates, never BMI-based calorie restriction. Why: targets must update with profile changes without implying a medical limit.
 - Micronutrients use optional meal amounts and EU adult references via src/lib/micronutrients.ts. Omega fats use optional omega3Mg/omega6Mg/omega9Mg via src/lib/omega3.ts and a dedicated detail route, without invented targets/status. Why: macros cannot establish micronutrients; total omega-3 is not EPA/DHA alone.
