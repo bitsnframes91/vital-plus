@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getRequest } from "@tanstack/react-start/server";
+import { getRequest, setResponseStatus } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { normalizeFoodPhoto } from "./food-photo/schema";
@@ -20,6 +20,10 @@ export const mealFromPhoto = createServerFn({ method: "POST" })
       if (!meal) return { ok: false as const, error: "Kein Essen erkannt. Bitte fotografiere die Mahlzeit erneut." };
       return { ok: true as const, ...meal };
     } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        setResponseStatus(499);
+        return { ok: false as const, error: "Berechnung abgebrochen." };
+      }
       // Preserve a safe gateway message without exposing request data or credentials.
       if (error && typeof error === "object" && "responseBody" in error && typeof error.responseBody === "string") {
         try {

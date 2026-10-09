@@ -26,6 +26,7 @@ export function createResponsesCall(
     model: provider.responses(config.model),
     output: Output.object({ schema: foodPhotoOutput }),
     maxRetries: 0,
+    onError: () => { /* Errors are returned safely by the server function, not logged with photo data. */ },
     // AI SDK 6 lacks `instructions`: rename this key to `system` there.
     ...(instructions ? { instructions } : {}),
     messages,

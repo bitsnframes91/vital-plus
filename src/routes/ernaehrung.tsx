@@ -78,7 +78,7 @@ function NutritionPage() {
       const e: Est = { name: n, kcal: r.kcal, protein: r.protein, fiber: r.fiber, carbs: r.carbs, fat: r.fat, micronutrients: r.micronutrients, omega3Mg: r.omega3Mg, omega6Mg: r.omega6Mg, omega9Mg: r.omega9Mg };
       setEst(e); setKcal(String(e.kcal)); setProtein(String(e.protein));
       return e;
-    } catch { setEstErr("Nährwerte konnten nicht berechnet werden."); return null; }
+    } catch { if (mounted.current && version === estimateVersion.current) setEstErr("Nährwerte konnten nicht berechnet werden."); return null; }
     finally { if (mounted.current && version === estimateVersion.current) setEstBusy(false); }
   };
   const readPhoto = async (file: File) => {
@@ -173,7 +173,7 @@ function NutritionPage() {
       time: nowTime(), date: today,
     };
     set({ meals: [...s.meals, meal] });
-    setName(""); setProtein(""); setKcal(""); setEst(null);
+    setName(""); setProtein(""); setKcal(""); setEst(null); setPhotoFill(0);
   };
 
   const removeMeal = (id: string) => set({ meals: s.meals.filter((x) => x.id !== id) });
