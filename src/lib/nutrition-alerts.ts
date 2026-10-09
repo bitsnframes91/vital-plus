@@ -23,7 +23,7 @@ export function nutritionAlerts(meals: Meal[], targets: ReturnType<typeof nutrit
   const omega = omega3Summary(meals);
   if (omega.available) alerts.push({ key: "omega3", title: "Omega-3", value: omega.total, unit: "mg", mood: "neutral", label: "Kein Richtwert gesetzt", to: "/ernaehrung/omega-fette" });
   if (targets) {
-    for (const [key, title, unit] of [["protein", "Protein", "g"], ["fiber", "Ballaststoffe", "g"], ["kcal", "Kalorien", "kcal"], ["carbs", "Kohlenhydrate", "g"], ["fat", "Fett", "g"] as const) {
+    for (const [key, title, unit] of [["protein", "Protein", "g"], ["fiber", "Ballaststoffe", "g"], ["kcal", "Kalorien", "kcal"], ["carbs", "Kohlenhydrate", "g"], ["fat", "Fett", "g"]] as const) {
       const value = meals.reduce((sum, meal) => sum + (meal[key] || 0), 0);
       const status = nutrientStatus(key, value, targets[key]);
       if (status === "good") continue;
