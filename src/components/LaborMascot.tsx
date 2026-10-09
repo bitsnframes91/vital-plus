@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import mascotVideo from "@/assets/labor-scientist-transparent.webm.asset.json";
-import mascotStill from "@/assets/labor-scientist-still.png.asset.json";
+import mascotVideo from "@/assets/labor-mascot-full.webm.asset.json";
+import mascotStill from "@/assets/labor-mascot-full.png.asset.json";
 
 export function LaborMascot() {
   const videoRef = useRef<HTMLVideoElement>(null);
