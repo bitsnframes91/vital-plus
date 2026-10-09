@@ -232,6 +232,7 @@ const { relatedMarker: _omit, ...spotlightBase } = products.find((p) => p.shopwa
 export const catalogSpotlight: Product = spotlightBase;
 
 export type Meal = {
+  omega3Mg?: number | undefined;
   micronutrients?: MicronutrientAmounts | undefined;
   id: string;
   label: string;
