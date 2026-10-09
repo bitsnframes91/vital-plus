@@ -79,7 +79,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       supabase
         .from("user_data")
         .upsert({ user_id: uid, state: state as any, updated_at: new Date().toISOString() })
-        .then(({ error }) => { if (error) console.error("Vivo: saving account data failed", error.message); });
+        .then(({ error }) => { if (error) console.error("Vitalplus: saving account data failed", error.message); });
     }, 800);
   };
 

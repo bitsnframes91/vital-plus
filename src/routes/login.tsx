@@ -9,10 +9,10 @@ export const Route = createFileRoute("/login")({
   validateSearch: (search: Record<string, unknown>) => ({ mode: search["mode"] === "register" ? ("register" as const) : ("login" as const) }),
   head: () => ({
     meta: [
-      { title: "Anmelden — Vivo" },
-      { name: "description", content: "Mit E-Mail und Passwort bei Vivo anmelden oder ein Konto anlegen." },
-      { property: "og:title", content: "Anmelden — Vivo" },
-      { property: "og:description", content: "Dein Vivo-Konto – deine Werte auf allen Geräten." },
+      { title: "Anmelden — Vitalplus" },
+      { name: "description", content: "Mit E-Mail und Passwort bei Vitalplus anmelden oder ein Konto anlegen." },
+      { property: "og:title", content: "Anmelden — Vitalplus" },
+      { property: "og:description", content: "Dein Vitalplus-Konto – deine Werte auf allen Geräten." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -52,7 +52,7 @@ function Login() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Vivo Konto")} title={translateText(mode === "login" ? "Anmelden" : "Konto anlegen")} sub={translateText("Deine Werte sicher gespeichert – auf allen Geräten.")} />
+      <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText(mode === "login" ? "Anmelden" : "Konto anlegen")} sub={translateText("Deine Werte sicher gespeichert – auf allen Geräten.")} />
       <div className="card-surface mx-4 mt-4 space-y-3 p-5">
         <form onSubmit={submit} className="space-y-3">
           <div className="grid grid-cols-2 gap-1 rounded-full bg-muted p-1">

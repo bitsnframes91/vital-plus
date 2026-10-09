@@ -17,9 +17,9 @@ import planRunner from "@/assets/plan-runner-top.png.asset.json";
 export const Route = createFileRoute("/plan")({
   head: () => ({
     meta: [
-      { title: "Mein Plan — Vivo" },
+      { title: "Mein Plan — Vitalplus" },
       { name: "description", content: "Dein persönlicher Plan mit Schritten für heute und Empfehlungen zu niedrigen Laborwerten." },
-      { property: "og:title", content: "Mein Plan — Vivo" },
+      { property: "og:title", content: "Mein Plan — Vitalplus" },
       { property: "og:description", content: "Praktische Schritte und Empfehlungen zu niedrigen Laborwerten, auf dich abgestimmt." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

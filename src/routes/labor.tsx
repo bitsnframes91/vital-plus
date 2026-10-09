@@ -18,9 +18,9 @@ import laborLab from "@/assets/labor-lab.jpg.asset.json";
 export const Route = createFileRoute("/labor")({
   head: () => ({
     meta: [
-      { title: "Laborwerte — Vivo" },
+      { title: "Laborwerte — Vitalplus" },
       { name: "description", content: "Laborwerte erfassen, Verlauf verstehen und Nachkontrollen planen." },
-      { property: "og:title", content: "Laborwerte — Vivo" },
+      { property: "og:title", content: "Laborwerte — Vitalplus" },
       { property: "og:description", content: "Deine Blutwerte im Verlauf – verständlich erklärt." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -224,7 +224,7 @@ function Labs() {
           <button className="w-full rounded-full bg-fresh py-2.5 text-sm font-medium text-ink"><Localized>{"Speichern"}</Localized></button>
         </form>
 
-        <p className="px-1 text-[12px] text-ink/40"><Localized>{"Hinweis: Vivo stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt."}</Localized></p>
+        <p className="px-1 text-[12px] text-ink/40"><Localized>{"Hinweis: Vitalplus stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt."}</Localized></p>
       </div>
     </AppShell>
   );

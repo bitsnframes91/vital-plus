@@ -16,9 +16,9 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/gesundheit")({
   head: () => ({
     meta: [
-      { title: "Gesundheit — Vivo" },
+      { title: "Gesundheit — Vitalplus" },
       { name: "description", content: "Messwerte und Verläufe verständlich an einem Ort: Blutwerte, Gewicht, Körperdaten, Schlaf, Schritte und Trends." },
-      { property: "og:title", content: "Gesundheit — Vivo" },
+      { property: "og:title", content: "Gesundheit — Vitalplus" },
       { property: "og:description", content: "Messwerte und Verläufe verständlich an einem Ort." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

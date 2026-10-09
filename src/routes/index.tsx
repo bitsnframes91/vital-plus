@@ -7,9 +7,9 @@ import { VivoBrand } from "@/components/VivoBrand";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Vivo — Gesünder leben. Glücklicher sein." },
-      { name: "description", content: "Vivo: dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
-      { property: "og:title", content: "Vivo — Gesünder leben. Glücklicher sein." },
+      { title: "Vitalplus — Gesünder leben. Glücklicher sein." },
+      { name: "description", content: "Vitalplus: dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
+      { property: "og:title", content: "Vitalplus — Gesünder leben. Glücklicher sein." },
       { property: "og:description", content: "Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -24,7 +24,7 @@ function Home() {
     <div className="min-h-screen bg-card font-sans text-foreground">
       <header className="mx-auto grid min-h-[128px] max-w-[1600px] grid-cols-1 items-center gap-2 px-5 py-2 sm:min-h-[92px] sm:grid-cols-[1fr_auto_1fr] sm:gap-4 sm:px-8">
         <span aria-hidden="true" className="hidden sm:block" />
-        <Link to="/" aria-label={translateText("Vivo Startseite")} className="justify-self-center"><VivoBrand /></Link>
+        <Link to="/" aria-label={translateText("Vitalplus Startseite")} className="justify-self-center"><VivoBrand /></Link>
         <div className="flex shrink-0 items-center justify-self-center gap-2 sm:justify-self-end sm:gap-5">
           <Link to="/login" search={{ mode: "login" }} className="rounded-md border border-border px-3 py-2.5 text-sm font-semibold text-home-green transition-colors hover:bg-muted sm:px-6 sm:text-base"><Localized>{"Einloggen"}</Localized></Link>
           <Link to="/login" search={{ mode: "register" }} className="rounded-md bg-home-green px-3 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-7 sm:text-base"><Localized>{"Kostenlos Registrieren"}</Localized></Link>
@@ -37,7 +37,7 @@ function Home() {
           <div className="today-image-overlay absolute inset-0" aria-hidden="true" />
           <div className="relative z-10 flex w-full max-w-[1000px] flex-col items-center">
             <p className="text-xs font-semibold uppercase text-fv-deep sm:text-sm"><Localized>{"MESSEN → VERSTEHEN → HANDELN → ÜBERPRÜFEN"}</Localized></p>
-            <h1 className="mt-7 max-w-[1000px] text-balance text-[36px] font-bold leading-[1.1] text-foreground sm:mt-8 sm:text-[56px]"><Localized>{"Vivo"}</Localized></h1>
+            <h1 className="mt-7 max-w-[1000px] text-balance text-[36px] font-bold leading-[1.1] text-foreground sm:mt-8 sm:text-[56px]"><Localized>{"Vitalplus"}</Localized></h1>
             <p className="mt-4 text-[24px] font-semibold text-foreground"><Localized>{"Gesünder leben. Glücklicher sein."}</Localized></p>
             <p className="mt-5 max-w-[700px] text-pretty text-base font-medium text-foreground sm:text-lg"><Localized>{"Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern."}</Localized></p>
           </div>

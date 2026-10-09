@@ -8,10 +8,10 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
-      { title: "Neues Passwort — Vivo" },
-      { name: "description", content: "Lege ein neues Passwort für dein Vivo-Konto fest." },
-      { property: "og:title", content: "Neues Passwort — Vivo" },
-      { property: "og:description", content: "Passwort für dein Vivo-Konto zurücksetzen." },
+      { title: "Neues Passwort — Vitalplus" },
+      { name: "description", content: "Lege ein neues Passwort für dein Vitalplus-Konto fest." },
+      { property: "og:title", content: "Neues Passwort — Vitalplus" },
+      { property: "og:description", content: "Passwort für dein Vitalplus-Konto zurücksetzen." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -52,7 +52,7 @@ function ResetPassword() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Vivo Konto")} title={translateText("Neues Passwort")} sub={translateText("Lege ein neues Passwort für dein Konto fest.")} />
+      <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText("Neues Passwort")} sub={translateText("Lege ein neues Passwort für dein Konto fest.")} />
       <div className="card-surface mx-4 mt-4 space-y-3 p-5">
         <form onSubmit={submit} className="space-y-3">
           <input required type="password" autoComplete="new-password" minLength={8} placeholder={translateText("Neues Passwort")} value={pw} onChange={(e) => setPw(e.target.value)} className={field} />

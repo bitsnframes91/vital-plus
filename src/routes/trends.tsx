@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/trends")({
   head: () => ({
     meta: [
-      { title: "Aktivitätstrends — Vivo" },
+      { title: "Aktivitätstrends — Vitalplus" },
       { name: "description", content: "Deine Aktivitätstrends für Bewegung, Distanz, Geh- und Lauftempo verständlich erklärt." },
-      { property: "og:title", content: "Aktivitätstrends — Vivo" },
+      { property: "og:title", content: "Aktivitätstrends — Vitalplus" },
       { property: "og:description", content: "Bewegung, Distanz und Tempo: deine Aktivität im zeitlichen Verlauf." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
