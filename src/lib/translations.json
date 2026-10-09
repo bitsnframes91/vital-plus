@@ -1,4 +1,7 @@
 {
+  "Unter dem Tagesrichtwert": ["Below the daily reference", "Por debajo de la referencia diaria"],
+  "Über dem Tagesrichtwert": ["Above the daily reference", "Por encima de la referencia diaria"],
+  "Keine gelben oder roten Ernährungswerte mit Richtwert für heute.": ["No yellow or red nutrition values with a reference today.", "No hay valores nutricionales amarillos o rojos con referencia hoy."],
   "Omega fette": ["Omega fats", "Grasas omega"],
   "Anteil der erfassten Omega-Fette": ["Share of logged omega fats", "Proporción de grasas omega registradas"],
   "Omega-Fette: geschätzte Mengen aus heutigen Mahlzeiten. Die Balken zeigen den Anteil an der erfassten Gesamtmenge, keinen Tagesbedarf.": ["Omega fats: estimated amounts from today’s meals. Bars show the share of the logged total, not a daily requirement.", "Grasas omega: cantidades estimadas de las comidas de hoy. Las barras muestran la proporción del total registrado, no una necesidad diaria."],

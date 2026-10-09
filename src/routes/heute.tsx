@@ -17,12 +17,14 @@ import goalsGfx from "@/assets/tagesziele.png.asset.json";
 import { MovementDialog } from "@/components/MovementDialog";
 import { VivoBrand } from "@/components/VivoBrand";
 import { Activity, ChevronRight, Clock, FlaskConical, Heart, Leaf, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
-import { dailyGoals, todayKey } from "@/lib/daily-goals";
+import { todayKey } from "@/lib/daily-goals";
 import type { RoutineTip } from "@/lib/deficiency-routines";
 import { nutritionTargets } from "@/lib/nutrition-targets";
 import { micronutrientGaps, nutritionGaps } from "@/lib/nutrition-products";
 import { suggestedProducts } from "@/lib/plan-products";
 import { goalProducts } from "@/lib/goal-plan";
+import { TodayNutritionGoals } from "@/components/TodayNutritionGoals";
+import { nutritionAlerts } from "@/lib/nutrition-alerts";
 
 const tipIcon = {
   food: Salad,
@@ -48,19 +50,14 @@ export const Route = createFileRoute("/heute")({
 
 function Today() {
   useLanguage();
-  const { s, set } = useStore();
+  const { s } = useStore();
   const [moveOpen, setMoveOpen] = useState(false);
   const goTo = useNavigate();
   useEffect(() => { if (s.account && !s.onboarded) goTo({ to: "/onboarding" }); }, [s.account, s.onboarded]);
-  const [selectedGoalKey, setSelectedGoalKey] = useState<string | null>(null);
   const measured = reportMarkers(s.aiPlan, s.labs);
   const featured = measured[0];
   const featuredProduct = featured ? productForMarker(featured) : undefined;
   const last = featured?.history.at(-1);
-  const { fromPlan, goals: actions } = dailyGoals(s.aiPlan, s.onboarded ? s.goals : [], s.goalOff);
-  const selectedGoal = actions.find((a) => a.key === selectedGoalKey);
-  const done = actions.filter((a) => s.actionsDone[a.key]).length;
-  const allDone = actions.length > 0 && done === actions.length;
   const [tipNow, setTipNow] = useState(() => new Date());
   const [tipOpen, setTipOpen] = useState(false);
   useEffect(() => {
@@ -78,25 +75,8 @@ function Today() {
   const microGaps = micronutrientGaps(todayMeals);
   const labIds = new Set(suggestedProducts(s.aiPlan, s.labs).map((e) => e.product.shopwareId));
   const goalSuggestions = goalProducts(s.onboarded ? s.goals : []).filter((e) => !labIds.has(e.product.shopwareId));
+  const alerts = nutritionAlerts(todayMeals, nutritionTargets(s.body));
   const fmtNum = (n: number) => n.toLocaleString(languageLocale(), { maximumFractionDigits: 1 });
-
-  useEffect(() => {
-    if (!!(s.fullDays ?? {})[today] === allDone) return;
-    set({ fullDays: { ...(s.fullDays ?? {}), [today]: allDone } });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allDone]);
-
-  const streakN = (() => {
-    let n = 0;
-    const d = new Date();
-    if (!allDone) d.setDate(d.getDate() - 1);
-    for (;;) {
-      if (!(s.fullDays ?? {})[d.toISOString().slice(0, 10)]) break;
-      n += 1;
-      d.setDate(d.getDate() - 1);
-    }
-    return n;
-  })();
 
   return (
     <AppShell>
@@ -151,8 +131,8 @@ function Today() {
           <Link to="/gesundheit" className="vivo-progress bg-teal-soft text-fv-deep">
             <StepsIcon className="mx-auto size-7" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{"—"}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Schritte"}</Localized></div><MiniBars tone="teal" />
           </Link>
-          <Link to="/plan" className="vivo-progress bg-fresh-soft text-fresh">
-            <img src={goalsGfx.url} alt="" className="mx-auto size-7 object-contain" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{done}</Localized><Localized>{"/"}</Localized><Localized>{actions.length}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Tagesziele"}</Localized></div><MiniBars tone="fresh" />
+          <Link to="/ernaehrung" className="vivo-progress bg-fresh-soft text-fresh">
+            <img src={goalsGfx.url} alt="" className="mx-auto size-7 object-contain" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{alerts.length}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Tagesziele"}</Localized></div><MiniBars tone="fresh" />
           </Link>
           <Link to="/gesundheit" className="vivo-progress bg-sky-soft text-sky">
             <img src={sleepGfx.url} alt="" className="vivo-sway mx-auto size-7" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{"—"}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Schlaf"}</Localized></div><MiniBars tone="sky" />
@@ -169,59 +149,7 @@ function Today() {
         </div>
       </section>
 
-      <section className="mt-4 px-4">
-        <div className="flex items-baseline justify-between px-1 pb-2">
-          <span className="eyebrow"><Localized>{"Tagesziele"}</Localized><Localized>{fromPlan ? " · aus deinem Plan" : ""}</Localized></span>
-          <span className="font-data text-[12px] text-fv-deep"><Localized>{done}</Localized><Localized>{"/"}</Localized><Localized>{actions.length}</Localized></span>
-        </div>
-        {!fromPlan && !allDone && (
-          <Link to="/labor" className="mb-2 block rounded-[16px] border border-dashed px-4 py-3 text-[13px] text-ink/55"><Localized>{" Beispielziele. Wähle deine Ziele im Fragebogen oder lade deinen Laborbefund hoch – dann entstehen deine Tagesziele aus deinem Plan → "}</Localized></Link>
-        )}
-        {fromPlan && actions.length === 0 && (
-          <Link to="/plan" className="mb-2 block rounded-[16px] border border-dashed px-4 py-3 text-[13px] text-ink/55"><Localized>{" Keine Schritte für heute ausgewählt. Wähle sie in deinem Plan aus → "}</Localized></Link>
-        )}
-        {allDone ? (
-          <Link
-            to="/plan"
-            aria-label={translateText("Alle Tagesziele erreicht – Tag abgeschlossen")}
-            className="card-surface flex w-full items-center gap-3 rounded-[16px] bg-fresh-soft/60 p-4 text-left"
-          >
-            <span className="grid size-12 shrink-0 place-items-center">
-              <img src={goalsGfx.url} alt="" className="size-12 object-contain" />
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="block text-[16px] font-bold leading-snug"><Localized>{"Alle Tagesziele erreicht"}</Localized></span>
-              <span className="mt-0.5 block text-[12px] leading-snug text-ink/45"><Localized>{" Tag abgeschlossen · "}</Localized><Localized>{streakN === 1 ? "Tag 1 in Folge" : `${streakN} Tage in Folge`}</Localized><Localized>{" · morgen starten neue Ziele "}</Localized></span>
-            </span>
-            <Icon d="m9 18 6-6-6-6" className="size-4 shrink-0 text-ink/40" />
-          </Link>
-        ) : (
-          <div className="space-y-2">
-            {actions.map((a) => {
-              const ok = s.actionsDone[a.key];
-            return (
-              <Button
-                key={a.key}
-                type="button"
-                variant="ghost"
-                onClick={() => setSelectedGoalKey(a.key)}
-                aria-label={translateText(`${a.title} – Details öffnen`)}
-                className="card-surface h-auto min-h-[72px] w-full justify-start gap-3 whitespace-normal rounded-[16px] px-4 py-3 text-left hover:bg-card"
-              >
-                <span className={`grid size-8 shrink-0 place-items-center rounded-full ${ok ? "bg-fv/10 text-fv-deep" : "bg-ink/5 text-ink/40"}`}>
-                  <Icon d={ok ? "M4 12l5 5L20 6" : "M12 6v6l4 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18"} className="size-4" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="text-[15px] font-medium"><Localized>{a.title}</Localized></div>
-                  <div className="mt-0.5 line-clamp-2 text-[12px] text-ink/45"><Localized>{a.sub}</Localized><Localized>{" · "}</Localized><Localized>{ok ? "erreicht" : "ausstehend"}</Localized></div>
-                </div>
-                <Icon d="m9 18 6-6-6-6" className="size-4 shrink-0 text-ink/40" />
-              </Button>
-            );
-          })}
-          </div>
-        )}
-      </section>
+      <TodayNutritionGoals />
 
       {goalSuggestions.length > 0 && <section className="mt-4 space-y-3 px-4" aria-label={translateText("Fairvital Empfehlungen zu deinen Zielen")}>
         <h2 className="px-1 text-[15px] font-semibold"><Localized>{"Passend zu deinen Zielen"}</Localized></h2>
@@ -261,32 +189,6 @@ function Today() {
       </section>}
 
       <MovementDialog open={moveOpen} onOpenChange={setMoveOpen} />
-      <Dialog open={selectedGoalKey !== null && !!selectedGoal} onOpenChange={(open) => { if (!open) setSelectedGoalKey(null); }}>
-        <DialogContent className="w-[calc(100%-2rem)] max-h-[85dvh] max-w-[420px] overflow-y-auto rounded-lg border-border bg-card p-6">
-          {selectedGoal && (
-            <>
-              <DialogHeader className="pr-5 text-left">
-                <span className="eyebrow"><Localized>{"Tagesziel"}</Localized><Localized>{fromPlan ? " · aus deinem Plan" : ""}</Localized></span>
-                <DialogTitle className="mt-2 text-[22px] leading-snug tracking-normal text-foreground"><Localized>{selectedGoal.title}</Localized></DialogTitle>
-                <DialogDescription className="pt-3 text-[16px] leading-relaxed text-muted-foreground"><Localized>{selectedGoal.sub}</Localized></DialogDescription>
-              </DialogHeader>
-              <Button
-                type="button"
-                className="mt-4 w-full whitespace-normal py-3"
-                variant={s.actionsDone[selectedGoal.key] ? "outline" : "default"}
-                onClick={() => {
-                  set({ actionsDone: { ...s.actionsDone, [selectedGoal.key]: !s.actionsDone[selectedGoal.key] } });
-                  setSelectedGoalKey(null);
-                }}
-              >
-                <Localized>{s.actionsDone[selectedGoal.key] ? "Erledigung zurücknehmen" : "Als erledigt markieren"}</Localized>
-              </Button>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
-
-
       {featured && last && <section className="mt-4 px-4">
         <div className="card-surface p-5">
           <Link to="/labor" className="block">
