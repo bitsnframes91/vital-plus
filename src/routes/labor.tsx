@@ -3,7 +3,7 @@ import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Camera, Upload, Trash2 } from "lucide-react";
+import { Camera, Upload, Trash2, Info } from "lucide-react";
 import { useEffect } from "react";
 import { AppShell } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
@@ -14,6 +14,9 @@ import { blobToBase64 } from "@/lib/record-wav";
 import { RangeBar } from "@/components/RangeBar";
 import { StatusFace, type StatusMood } from "@/components/StatusFace";
 import { LaborMascot } from "@/components/LaborMascot";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { labInformation } from "@/lib/lab-information";
 
 export const Route = createFileRoute("/labor")({
   staticData: { sitemap: false },
@@ -41,7 +44,9 @@ function Labs() {
   const [value, setValue] = useState("");
   const analyze = useServerFn(analyzeLabPdf);
   const [busy, setBusy] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const [infoMarkerId, setInfoMarkerId] = useState<string | null>(null);
+  const infoMarker = s.labs.find(m => m.id === infoMarkerId);
+  const info = infoMarker ? labInformation(infoMarker) : null;
   const [confirmAll, setConfirmAll] = useState(false);
   const [progress, setProgress] = useState(0);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
@@ -105,16 +110,6 @@ function Labs() {
       set({ labs: [...s.labs, { ...base, history: [point] }] });
     }
     setValue("");
-  };
-
-  const removeOne = (id: string) => {
-    const labs = s.labs.filter((l) => l.id !== id);
-    set({ labs });
-    setConfirmDelete(null);
-    if (marker === id) {
-      const remaining = [...labs, ...catalog.filter((c) => !labs.some((l) => l.id === c.id))];
-      setMarker(remaining[0]?.id ?? "");
-    }
   };
 
   const removeAll = () => {
@@ -190,16 +185,9 @@ function Labs() {
                     <StatusFace mood={toneMood[st.tone]} className="size-4" />
                     <Localized>{st.label}</Localized>
                   </span>
-                  {confirmDelete === m.id ? (
-                    <div className="flex items-center gap-1">
-                      <button onClick={() => removeOne(m.id)} className="rounded-full bg-bmi-bad/10 px-2.5 py-1 text-[12px] font-medium text-bmi-bad"><Localized>{"Löschen"}</Localized></button>
-                      <button onClick={() => setConfirmDelete(null)} className="rounded-full border border-border px-2.5 py-1 text-[12px] text-ink/55"><Localized>{"Nein"}</Localized></button>
-                    </div>
-                  ) : (
-                    <button onClick={() => setConfirmDelete(m.id)} aria-label={translateText(`Werte für ${m.name} löschen`)} className="grid size-8 place-items-center rounded-full text-ink/35 hover:bg-muted hover:text-bmi-bad">
-                      <Trash2 size={16} strokeWidth={2} aria-hidden="true" />
-                    </button>
-                  )}
+                  <Button type="button" variant="ghost" size="icon" onClick={() => setInfoMarkerId(m.id)} aria-label={translateText(`Information zu ${m.name}`)} title={translateText(`Information zu ${m.name}`)} className="size-8 rounded-full text-fv-deep hover:bg-fv/10">
+                    <Info size={16} strokeWidth={2} aria-hidden="true" />
+                  </Button>
                 </div>
               </div>
               <div className="mt-4"><RangeBar marker={m} /></div>
@@ -234,6 +222,21 @@ function Labs() {
 
         <p className="px-1 text-[12px] text-ink/40"><Localized>{"Hinweis: Vitalplus stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt."}</Localized></p>
       </div>
+      <Dialog open={Boolean(infoMarker)} onOpenChange={open => { if (!open) setInfoMarkerId(null); }}>
+        <DialogContent className="w-[calc(100%-2rem)] max-w-sm rounded-lg">
+          <DialogHeader>
+            <DialogTitle className="pr-6 leading-snug tracking-normal"><Localized>{infoMarker?.name}</Localized></DialogTitle>
+            <DialogDescription className="pt-2 leading-relaxed"><Localized>{info?.definition}</Localized></DialogDescription>
+          </DialogHeader>
+          {info?.reason && (
+            <div className="space-y-2 text-sm">
+              <p className="font-medium text-foreground"><Localized>{info.direction === "low" ? "Mögliche Gründe für einen niedrigen Wert" : "Mögliche Gründe für einen hohen Wert"}</Localized></p>
+              <p className="leading-relaxed text-muted-foreground"><Localized>{info.reason}</Localized></p>
+            </div>
+          )}
+          <p className="border-t pt-3 text-xs leading-relaxed text-muted-foreground"><Localized>Ein einzelner Wert zeigt nicht die Ursache. Bitte besprich auffällige Ergebnisse und den passenden Referenzbereich mit deiner Ärztin oder deinem Arzt.</Localized></p>
+        </DialogContent>
+      </Dialog>
     </AppShell>
   );
 }
