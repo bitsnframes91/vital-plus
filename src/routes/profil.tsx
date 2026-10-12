@@ -152,7 +152,7 @@ function Profile() {
               <Button disabled={busy || code.length < 6} onClick={confirmDelete} className="w-full rounded-full bg-destructive py-2.5 text-sm font-medium text-destructive-foreground disabled:opacity-50">
                 <Localized>{busy ? "Wird gelöscht…" : "Konto endgültig löschen"}</Localized>
               </Button>
-              <Button disabled={busy} onClick={sendCode} className="text-[13px] font-medium text-fv-deep"><Localized>{"Code erneut senden"}</Localized></Button>
+              <Button disabled={busy} onClick={sendCode} className="text-[13px] font-medium"><Localized>{"Code erneut senden"}</Localized></Button>
             </>
           )}
         </DialogContent>
