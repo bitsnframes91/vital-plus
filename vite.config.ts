@@ -11,7 +11,7 @@ import path from "node:path";
 
 // Load all env vars into process.env for server routes only (never added to
 // envDefine, so secrets like SUPABASE_SERVICE_ROLE_KEY stay out of the client).
-const serverEnv = loadEnv(process.env.NODE_ENV ?? "development", process.cwd(), "");
+const serverEnv = loadEnv(process.env["NODE_ENV"] ?? "development", process.cwd(), "");
 Object.assign(process.env, serverEnv);
 
 export default defineConfig({
