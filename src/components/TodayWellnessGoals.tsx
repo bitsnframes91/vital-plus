@@ -14,7 +14,7 @@ function ProgressRing({ percent, large = false, label, toneOverride }: { percent
   useEffect(() => { setArc(percent ?? 0); }, [percent]);
   const tone = toneOverride ?? progressTone(percent);
   const color = { low: "text-goal-low", partial: "text-goal-partial", good: "text-goal-good", missing: "text-muted-foreground" }[tone];
-  return <div role="progressbar" aria-label={translateText(label)} aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent === null ? undefined : Math.round(percent)} aria-valuetext={percent === null ? translateText("Noch keine Daten") : `${Math.round(percent)} %`} className={`relative shrink-0 ${large ? "size-44" : "size-[76px]"}`}>
+  return <div role="progressbar" aria-label={translateText(label)} aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent === null ? undefined : Math.round(percent)} aria-valuetext={percent === null ? translateText("Noch keine Daten") : `${Math.round(percent)} %`} className={`relative shrink-0 ${large ? "size-40 sm:size-44" : "size-[76px]"}`}>
     <svg viewBox="0 0 100 100" className="size-full -rotate-90" aria-hidden="true">
       <circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" strokeWidth="7" className="text-goal-track" />
       <circle cx="50" cy="50" r="43" fill="none" stroke="currentColor" strokeWidth="7" pathLength="100" strokeDasharray="100" strokeDashoffset={100 - arc} className={`goal-progress-arc ${color}`} />
@@ -52,11 +52,11 @@ export function TodayWellnessGoals() {
   ];
   const tone = progressTone(result.overall.percent);
   const surface = { low: "goal-surface-low", partial: "goal-surface-partial", good: "goal-surface-good", missing: "goal-surface-missing" }[tone];
-  return <section className="bg-card px-4 pb-6 pt-2" aria-label="Tagesziele" data-wellness-dashboard>
-    <div className="flex items-center gap-2 px-1"><img src={goalsGfx.url} alt="" className="vivo-bounce size-7 object-contain" /><h2 className="text-[21px] font-bold"><Localized>{"Tagesziele"}</Localized></h2></div>
-    <div className={`goal-surface ${surface} goal-tile mx-1 mb-4 flex flex-col items-center px-3 py-5`}>
-      <ProgressRing percent={result.overall.percent} label="Tagesziele" large />
-      <p className="mt-3 text-[12px] font-semibold text-muted-foreground"><Localized>{result.overall.available === 5 ? "5 von 5 Kategorien erfasst" : `Zwischenstand · ${result.overall.available} von 5 Kategorien erfasst`}</Localized></p>
+  return <section className="bg-card px-4 pb-6 pt-2" aria-label="Deine erreichten Tagesziele" data-wellness-dashboard>
+    <div className="flex min-w-0 items-center gap-2 px-1"><img src={goalsGfx.url} alt="" className="vivo-bounce size-7 shrink-0 object-contain" /><h2 className="min-w-0 text-[20px] font-bold leading-snug sm:text-[21px]"><Localized>{"Deine erreichten Tagesziele"}</Localized></h2></div>
+    <div className={`goal-surface ${surface} goal-tile mx-1 mb-4 flex items-center gap-4 px-4 py-5 min-[420px]:gap-6`}>
+      <ProgressRing percent={result.overall.percent} label="Deine erreichten Tagesziele" large />
+      <p className="min-w-0 text-[13px] font-semibold leading-snug text-muted-foreground"><Localized>{result.overall.available === 5 ? "5 von 5 Kategorien erfasst" : `Zwischenstand · ${result.overall.available} von 5 Kategorien erfasst`}</Localized></p>
     </div>
     <div className="grid grid-cols-2 gap-3 min-[420px]:gap-4">
       {tiles.map(tile => <Link key={tile.key} to={tile.to} data-goal-category={tile.key} className={`goal-tile group min-w-0 bg-card p-3.5 transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-ring ${tile.key === "water" ? "col-span-2 flex items-center justify-between gap-4" : "flex flex-col"}`}>

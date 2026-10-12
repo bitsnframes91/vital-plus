@@ -114,6 +114,22 @@
     "Daily goals",
     "Objetivos diarios"
   ],
+  "Deine erreichten Tagesziele": [
+    "Your daily goals reached",
+    "Tus objetivos diarios alcanzados"
+  ],
+  "heute erreicht": [
+    "achieved today",
+    "logrado hoy"
+  ],
+  "Zwischenstand": [
+    "Interim",
+    "Provisional"
+  ],
+  "{n} von 5 Kategorien erfasst": [
+    "{n} of 5 categories tracked",
+    "{n} de 5 categorías registradas"
+  ],
   "Unterversorgung": [
     "Nutrient gaps",
     "Déficit nutricional"
