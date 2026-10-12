@@ -216,6 +216,15 @@
   .labor-mascot { right: 8px; width: 100px; }
 }
 @media (prefers-reduced-motion: reduce) { .labor-mascot video { display: none; } }
+/* Labor shares the shared speech bubble: when it shows, the header makes room
+   above the mascot exactly like on Gesundheit. */
+.labor-mascot-header:has(.nutrition-mascot-says) {
+  padding-top: calc(84px + env(safe-area-inset-top));
+  min-height: calc(320px + env(safe-area-inset-top));
+}
+.labor-mascot-header:has(.nutrition-mascot-says) .labor-mascot {
+  top: calc(76px + env(safe-area-inset-top));
+}
 .nutrition-mascot-header { min-height: 256px; }
 .nutrition-mascot-copy { width: calc(100% - 132px); }
 .nutrition-mascot { top: 22px; right: 8px; width: 132px; height: 218px; }
