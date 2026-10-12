@@ -2,8 +2,8 @@ import { useLayoutEffect, useRef, useState } from "react";
 import mascotStill from "@/assets/nutrition-mascot-salad.png.asset.json";
 import { Localized } from "@/components/Localized";
 
-// Mouth inside the 496x600 artwork, as fractions of the drawn artwork box.
-const MOUTH = { x: 0.52, y: 0.41 };
+// Right corner of the mouth inside the 496x600 artwork, as fractions of the drawn box.
+const MOUTH = { x: 0.615, y: 0.44 };
 
 // Smooth CSS motion on the still artwork: the AI-generated video made the bowl jitter.
 // When the day has no meal yet, the mascot "speaks" the prompt from a rounded bubble
@@ -35,23 +35,37 @@ export function NutritionMascot({ message }: { message?: string | undefined }) {
       const mx = cx + MOUTH.x * cw;
       const my = cy + MOUTH.y * ch;
       const ax = Math.min(
-        Math.max(mx + 30, bub.offsetLeft + 26),
+        Math.max(mx + 34, bub.offsetLeft + 26),
         bub.offsetLeft + bub.offsetWidth - 26,
       );
       const ay = bub.offsetTop + bub.offsetHeight;
-      const dx = mx - ax;
-      const dy = my - ay;
-      const len = Math.hypot(dx, dy) || 1;
-      const tl = Math.min(Math.max(len * 0.3, 18), 34);
-      const w = Math.min(10, tl * 0.42);
-      const nx = -(dy / len) * w;
-      const ny = (dx / len) * w;
-      const tipX = ax + (dx / len) * tl;
-      const tipY = ay + (dy / len) * tl;
-      const midX = ax + (dx / len) * tl * 0.5;
-      const midY = ay + (dy / len) * tl * 0.5;
+      // Curved tapered tail: bulges clear of the head, narrows to a point at the mouth.
+      const drop = my - ay;
+      const bulge = Math.max(14, Math.min(30, drop * 0.2));
+      const c1x = ax + bulge;
+      const c1y = ay + drop * 0.38;
+      const c2x = mx + bulge * 1.15;
+      const c2y = my - drop * 0.3;
+      const left: string[] = [];
+      const right: string[] = [];
+      const n = 22;
+      for (let i = 0; i <= n; i++) {
+        const t = i / n;
+        const m = 1 - t;
+        const px = m ** 3 * ax + 3 * m * m * t * c1x + 3 * m * t * t * c2x + t ** 3 * mx;
+        const py = m ** 3 * ay + 3 * m * m * t * c1y + 3 * m * t * t * c2y + t ** 3 * my;
+        const gx = 3 * m * m * (c1x - ax) + 6 * m * t * (c2x - c1x) + 3 * t * t * (mx - c2x);
+        const gy = 3 * m * m * (c1y - ay) + 6 * m * t * (c2y - c1y) + 3 * t * t * (my - c2y);
+        const gl = Math.hypot(gx, gy) || 1;
+        const w = 9 * (1 - t) ** 0.75;
+        const ox = (gy / gl) * w;
+        const oy = (gx / gl) * w;
+        const r = (v: number) => Math.round(v * 10) / 10;
+        left.push(`${r(px - ox)} ${r(py + oy)}`);
+        right.push(`${r(px + ox)} ${r(py - oy)}`);
+      }
       setTail({
-        d: `M ${ax - nx} ${ay - ny} Q ${midX - nx * 0.3} ${midY - ny * 0.3} ${tipX} ${tipY} Q ${midX + nx * 0.3} ${midY + ny * 0.3} ${ax + nx} ${ay + ny} Z`,
+        d: `M ${left.join(" L ")} L ${right.reverse().join(" L ")} Z`,
         w: host.offsetWidth,
         h: host.offsetHeight,
       });
