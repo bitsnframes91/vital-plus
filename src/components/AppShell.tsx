@@ -35,13 +35,14 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="grid grid-cols-6">
             {tabs.map((t, i) => {
               const NavIcon = navIcons[i];
+              const active = pathname === t.to || pathname.startsWith(`${t.to}/`);
               return (
               <Link
                 key={t.to}
                 to={t.to}
-                className={`flex min-w-0 flex-col items-center gap-1 ${pathname === t.to || pathname.startsWith(`${t.to}/`) ? "text-fresh" : "text-ink/40"}`}
+                className={`flex min-w-0 flex-col items-center gap-1 ${active ? "text-ink" : "text-ink/40"}`}
               >
-                {NavIcon && <NavIcon className="size-5" strokeWidth={1.7} />}
+                {NavIcon && <span className={`grid size-8 place-items-center rounded-full transition-colors ${active ? "bg-fresh text-ink" : ""}`}><NavIcon className="size-5" strokeWidth={1.7} /></span>}
                 <span className="text-[9px] font-medium"><Localized>{t.to === "/profil" ? "Profil" : t.label}</Localized></span>
               </Link>
             ); })}
