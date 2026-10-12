@@ -263,3 +263,8 @@
 @keyframes home-mascot-float { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-10px) rotate(1.5deg); } }
 .home-mascot { animation: home-mascot-float 5s ease-in-out infinite; transform-origin: 50% 90%; }
 @media (prefers-reduced-motion: reduce) { .home-mascot { animation: none; } }
+
+/* Heute mini mascot for the empty Ernährung prompt */
+.today-empty-mascot { width: 52px; height: 52px; flex-shrink: 0; object-fit: contain; animation: home-mascot-float 4.5s ease-in-out infinite; transform-origin: 50% 90%; }
+.today-empty-bubble { background: var(--fv-brand-soft, rgba(122, 201, 67, 0.16)); }
+@media (prefers-reduced-motion: reduce) { .today-empty-mascot { animation: none; } }
