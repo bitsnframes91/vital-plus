@@ -9,7 +9,7 @@ import { EmailChangeEmail } from '@/lib/email-templates/email-change'
 import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
 
 // Configuration
-const SITE_NAME = "Vivo Health- von Fairvital"
+const SITE_NAME = "Vitalplus"
 const SENDER_DOMAIN = "alerts.fairvital.de"
 const ROOT_DOMAIN = "fairvital.de"
 const FROM_DOMAIN = "alerts.fairvital.de"
