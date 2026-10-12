@@ -12,7 +12,7 @@
   --color-goal-good: var(--goal-good);
   --color-goal-track: var(--goal-track);
   --color-nutrition-near: #ce6b12;
-  --color-bmi-good: #3f9a2c;
+  --color-bmi-good: #9dce4c;
   --color-bmi-mid: #c99a00;
   --color-bmi-bad: #d93a2b;
   --font-display: "Plus Jakarta Sans", sans-serif;
@@ -77,7 +77,7 @@
   --goal-good: var(--fresh);
   --goal-track: oklch(0.94 0.004 230);
   --shadow-goal-tile: 0 3px 14px oklch(0.28 0.027 251 / 0.055);
-  --browser-theme: #2E6B3F;
+  --browser-theme: #9dce4c;
   --trend-surface: oklch(1 0 0);
   --trend-foreground: var(--ink);
   --trend-icon: oklch(0.96 0.006 210);
@@ -91,12 +91,12 @@
   --trend-walk-soft: oklch(0.958 0.028 298);
   --trend-run-soft: oklch(0.958 0.028 333);
   --radius: 1rem;
-  --fv: oklch(0.78 0.19 140);
-  --fv-deep: oklch(0.42 0.09 152);
+  --fv: #9dce4c;
+  --fv-deep: #9dce4c;
   --fresh: #9dce4c;
   --sky: oklch(0.7 0.17 55);
-  --teal-soft: oklch(0.955 0.035 145);
-  --fresh-soft: oklch(0.959 0.038 141);
+  --teal-soft: #d7f3a8;
+  --fresh-soft: #d7f3a8;
   --sky-soft: oklch(0.96 0.03 70);
   --warm-soft: oklch(0.967 0.017 85);
   --ink: oklch(0.28 0.027 251);
@@ -119,13 +119,13 @@
   --card-foreground: var(--ink);
   --popover: oklch(1 0 0);
   --popover-foreground: var(--ink);
-  --primary: var(--fv-deep);
-  --primary-foreground: oklch(0.99 0 0);
+  --primary: var(--fresh);
+  --primary-foreground: var(--ink);
   --secondary: oklch(0.97 0.006 210);
   --secondary-foreground: var(--ink);
   --muted: oklch(0.96 0.006 210);
   --muted-foreground: oklch(0.5 0.015 220);
-  --accent: oklch(0.94 0.04 145);
+  --accent: #d7f3a8;
   --accent-foreground: var(--fv-deep);
   --destructive: oklch(0.6 0.2 27);
   --destructive-foreground: oklch(0.99 0 0);
@@ -133,17 +133,17 @@
   --input: oklch(0.18 0.012 220 / 12%);
   --ring: var(--fv);
   --gradient-hero:
-    radial-gradient(120% 90% at 15% 0%, oklch(0.72 0.15 145 / 0.5) 0%, transparent 55%),
+    radial-gradient(120% 90% at 15% 0%, #9dce4c80 0%, transparent 55%),
     radial-gradient(100% 80% at 100% 20%, oklch(0.85 0.12 70 / 0.3) 0%, transparent 50%),
     linear-gradient(115deg, oklch(1 0 0 / 0.07) 0 34%, transparent 34%),
     linear-gradient(245deg, oklch(1 0 0 / 0.05) 0 55%, transparent 55%),
-    radial-gradient(60% 45% at 80% 100%, oklch(0.72 0.15 145 / 0.4) 0%, transparent 60%);
+    radial-gradient(60% 45% at 80% 100%, #9dce4c66 0%, transparent 60%);
   /* Startseite hero — built from the app's own brand green (--fv). */
   --gradient-hero-green:
-    radial-gradient(62% 52% at 84% 86%, oklch(0.99 0.012 145 / 0.88) 0%, transparent 64%),
-    radial-gradient(105% 80% at 6% 0%, oklch(0.99 0.02 145 / 0.92) 0%, transparent 58%),
-    radial-gradient(78% 66% at 96% 100%, oklch(0.74 0.17 141 / 0.52) 0%, transparent 62%),
-    linear-gradient(165deg, oklch(0.968 0.04 145) 0%, oklch(0.902 0.092 143) 100%);
+    radial-gradient(62% 52% at 84% 86%, rgba(215, 243, 168, 0.88) 0%, transparent 64%),
+    radial-gradient(105% 80% at 6% 0%, rgba(215, 243, 168, 0.92) 0%, transparent 58%),
+    radial-gradient(78% 66% at 96% 100%, rgba(157, 206, 76, 0.52) 0%, transparent 62%),
+    linear-gradient(165deg, #d7f3a8 0%, #9dce4c 100%);
 }
 
 
@@ -164,7 +164,7 @@
 @utility hero-glow { background-image: var(--gradient-hero); }
 @utility hero-surface {
   background-image: var(--gradient-hero-green);
-  box-shadow: 0 32px 90px -46px oklch(0.42 0.09 152 / 0.5);
+  box-shadow: 0 32px 90px -46px #9dce4c80;
 }
 @utility home-image-overlay { background-image: var(--home-image-overlay); }
 @utility today-image-overlay { background-image: var(--today-image-overlay); }
