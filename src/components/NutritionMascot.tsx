@@ -3,7 +3,7 @@ import mascotStill from "@/assets/nutrition-mascot-salad.png.asset.json";
 import { Localized } from "@/components/Localized";
 
 // Right corner of the mouth inside the 496x600 artwork, as fractions of the drawn box.
-const MOUTH = { x: 0.615, y: 0.44 };
+const MOUTH = { x: 0.6, y: 0.42 };
 
 // Smooth CSS motion on the still artwork: the AI-generated video made the bowl jitter.
 // When the day has no meal yet, the mascot "speaks" the prompt from a rounded bubble
@@ -39,13 +39,13 @@ export function NutritionMascot({ message }: { message?: string | undefined }) {
         bub.offsetLeft + bub.offsetWidth - 26,
       );
       const ay = bub.offsetTop + bub.offsetHeight;
-      // Curved tapered tail: bulges clear of the head, narrows to a point at the mouth.
+      // Curved tapered tail: runs down the clear channel beside the head and
+      // narrows to a point at the mouth.
       const drop = my - ay;
-      const bulge = Math.max(14, Math.min(30, drop * 0.2));
-      const c1x = ax + bulge;
-      const c1y = ay + drop * 0.38;
-      const c2x = mx + bulge * 1.15;
-      const c2y = my - drop * 0.3;
+      const c1x = ax + 4;
+      const c1y = ay + drop * 0.5;
+      const c2x = mx + 20;
+      const c2y = my - drop * 0.12;
       const left: string[] = [];
       const right: string[] = [];
       const n = 22;
@@ -57,7 +57,7 @@ export function NutritionMascot({ message }: { message?: string | undefined }) {
         const gx = 3 * m * m * (c1x - ax) + 6 * m * t * (c2x - c1x) + 3 * t * t * (mx - c2x);
         const gy = 3 * m * m * (c1y - ay) + 6 * m * t * (c2y - c1y) + 3 * t * t * (my - c2y);
         const gl = Math.hypot(gx, gy) || 1;
-        const w = 9 * (1 - t) ** 0.75;
+        const w = 8 * (1 - t) ** 1.15;
         const ox = (gy / gl) * w;
         const oy = (gx / gl) * w;
         const r = (v: number) => Math.round(v * 10) / 10;
