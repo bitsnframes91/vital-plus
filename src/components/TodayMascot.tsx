@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import mascotAnim from "@/assets/today-vitali-anim.webp.asset.json";
-import mascotStill from "@/assets/today-vitali-transparent.png.asset.json";
+import mascotAnim from "@/assets/today-vitali-clean-anim.webp.asset.json";
+import mascotStill from "@/assets/today-vitali-clean.png.asset.json";
 
 // Transparent animated WebP instead of the old video: the video's black
 // background showed as a border around the mascot on the white header card.
