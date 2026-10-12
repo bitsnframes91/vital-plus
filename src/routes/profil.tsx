@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { deleteAccount } from "@/lib/account.functions";
 import { AppShell } from "@/components/AppShell";
+import { ProfileMascot } from "@/components/ProfileMascot";
 import { useStore } from "@/lib/store";
 import { supabase } from "@/integrations/supabase/client";
 
