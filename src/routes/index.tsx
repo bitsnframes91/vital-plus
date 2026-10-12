@@ -34,14 +34,13 @@ function Home() {
 
       <main className="px-3 pb-10 sm:px-5">
         <section id="philosophie" className="relative mx-auto flex min-h-[540px] max-w-[1600px] flex-col items-center justify-center overflow-hidden rounded-[26px] px-5 py-16 text-center sm:min-h-[540px] sm:rounded-[30px]">
-          <img src={heroImage.url} alt={translateText("Ganzheitliches Leben in Bewegung — Forschung, Sport und Vitalität")} width={1920} height={960} fetchPriority="high" className="absolute inset-0 size-full object-cover object-center" />
-          <div className="today-image-overlay absolute inset-0" aria-hidden="true" />
           <div className="relative z-10 flex w-full max-w-[1000px] flex-col items-center">
             <p className="text-xs font-semibold uppercase text-fv-deep sm:text-sm"><Localized>{"MESSEN → VERSTEHEN → HANDELN → ÜBERPRÜFEN"}</Localized></p>
             <h1 className="mt-7 max-w-[1000px] text-balance text-[36px] font-bold leading-[1.1] text-foreground sm:mt-8 sm:text-[56px]"><Localized>{"Vitalplus"}</Localized><span className="sr-only"> – <Localized>{"Gesünder leben mit Ernährung und Laborwerten"}</Localized></span></h1>
             <p className="mt-4 text-[24px] font-semibold text-foreground"><Localized>{"Gesünder leben. Glücklicher sein."}</Localized></p>
             <p className="mt-5 max-w-[700px] text-pretty text-base font-medium text-foreground sm:text-lg"><Localized>{"Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern."}</Localized></p>
           </div>
+          <img src={startseiteVitali.url} alt="" aria-hidden="true" width={1233} height={1275} fetchPriority="high" className="pointer-events-none mt-10 w-[210px] select-none sm:absolute sm:bottom-6 sm:right-5 sm:mt-0 sm:w-[min(30%,280px)] lg:w-[360px]" />
         </section>
       </main>
     </div>
