@@ -287,9 +287,6 @@ function NutritionPage() {
           <Button disabled={!profile.age || profile.age < 18 || profile.age > 120 || !profile.sex || !profile.activity} onClick={() => set({ body: { ...s.body, ...profile } })} className="w-full bg-fresh text-ink"><Localized>{"Angaben speichern"}</Localized></Button>
         </section>}
 
-
-        <div className="space-y-4">
-
         <div className="space-y-4">
           <div className="eyebrow px-1"><Localized>{"Ernährungstagebuch"}</Localized></div>
           {days.length === 0 && <p className="text-[14px] text-ink/50"><Localized>{"Noch keine Einträge. Sprich oder tippe deine erste Mahlzeit."}</Localized></p>}
