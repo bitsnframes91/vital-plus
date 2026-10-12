@@ -40,7 +40,7 @@ function Home() {
             <p className="mt-5 text-[22px] font-semibold text-ink sm:mt-7 sm:text-[30px]"><Localized>{"Gesünder leben. Glücklicher sein."}</Localized></p>
             <p className="mt-5 max-w-[700px] text-pretty text-base font-medium text-ink/85 sm:text-lg"><Localized>{"Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern."}</Localized></p>
           </div>
-          <img src={startseiteVitali.url} alt="" aria-hidden="true" width={1233} height={1275} fetchPriority="high" className="pointer-events-none mt-12 w-[280px] select-none sm:w-[360px] lg:absolute lg:bottom-0 lg:right-8 lg:mt-0 lg:w-[420px]" />
+          <img src={startseiteVitali.url} alt="" aria-hidden="true" width={1233} height={1275} fetchPriority="high" className="pointer-events-none mt-12 w-[280px] select-none sm:w-[360px] lg:absolute lg:bottom-8 lg:right-8 lg:mt-0 lg:w-[420px]" />
         </section>
       </main>
     </div>
