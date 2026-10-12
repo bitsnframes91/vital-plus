@@ -209,6 +209,23 @@ function NutritionPage() {
         <NutritionMascot />
       </header>
       <div className="space-y-4 px-4 pt-4">
+        <button onClick={() => void toggleVoice()} disabled={vs === "busy"}
+          className={`card-surface relative w-full overflow-hidden text-left disabled:opacity-60 ${vs === "rec" ? "ring-2 ring-fv" : ""}`}>
+          <span aria-hidden className="absolute inset-y-0 right-0 w-[48%]">
+            <img src={voiceCardBg} alt="" loading="lazy" width={1200} height={640} className="size-full object-cover object-[65%_center]" />
+            <span className="absolute inset-0 bg-gradient-to-r from-card via-card/70 to-card/20" />
+          </span>
+          <span className={`relative z-10 flex items-center gap-3 p-5`}>
+            <span className={`grid size-11 shrink-0 place-items-center rounded-full ${vs === "rec" ? "animate-pulse bg-fresh text-ink" : "bg-fresh text-ink"}`}>
+              <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="text-[15px] font-medium"><Localized>{vs === "rec" ? "Ich höre zu… tippen zum Beenden" : vs === "busy" ? "Wird verarbeitet…" : "Erzähl mir, was du gegessen hast"}</Localized></div>
+              <div className="text-[12px] text-ink/45"><Localized>{"z. B. „Mittags hatte ich Nudeln mit Hähnchen und einen Apfel“"}</Localized></div>
+            </div>
+          </span>
+        </button>
+        {vmsg && <p className="rounded-xl bg-muted px-4 py-3 text-[13px] text-ink/70"><Localized>{vmsg}</Localized></p>}
         <div className="grid grid-cols-2 gap-3">
           {statCards.map((c) => {
             const target = targets?.[c.key];
@@ -269,25 +286,6 @@ function NutritionPage() {
           {profile.sex === "unspecified" && <p className="text-xs text-muted-foreground"><Localized>{"Ohne diese Angabe ist keine persönliche Schätzung möglich."}</Localized></p>}
           <Button disabled={!profile.age || profile.age < 18 || profile.age > 120 || !profile.sex || !profile.activity} onClick={() => set({ body: { ...s.body, ...profile } })} className="w-full bg-fresh text-ink"><Localized>{"Angaben speichern"}</Localized></Button>
         </section>}
-
-
-        <button onClick={() => void toggleVoice()} disabled={vs === "busy"}
-          className={`card-surface relative w-full overflow-hidden text-left disabled:opacity-60 ${vs === "rec" ? "ring-2 ring-fv" : ""}`}>
-          <span aria-hidden className="absolute inset-y-0 right-0 w-[48%]">
-            <img src={voiceCardBg} alt="" loading="lazy" width={1200} height={640} className="size-full object-cover object-[65%_center]" />
-            <span className="absolute inset-0 bg-gradient-to-r from-card via-card/70 to-card/20" />
-          </span>
-          <span className={`relative z-10 flex items-center gap-3 p-5`}>
-            <span className={`grid size-11 shrink-0 place-items-center rounded-full ${vs === "rec" ? "animate-pulse bg-fresh text-ink" : "bg-fresh text-ink"}`}>
-              <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
-            </span>
-            <div className="min-w-0 flex-1">
-              <div className="text-[15px] font-medium"><Localized>{vs === "rec" ? "Ich höre zu… tippen zum Beenden" : vs === "busy" ? "Wird verarbeitet…" : "Erzähl mir, was du gegessen hast"}</Localized></div>
-              <div className="text-[12px] text-ink/45"><Localized>{"z. B. „Mittags hatte ich Nudeln mit Hähnchen und einen Apfel“"}</Localized></div>
-            </div>
-          </span>
-        </button>
-        {vmsg && <p className="rounded-xl bg-muted px-4 py-3 text-[13px] text-ink/70"><Localized>{vmsg}</Localized></p>}
 
         <div className="space-y-4">
           <div className="eyebrow px-1"><Localized>{"Ernährungstagebuch"}</Localized></div>
