@@ -60,7 +60,7 @@ function Today() {
         <TodayMascot />
         <div className="relative">
           <div className="flex justify-center">
-            <Link to="/" aria-label={translateText("Vitalplus Startseite")}><VivoBrand /></Link>
+            <Link to="/" aria-label={translateText("Vitalplus Startseite")}><VivoBrand className="h-[58px] w-auto -translate-x-3 object-contain" /></Link>
           </div>
           <div className="today-mascot-greeting mt-7 flex items-center gap-3">
             <Button asChild variant="ghost" size="icon" className="size-11 shrink-0 rounded-full bg-warm-soft text-muted-foreground" title={translateText("Profil")}><Link to="/profil" aria-label={translateText("Profil")}><UserRound /></Link></Button>
