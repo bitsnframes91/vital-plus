@@ -16,7 +16,7 @@ import sleepGfx from "@/assets/schlaf.png.asset.json";
 import goalsGfx from "@/assets/tagesziele.png.asset.json";
 import { MovementDialog } from "@/components/MovementDialog";
 import { VivoBrand } from "@/components/VivoBrand";
-import { Activity, ChevronRight, Clock, FlaskConical, Heart, Leaf, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
+import { Activity, ChevronRight, Clock, FlaskConical, Heart, Leaf, Plus, Salad, Sun, UserRound } from "lucide-react";
 import { todayKey } from "@/lib/daily-goals";
 import type { RoutineTip } from "@/lib/deficiency-routines";
 import { nutritionTargets } from "@/lib/nutrition-targets";
@@ -87,7 +87,6 @@ function Today() {
           <div className="flex items-center justify-between">
             <Link to="/" aria-label={translateText("Vitalplus Startseite")}><VivoBrand /></Link>
             <div className="flex gap-2">
-              <Button asChild variant="ghost" size="icon" className="rounded-full text-muted-foreground" title={translateText("Uhr")}><Link to="/uhr" aria-label={translateText("Uhr")}><Watch /></Link></Button>
               <Button asChild variant="ghost" size="icon" className="rounded-full bg-warm-soft text-muted-foreground" title={translateText("Profil")}><Link to="/profil" aria-label={translateText("Profil")}><UserRound /></Link></Button>
             </div>
           </div>
