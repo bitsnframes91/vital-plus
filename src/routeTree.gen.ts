@@ -28,6 +28,8 @@ import { Route as ErnaehrungOmegaFetteRouteImport } from './routes/ernaehrung.om
 import { Route as ErnaehrungVitamineRouteImport } from './routes/ernaehrung.vitamine'
 import { Route as ProfilSectionRouteImport } from './routes/profil.$section'
 import { Route as ProfilFeedbackRouteImport } from './routes/profil.feedback'
+import { Route as LovableEmailAuthPreviewRouteImport } from './routes/lovable/email/auth/preview'
+import { Route as LovableEmailAuthWebhookRouteImport } from './routes/lovable/email/auth/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -124,6 +126,16 @@ const ProfilFeedbackRoute = ProfilFeedbackRouteImport.update({
   path: '/feedback',
   getParentRoute: () => ProfilRoute,
 } as any)
+const LovableEmailAuthPreviewRoute = LovableEmailAuthPreviewRouteImport.update({
+  id: '/lovable/email/auth/preview',
+  path: '/lovable/email/auth/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LovableEmailAuthWebhookRoute = LovableEmailAuthWebhookRouteImport.update({
+  id: '/lovable/email/auth/webhook',
+  path: '/lovable/email/auth/webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -145,6 +157,8 @@ export interface FileRoutesByFullPath {
   '/ernaehrung/vitamine': typeof ErnaehrungVitamineRoute
   '/profil/$section': typeof ProfilSectionRoute
   '/profil/feedback': typeof ProfilFeedbackRoute
+  '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
+  '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -166,6 +180,8 @@ export interface FileRoutesByTo {
   '/ernaehrung/vitamine': typeof ErnaehrungVitamineRoute
   '/profil/$section': typeof ProfilSectionRoute
   '/profil/feedback': typeof ProfilFeedbackRoute
+  '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
+  '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -188,6 +204,8 @@ export interface FileRoutesById {
   '/ernaehrung/vitamine': typeof ErnaehrungVitamineRoute
   '/profil/$section': typeof ProfilSectionRoute
   '/profil/feedback': typeof ProfilFeedbackRoute
+  '/lovable/email/auth/preview': typeof LovableEmailAuthPreviewRoute
+  '/lovable/email/auth/webhook': typeof LovableEmailAuthWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -211,6 +229,8 @@ export interface FileRouteTypes {
     | '/ernaehrung/vitamine'
     | '/profil/$section'
     | '/profil/feedback'
+    | '/lovable/email/auth/preview'
+    | '/lovable/email/auth/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -232,6 +252,8 @@ export interface FileRouteTypes {
     | '/ernaehrung/vitamine'
     | '/profil/$section'
     | '/profil/feedback'
+    | '/lovable/email/auth/preview'
+    | '/lovable/email/auth/webhook'
   id:
     | '__root__'
     | '/'
@@ -253,6 +275,8 @@ export interface FileRouteTypes {
     | '/ernaehrung/vitamine'
     | '/profil/$section'
     | '/profil/feedback'
+    | '/lovable/email/auth/preview'
+    | '/lovable/email/auth/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -270,6 +294,8 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TrendsRoute: typeof TrendsRoute
   UhrRoute: typeof UhrRoute
+  LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
+  LovableEmailAuthWebhookRoute: typeof LovableEmailAuthWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -407,6 +433,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfilFeedbackRouteImport
       parentRoute: typeof ProfilRoute
     }
+    '/lovable/email/auth/preview': {
+      id: '/lovable/email/auth/preview'
+      path: '/lovable/email/auth/preview'
+      fullPath: '/lovable/email/auth/preview'
+      preLoaderRoute: typeof LovableEmailAuthPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lovable/email/auth/webhook': {
+      id: '/lovable/email/auth/webhook'
+      path: '/lovable/email/auth/webhook'
+      fullPath: '/lovable/email/auth/webhook'
+      preLoaderRoute: typeof LovableEmailAuthWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -454,6 +494,8 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TrendsRoute: TrendsRoute,
   UhrRoute: UhrRoute,
+  LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
+  LovableEmailAuthWebhookRoute: LovableEmailAuthWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
