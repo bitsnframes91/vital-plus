@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { Localized, useLanguage } from "./Localized";
@@ -6,6 +7,8 @@ import { useStore } from "@/lib/store";
 import { nutritionAlerts } from "@/lib/nutrition-alerts";
 import { nutritionTargets } from "@/lib/nutrition-targets";
 import { languageLocale, translateText } from "@/lib/language";
+import mascotAnim from "@/assets/today-vitali-clean-anim.webp.asset.json";
+import mascotStill from "@/assets/today-vitali-clean.png.asset.json";
 
 export function TodayNutritionGoals() {
   useLanguage();
