@@ -41,22 +41,25 @@ export function NutritionMascot({ message }: { message?: string | undefined }) {
       // Start inside the bubble so the two same-coloured shapes merge without a notch.
       const ay = bub.offsetTop + bub.offsetHeight - 6;
       // Curved tapered tail: a wide cone leaving the bubble that narrows to a
-      // point at the mouth, sweeping clear of the head and the raised hand.
-      const drop = my - ay;
+      // point in the gap just above his head — it aims at his face but stops
+      // short instead of running all the way down to the mouth.
+      const tx = ax + (mx - ax) * 0.25;
+      const ty = ay + (my - ay) * 0.22;
+      const drop = ty - ay;
       const c1x = ax + 10;
       const c1y = ay + drop * 0.45;
-      const c2x = mx + 18;
-      const c2y = my - drop * 0.25;
+      const c2x = tx + 18;
+      const c2y = ty - drop * 0.25;
       const left: string[] = [];
       const right: string[] = [];
       const n = 22;
       for (let i = 0; i <= n; i++) {
         const t = i / n;
         const m = 1 - t;
-        const px = m ** 3 * ax + 3 * m * m * t * c1x + 3 * m * t * t * c2x + t ** 3 * mx;
-        const py = m ** 3 * ay + 3 * m * m * t * c1y + 3 * m * t * t * c2y + t ** 3 * my;
-        const gx = 3 * m * m * (c1x - ax) + 6 * m * t * (c2x - c1x) + 3 * t * t * (mx - c2x);
-        const gy = 3 * m * m * (c1y - ay) + 6 * m * t * (c2y - c1y) + 3 * t * t * (my - c2y);
+        const px = m ** 3 * ax + 3 * m * m * t * c1x + 3 * m * t * t * c2x + t ** 3 * tx;
+        const py = m ** 3 * ay + 3 * m * m * t * c1y + 3 * m * t * t * c2y + t ** 3 * ty;
+        const gx = 3 * m * m * (c1x - ax) + 6 * m * t * (c2x - c1x) + 3 * t * t * (tx - c2x);
+        const gy = 3 * m * m * (c1y - ay) + 6 * m * t * (c2y - c1y) + 3 * t * t * (ty - c2y);
         const gl = Math.hypot(gx, gy) || 1;
         const w = 15 * (1 - t) ** 0.9;
         const ox = (gy / gl) * w;
