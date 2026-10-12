@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { deleteAccount } from "@/lib/account.functions";
 import { AppShell } from "@/components/AppShell";
+import { ProfileMascot } from "@/components/ProfileMascot";
 import { useStore } from "@/lib/store";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -83,8 +84,9 @@ function Profile() {
   if (pathname !== "/profil") return <Outlet />;
   return (
     <AppShell>
-      <header className="relative overflow-hidden bg-header px-5 pb-5 pt-6">
-        <div className="relative"><h1 className="text-[29px] font-bold leading-tight"><Localized>{"Profil"}</Localized></h1><p className="mt-1 text-sm text-muted-foreground"><Localized>{"Deine Daten gehören dir."}</Localized></p></div>
+      <header className="profile-mascot-header relative overflow-hidden bg-header px-5 pb-5 pt-6">
+        <div className="profile-mascot-copy relative"><h1 className="text-[29px] font-bold leading-tight"><Localized>{"Profil"}</Localized></h1><p className="mt-1 text-sm text-muted-foreground"><Localized>{"Deine Daten gehören dir."}</Localized></p></div>
+        <ProfileMascot />
       </header>
       <div className="space-y-4 px-4 pt-4">
         <MenuRow category={translateText("Persönlich")} title={translateText("Gesundheitsprofil bearbeiten")} sub={translateText("Name, Größe, Gewicht, Ziele und mehr")} icon={UserRound} onClick={() => openMenu("personal")} />

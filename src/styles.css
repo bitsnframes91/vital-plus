@@ -229,6 +229,14 @@
   .today-mascot-heading { font-size: 25px; }
 }
 @media (prefers-reduced-motion: reduce) { .today-mascot-anim { visibility: hidden; } }
+.profile-mascot-header { min-height: 216px; }
+.profile-mascot-copy { width: calc(100% - 132px); }
+.profile-mascot { top: 22px; right: 14px; width: 120px; height: 172px; }
+@media (max-width: 360px) {
+  .profile-mascot-copy { width: calc(100% - 110px); }
+  .profile-mascot { right: 8px; width: 100px; height: 144px; }
+}
+@media (prefers-reduced-motion: reduce) { .profile-mascot-anim { visibility: hidden; } }
 .vivo-focus { box-shadow: 0 6px 22px var(--border); }
 .vivo-progress { display: block; min-width: 0; border-radius: 12px; padding: 15px 6px 8px; text-align: center; }
 .vivo-mini-bars { display: flex; height: 28px; align-items: end; justify-content: center; gap: 4px; margin-top: 6px; }
