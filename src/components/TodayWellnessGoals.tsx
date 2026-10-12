@@ -43,7 +43,9 @@ export function TodayWellnessGoals() {
     { key: "micro", title: "Vitamine & Mineralstoffe", icon: Sprout, percent: micro ?? null, to: "/ernaehrung/vitamine" as const, detail: `${result.microKnown} / ${result.microTotal} Nährstoffe erfasst`, sub: "Geschätzt · EU-Erwachsenenreferenz" },
     { key: "water", title: "Wasser", icon: Droplets, percent: water ?? null, to: "/ernaehrung" as const, detail: `${number(s.waterLog[day] ?? 0)} / 2,0 Liter`, sub: "Genug getrunken?" },
   ];
-  return <section className="bg-card px-4 pb-6 pt-2" aria-label="Tagesziele" data-wellness-dashboard>
+  const tone = progressTone(result.overall.percent);
+  const surface = { low: "goal-surface-low", partial: "goal-surface-partial", good: "goal-surface-good", missing: "goal-surface-missing" }[tone];
+  return <section className={`goal-surface ${surface} px-4 pb-6 pt-2`} aria-label="Tagesziele" data-wellness-dashboard>
     <div className="flex items-center gap-2 px-1"><img src={goalsGfx.url} alt="" className="vivo-bounce size-7 object-contain" /><h2 className="text-[21px] font-bold"><Localized>{"Tagesziele"}</Localized></h2></div>
     <div className="flex flex-col items-center pb-6 pt-4">
       <ProgressRing percent={result.overall.percent} label="Tagesziele" large />
