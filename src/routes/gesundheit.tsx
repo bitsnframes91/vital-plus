@@ -2,7 +2,7 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { HealthMascot } from "@/components/HealthMascot";
 import { useStore } from "@/lib/store";
@@ -89,13 +89,20 @@ function HealthTrends() {
 function NumInput({ value, onSave, placeholder, unit, onDraftChange }: { value: number | null; onSave: (v: number | null) => void; placeholder: string; unit: string; onDraftChange?: (text: string) => void }) {
   useLanguage();
   const [text, setText] = useState(value?.toString() ?? "");
+  // Keep the field in sync when the stored value changes elsewhere (e.g. cleared).
+  useEffect(() => {
+    setText(value?.toString() ?? "");
+  }, [value]);
+  const save = (raw: string) => {
+    const n = Number(raw.replace(",", "."));
+    onSave(raw.trim() && !isNaN(n) ? n : null);
+  };
   return (
     <form
       className="mt-3 flex gap-2"
       onSubmit={(e) => {
         e.preventDefault();
-        const n = Number(text.replace(",", "."));
-        onSave(text.trim() && !isNaN(n) ? n : null);
+        save(text);
       }}
     >
       <input
@@ -104,6 +111,7 @@ function NumInput({ value, onSave, placeholder, unit, onDraftChange }: { value: 
           setText(e.target.value);
           onDraftChange?.(e.target.value);
         }}
+        onBlur={() => save(text)}
         inputMode="decimal"
         placeholder={translateText(placeholder)}
         className="w-full rounded-xl bg-muted px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
