@@ -93,7 +93,7 @@
   --radius: 1rem;
   --fv: oklch(0.78 0.19 140);
   --fv-deep: oklch(0.42 0.09 152);
-  --fresh: oklch(0.758 0.184 134.9);
+  --fresh: #9dce4c;
   --sky: oklch(0.7 0.17 55);
   --teal-soft: oklch(0.955 0.035 145);
   --fresh-soft: oklch(0.959 0.038 141);
@@ -199,7 +199,7 @@
 .goal-surface-missing { --goal-surface: var(--card); }
 .goal-surface-low { --goal-surface: oklch(0.61 0.21 27 / 9%); }
 .goal-surface-partial { --goal-surface: oklch(0.79 0.16 88 / 13%); }
-.goal-surface-good { --goal-surface: oklch(0.758 0.184 134.9 / 11%); }
+.goal-surface-good { --goal-surface: #d7f3a8; }
 .goal-progress-arc { transition: stroke-dashoffset 850ms ease, color 450ms ease; }
 @media (prefers-reduced-motion: reduce) { .goal-progress-arc, .goal-tile, .goal-surface { transition: none; } }
 .today-mascot-header { background: var(--card); }
