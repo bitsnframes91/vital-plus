@@ -59,14 +59,17 @@ function Today() {
       <header className="today-goals-header today-mascot-header relative overflow-hidden px-6 pt-8 pb-7">
         <TodayMascot />
         <div className="relative">
-          <div className="flex items-center justify-between">
-            <Link to="/" aria-label={translateText("Vitalplus Startseite")}><VivoBrand /></Link>
-            <div className="flex gap-2">
-              <Button asChild variant="ghost" size="icon" className="rounded-full bg-warm-soft text-muted-foreground" title={translateText("Profil")}><Link to="/profil" aria-label={translateText("Profil")}><UserRound /></Link></Button>
+          <div className="flex justify-center">
+            <Link to="/" aria-label={translateText("Vitalplus Startseite")}><VivoBrand className="h-[58px] w-auto -translate-x-3 object-contain" /></Link>
+          </div>
+          <div className="today-mascot-greeting mt-7 flex items-center gap-3">
+            <Button asChild variant="ghost" size="icon" className="size-11 shrink-0 rounded-full bg-warm-soft text-muted-foreground" title={translateText("Profil")}><Link to="/profil" aria-label={translateText("Profil")}><UserRound /></Link></Button>
+            <div className="min-w-0">
+              <p className="text-[13px] font-medium text-foreground"><Localized>{"Guten Morgen"}</Localized></p>
+              {s.name && <p className="mt-0.5 truncate text-[16px] font-bold leading-snug text-foreground"><Localized>{s.name}</Localized></p>}
             </div>
           </div>
-          <p className="today-mascot-greeting mt-8 text-[13px] font-medium text-foreground"><Localized>{"Guten Morgen, "}</Localized><Localized>{s.name}</Localized><Localized>{"."}</Localized></p>
-          <h1 className="today-mascot-heading mt-1 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>{"Gesünder leben."}</Localized><br /><Localized>{"Glücklicher sein."}</Localized></h1>
+          <h1 className="today-mascot-heading mt-4 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>{"Gesünder leben."}</Localized><br /><Localized>{"Glücklicher sein."}</Localized></h1>
         </div>
       </header>
 
