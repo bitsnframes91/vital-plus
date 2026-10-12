@@ -129,6 +129,12 @@
     linear-gradient(115deg, oklch(1 0 0 / 0.07) 0 34%, transparent 34%),
     linear-gradient(245deg, oklch(1 0 0 / 0.05) 0 55%, transparent 55%),
     radial-gradient(60% 45% at 80% 100%, oklch(0.72 0.15 145 / 0.4) 0%, transparent 60%);
+  /* Startseite hero — built from the app's own brand green (--fv). */
+  --gradient-hero-green:
+    radial-gradient(62% 52% at 84% 86%, oklch(0.99 0.012 145 / 0.88) 0%, transparent 64%),
+    radial-gradient(105% 80% at 6% 0%, oklch(0.99 0.02 145 / 0.92) 0%, transparent 58%),
+    radial-gradient(78% 66% at 96% 100%, oklch(0.74 0.17 141 / 0.52) 0%, transparent 62%),
+    linear-gradient(165deg, oklch(0.968 0.04 145) 0%, oklch(0.902 0.092 143) 100%);
 }
 
 
@@ -147,6 +153,10 @@
 }
 
 @utility hero-glow { background-image: var(--gradient-hero); }
+@utility hero-surface {
+  background-image: var(--gradient-hero-green);
+  box-shadow: 0 32px 90px -46px oklch(0.42 0.09 152 / 0.5);
+}
 @utility home-image-overlay { background-image: var(--home-image-overlay); }
 @utility today-image-overlay { background-image: var(--today-image-overlay); }
 @utility page-image-overlay { background-image: var(--page-image-overlay); }
