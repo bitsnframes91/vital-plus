@@ -144,14 +144,6 @@ function Health() {
         <HealthMascot />
       </header>
       <div className="grid grid-cols-1 gap-3 px-4 pt-4">
-        <div className="card-surface p-5">
-          <div className="flex justify-center">
-            <Link to="/labor" aria-label={translateText("Blutwerte öffnen")} className="grid size-11 place-items-center rounded-full bg-fresh text-ink transition active:scale-95"><img src={bloodGfx.url} alt="" className="object-contain size-7" /></Link>
-          </div>
-          <div className="mt-2 text-[18px] font-semibold"><Localized>{"Blutwerte"}</Localized></div>
-          <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Laborwerte manuell erfassen und zeitlich vergleichen."}</Localized></p>
-          <Link to="/labor" className="mt-2 inline-block text-[15px] font-semibold text-fv-deep"><Localized>{"Meine Blutwerte →"}</Localized></Link>
-        </div>
 
         <div className="card-surface p-5">
           <EditIcon label={translateText("Körperdaten")}><img src={bodyGfx.url} alt="" className="object-contain size-7" /></EditIcon>
