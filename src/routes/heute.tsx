@@ -1,38 +1,23 @@
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AppShell, Icon } from "@/components/AppShell";
 import { RangeBar } from "@/components/RangeBar";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useStore } from "@/lib/store";
 import { fmtDate, status } from "@/lib/data";
 import { productForMarker, reportMarkers } from "@/lib/plan-products";
-import { dailyTip, msUntilNextTip } from "@/lib/daily-tip";
 import { TodayMascot } from "@/components/TodayMascot";
-import { StepsIcon } from "@/components/StepsIcon";
-import sleepGfx from "@/assets/schlaf.png.asset.json";
-import goalsGfx from "@/assets/tagesziele.png.asset.json";
-import { MovementDialog } from "@/components/MovementDialog";
 import { VivoBrand } from "@/components/VivoBrand";
-import { Activity, ChevronRight, Clock, FlaskConical, Heart, Leaf, Plus, Salad, Sun, UserRound } from "lucide-react";
+import { UserRound } from "lucide-react";
+import { TodayWellnessGoals } from "@/components/TodayWellnessGoals";
 import { todayKey } from "@/lib/daily-goals";
-import type { RoutineTip } from "@/lib/deficiency-routines";
 import { nutritionTargets } from "@/lib/nutrition-targets";
 import { micronutrientGaps, nutritionGaps } from "@/lib/nutrition-products";
 import { suggestedProducts } from "@/lib/plan-products";
 import { goalProducts } from "@/lib/goal-plan";
 import { TodayNutritionGoals } from "@/components/TodayNutritionGoals";
-import { nutritionAlerts } from "@/lib/nutrition-alerts";
-
-const tipIcon = {
-  food: Salad,
-  sun: Sun,
-  walk: StepsIcon,
-  clock: Clock,
-  heart: Heart,
-} satisfies Record<RoutineTip["icon"], React.ComponentType<{ className?: string }>>;
 
 export const Route = createFileRoute("/heute")({
   staticData: { sitemap: false },
@@ -52,21 +37,12 @@ export const Route = createFileRoute("/heute")({
 function Today() {
   useLanguage();
   const { s } = useStore();
-  const [moveOpen, setMoveOpen] = useState(false);
   const goTo = useNavigate();
   useEffect(() => { if (s.account && !s.onboarded) goTo({ to: "/onboarding" }); }, [s.account, s.onboarded]);
   const measured = reportMarkers(s.aiPlan, s.labs);
   const featured = measured[0];
   const featuredProduct = featured ? productForMarker(featured) : undefined;
   const last = featured?.history.at(-1);
-  const [tipNow, setTipNow] = useState(() => new Date());
-  const [tipOpen, setTipOpen] = useState(false);
-  useEffect(() => {
-    const t = setTimeout(() => { setTipNow(new Date()); setTipOpen(false); }, msUntilNextTip(tipNow) + 1000);
-    return () => clearTimeout(t);
-  }, [tipNow]);
-  const tip = dailyTip(s.aiPlan, s.labs, s.account?.userId, tipNow);
-  const TipIcon = tipIcon[tip.tip.icon];
   const today = todayKey();
 
   const todayMeals = s.meals.filter((m) => m.date === today);
@@ -76,12 +52,11 @@ function Today() {
   const microGaps = micronutrientGaps(todayMeals);
   const labIds = new Set(suggestedProducts(s.aiPlan, s.labs).map((e) => e.product.shopwareId));
   const goalSuggestions = goalProducts(s.onboarded ? s.goals : []).filter((e) => !labIds.has(e.product.shopwareId));
-  const alerts = nutritionAlerts(todayMeals, nutritionTargets(s.body));
   const fmtNum = (n: number) => n.toLocaleString(languageLocale(), { maximumFractionDigits: 1 });
 
   return (
     <AppShell>
-      <header className="vivo-today-header today-mascot-header relative overflow-hidden px-6 pt-8 pb-7">
+      <header className="today-goals-header today-mascot-header relative overflow-hidden px-6 pt-8 pb-7">
         <TodayMascot />
         <div className="relative">
           <div className="flex items-center justify-between">
@@ -92,62 +67,12 @@ function Today() {
           </div>
           <p className="today-mascot-greeting mt-8 text-[13px] font-medium text-foreground"><Localized>{"Guten Morgen, "}</Localized><Localized>{s.name}</Localized><Localized>{"."}</Localized></p>
           <h1 className="today-mascot-heading mt-1 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>{"Gesünder leben."}</Localized><br /><Localized>{"Glücklicher sein."}</Localized></h1>
-          <button
-            type="button"
-            onClick={() => setTipOpen(true)}
-            aria-label={translateText("Tipp des Tages öffnen")}
-            className="vivo-focus mt-6 flex h-auto min-h-[116px] w-full items-start gap-3 whitespace-normal rounded-2xl bg-card/95 px-4 py-4 text-left hover:bg-card"
-          >
-            <span className="grid size-12 shrink-0 place-items-center rounded-full bg-teal-soft text-fresh"><TipIcon className="size-7" /></span>
-            <span className="min-w-0 flex-1">
-              <span className="block text-[10px] font-medium text-muted-foreground">
-                <Localized>{tip.marker ? `Tipp des Tages · ${tip.marker.name}` : "Tipp des Tages"}</Localized>
-              </span>
-              <span className="mt-1 block text-[15px] font-bold leading-snug"><Localized>{tip.tip.title}</Localized></span>
-              <span className="mt-1.5 block text-[11px] font-medium leading-relaxed text-muted-foreground line-clamp-2"><Localized>{tip.tip.text}</Localized></span>
-            </span>
-            <span className="my-auto grid size-7 shrink-0 place-items-center rounded-full bg-muted text-fv-deep"><ChevronRight /></span>
-          </button>
-          <Dialog open={tipOpen} onOpenChange={setTipOpen}>
-            <DialogContent className="rounded-3xl sm:max-w-sm">
-              <DialogHeader>
-                <span className="mx-auto grid size-14 place-items-center rounded-full bg-teal-soft text-fresh"><TipIcon className="size-8" /></span>
-                <span className="text-[10px] font-medium text-muted-foreground">
-                  <Localized>{tip.marker ? `Tipp des Tages · ${tip.marker.name}` : "Tipp des Tages"}</Localized>
-                </span>
-                <DialogTitle className="text-center text-[19px] font-bold leading-snug"><Localized>{tip.tip.title}</Localized></DialogTitle>
-                <DialogDescription className="text-center text-[14px] font-medium leading-relaxed text-foreground/80">
-                  <Localized>{tip.tip.text}</Localized>
-                </DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
         </div>
       </header>
 
-      <section className="px-6 pt-1">
-        <div className="mb-3 flex items-center justify-between"><h2 className="text-[14px] font-bold"><Localized>{"Dein Fortschritt"}</Localized></h2><Link to="/gesundheit" className="text-[11px] text-fv-deep"><Localized>{"Alle ansehen"}</Localized></Link></div>
-        <div className="grid grid-cols-3 gap-3">
-          <Link to="/gesundheit" className="vivo-progress bg-teal-soft text-fv-deep">
-            <StepsIcon className="mx-auto size-7" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{"—"}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Schritte"}</Localized></div><MiniBars tone="teal" />
-          </Link>
-          <Link to="/ernaehrung" className="vivo-progress bg-fresh-soft text-fresh">
-            <img src={goalsGfx.url} alt="" className="vivo-bounce mx-auto size-7 object-contain" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{alerts.length}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Tagesziele"}</Localized></div><MiniBars tone="fresh" />
-          </Link>
-          <Link to="/gesundheit" className="vivo-progress bg-sky-soft text-sky">
-            <img src={sleepGfx.url} alt="" className="vivo-sway mx-auto size-7" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{"—"}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Schlaf"}</Localized></div><MiniBars tone="sky" />
-          </Link>
-        </div>
-      </section>
-      <section className="px-6 pt-6 pb-3">
-        <h2 className="mb-3 text-[14px] font-bold"><Localized>{"Schnellzugriff"}</Localized></h2>
-        <div className="grid grid-cols-4 gap-3 text-center">
-          <button type="button" onClick={() => setMoveOpen(true)} className="vivo-quick"><span className="bg-teal-soft text-fv-deep"><Activity /></span><span><Localized>{"Bewegung"}</Localized></span></button>
-          <Link to="/plan" className="vivo-quick"><span className="bg-fresh-soft text-fresh"><Leaf /></span><span><Localized>{"Mein Plan"}</Localized></span></Link>
-          <Link to="/ernaehrung" className="vivo-quick"><span className="bg-fresh-soft text-fresh"><Salad /></span><span><Localized>{"Ernährung"}</Localized></span></Link>
-          <Link to="/labor" className="vivo-quick"><span className="bg-sky-soft text-sky"><FlaskConical /></span><span><Localized>{"Labor"}</Localized></span></Link>
-        </div>
-      </section>
+      <TodayWellnessGoals />
+
+      <section className="mt-4 px-4"><WeekRecap /></section>
 
       <TodayNutritionGoals />
 
@@ -188,7 +113,6 @@ function Today() {
         <p className="px-1 text-[11px] text-muted-foreground"><Localized>{"Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten."}</Localized></p>
       </section>}
 
-      <MovementDialog open={moveOpen} onOpenChange={setMoveOpen} />
       {featured && last && <section className="mt-4 px-4">
         <div className="card-surface p-5">
           <Link to="/labor" className="block">
@@ -221,21 +145,9 @@ function Today() {
         </div>
       </section>}
 
-      <section className="mt-4 px-4">
-        <WeekRecap />
-      </section>
     </AppShell>
   );
 }
-
-function MiniBars({ tone }: { tone: "teal" | "fresh" | "sky" }) {
-  useLanguage();
-  return <div aria-hidden="true" className={`vivo-mini-bars vivo-mini-bars-${tone}`}>
-    {[12, 22, 16, 30, 21, 26, 35, 43, 52].map((height, i) => <span key={i} style={{ height: `${height}%` }} />)}
-  </div>;
-}
-
-
 
 function WeekRecap() {
   useLanguage();
