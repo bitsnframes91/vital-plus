@@ -29,8 +29,9 @@ export const RecoveryEmail = ({
       <Container style={container}>
         <Heading style={h1}>Passwort zurücksetzen</Heading>
         <Text style={text}>
-          Wir haben eine Anfrage zum Zurücksetzen deines Passworts für {siteName}
-          erhalten. Klicke auf die Schaltfläche unten, um ein neues Passwort zu wählen.
+          Wir haben eine Anfrage zum Zurücksetzen deines Passworts für{' '}
+          {siteName} erhalten. Klicke auf die Schaltfläche unten, um ein neues
+          Passwort zu wählen.
         </Text>
         <Button className="dm-btn" style={button} href={confirmationUrl}>
           Passwort zurücksetzen
