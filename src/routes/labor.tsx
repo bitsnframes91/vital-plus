@@ -128,7 +128,7 @@ function Labs() {
           <h1 className="mt-4 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>Deine Laborwerte</Localized></h1>
           <p className="mt-3 text-sm text-muted-foreground"><Localized>Werte erfassen, Verlauf sehen, Nachkontrolle nicht vergessen.</Localized></p>
         </div>
-        <LaborMascot />
+        <LaborMascot message={s.labs.length === 0 ? "Lade deine Blutwerte hoch." : undefined} />
       </header>
       <div className="space-y-3 px-4 pt-4">
         <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
