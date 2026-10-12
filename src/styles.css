@@ -241,8 +241,8 @@
 }
 .nutrition-mascot-says-tail { z-index: 1; }
 .nutrition-mascot-says-tail path { fill: var(--fresh-soft); }
-.nutrition-mascot-header:has(.nutrition-mascot-says) { padding-top: 92px; min-height: 320px; }
-.nutrition-mascot-header:has(.nutrition-mascot-says) .nutrition-mascot { top: 86px; }
+.nutrition-mascot-header:has(.nutrition-mascot-says) { padding-top: 84px; min-height: 320px; }
+.nutrition-mascot-header:has(.nutrition-mascot-says) .nutrition-mascot { top: 76px; }
 @keyframes nutrition-bubble-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .nutrition-mascot-says { animation: none; } }
 .health-mascot-header { min-height: 256px; }

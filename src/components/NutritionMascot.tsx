@@ -39,13 +39,13 @@ export function NutritionMascot({ message }: { message?: string | undefined }) {
         bub.offsetLeft + bub.offsetWidth - 26,
       );
       const ay = bub.offsetTop + bub.offsetHeight;
-      // Curved tapered tail: drops through the clear channel beside the head,
-      // then hooks horizontally into the mouth.
+      // Curved tapered tail: a wide cone leaving the bubble that narrows to a
+      // point at the mouth, sweeping clear of the head and the raised hand.
       const drop = my - ay;
-      const c1x = ax;
-      const c1y = ay + drop * 0.72;
-      const c2x = mx + 26;
-      const c2y = my + 1;
+      const c1x = ax + 10;
+      const c1y = ay + drop * 0.45;
+      const c2x = mx + 18;
+      const c2y = my - drop * 0.25;
       const left: string[] = [];
       const right: string[] = [];
       const n = 22;
@@ -57,7 +57,7 @@ export function NutritionMascot({ message }: { message?: string | undefined }) {
         const gx = 3 * m * m * (c1x - ax) + 6 * m * t * (c2x - c1x) + 3 * t * t * (mx - c2x);
         const gy = 3 * m * m * (c1y - ay) + 6 * m * t * (c2y - c1y) + 3 * t * t * (my - c2y);
         const gl = Math.hypot(gx, gy) || 1;
-        const w = 8 * (1 - t) ** 1.15;
+        const w = 15 * (1 - t) ** 0.9;
         const ox = (gy / gl) * w;
         const oy = (gx / gl) * w;
         const r = (v: number) => Math.round(v * 10) / 10;
