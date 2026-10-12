@@ -9,7 +9,6 @@ import { useStore } from "@/lib/store";
 import { StepsIcon } from "@/components/StepsIcon";
 import sleepGfx from "@/assets/schlaf.png.asset.json";
 import bodyGfx from "@/assets/koerperdaten.png.asset.json";
-import bloodGfx from "@/assets/blutwerte.png.asset.json";
 import { ChevronRight, Minus, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -18,7 +17,7 @@ export const Route = createFileRoute("/gesundheit")({
   head: () => ({
     meta: [
       { title: "Gesundheit — Vitalplus" },
-      { name: "description", content: "Messwerte und Verläufe verständlich an einem Ort: Blutwerte, Gewicht, Körperdaten, Schlaf, Schritte und Trends." },
+      { name: "description", content: "Messwerte und Verläufe verständlich an einem Ort: Gewicht, Körperdaten, Schlaf, Schritte und Trends." },
       { property: "og:title", content: "Gesundheit — Vitalplus" },
       { property: "og:description", content: "Messwerte und Verläufe verständlich an einem Ort." },
       { property: "og:type", content: "website" },
@@ -144,14 +143,6 @@ function Health() {
         <HealthMascot />
       </header>
       <div className="grid grid-cols-1 gap-3 px-4 pt-4">
-        <div className="card-surface p-5">
-          <div className="flex justify-center">
-            <Link to="/labor" aria-label={translateText("Blutwerte öffnen")} className="grid size-11 place-items-center rounded-full bg-fresh text-ink transition active:scale-95"><img src={bloodGfx.url} alt="" className="object-contain size-7" /></Link>
-          </div>
-          <div className="mt-2 text-[18px] font-semibold"><Localized>{"Blutwerte"}</Localized></div>
-          <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Laborwerte manuell erfassen und zeitlich vergleichen."}</Localized></p>
-          <Link to="/labor" className="mt-2 inline-block text-[15px] font-semibold text-fv-deep"><Localized>{"Meine Blutwerte →"}</Localized></Link>
-        </div>
 
         <div className="card-surface p-5">
           <EditIcon label={translateText("Körperdaten")}><img src={bodyGfx.url} alt="" className="object-contain size-7" /></EditIcon>
