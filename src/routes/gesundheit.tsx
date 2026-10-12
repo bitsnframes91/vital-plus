@@ -2,7 +2,7 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { HealthMascot } from "@/components/HealthMascot";
 import { useStore } from "@/lib/store";
