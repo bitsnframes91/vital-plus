@@ -33,6 +33,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,27 +46,31 @@ function Login() {
       navigate({ to: "/heute" });
     } else {
       const questionnaire = readQuestionnaire();
-      const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin, ...(questionnaire ? { data: { questionnaire } } : {}) } });
+      const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + "/heute", ...(questionnaire ? { data: { questionnaire } } : {}) } });
       setBusy(false);
       if (error) return setMsg(error.message.includes("registered") ? "Für diese E-Mail gibt es bereits ein Konto." : "Konto konnte nicht angelegt werden (Passwort mind. 8 Zeichen).");
       clearQuestionnaire();
-      if (!data.session) { setMsg("Fast geschafft: Bitte bestätige deine E-Mail-Adresse über den Link, den wir dir geschickt haben."); setMode("login"); return; }
+      if (!data.session) { setSent(true); return; }
       navigate({ to: "/heute" });
     }
   };
+
+  if (sent) return (
+    <AppShell>
+      <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText("Bestätige deine E-Mail")} sub={translateText("Fast geschafft!")} />
+      <div className="card-surface mx-4 mt-4 space-y-2 p-5 text-sm">
+        <p><Localized>{"Wir haben dir einen Bestätigungslink geschickt an:"}</Localized> <b>{email}</b></p>
+        <p className="text-ink/70"><Localized>{"Erst nach dem Klick auf den Link in deinem Postfach ist dein Konto aktiv. Danach gelangst du direkt zu Heute."}</Localized></p>
+      </div>
+    </AppShell>
+  );
 
   return (
     <AppShell>
       <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText(mode === "login" ? "Anmelden" : "Konto anlegen")} sub={translateText("Deine Werte sicher gespeichert – auf allen Geräten.")} />
       <div className="card-surface mx-4 mt-4 space-y-3 p-5">
         <form onSubmit={submit} className="space-y-3">
-          <div className="grid grid-cols-2 gap-1 rounded-full bg-muted p-1">
-            {(["login", "register"] as const).map((m) => (
-              <button type="button" key={m} onClick={() => setMode(m)} className={`rounded-full py-1.5 text-sm ${mode === m ? "bg-card font-medium" : "text-ink/55"}`}>
-                <Localized>{m === "login" ? "Anmelden" : "Neu hier"}</Localized>
-              </button>
-            ))}
-          </div>
+
           <input required type="email" autoComplete="email" placeholder={translateText("E-Mail")} value={email} onChange={(e) => setEmail(e.target.value)} className={field} />
           <input required type="password" autoComplete={mode === "login" ? "current-password" : "new-password"} minLength={mode === "register" ? 8 : 1} placeholder={translateText("Passwort")} value={password} onChange={(e) => setPassword(e.target.value)} className={field} />
           {msg && <p className="rounded-xl bg-warn/15 px-3 py-2 text-[13px]"><Localized>{msg}</Localized></p>}
