@@ -197,6 +197,14 @@ function NutritionPage() {
 
   const omega = omegaSummary(todayMeals);
 
+  const waterGoal = 2;
+  const water = Math.round((s.waterLog?.[today] ?? 0) * 100) / 100;
+  const waterMood: StatusMood = water >= waterGoal ? "good" : water >= 1.5 ? "neutral" : "bad";
+  const waterColor = waterMood === "good" ? "text-bmi-good" : waterMood === "neutral" ? "text-nutrition-near" : "text-bmi-bad";
+  const liters = (n: number) => n.toLocaleString(languageLocale(), { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const addWater = (delta: number) => set({ waterLog: { ...s.waterLog, [today]: Math.max(0, Math.round(((s.waterLog?.[today] ?? 0) + delta) * 100) / 100) } });
+
+
   return (
     <AppShell>
       <header className="nutrition-mascot-header relative overflow-hidden bg-card px-6 pb-8 pt-9">
@@ -238,6 +246,18 @@ function NutritionPage() {
               <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{"Heute / Tagesrichtwert · ca."}</Localized></div>
             </div>;
           })}
+          <div data-nutrition="water" className="card-surface min-w-0 p-4">
+            <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{"Genug getrunken?"}</Localized></div><StatusFace mood={waterMood} alt={waterMood === "good" ? "Tagesziel erreicht" : waterMood === "neutral" ? "Fast am Tagesziel" : "Noch nicht genug getrunken"} className="size-5" /></div>
+            <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${waterColor}`}>
+              <span className="text-[23px] font-semibold"><Localized>{liters(water)}</Localized></span>
+              <span className="text-[13px]"><Localized>{"/ "}</Localized><Localized>{liters(waterGoal)}</Localized> <Localized>{"Liter"}</Localized></span>
+            </div>
+            <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{"Heute / Tagesziel"}</Localized></div>
+            <div className="mt-2.5 flex items-center gap-1.5">
+              <button type="button" onClick={() => addWater(-0.25)} aria-label={translateText("250 ml weniger")} className="rounded-full bg-muted px-2.5 py-1 text-[12px] font-semibold text-ink/70">−250 ml</button>
+              <button type="button" onClick={() => addWater(0.25)} aria-label={translateText("250 ml Wasser hinzufügen")} className="rounded-full bg-fresh px-2.5 py-1 text-[12px] font-semibold text-ink">+250 ml</button>
+            </div>
+          </div>
           <Link to="/ernaehrung/omega-fette" data-nutrition="omega" className="card-surface block min-w-0 p-4">
             <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{"Omega fette"}</Localized></div><StatusFace mood="neutral" alt={translateText(omega.available ? "Geschätzte Aufnahme" : "Noch keine Nährstoffdaten")} className="size-5" /></div>
             <div className="font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 text-foreground"><span className="text-[23px] font-semibold">{omega.available ? format(omega.total) : "—"}</span><span className="text-[13px]">mg</span></div>
