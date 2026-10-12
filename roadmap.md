@@ -1,4 +1,8 @@
 # Vivo redesign
+- [x] Redesign white Startseite with supplied produce mascot, top-left logo and swipe actions.
+- [x] Move new-user questionnaire before account creation; restore signup-bound answers only for a verified new account with no existing health row; tests passed.
+- [x] Verify questionnaire-to-registration swipe, email/password empty-input validation, signed-in swipe to Heute and desktop/tablet/mobile presentation; 12 tests passed, no page errors.
+- [ ] Verify a real signup confirmation email and password-based sign-in end-to-end; requires a new test account and access to its confirmation email. Existing signed-in session navigation is verified.
 - [x] Replace Heute mascot with the supplied cheerful Vitali and Plan runner with the supplied target mascot; signed-in desktop/mobile animation, complete framing and reduced-motion fallbacks verified without page errors.
 - [x] Add the supplied doctor mascot to Gesundheit in the matching header position; signed-in desktop/mobile framing, playback and reduced-motion still fallback verified without page errors.
 - [x] Place the supplied salad mascot in Ernährung with matching header position, transparent animation and reduced-motion fallback; signed-in desktop/mobile playback verified without page errors.
