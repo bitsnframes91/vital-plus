@@ -3,7 +3,7 @@ import mascotStill from "@/assets/nutrition-mascot-salad.png.asset.json";
 import { Localized } from "@/components/Localized";
 
 // Right corner of the mouth inside the 496x600 artwork, as fractions of the drawn box.
-const MOUTH = { x: 0.6, y: 0.42 };
+const MOUTH = { x: 0.585, y: 0.4 };
 
 // Smooth CSS motion on the still artwork: the AI-generated video made the bowl jitter.
 // When the day has no meal yet, the mascot "speaks" the prompt from a rounded bubble
@@ -39,13 +39,13 @@ export function NutritionMascot({ message }: { message?: string | undefined }) {
         bub.offsetLeft + bub.offsetWidth - 26,
       );
       const ay = bub.offsetTop + bub.offsetHeight;
-      // Curved tapered tail: runs down the clear channel beside the head and
-      // narrows to a point at the mouth.
+      // Curved tapered tail: drops through the clear channel beside the head,
+      // then hooks horizontally into the mouth.
       const drop = my - ay;
-      const c1x = ax + 4;
-      const c1y = ay + drop * 0.5;
-      const c2x = mx + 20;
-      const c2y = my - drop * 0.12;
+      const c1x = ax;
+      const c1y = ay + drop * 0.72;
+      const c2x = mx + 26;
+      const c2y = my + 1;
       const left: string[] = [];
       const right: string[] = [];
       const n = 22;
