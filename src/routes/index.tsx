@@ -55,7 +55,7 @@ function Home() {
       </header>
       <div className="home-entry-controls relative z-10">
         {s.account ? <SwipeAction label="Weiter zu Heute" onComplete={() => navigate({ to: "/heute" })} /> : <>
-          <div className="mb-4 flex justify-center gap-5">
+          <div className="mb-4 flex justify-center gap-5 rounded-full bg-card/95">
             <Button variant="link" onClick={() => { setMode("new"); setError(null); }} aria-pressed={mode === "new"} className={mode === "new" ? "font-bold text-ink underline underline-offset-4" : "text-muted-foreground"}><Localized>{"Neu hier"}</Localized></Button>
             <Button variant="link" onClick={() => { setMode("login"); setError(null); }} aria-pressed={mode === "login"} className={mode === "login" ? "font-bold text-ink underline underline-offset-4" : "text-muted-foreground"}><Localized>{"Einloggen"}</Localized></Button>
           </div>
