@@ -1,7 +1,7 @@
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import heroImage from "@/assets/ganzheitlich.png.asset.json";
+import startseiteVitali from "@/assets/startseite-vitali.png.asset.json";
 import { VivoBrand } from "@/components/VivoBrand";
 
 export const Route = createFileRoute("/")({
