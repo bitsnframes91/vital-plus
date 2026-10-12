@@ -12,6 +12,7 @@ import mascotStill from "@/assets/today-vitali-clean.png.asset.json";
 
 export function TodayNutritionGoals() {
   useLanguage();
+  const [miniAnimOk, setMiniAnimOk] = useState(true);
   const { s } = useStore();
   const meals = s.meals.filter(meal => meal.date === new Date().toISOString().slice(0, 10));
   const alerts = nutritionAlerts(meals, nutritionTargets(s.body));
@@ -31,7 +32,16 @@ export function TodayNutritionGoals() {
         </div>
         <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
       </Link>)}
-      {alerts.length === 0 && <Link to="/ernaehrung" className="card-surface block p-4 text-[13px] text-muted-foreground"><Localized>{meals.length ? "Keine gelben oder roten Ernährungswerte mit Richtwert für heute." : "Noch keine Einträge. Sprich oder tippe deine erste Mahlzeit."}</Localized></Link>}
+      {alerts.length === 0 && (meals.length
+        ? <Link to="/ernaehrung" className="card-surface block p-4 text-[13px] text-muted-foreground"><Localized>{"Keine gelben oder roten Ernährungswerte mit Richtwert für heute."}</Localized></Link>
+        : <Link to="/ernaehrung" className="card-surface today-empty-prompt flex items-center gap-3 p-4">
+            <img src={mascotAnim.url} alt="" aria-hidden="true" onError={() => setMiniAnimOk(false)} className={`today-empty-mascot ${miniAnimOk ? "" : "hidden"}`} />
+            {miniAnimOk ? null : <img src={mascotStill.url} alt="" aria-hidden="true" className="today-empty-mascot" />}
+            <div className="flex-1 rounded-2xl rounded-bl-sm bg-[--today-empty-bubble] px-3 py-2 text-[13px] font-medium text-fv-deep">
+              <Localized>{"Bitte gebe ein, was du heute gegessen hast."}</Localized>
+            </div>
+            <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+          </Link>)}
     </div>
   </section>;
 }
