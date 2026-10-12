@@ -260,3 +260,7 @@
 .vivo-bounce { animation: vivo-bounce 2.6s ease-in-out infinite; }
 .vivo-sway { animation: vivo-sway 3.4s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .vivo-bounce, .vivo-sway { animation: none; } }
+
+@keyframes home-mascot-float { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-10px) rotate(1.5deg); } }
+.home-mascot { animation: home-mascot-float 5s ease-in-out infinite; transform-origin: 50% 90%; }
+@media (prefers-reduced-motion: reduce) { .home-mascot { animation: none; } }
