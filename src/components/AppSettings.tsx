@@ -1,7 +1,7 @@
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText } from "@/lib/language";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { Bell, Clock, Globe, Moon, Sun } from "lucide-react";
+import { Bell, Clock, Globe } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { languages, setLanguage, validLanguage } from "@/lib/language";
 import { Button } from "@/components/ui/button";
@@ -27,8 +27,8 @@ export function AppSettingsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
     setLanguage(settings.language);
     document.documentElement.lang = settings.language;
-    document.documentElement.classList.toggle("dark", settings.theme === "dark");
-    document.documentElement.style.colorScheme = settings.theme;
+    document.documentElement.classList.remove("dark");
+    document.documentElement.style.colorScheme = "light";
     const theme = document.querySelector('meta[name="theme-color"]');
     theme?.setAttribute("content", getComputedStyle(document.documentElement).getPropertyValue("--browser-theme").trim());
   }, [settings, ready]);
@@ -82,10 +82,6 @@ export function AppSettingsControls() {
       {settings.notifications && <Button variant="outline" className="mt-3 w-full" onClick={test}><Bell /><Localized>{" Testbenachrichtigung"}</Localized></Button>}
       {testSent && <p role="status" className="mt-2 text-xs text-muted-foreground"><Localized>{"Testbenachrichtigung gesendet."}</Localized></p>}
     </div>
-    <div className="rounded-lg bg-card px-4 py-4"><div className="mb-3 flex items-center gap-3"><Moon className="size-5" /><span className="text-[13px] font-semibold"><Localized>{"Design"}</Localized></span></div><div className="grid grid-cols-2 gap-2" role="group" aria-label={translateText("Design")}>
-      <Button variant={settings.theme === "light" ? "default" : "outline"} aria-pressed={settings.theme === "light"} onClick={() => update({ theme: "light" })}><Sun /><Localized>{" Hell"}</Localized></Button>
-      <Button variant={settings.theme === "dark" ? "default" : "outline"} aria-pressed={settings.theme === "dark"} onClick={() => update({ theme: "dark" })}><Moon /><Localized>{" Dunkel"}</Localized></Button>
-    </div></div>
     <div className="rounded-lg bg-card px-4 py-4"><div className="flex items-center gap-3"><Clock className="size-5 shrink-0" /><div className="flex-1"><label htmlFor="reminders" className="text-[13px] font-semibold"><Localized>{"Erinnerungen"}</Localized></label><p className="text-xs text-muted-foreground"><Localized>{settings.reminders ? "An" : "Aus"}</Localized></p></div><Switch id="reminders" checked={settings.reminders} onCheckedChange={reminders => update({ reminders })} /></div>
       {settings.reminders && <div className="mt-4"><label htmlFor="reminder-time" className="text-xs font-medium"><Localized>{"Täglich um"}</Localized></label><input id="reminder-time" type="time" value={settings.reminderTime} onChange={e => { if (e.target.value) update({ reminderTime: e.target.value }); }} className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-foreground" /><p className="mt-2 text-xs leading-5 text-muted-foreground"><Localized>{"Erinnerungen erscheinen, solange Vitalplus geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App."}</Localized></p></div>}
     </div>
