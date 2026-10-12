@@ -246,7 +246,7 @@
 .vivo-quick > span:first-child { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; }
 .vivo-quick svg { width: 25px; height: 25px; }
 @keyframes vivo-bounce { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.06); } }
-@keyframes vivo-sway { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
+@keyframes vivo-sway { 0%, 100% { transform: translateY(0) rotate(-10deg); } 50% { transform: translateY(-3px) rotate(10deg); } }
 .vivo-bounce { animation: vivo-bounce 2.6s ease-in-out infinite; }
 .vivo-sway { animation: vivo-sway 3.4s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .vivo-bounce, .vivo-sway { animation: none; } }

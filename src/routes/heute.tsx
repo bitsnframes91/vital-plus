@@ -133,7 +133,7 @@ function Today() {
             <StepsIcon className="mx-auto size-7" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{"—"}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Schritte"}</Localized></div><MiniBars tone="teal" />
           </Link>
           <Link to="/ernaehrung" className="vivo-progress bg-fresh-soft text-fresh">
-            <img src={goalsGfx.url} alt="" className="mx-auto size-7 object-contain" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{alerts.length}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Tagesziele"}</Localized></div><MiniBars tone="fresh" />
+            <img src={goalsGfx.url} alt="" className="vivo-bounce mx-auto size-7 object-contain" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{alerts.length}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Tagesziele"}</Localized></div><MiniBars tone="fresh" />
           </Link>
           <Link to="/gesundheit" className="vivo-progress bg-sky-soft text-sky">
             <img src={sleepGfx.url} alt="" className="vivo-sway mx-auto size-7" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{"—"}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Schlaf"}</Localized></div><MiniBars tone="sky" />
