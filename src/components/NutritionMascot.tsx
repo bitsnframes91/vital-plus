@@ -35,10 +35,11 @@ export function NutritionMascot({ message }: { message?: string | undefined }) {
       const mx = cx + MOUTH.x * cw;
       const my = cy + MOUTH.y * ch;
       const ax = Math.min(
-        Math.max(mx + 34, bub.offsetLeft + 26),
-        bub.offsetLeft + bub.offsetWidth - 26,
+        Math.max(mx + 34, bub.offsetLeft + 34),
+        bub.offsetLeft + bub.offsetWidth - 34,
       );
-      const ay = bub.offsetTop + bub.offsetHeight;
+      // Start inside the bubble so the two same-coloured shapes merge without a notch.
+      const ay = bub.offsetTop + bub.offsetHeight - 6;
       // Curved tapered tail: a wide cone leaving the bubble that narrows to a
       // point at the mouth, sweeping clear of the head and the raised hand.
       const drop = my - ay;
