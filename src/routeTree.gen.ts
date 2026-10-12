@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BestaetigtRouteImport } from './routes/bestaetigt'
 import { Route as ErnaehrungRouteImport } from './routes/ernaehrung'
-import { Route as GesundCheckRouteImport } from './routes/gesund-check'
 import { Route as GesundheitRouteImport } from './routes/gesundheit'
 import { Route as HeuteRouteImport } from './routes/heute'
 import { Route as LaborRouteImport } from './routes/labor'
@@ -45,11 +44,6 @@ const BestaetigtRoute = BestaetigtRouteImport.update({
 const ErnaehrungRoute = ErnaehrungRouteImport.update({
   id: '/ernaehrung',
   path: '/ernaehrung',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GesundCheckRoute = GesundCheckRouteImport.update({
-  id: '/gesund-check',
-  path: '/gesund-check',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GesundheitRoute = GesundheitRouteImport.update({
@@ -147,7 +141,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bestaetigt': typeof BestaetigtRoute
   '/ernaehrung': typeof ErnaehrungRouteWithChildren
-  '/gesund-check': typeof GesundCheckRoute
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
   '/labor': typeof LaborRoute
@@ -171,7 +164,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bestaetigt': typeof BestaetigtRoute
   '/ernaehrung': typeof ErnaehrungRouteWithChildren
-  '/gesund-check': typeof GesundCheckRoute
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
   '/labor': typeof LaborRoute
@@ -196,7 +188,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/bestaetigt': typeof BestaetigtRoute
   '/ernaehrung': typeof ErnaehrungRouteWithChildren
-  '/gesund-check': typeof GesundCheckRoute
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
   '/labor': typeof LaborRoute
@@ -222,7 +213,6 @@ export interface FileRouteTypes {
     | '/'
     | '/bestaetigt'
     | '/ernaehrung'
-    | '/gesund-check'
     | '/gesundheit'
     | '/heute'
     | '/labor'
@@ -246,7 +236,6 @@ export interface FileRouteTypes {
     | '/'
     | '/bestaetigt'
     | '/ernaehrung'
-    | '/gesund-check'
     | '/gesundheit'
     | '/heute'
     | '/labor'
@@ -270,7 +259,6 @@ export interface FileRouteTypes {
     | '/'
     | '/bestaetigt'
     | '/ernaehrung'
-    | '/gesund-check'
     | '/gesundheit'
     | '/heute'
     | '/labor'
@@ -295,7 +283,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BestaetigtRoute: typeof BestaetigtRoute
   ErnaehrungRoute: typeof ErnaehrungRouteWithChildren
-  GesundCheckRoute: typeof GesundCheckRoute
   GesundheitRoute: typeof GesundheitRoute
   HeuteRoute: typeof HeuteRoute
   LaborRoute: typeof LaborRoute
@@ -332,13 +319,6 @@ declare module '@tanstack/react-router' {
       path: '/ernaehrung'
       fullPath: '/ernaehrung'
       preLoaderRoute: typeof ErnaehrungRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gesund-check': {
-      id: '/gesund-check'
-      path: '/gesund-check'
-      fullPath: '/gesund-check'
-      preLoaderRoute: typeof GesundCheckRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gesundheit': {
@@ -503,7 +483,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BestaetigtRoute: BestaetigtRoute,
   ErnaehrungRoute: ErnaehrungRouteWithChildren,
-  GesundCheckRoute: GesundCheckRoute,
   GesundheitRoute: GesundheitRoute,
   HeuteRoute: HeuteRoute,
   LaborRoute: LaborRoute,
