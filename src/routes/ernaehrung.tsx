@@ -233,6 +233,61 @@ function NutritionPage() {
           </span>
         </button>
         {vmsg && <p className="rounded-xl bg-muted px-4 py-3 text-[13px] text-ink/70"><Localized>{vmsg}</Localized></p>}
+
+        <div className="space-y-4">
+          <div className="eyebrow px-1"><Localized>{"Ernährungstagebuch"}</Localized></div>
+          {days.length === 0 && <p className="text-[14px] text-ink/50"><Localized>{"Noch keine Einträge. Sprich oder tippe deine erste Mahlzeit."}</Localized></p>}
+          {days.map((day) => {
+            const meals = s.meals.filter((m) => m.date === day);
+            const dayKcal = meals.reduce((a, m) => a + (m.kcal || 0), 0);
+            return (
+              <div key={day} className="card-surface overflow-hidden">
+                <div className="flex items-baseline justify-between border-b border-border px-4 py-3">
+                  <div className="text-[14px] font-medium"><Localized>{day === today ? "Heute" : fmtDay(day)}</Localized></div>
+                  <div className="font-data text-[12px] text-ink/45"><Localized>{"ca. "}</Localized><Localized>{dayKcal}</Localized><Localized>{" kcal"}</Localized></div>
+                </div>
+                {meals.map((m) => (
+                  <div key={m.id} className="flex items-center gap-3 border-b border-border px-4 py-3 last:border-0">
+                    <div className="min-w-0 flex-1">
+                      <div className="font-data text-[12px] uppercase tracking-normal text-fv-deep"><Localized>{m.label}</Localized><Localized>{" · "}</Localized><Localized>{m.time}</Localized></div>
+                      <div className="text-[15px] font-medium"><Localized>{m.name}</Localized></div>
+                      <div className="font-data text-[12px] text-ink/45">
+                        <Localized>{m.kcal}</Localized><Localized>{" kcal · "}</Localized><Localized>{m.protein}</Localized><Localized>{" g Protein · "}</Localized><Localized>{m.carbs}</Localized><Localized>{" g KH · "}</Localized><Localized>{m.fat}</Localized><Localized>{" g Fett · "}</Localized><Localized>{m.fiber}</Localized><Localized>{" g Ballaststoffe "}</Localized></div>
+                    </div>
+                    <button onClick={() => removeMeal(m.id)} className="text-ink/30" aria-label={translateText("Entfernen")}><Localized>{"×"}</Localized></button>
+                  </div>
+                ))}
+              </div>
+            );
+          })}
+        </div>
+
+        <form onSubmit={(e) => void add(e)} className="card-surface space-y-3 p-5">
+          <div className="flex items-center justify-between gap-3">
+            <div className="eyebrow"><Localized>{"Mahlzeit hinzufügen"}</Localized></div>
+            <Button type="button" size="icon" variant="secondary" className="size-9 shrink-0 rounded-full bg-fresh text-ink" disabled={photoBusy || estBusy}
+              onClick={() => photoInput.current?.click()} aria-label={translateText("Essen fotografieren")} title={translateText("Essen fotografieren")}><Camera className="size-4" /></Button>
+            <input ref={photoInput} type="file" accept="image/*" capture="environment" className="sr-only" aria-label={translateText("Essensfoto auswählen")}
+              onChange={event => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void readPhoto(file); }} />
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {labels.map((l) => (
+              <button type="button" key={l} onClick={() => setLabel(l)} className={`rounded-full px-3 py-1 text-[13px] ring-1 ring-border ${label === l ? "bg-fresh text-ink" : ""}`}><Localized>{l}</Localized></button>
+            ))}
+          </div>
+          <div key={photoFill} className={photoFill ? "food-photo-fill space-y-3" : "space-y-3"}>
+          <input aria-label={translateText("Mahlzeit")} disabled={photoBusy} value={name} onChange={(e) => { estimateVersion.current++; setEstBusy(false); setName(e.target.value); }} placeholder={translateText("z. B. Lachs mit Ofengemüse")} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
+          <div className="flex gap-2">
+            <input aria-label={translateText("Kalorien")} disabled={photoBusy} value={kcal} onChange={(e) => setKcal(e.target.value)} inputMode="numeric" placeholder={translateText("kcal (automatisch)")} className="min-w-0 w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
+            <input aria-label={translateText("Protein in g")} disabled={photoBusy} value={protein} onChange={(e) => setProtein(e.target.value)} inputMode="numeric" placeholder={translateText("Protein in g (automatisch)")} className="min-w-0 w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
+          </div>
+          </div>
+          {(estBusy || photoBusy) && <div role="status" className="flex items-center gap-2 text-[12px] text-muted-foreground"><LoaderCircle className="size-5 motion-safe:animate-spin text-fresh" aria-hidden="true" /><Localized>{"Nährwerte werden berechnet…"}</Localized></div>}
+          {photoFill > 0 && !photoBusy && <p className="text-[11px] text-muted-foreground"><Localized>{"Foto-Schätzung · Portionsgröße und Zutaten können abweichen."}</Localized></p>}
+          {!estBusy && est?.name === name.trim() && <p className="text-[12px] text-ink/55"><Localized>{"Geschätzt: ca. "}</Localized><Localized>{est.kcal}</Localized><Localized>{" kcal · "}</Localized><Localized>{est.protein}</Localized><Localized>{" g Protein · "}</Localized><Localized>{est.carbs}</Localized><Localized>{" g KH · "}</Localized><Localized>{est.fat}</Localized><Localized>{" g Fett · "}</Localized><Localized>{est.fiber}</Localized><Localized>{" g Ballaststoffe"}</Localized></p>}
+          {estErr && <p className="text-[12px] text-destructive"><Localized>{estErr}</Localized></p>}
+          <Button type="submit" disabled={estBusy || photoBusy} className="w-full rounded-full bg-fresh text-ink"><Localized>{estBusy || photoBusy ? "Berechne…" : "Speichern"}</Localized></Button>
+        </form>
         <div className="grid grid-cols-2 gap-3">
           {statCards.map((c) => {
             const target = targets?.[c.key];
@@ -305,61 +360,6 @@ function NutritionPage() {
           {profile.sex === "unspecified" && <p className="text-xs text-muted-foreground"><Localized>{"Ohne diese Angabe ist keine persönliche Schätzung möglich."}</Localized></p>}
           <Button disabled={!profile.age || profile.age < 18 || profile.age > 120 || !profile.sex || !profile.activity} onClick={() => set({ body: { ...s.body, ...profile } })} className="w-full bg-fresh text-ink"><Localized>{"Angaben speichern"}</Localized></Button>
         </section>}
-
-        <div className="space-y-4">
-          <div className="eyebrow px-1"><Localized>{"Ernährungstagebuch"}</Localized></div>
-          {days.length === 0 && <p className="text-[14px] text-ink/50"><Localized>{"Noch keine Einträge. Sprich oder tippe deine erste Mahlzeit."}</Localized></p>}
-          {days.map((day) => {
-            const meals = s.meals.filter((m) => m.date === day);
-            const dayKcal = meals.reduce((a, m) => a + (m.kcal || 0), 0);
-            return (
-              <div key={day} className="card-surface overflow-hidden">
-                <div className="flex items-baseline justify-between border-b border-border px-4 py-3">
-                  <div className="text-[14px] font-medium"><Localized>{day === today ? "Heute" : fmtDay(day)}</Localized></div>
-                  <div className="font-data text-[12px] text-ink/45"><Localized>{"ca. "}</Localized><Localized>{dayKcal}</Localized><Localized>{" kcal"}</Localized></div>
-                </div>
-                {meals.map((m) => (
-                  <div key={m.id} className="flex items-center gap-3 border-b border-border px-4 py-3 last:border-0">
-                    <div className="min-w-0 flex-1">
-                      <div className="font-data text-[12px] uppercase tracking-normal text-fv-deep"><Localized>{m.label}</Localized><Localized>{" · "}</Localized><Localized>{m.time}</Localized></div>
-                      <div className="text-[15px] font-medium"><Localized>{m.name}</Localized></div>
-                      <div className="font-data text-[12px] text-ink/45">
-                        <Localized>{m.kcal}</Localized><Localized>{" kcal · "}</Localized><Localized>{m.protein}</Localized><Localized>{" g Protein · "}</Localized><Localized>{m.carbs}</Localized><Localized>{" g KH · "}</Localized><Localized>{m.fat}</Localized><Localized>{" g Fett · "}</Localized><Localized>{m.fiber}</Localized><Localized>{" g Ballaststoffe "}</Localized></div>
-                    </div>
-                    <button onClick={() => removeMeal(m.id)} className="text-ink/30" aria-label={translateText("Entfernen")}><Localized>{"×"}</Localized></button>
-                  </div>
-                ))}
-              </div>
-            );
-          })}
-        </div>
-
-        <form onSubmit={(e) => void add(e)} className="card-surface space-y-3 p-5">
-          <div className="flex items-center justify-between gap-3">
-            <div className="eyebrow"><Localized>{"Mahlzeit hinzufügen"}</Localized></div>
-            <Button type="button" size="icon" variant="secondary" className="size-9 shrink-0 rounded-full bg-fresh text-ink" disabled={photoBusy || estBusy}
-              onClick={() => photoInput.current?.click()} aria-label={translateText("Essen fotografieren")} title={translateText("Essen fotografieren")}><Camera className="size-4" /></Button>
-            <input ref={photoInput} type="file" accept="image/*" capture="environment" className="sr-only" aria-label={translateText("Essensfoto auswählen")}
-              onChange={event => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void readPhoto(file); }} />
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {labels.map((l) => (
-              <button type="button" key={l} onClick={() => setLabel(l)} className={`rounded-full px-3 py-1 text-[13px] ring-1 ring-border ${label === l ? "bg-fresh text-ink" : ""}`}><Localized>{l}</Localized></button>
-            ))}
-          </div>
-          <div key={photoFill} className={photoFill ? "food-photo-fill space-y-3" : "space-y-3"}>
-          <input aria-label={translateText("Mahlzeit")} disabled={photoBusy} value={name} onChange={(e) => { estimateVersion.current++; setEstBusy(false); setName(e.target.value); }} placeholder={translateText("z. B. Lachs mit Ofengemüse")} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
-          <div className="flex gap-2">
-            <input aria-label={translateText("Kalorien")} disabled={photoBusy} value={kcal} onChange={(e) => setKcal(e.target.value)} inputMode="numeric" placeholder={translateText("kcal (automatisch)")} className="min-w-0 w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
-            <input aria-label={translateText("Protein in g")} disabled={photoBusy} value={protein} onChange={(e) => setProtein(e.target.value)} inputMode="numeric" placeholder={translateText("Protein in g (automatisch)")} className="min-w-0 w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
-          </div>
-          </div>
-          {(estBusy || photoBusy) && <div role="status" className="flex items-center gap-2 text-[12px] text-muted-foreground"><LoaderCircle className="size-5 motion-safe:animate-spin text-fresh" aria-hidden="true" /><Localized>{"Nährwerte werden berechnet…"}</Localized></div>}
-          {photoFill > 0 && !photoBusy && <p className="text-[11px] text-muted-foreground"><Localized>{"Foto-Schätzung · Portionsgröße und Zutaten können abweichen."}</Localized></p>}
-          {!estBusy && est?.name === name.trim() && <p className="text-[12px] text-ink/55"><Localized>{"Geschätzt: ca. "}</Localized><Localized>{est.kcal}</Localized><Localized>{" kcal · "}</Localized><Localized>{est.protein}</Localized><Localized>{" g Protein · "}</Localized><Localized>{est.carbs}</Localized><Localized>{" g KH · "}</Localized><Localized>{est.fat}</Localized><Localized>{" g Fett · "}</Localized><Localized>{est.fiber}</Localized><Localized>{" g Ballaststoffe"}</Localized></p>}
-          {estErr && <p className="text-[12px] text-destructive"><Localized>{estErr}</Localized></p>}
-          <Button type="submit" disabled={estBusy || photoBusy} className="w-full rounded-full bg-fresh text-ink"><Localized>{estBusy || photoBusy ? "Berechne…" : "Speichern"}</Localized></Button>
-        </form>
       </div>
     </AppShell>
   );
