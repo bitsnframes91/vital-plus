@@ -210,7 +210,7 @@ function NutritionPage() {
 
   return (
     <AppShell>
-      <header className={`nutrition-mascot-header relative overflow-hidden bg-card px-6 pb-8 pt-9 ${todayMeals.length === 0 ? "has-message" : ""}`}>
+      <header className="nutrition-mascot-header relative overflow-hidden bg-card px-6 pb-8 pt-9">
         <div className="nutrition-mascot-copy relative">
           <span className="font-data text-[12px] uppercase text-fv-deep"><Localized>Ernährung</Localized></span>
           <h1 className="mt-4 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>Was hast du heute gegessen?</Localized></h1>

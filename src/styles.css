@@ -230,9 +230,8 @@
   50% { transform: translateY(-4px) rotate(-1.2deg); }
 }
 @media (prefers-reduced-motion: reduce) { .nutrition-mascot-img { animation: none; } }
-.nutrition-mascot-header.has-message { padding-bottom: 78px; }
 .nutrition-mascot-bubble {
-  position: absolute; right: 8px; bottom: 14px; max-width: 216px;
+  position: relative; margin: 12px 0 0 auto; max-width: 240px;
   background: var(--fresh-soft); border-radius: 16px;
   padding: 8px 12px; font-size: 13px; font-weight: 500; line-height: 1.35;
   animation: nutrition-bubble-in 420ms ease-out both;
