@@ -228,6 +228,7 @@ function NutritionPage() {
         {vmsg && <p className="rounded-xl bg-muted px-4 py-3 text-[13px] text-ink/70"><Localized>{vmsg}</Localized></p>}
         <div className="grid grid-cols-2 gap-3">
           {statCards.map((c) => {
+            const target = targets?.[c.key];
             const state = target ? feedback[nutrientStatus(c.key, totals[c.key], target)] : neutral;
             return <div key={c.key} data-nutrition={c.key} className="card-surface min-w-0 p-4">
               <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{c.label}</Localized></div><StatusFace mood={state.mood} alt={translateText(state.label)} className="size-5" /></div>
