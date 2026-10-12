@@ -21,7 +21,6 @@ import { Route as PlanRouteImport } from './routes/plan'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as TailCheckRouteImport } from './routes/tail-check'
 import { Route as TrendsRouteImport } from './routes/trends'
 import { Route as UhrRouteImport } from './routes/uhr'
 import { Route as ErnaehrungMineralienRouteImport } from './routes/ernaehrung.mineralien'
@@ -92,11 +91,6 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TailCheckRoute = TailCheckRouteImport.update({
-  id: '/tail-check',
-  path: '/tail-check',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const TrendsRoute = TrendsRouteImport.update({
   id: '/trends',
   path: '/trends',
@@ -156,7 +150,6 @@ export interface FileRoutesByFullPath {
   '/profil': typeof ProfilRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/tail-check': typeof TailCheckRoute
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
   '/ernaehrung/mineralien': typeof ErnaehrungMineralienRoute
@@ -180,7 +173,6 @@ export interface FileRoutesByTo {
   '/profil': typeof ProfilRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/tail-check': typeof TailCheckRoute
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
   '/ernaehrung/mineralien': typeof ErnaehrungMineralienRoute
@@ -205,7 +197,6 @@ export interface FileRoutesById {
   '/profil': typeof ProfilRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/tail-check': typeof TailCheckRoute
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
   '/ernaehrung/mineralien': typeof ErnaehrungMineralienRoute
@@ -231,7 +222,6 @@ export interface FileRouteTypes {
     | '/profil'
     | '/reset-password'
     | '/sitemap.xml'
-    | '/tail-check'
     | '/trends'
     | '/uhr'
     | '/ernaehrung/mineralien'
@@ -255,7 +245,6 @@ export interface FileRouteTypes {
     | '/profil'
     | '/reset-password'
     | '/sitemap.xml'
-    | '/tail-check'
     | '/trends'
     | '/uhr'
     | '/ernaehrung/mineralien'
@@ -279,7 +268,6 @@ export interface FileRouteTypes {
     | '/profil'
     | '/reset-password'
     | '/sitemap.xml'
-    | '/tail-check'
     | '/trends'
     | '/uhr'
     | '/ernaehrung/mineralien'
@@ -304,7 +292,6 @@ export interface RootRouteChildren {
   ProfilRoute: typeof ProfilRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  TailCheckRoute: typeof TailCheckRoute
   TrendsRoute: typeof TrendsRoute
   UhrRoute: typeof UhrRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
@@ -395,13 +382,6 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/tail-check': {
-      id: '/tail-check'
-      path: '/tail-check'
-      fullPath: '/tail-check'
-      preLoaderRoute: typeof TailCheckRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/trends': {
@@ -512,7 +492,6 @@ const rootRouteChildren: RootRouteChildren = {
   ProfilRoute: ProfilRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  TailCheckRoute: TailCheckRoute,
   TrendsRoute: TrendsRoute,
   UhrRoute: UhrRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
