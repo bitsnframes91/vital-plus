@@ -144,7 +144,7 @@ function Health() {
           <h1 className="mt-4 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>Deine Messwerte</Localized></h1>
           <p className="mt-3 text-sm text-muted-foreground"><Localized>Messwerte und Verläufe verständlich an einem Ort.</Localized></p>
         </div>
-        <HealthMascot />
+        <HealthMascot message={missingMessage} />
       </header>
       <div className="grid grid-cols-1 gap-3 px-4 pt-4">
 
