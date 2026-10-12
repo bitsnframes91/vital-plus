@@ -132,7 +132,7 @@ function Labs() {
       </header>
       <div className="space-y-3 px-4 pt-4">
         <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
-          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv/10 text-fv-deep"><Upload size={20} strokeWidth={2.2} aria-hidden="true" /></span>
+          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv text-ink"><Upload size={20} strokeWidth={2.2} aria-hidden="true" /></span>
           <div className="min-w-0 flex-1">
             <div className="text-[15px] font-medium"><Localized>{busy ? "Befund wird gelesen…" : "Laborbefund hochladen"}</Localized></div>
             <div className="text-[12px] text-ink/45"><Localized>{"Die App liest deine Werte aus und erstellt deinen Plan."}</Localized></div>
@@ -141,7 +141,7 @@ function Labs() {
             onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
         </label>
         <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
-          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv/10 text-fv-deep"><Camera size={20} strokeWidth={2.2} aria-hidden="true" /></span>
+          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv text-ink"><Camera size={20} strokeWidth={2.2} aria-hidden="true" /></span>
           <div className="min-w-0 flex-1">
             <div className="text-[15px] font-medium"><Localized>{"Befund fotografieren"}</Localized></div>
             <div className="text-[12px] text-ink/45"><Localized>{"Kamera öffnen und deine Blutwerte abfotografieren."}</Localized></div>

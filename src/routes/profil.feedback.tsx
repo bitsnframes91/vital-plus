@@ -103,7 +103,7 @@ function FeedbackPage() {
                 type="button"
                 aria-pressed={on}
                 onClick={() => toggle(label)}
-                className={`flex h-11 items-center gap-2 rounded-full px-4 text-[13px] font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring ${on ? "bg-fresh-soft text-fv-deep ring-1 ring-fresh" : "bg-muted text-foreground"}`}
+                className={`flex h-11 items-center gap-2 rounded-full px-4 text-[13px] font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring ${on ? "bg-fresh text-ink ring-1 ring-fresh" : "bg-muted text-foreground"}`}
               >
                 <Icon className="size-4.5!" strokeWidth={1.7} /> <Localized>{label}</Localized>
               </button>
