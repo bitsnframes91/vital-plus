@@ -216,7 +216,7 @@ function NutritionPage() {
           <h1 className="mt-4 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>Was hast du heute gegessen?</Localized></h1>
           <p className="mt-3 text-sm text-muted-foreground"><Localized>Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett – sowie Vitaminen und Mineralien.</Localized></p>
         </div>
-        <NutritionMascot />
+        <NutritionMascot message={todayMeals.length === 0 ? "Bitte gib ein, was du gegessen hast." : undefined} />
       </header>
       <div className="space-y-4 px-4 pt-4">
         <button onClick={() => void toggleVoice()} disabled={vs === "busy"}
