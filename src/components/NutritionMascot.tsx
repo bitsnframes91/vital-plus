@@ -44,7 +44,7 @@ export function NutritionMascot({ message }: { message?: string | undefined }) {
       // point in the gap just above his head — it aims at his face but stops
       // short instead of running all the way down to the mouth.
       const tx = ax + (mx - ax) * 0.25;
-      const ty = ay + (my - ay) * 0.22;
+      const ty = ay + (my - ay) * 0.3;
       const drop = ty - ay;
       const c1x = ax + 10;
       const c1y = ay + drop * 0.45;
