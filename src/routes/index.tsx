@@ -34,7 +34,7 @@ function Home() {
 
       <main className="px-3 pb-10 sm:px-5">
         <section id="philosophie" className="hero-surface relative mx-auto flex min-h-[calc(100svh_-_150px)] max-w-[1600px] flex-col items-center justify-center overflow-hidden rounded-[30px] border border-fv/25 px-5 pb-14 pt-16 text-center sm:min-h-[calc(100svh_-_112px)] sm:rounded-[38px] sm:px-8">
-          <div className="relative z-10 flex w-full max-w-[1100px] flex-col items-center lg:pr-[380px]">
+          <div className="relative z-10 flex w-full max-w-[1100px] flex-col items-center lg:pr-[380px] xl:pr-[440px]">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-fv-deep sm:text-sm"><Localized>{"MESSEN → VERSTEHEN → HANDELN → ÜBERPRÜFEN"}</Localized></p>
             <h1 className="mt-6 max-w-[1100px] text-balance text-[46px] font-bold leading-[1.05] text-fv-deep sm:mt-8 sm:text-[72px] lg:text-[88px]"><Localized>{"Vitalplus"}</Localized><span className="sr-only"> – <Localized>{"Gesünder leben mit Ernährung und Laborwerten"}</Localized></span></h1>
             <p className="mt-5 text-[22px] font-semibold text-ink sm:mt-7 sm:text-[30px]"><Localized>{"Gesünder leben. Glücklicher sein."}</Localized></p>
