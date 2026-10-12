@@ -83,7 +83,7 @@ export const Route = createFileRoute("/profil/$section")({
 function Row({ title, sub, icon: Icon, onClick, danger = false, green = false }: { title: string; sub?: string; icon: LucideIcon; onClick: () => void; danger?: boolean; green?: boolean }) {
   useLanguage();
   return <Button variant="ghost" onClick={onClick} className={`h-auto min-h-16 w-full justify-start gap-3 whitespace-normal px-3 py-3 text-left ${green ? "min-h-20 rounded-2xl bg-card" : "rounded-lg bg-card"} ${danger ? "text-destructive" : "text-foreground"}`}>
-    <span className={`grid shrink-0 place-items-center rounded-full ${green ? "size-12 bg-fresh-soft text-fv-deep" : "size-9"}`}><Icon className={`${green ? "size-6!" : "size-5!"}`} strokeWidth={1.6} /></span>
+    <span className={`grid shrink-0 place-items-center rounded-full ${green ? "size-12 bg-fresh text-ink" : "size-9"}`}><Icon className={`${green ? "size-6!" : "size-5!"}`} strokeWidth={1.6} /></span>
     <span className="min-w-0 flex-1"><span className="block text-[13px] font-semibold leading-5"><Localized>{title}</Localized></span>{sub && <span className={`block break-words text-[12px] font-normal leading-4 ${danger ? "text-destructive" : "text-muted-foreground"}`}><Localized>{sub}</Localized></span>}</span><ChevronRight className="size-4! shrink-0 text-muted-foreground" />
   </Button>;
 }

@@ -38,7 +38,7 @@ function EditIcon({ label, children }: { label: string; children: React.ReactNod
     <div className="flex flex-col items-center">
       <button type="button" aria-label={translateText(`${label} im Gesundheitsprofil ändern (doppelt tippen)`)} onDoubleClick={open}
         onClick={() => { const t = Date.now(); if (t - last.current < 350) { last.current = 0; open(); } else last.current = t; }}
-        className="grid size-11 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 transition active:scale-95"><Localized>{children}</Localized></button>
+        className="grid size-11 place-items-center rounded-full bg-fresh text-ink transition active:scale-95"><Localized>{children}</Localized></button>
       <span className="mt-1 text-[11px] text-ink/55"><Localized>{"Doppelt tippen zum Ändern"}</Localized></span>
     </div>
   );
@@ -56,12 +56,12 @@ function HealthTrends() {
     <section aria-labelledby="health-trends-title" className="card-surface p-5">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 text-fresh">
+          <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-fresh text-ink">
             <TrendingUp className="size-6" />
           </span>
           <h2 id="health-trends-title" className="text-[18px] font-semibold"><Localized>{"Trends"}</Localized></h2>
         </div>
-        <Button asChild variant="ghost" size="icon" className="rounded-full bg-fresh/15 ring-1 ring-fresh/40 text-fv-deep hover:bg-fresh/25 hover:text-fv-deep">
+        <Button asChild variant="ghost" size="icon" className="rounded-full bg-fresh text-ink hover:bg-fresh/90">
           <Link to="/trends" aria-label={translateText("Details zu Trends")}>
             <ChevronRight className="!size-6" />
           </Link>
@@ -146,7 +146,7 @@ function Health() {
       <div className="grid grid-cols-1 gap-3 px-4 pt-4">
         <div className="card-surface p-5">
           <div className="flex justify-center">
-            <Link to="/labor" aria-label={translateText("Blutwerte öffnen")} className="grid size-11 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 transition active:scale-95"><img src={bloodGfx.url} alt="" className="object-contain size-7" /></Link>
+            <Link to="/labor" aria-label={translateText("Blutwerte öffnen")} className="grid size-11 place-items-center rounded-full bg-fresh text-ink transition active:scale-95"><img src={bloodGfx.url} alt="" className="object-contain size-7" /></Link>
           </div>
           <div className="mt-2 text-[18px] font-semibold"><Localized>{"Blutwerte"}</Localized></div>
           <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Laborwerte manuell erfassen und zeitlich vergleichen."}</Localized></p>

@@ -60,7 +60,7 @@ export function TodayWellnessGoals() {
     </div>
     <div className="grid grid-cols-2 gap-3 min-[420px]:gap-4">
       {tiles.map(tile => <Link key={tile.key} to={tile.to} data-goal-category={tile.key} className={`goal-tile group min-w-0 bg-card p-3.5 transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-ring ${tile.key === "water" ? "col-span-2 flex items-center justify-between gap-4" : "flex flex-col"}`}>
-        <div className="min-w-0"><div className="flex items-center justify-between gap-2"><span className="grid size-9 shrink-0 place-items-center rounded-full bg-fresh-soft text-fv-deep"><tile.icon className="size-5" /></span><ChevronRight className="size-3.5 text-muted-foreground" /></div><h3 className="mt-2 text-[13px] font-bold leading-snug"><Localized>{tile.title}</Localized></h3></div>
+        <div className="min-w-0"><div className="flex items-center justify-between gap-2"><span className="grid size-9 shrink-0 place-items-center rounded-full bg-fresh text-ink"><tile.icon className="size-5" /></span><ChevronRight className="size-3.5 text-muted-foreground" /></div><h3 className="mt-2 text-[13px] font-bold leading-snug"><Localized>{tile.title}</Localized></h3></div>
         <div className={`flex items-center justify-center ${tile.key === "water" ? "order-last" : "my-3"}`}><ProgressRing percent={tile.percent} label={tile.title} toneOverride={"tone" in tile ? tile.tone : undefined} /></div>
         <div className="min-w-0"><p className="text-[11px] font-semibold leading-relaxed"><Localized>{tile.percent === null ? "Noch keine Daten" : tile.detail}</Localized></p><p className="mt-1 text-[10px] leading-relaxed text-muted-foreground"><Localized>{tile.sub}</Localized></p></div>
       </Link>)}

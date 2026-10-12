@@ -172,7 +172,7 @@ function Plan() {
                       {routineTips(marker).map((tip) => {
                         const TipIcon = icons[tip.icon];
                         return <div key={tip.title} className="flex items-start gap-3">
-                          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-fv/10 text-fv-deep"><TipIcon className="size-5" aria-hidden="true" /></span>
+                          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-fv text-ink"><TipIcon className="size-5" aria-hidden="true" /></span>
                           <div className="min-w-0"><div className="text-[14px] font-semibold"><Localized>{tip.title}</Localized></div><p className="mt-1 text-[13px] leading-relaxed text-ink/65"><Localized>{tip.text}</Localized></p></div>
                         </div>;
                       })}
