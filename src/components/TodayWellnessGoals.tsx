@@ -9,7 +9,7 @@ import { Localized, useLanguage } from "./Localized";
 import { translateText } from "@/lib/language";
 import goalsGfx from "@/assets/tagesziele.png.asset.json";
 
-function ProgressRing({ percent, large = false, label, toneOverride }: { percent: number | null; large?: boolean; label: string; toneOverride?: ReturnType<typeof progressTone> }) {
+function ProgressRing({ percent, large = false, label, toneOverride }: { percent: number | null; large?: boolean; label: string; toneOverride?: ReturnType<typeof progressTone> | undefined }) {
   const [arc, setArc] = useState(0);
   useEffect(() => { setArc(percent ?? 0); }, [percent]);
   const tone = toneOverride ?? progressTone(percent);
