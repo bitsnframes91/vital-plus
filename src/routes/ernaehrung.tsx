@@ -149,8 +149,11 @@ function NutritionPage() {
       const r = await voice({ data: { base64: await blobToBase64(blob) } });
       if (!r.ok) { setVmsg(r.error); return; }
       const time = nowTime();
-      set({ meals: [...s.meals, ...r.meals.map((m) => ({ ...m, id: crypto.randomUUID(), time, date: today }))] });
-      setVmsg(`„${r.transcript}“ – ${r.meals.length} Mahlzeit${r.meals.length > 1 ? "en" : ""} hinzugefügt.`);
+      const drinkMl = r.meals.reduce((a, m) => a + (m.drinkMl ?? 0), 0);
+      const next: Partial<typeof s> = { meals: [...s.meals, ...r.meals.map((m) => ({ ...m, id: crypto.randomUUID(), time, date: today }))] };
+      if (drinkMl > 0) next.waterLog = { ...s.waterLog, [today]: Math.round(((s.waterLog?.[today] ?? 0) + drinkMl / 1000) * 100) / 100 };
+      set(next);
+      setVmsg(`„${r.transcript}“ – ${r.meals.length} Mahlzeit${r.meals.length > 1 ? "en" : ""} hinzugefügt.${drinkMl > 0 ? ` ${Math.round(drinkMl)} ml Getränke gezählt.` : ""}`);
     } catch (e) {
       setVmsg(e instanceof Error ? e.message : "Aufnahme fehlgeschlagen.");
     } finally {
