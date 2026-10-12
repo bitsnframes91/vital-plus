@@ -83,21 +83,23 @@ export function NutritionMascot({ message }: { message?: string | undefined }) {
         <img src={mascotStill.url} alt="" className="nutrition-mascot-img size-full object-contain" />
       </div>
       {message && (
-        <p ref={bubble} role="status" className="nutrition-mascot-says text-ink">
-          <Localized>{message}</Localized>
-        </p>
-      )}
-      {message && tail && (
-        <svg
-          className="nutrition-mascot-says-tail absolute inset-0"
-          width={tail.w}
-          height={tail.h}
-          viewBox={`0 0 ${tail.w} ${tail.h}`}
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path d={tail.d} />
-        </svg>
+        <div className="nutrition-mascot-says-layer absolute inset-0">
+          <p ref={bubble} role="status" className="nutrition-mascot-says text-ink">
+            <Localized>{message}</Localized>
+          </p>
+          {tail && (
+            <svg
+              className="nutrition-mascot-says-tail absolute inset-0"
+              width={tail.w}
+              height={tail.h}
+              viewBox={`0 0 ${tail.w} ${tail.h}`}
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d={tail.d} />
+            </svg>
+          )}
+        </div>
       )}
     </>
   );

@@ -230,19 +230,27 @@
   50% { transform: translateY(-4px) rotate(-1.2deg); }
 }
 @media (prefers-reduced-motion: reduce) { .nutrition-mascot-img { animation: none; } }
-/* Rounded speech bubble above the mascot; its tail is drawn by JS so it aims at the mouth. */
+/* Rounded speech bubble above the mascot; its tail is drawn by JS so it aims at the mouth.
+   Bubble and tail share one drop shadow so the join reads as a single shape. */
+.nutrition-mascot-says-layer {
+  z-index: 2; pointer-events: none;
+  filter: drop-shadow(0 8px 14px rgb(0 0 0 / 12%));
+}
 .nutrition-mascot-says {
-  position: absolute; top: 22px; right: 14px; z-index: 2;
+  position: absolute; top: calc(22px + env(safe-area-inset-top)); right: 14px;
   max-width: min(250px, calc(100% - 44px));
   background: var(--fresh-soft); border-radius: 9999px;
   padding: 10px 18px; font-size: 13px; font-weight: 500; line-height: 1.35; text-align: center;
-  box-shadow: 0 8px 20px rgb(0 0 0 / 9%);
   animation: nutrition-bubble-in 420ms ease-out both;
 }
-.nutrition-mascot-says-tail { z-index: 1; }
 .nutrition-mascot-says-tail path { fill: var(--fresh-soft); }
-.nutrition-mascot-header:has(.nutrition-mascot-says) { padding-top: 84px; min-height: 320px; }
-.nutrition-mascot-header:has(.nutrition-mascot-says) .nutrition-mascot { top: 76px; }
+.nutrition-mascot-header:has(.nutrition-mascot-says) {
+  padding-top: calc(84px + env(safe-area-inset-top));
+  min-height: calc(320px + env(safe-area-inset-top));
+}
+.nutrition-mascot-header:has(.nutrition-mascot-says) .nutrition-mascot {
+  top: calc(76px + env(safe-area-inset-top));
+}
 @keyframes nutrition-bubble-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .nutrition-mascot-says { animation: none; } }
 .health-mascot-header { min-height: 256px; }
