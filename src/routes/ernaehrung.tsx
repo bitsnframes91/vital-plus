@@ -250,7 +250,7 @@ function NutritionPage() {
             <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{"Genug getrunken?"}</Localized></div><StatusFace mood={waterMood} alt={waterMood === "good" ? "Tagesziel erreicht" : waterMood === "neutral" ? "Fast am Tagesziel" : "Noch nicht genug getrunken"} className="size-5" /></div>
             <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${waterColor}`}>
               <span className="text-[23px] font-semibold"><Localized>{liters(water)}</Localized></span>
-              <span className="text-[13px]"><Localized>{"/ "}</Localized><Localized>{liters(waterGoal)}</Localized> <Localized>{"Liter"}</Localized></span>
+              <span className="text-[13px]"><Localized>{"/ "}</Localized><Localized>{liters(waterGoal)}</Localized><Localized>{" Liter"}</Localized></span>
             </div>
             <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{"Heute / Tagesziel"}</Localized></div>
             <div className="mt-2.5 flex items-center gap-1.5">
