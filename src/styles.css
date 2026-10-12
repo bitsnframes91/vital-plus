@@ -7,6 +7,10 @@
 /* Fairvital Health design system — adapt brand tokens here to match the exact Fairvital CI. */
 
 @theme inline {
+  --color-goal-low: var(--goal-low);
+  --color-goal-partial: var(--goal-partial);
+  --color-goal-good: var(--goal-good);
+  --color-goal-track: var(--goal-track);
   --color-nutrition-near: #ce6b12;
   --color-bmi-good: #3f9a2c;
   --color-bmi-mid: #c99a00;
@@ -68,6 +72,11 @@
 }
 
 :root {
+  --goal-low: oklch(0.61 0.21 27);
+  --goal-partial: oklch(0.79 0.16 88);
+  --goal-good: var(--fresh);
+  --goal-track: oklch(0.94 0.004 230);
+  --shadow-goal-tile: 0 3px 14px oklch(0.28 0.027 251 / 0.055);
   --browser-theme: #2E6B3F;
   --trend-surface: oklch(1 0 0);
   --trend-foreground: var(--ink);
@@ -184,6 +193,10 @@
 
 .bg-header { --on-ink: var(--ink); }
 .vivo-today-header { min-height: 348px; }
+.today-goals-header { min-height: 264px; }
+.goal-tile { border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-goal-tile); }
+.goal-progress-arc { transition: stroke-dashoffset 850ms ease, color 450ms ease; }
+@media (prefers-reduced-motion: reduce) { .goal-progress-arc, .goal-tile { transition: none; } }
 .today-mascot-header { background: var(--card); }
 @keyframes food-photo-drop { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 .food-photo-fill > * { animation: food-photo-drop 420ms ease-out both; }
