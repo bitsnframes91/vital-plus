@@ -1,5 +1,5 @@
 # Vivo redesign
-- [ ] Replace Heute tip/progress with five live daily-goal circles, remove Schnellzugriff, and verify score rules and recorded-data updates.
+- [x] Replace Heute tip/progress with five daily-goal circles and remove Schnellzugriff; 29 tests pass, signed-in water updates/persistence and phone/desktop appearance verified. Steps/sleep remain explicitly unavailable until a measured Health feed exists; existing 2 L hydration and EU micronutrient references are labeled, not presented as personalized targets.
 - [x] Redesign white Startseite with supplied produce mascot, top-left logo and swipe actions.
 - [x] Move new-user questionnaire before account creation; restore signup-bound answers only for a verified new account with no existing health row; tests passed.
 - [x] Verify questionnaire-to-registration swipe, email/password empty-input validation, signed-in swipe to Heute and desktop/tablet/mobile presentation; 12 tests passed, no page errors.
