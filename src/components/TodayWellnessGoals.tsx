@@ -47,7 +47,7 @@ export function TodayWellnessGoals() {
   const surface = { low: "goal-surface-low", partial: "goal-surface-partial", good: "goal-surface-good", missing: "goal-surface-missing" }[tone];
   return <section className="bg-card px-4 pb-6 pt-2" aria-label="Tagesziele" data-wellness-dashboard>
     <div className="flex items-center gap-2 px-1"><img src={goalsGfx.url} alt="" className="vivo-bounce size-7 object-contain" /><h2 className="text-[21px] font-bold"><Localized>{"Tagesziele"}</Localized></h2></div>
-    <div className={`goal-surface ${surface} goal-tile mx-1 flex flex-col items-center px-3 py-5`}>
+    <div className={`goal-surface ${surface} goal-tile mx-1 mb-4 flex flex-col items-center px-3 py-5`}>
       <ProgressRing percent={result.overall.percent} label="Tagesziele" large />
       <p className="mt-3 text-[12px] font-semibold text-muted-foreground"><Localized>{result.overall.available === 5 ? "5 von 5 Kategorien erfasst" : `Zwischenstand · ${result.overall.available} von 5 Kategorien erfasst`}</Localized></p>
     </div>
