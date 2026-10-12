@@ -114,7 +114,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const account = { email: user.email ?? "", userId: user.id };
       const { data, error } = await supabase.from("user_data").select("state").eq("user_id", user.id).maybeSingle();
       if (userRef.current !== user.id) return;
-      const questionnaire = error ? null : questionnaireForAccount(data?.state, user.user_metadata?.questionnaire);
+      const questionnaire = error ? null : questionnaireForAccount(data?.state, user.user_metadata?.["questionnaire"]);
       setS((p) => {
         // A new account never inherits data held on this device (privacy: shared devices / previous accounts).
         // New accounts start empty: no demo meals, lab values or completed goals.

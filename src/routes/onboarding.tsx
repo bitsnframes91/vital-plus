@@ -140,7 +140,7 @@ function Onboarding() {
     if (step < steps.length - 1) return setStep(step + 1);
     if (!s.account) {
       if (!profile.age || !profile.sex || !profile.activity) return;
-      saveQuestionnaire({ name: name.trim(), goals, diet, body: { age: profile.age, sex: profile.sex, activity: profile.activity, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) } });
+      saveQuestionnaire({ name: name.trim(), goals, diet, body: { age: profile.age, sex: profile.sex, activity: profile.activity, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) ?? 8000 } });
       nav({ to: "/login", search: { mode: "register" } });
       return;
     }
