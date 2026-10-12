@@ -19,7 +19,7 @@ export function TodayNutritionGoals() {
   const fmt = (value: number) => value.toLocaleString(languageLocale(), { maximumFractionDigits: 1 });
   return <section className="mt-4 px-4" data-today-nutrition>
     <div className="flex items-baseline justify-between px-1 pb-2">
-      <h2 className="eyebrow"><Localized>{"Tagesziele"}</Localized></h2>
+      <h2 className="eyebrow"><Localized>{"Unterversorgung"}</Localized></h2>
       <Link to="/ernaehrung" className="text-[12px] text-fv-deep"><Localized>{"Ernährung"}</Localized></Link>
     </div>
     <div className="space-y-2">
