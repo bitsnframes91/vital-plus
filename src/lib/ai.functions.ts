@@ -94,7 +94,8 @@ export const mealFromVoice = createServerFn({ method: "POST" })
         type: "input_text",
         text: `Jemand beschreibt, was er gegessen hat: "${transcript}"
 Teile das in Mahlzeiten auf. Schätze pro Mahlzeit realistisch: protein, kcal, fiber (Ballaststoffe), carbs (Kohlenhydrate), fat (Fett) – jeweils in Gramm bzw. kcal. label ist eine von: Frühstück, Mittagessen, Abendessen, Snack. ${micronutrientPrompt} ${omega3Prompt}
-Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,"kcal":number,"fiber":number,"carbs":number,"fat":number,"omega3Mg":number|null,"omega6Mg":number|null,"omega9Mg":number|null,"micronutrients":{"vitamins":{key:number},"minerals":{key:number}}}]}`,
+Getränke: Schätze zusätzlich pro Mahlzeit die getrunkene Flüssigkeitsmenge in Millilitern als "drinkMl" (Wasser, Tee, Saft, Kaffee etc.; 0 wenn kein Getränk genannt wurde). Reine Getränke-Angaben ohne Essen (z. B. „ein Glas Wasser“) sind ebenfalls eine Mahlzeit mit drinkMl und Nährwerten nahe 0.
+Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,"kcal":number,"fiber":number,"carbs":number,"fat":number,"drinkMl":number,"omega3Mg":number|null,"omega6Mg":number|null,"omega9Mg":number|null,"micronutrients":{"vitamins":{key:number},"minerals":{key:number}}}]}`,
       },
     ]);
     if (!r.ok) return r;
@@ -102,9 +103,9 @@ Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,
     const num = (v: any) => Math.max(0, Math.round(Number(v) || 0));
     const meals = (Array.isArray(r.data.meals) ? r.data.meals : [])
       .filter((m: any) => typeof m?.name === "string")
-      .map((m: any) => ({ label: labels.includes(m.label) ? m.label : "Snack", name: m.name.slice(0, 120), protein: num(m.protein), kcal: num(m.kcal), fiber: num(m.fiber), carbs: num(m.carbs), fat: num(m.fat), ...parseOmegaAmounts(m), micronutrients: parseMicronutrients(m.micronutrients) }));
+      .map((m: any) => ({ label: labels.includes(m.label) ? m.label : "Snack", name: m.name.slice(0, 120), protein: num(m.protein), kcal: num(m.kcal), fiber: num(m.fiber), carbs: num(m.carbs), fat: num(m.fat), drinkMl: num(m.drinkMl), ...parseOmegaAmounts(m), micronutrients: parseMicronutrients(m.micronutrients) }));
     if (!meals.length) return { ok: false as const, error: `Verstanden: „${transcript}“ – aber keine Mahlzeit erkannt.` };
-    return { ok: true as const, transcript, meals: meals as { label: string; name: string; protein: number; kcal: number; fiber: number; carbs: number; fat: number; omega3Mg?: number | undefined; omega6Mg?: number | undefined; omega9Mg?: number | undefined; micronutrients?: MicronutrientAmounts | undefined }[] };
+    return { ok: true as const, transcript, meals: meals as { label: string; name: string; protein: number; kcal: number; fiber: number; carbs: number; fat: number; drinkMl?: number | undefined; omega3Mg?: number | undefined; omega6Mg?: number | undefined; omega9Mg?: number | undefined; micronutrients?: MicronutrientAmounts | undefined }[] };
   });
 
 export const mealNutrition = createServerFn({ method: "POST" })
