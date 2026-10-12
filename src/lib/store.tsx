@@ -2,11 +2,13 @@ import { createContext, useContext, useEffect, useRef, useState, type ReactNode 
 import type React from "react";
 import { initialMeals, initialSupplements, labMarkers as seedLabs, type Meal, type Supplement, type LabMarker } from "./data";
 import { supabase } from "@/integrations/supabase/client";
+import { questionnaireForAccount } from "./questionnaire-draft";
 
 // Health state: kept in the browser and synced to the signed-in user's Lovable Cloud account.
 type State = {
   name: string;
   goals: string[];
+  diet?: string;
   onboarded: boolean;
   meals: Meal[];
   supplements: Supplement[];
@@ -93,7 +95,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (!cached.account) setS({ ...initial, ...cached });
     } catch { /* ignore */ }
 
-    const onUser = async (user: { id: string; email?: string } | null, signedOut = false) => {
+    const onUser = async (user: { id: string; email?: string; user_metadata?: Record<string, unknown> } | null, signedOut = false) => {
       if (!user) {
         userRef.current = null;
         if (timer.current) clearTimeout(timer.current);
@@ -110,22 +112,24 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (timer.current) clearTimeout(timer.current);
       userRef.current = user.id;
       const account = { email: user.email ?? "", userId: user.id };
-      const { data } = await supabase.from("user_data").select("state").eq("user_id", user.id).maybeSingle();
+      const { data, error } = await supabase.from("user_data").select("state").eq("user_id", user.id).maybeSingle();
       if (userRef.current !== user.id) return;
+      const questionnaire = error ? null : questionnaireForAccount(data?.state, user.user_metadata?.questionnaire);
       setS((p) => {
         // A new account never inherits data held on this device (privacy: shared devices / previous accounts).
         // New accounts start empty: no demo meals, lab values or completed goals.
         const fresh: State = { ...initial, meals: [], labs: [], actionsDone: {}, account };
-        const next = data?.state ? { ...fresh, ...migrate(data.state as any), account } : fresh;
+        const next = data?.state ? { ...fresh, ...migrate(data.state as any), account } : questionnaire ? { ...fresh, name: questionnaire.name, goals: questionnaire.goals, diet: questionnaire.diet, body: { ...fresh.body, ...questionnaire.body, steps: 0 }, onboarded: true } : fresh;
         localStorage.setItem(KEY, JSON.stringify(next));
-        if (!data) push(next);
+        if (!data && !error) push(next);
         return next;
       });
     };
 
     supabase.auth.getUser().then(({ data }) => onUser(data.user));
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT") void onUser(session?.user ?? null, event === "SIGNED_OUT");
+      if (event === "SIGNED_OUT") void onUser(null, true);
+      if (event === "SIGNED_IN") void supabase.auth.getUser().then(({ data }) => onUser(data.user));
     });
     return () => {
       sub.subscription.unsubscribe();

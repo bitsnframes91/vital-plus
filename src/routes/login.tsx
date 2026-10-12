@@ -4,6 +4,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
+import { readQuestionnaire, clearQuestionnaire } from "@/lib/questionnaire-draft";
 
 export const Route = createFileRoute("/login")({
   staticData: { sitemap: true },
@@ -43,9 +44,11 @@ function Login() {
       if (error) return setMsg("E-Mail oder Passwort ist falsch.");
       navigate({ to: "/heute" });
     } else {
-      const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + "/heute" } });
+      const questionnaire = readQuestionnaire();
+      const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin, ...(questionnaire ? { data: { questionnaire } } : {}) } });
       setBusy(false);
       if (error) return setMsg(error.message.includes("registered") ? "Für diese E-Mail gibt es bereits ein Konto." : "Konto konnte nicht angelegt werden (Passwort mind. 8 Zeichen).");
+      clearQuestionnaire();
       if (!data.session) { setMsg("Fast geschafft: Bitte bestätige deine E-Mail-Adresse über den Link, den wir dir geschickt haben."); setMode("login"); return; }
       navigate({ to: "/heute" });
     }
