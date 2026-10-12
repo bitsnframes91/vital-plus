@@ -1,7 +1,7 @@
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import startseiteVitali from "@/assets/startseite-vitali.png.asset.json";
+import startseiteMascot from "@/assets/startseite-mascot.png.asset.json";
 import { VivoBrand } from "@/components/VivoBrand";
 
 export const Route = createFileRoute("/")({
@@ -38,7 +38,7 @@ function Home() {
               <Link to="/login" search={{ mode: "register" }} className="w-full rounded-md bg-home-green px-8 py-3 text-base font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:w-auto"><Localized>{"Kostenlos Registrieren"}</Localized></Link>
             </div>
           </div>
-          <img src={startseiteVitali.url} alt="" aria-hidden="true" width={1233} height={1275} fetchPriority="high" className="pointer-events-none mt-12 w-[280px] select-none sm:w-[360px] lg:mt-0 lg:self-end lg:w-[400px] xl:w-[460px]" />
+          <img src={startseiteMascot.url} alt="" aria-hidden="true" width={928} height={1088} fetchPriority="high" className="home-mascot pointer-events-none mt-12 w-[280px] select-none sm:w-[360px] lg:mt-0 lg:self-end lg:w-[400px] xl:w-[460px]" />
         </section>
       </main>
     </div>
