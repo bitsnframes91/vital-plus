@@ -230,6 +230,19 @@
   50% { transform: translateY(-4px) rotate(-1.2deg); }
 }
 @media (prefers-reduced-motion: reduce) { .nutrition-mascot-img { animation: none; } }
+.nutrition-mascot-header.has-message { padding-bottom: 78px; }
+.nutrition-mascot-bubble {
+  position: absolute; right: 8px; bottom: 14px; max-width: 216px;
+  background: var(--fresh-soft); border-radius: 16px;
+  padding: 8px 12px; font-size: 13px; font-weight: 500; line-height: 1.35;
+  animation: nutrition-bubble-in 420ms ease-out both;
+}
+.nutrition-mascot-bubble::after {
+  content: ""; position: absolute; top: -5px; right: 22px; width: 12px; height: 12px;
+  background: var(--fresh-soft); border-radius: 3px; transform: rotate(45deg);
+}
+@keyframes nutrition-bubble-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .nutrition-mascot-bubble { animation: none; } }
 .health-mascot-header { min-height: 256px; }
 .health-mascot-copy { width: calc(100% - 132px); }
 .health-mascot { top: 22px; right: 14px; width: 120px; height: 218px; }
