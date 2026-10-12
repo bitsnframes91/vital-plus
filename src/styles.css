@@ -195,8 +195,13 @@
 .vivo-today-header { min-height: 348px; }
 .today-goals-header { min-height: 264px; }
 .goal-tile { border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-goal-tile); }
+.goal-surface { background-color: var(--goal-surface, var(--card)); transition: background-color 450ms ease; }
+.goal-surface-missing { --goal-surface: var(--card); }
+.goal-surface-low { --goal-surface: oklch(0.61 0.21 27 / 9%); }
+.goal-surface-partial { --goal-surface: oklch(0.79 0.16 88 / 13%); }
+.goal-surface-good { --goal-surface: oklch(0.758 0.184 134.9 / 11%); }
 .goal-progress-arc { transition: stroke-dashoffset 850ms ease, color 450ms ease; }
-@media (prefers-reduced-motion: reduce) { .goal-progress-arc, .goal-tile { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .goal-progress-arc, .goal-tile, .goal-surface { transition: none; } }
 .today-mascot-header { background: var(--card); }
 @keyframes food-photo-drop { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 .food-photo-fill > * { animation: food-photo-drop 420ms ease-out both; }
