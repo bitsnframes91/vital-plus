@@ -184,7 +184,6 @@ function NutritionPage() {
     { label: "Protein", key: "protein", unit: "g" },
     { label: "Ballaststoffe", key: "fiber", unit: "g" },
     { label: "Kohlenhydrate", key: "carbs", unit: "g" },
-    { label: "Fett", key: "fat", unit: "g" },
   ] as const;
   const feedback: Record<"good" | "near" | "bad", { color: string; mood: StatusMood; label: string }> = {
     good: { color: "text-bmi-good", mood: "good", label: "Im grünen Bereich" },
