@@ -35,7 +35,7 @@ export function stepsTone(percent: number | null): ReturnType<typeof progressTon
 
 /** Bold, still steps glyph for the dashboard tile — no bounce. */
 function StepsTileIcon({ className }: { className?: string | undefined }) {
-  return <StepsIcon className={`${className ?? ""} scale-[1.2]`} animate={false} />;
+  return <StepsIcon className={`${className ?? ""} scale-[1.15]`} animate={false} />;
 }
 
 
