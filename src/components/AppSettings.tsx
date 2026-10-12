@@ -1,7 +1,7 @@
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText } from "@/lib/language";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { Bell, Clock, Globe, Moon, Sun } from "lucide-react";
+import { Bell, Clock, Globe } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { languages, setLanguage, validLanguage } from "@/lib/language";
 import { Button } from "@/components/ui/button";
@@ -27,8 +27,8 @@ export function AppSettingsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
     setLanguage(settings.language);
     document.documentElement.lang = settings.language;
-    document.documentElement.classList.toggle("dark", settings.theme === "dark");
-    document.documentElement.style.colorScheme = settings.theme;
+    document.documentElement.classList.remove("dark");
+    document.documentElement.style.colorScheme = "light";
     const theme = document.querySelector('meta[name="theme-color"]');
     theme?.setAttribute("content", getComputedStyle(document.documentElement).getPropertyValue("--browser-theme").trim());
   }, [settings, ready]);
