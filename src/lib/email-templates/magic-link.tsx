@@ -20,23 +20,23 @@ export const MagicLinkEmail = ({
   siteName,
   confirmationUrl,
 }: MagicLinkEmailProps) => (
-  <Html lang="en" dir="ltr">
+  <Html lang="de" dir="ltr">
     <Head>
       <style>{darkModeCss}</style>
     </Head>
-    <Preview>Your login link for {siteName}</Preview>
+    <Preview>Dein Login-Link für {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Your login link</Heading>
+        <Heading style={h1}>Dein Login-Link</Heading>
         <Text style={text}>
-          Click the button below to log in to {siteName}. This link will expire
-          shortly.
+          Klicke auf die Schaltfläche unten, um dich bei {siteName} anzumelden.
+          Dieser Link läuft in Kürze ab.
         </Text>
         <Button className="dm-btn" style={button} href={confirmationUrl}>
-          Log In
+          Anmelden
         </Button>
         <Text style={footer}>
-          If you didn't request this link, you can safely ignore this email.
+          Falls du diesen Link nicht angefordert hast, kannst du diese E-Mail einfach ignorieren.
         </Text>
       </Container>
     </Body>
