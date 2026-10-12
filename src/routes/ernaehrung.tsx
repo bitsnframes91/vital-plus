@@ -210,7 +210,6 @@ function NutritionPage() {
       </header>
       <div className="space-y-4 px-4 pt-4">
         <div className="grid grid-cols-2 gap-3">
-          {statCards.map((c) => {
             const target = targets?.[c.key];
             const state = target ? feedback[nutrientStatus(c.key, totals[c.key], target)] : neutral;
             return <div key={c.key} data-nutrition={c.key} className="card-surface min-w-0 p-4">
