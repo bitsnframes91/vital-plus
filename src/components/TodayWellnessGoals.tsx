@@ -7,7 +7,7 @@ import { progressTone, wellnessProgress } from "@/lib/wellness-progress";
 import { StepsIcon } from "./StepsIcon";
 import { Localized, useLanguage } from "./Localized";
 import { translateText } from "@/lib/language";
-import goalsGfx from "@/assets/tagesziele.png.asset.json";
+import goalsGfx from "@/assets/goals-bold.png.asset.json";
 
 function ProgressRing({ percent, large = false, label, toneOverride }: { percent: number | null; large?: boolean; label: string; toneOverride?: ReturnType<typeof progressTone> | undefined }) {
   const [arc, setArc] = useState(0);
@@ -32,6 +32,12 @@ export function stepsTone(percent: number | null): ReturnType<typeof progressTon
   if (percent === null) return "missing";
   return percent >= 100 ? "good" : percent < 25 ? "low" : "partial";
 }
+
+/** Bold, still steps glyph for the dashboard tile — no bounce. */
+function StepsTileIcon({ className }: { className?: string }) {
+  return <StepsIcon className={className} animate={false} />;
+}
+
 
 export function TodayWellnessGoals() {
   useLanguage();
