@@ -3,6 +3,7 @@ import type React from "react";
 import { initialMeals, initialSupplements, labMarkers as seedLabs, type Meal, type Supplement, type LabMarker } from "./data";
 import { supabase } from "@/integrations/supabase/client";
 import { questionnaireForAccount } from "./questionnaire-draft";
+import { todayKey } from "./daily-goals";
 
 // Health state: kept in the browser and synced to the signed-in user's Lovable Cloud account.
 type State = {
@@ -17,7 +18,7 @@ type State = {
   consent: { practitioner: boolean; analytics: boolean };
   account: { email: string; userId: string } | null;
   aiPlan: { date: string; items: { title: string; detail: string; daily?: boolean }[] } | null;
-  body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null; heightCm?: number | null; age?: number | null; sex?: "female" | "male" | "diverse" | "unspecified" | null; activity?: string | null; stepGoal?: number | null; targetWeightKg?: number | null };
+  body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null; stepsDate?: string | null; sleepDate?: string | null; heightCm?: number | null; age?: number | null; sex?: "female" | "male" | "diverse" | "unspecified" | null; activity?: string | null; stepGoal?: number | null; targetWeightKg?: number | null };
   weekLog: Record<string, number>;
   weightLog: Record<string, number>;
   fullDays: Record<string, boolean>;
@@ -50,7 +51,7 @@ const KEY = "fv-health-v1";
 
 function migrate(parsed: any) {
   if (Array.isArray(parsed.meals)) {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = todayKey();
     parsed.meals = parsed.meals.map((m: any) => ({ kcal: 0, fiber: 0, carbs: 0, fat: 0, date: today, ...m }));
   }
   if (parsed.account && !parsed.account.userId) parsed.account = null;
@@ -61,7 +62,7 @@ function migrate(parsed: any) {
   parsed.fullDays = typeof parsed.fullDays === "object" && parsed.fullDays !== null ? parsed.fullDays : {};
   parsed.waterLog = typeof parsed.waterLog === "object" && parsed.waterLog !== null ? parsed.waterLog : {};
   if (parsed.actionsDone) {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = todayKey();
     if (parsed.weekLog[today] === undefined) {
       parsed.weekLog[today] = Object.entries(parsed.actionsDone).filter(([k, v]) => (k.startsWith(today) || !k.includes(":")) && v).length;
     }
@@ -144,7 +145,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const set = (p: Partial<State>) =>
     setS((prev) => {
       const next = { ...prev, ...p };
-      const today = new Date().toISOString().slice(0, 10);
+      const today = todayKey();
       if (p.actionsDone) {
         next.weekLog = { ...prev.weekLog, [today]: Object.entries(p.actionsDone).filter(([k, v]) => (k.startsWith(today) || !k.includes(":")) && v).length };
       }
@@ -156,6 +157,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       return next;
     });
   return <Ctx.Provider value={{ s, set }}>{children}</Ctx.Provider>;
+}
+
+/** Today's date key (local), matching the day-based logs. */
+export const todayDateKey = todayKey;
+
+/** Daily counters reset at midnight: steps/sleep only count for the day they were entered. */
+export function dailyValue<T>(value: T | null | undefined, date: string | null | undefined): T | null {
+  return value != null && date === todayDateKey() ? value : null;
 }
 
 export function useStore() {

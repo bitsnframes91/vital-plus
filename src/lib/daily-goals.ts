@@ -8,7 +8,11 @@ export const fallbackGoals = [
   { id: "move", title: "30 Minuten Bewegung", sub: "Spaziergang oder Rad" },
 ];
 
-export const todayKey = () => new Date().toISOString().slice(0, 10);
+// Local calendar day, so daily counters reset at 00:00 in the user's timezone.
+export const todayKey = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
 
 /** Daily goals come from the combined plan (lab report + onboarding goals); checkmarks reset each day. */
 export function dailyGoals(plan: PlanLike, goals: string[] = [], goalOff: Record<string, boolean> = {}) {

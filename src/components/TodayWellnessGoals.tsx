@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ChevronRight, Droplets, Moon, Salad, Sprout } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useStore } from "@/lib/store";
+import { useStore, dailyValue } from "@/lib/store";
 import { todayKey } from "@/lib/daily-goals";
 import { progressTone, wellnessProgress } from "@/lib/wellness-progress";
 import { StepsIcon } from "./StepsIcon";
@@ -45,14 +45,17 @@ export function TodayWellnessGoals() {
   const [day, setDay] = useState(todayKey);
   useEffect(() => { const timer = setInterval(() => setDay(todayKey()), 30000); return () => clearInterval(timer); }, []);
   const meals = s.meals.filter(meal => meal.date === day);
-  const result = wellnessProgress(meals, s.body, s.waterLog[day], { steps: s.body.steps, stepGoal: STEP_GOAL, sleepHours: s.body.sleepHours, sleepGoal: 8 });
-  const stepsLeft = Math.max(0, STEP_GOAL - (s.body.steps ?? 0));
+  // Daily counters reset at midnight: steps/sleep only count on the day they were entered.
+  const todaySteps = dailyValue(s.body.steps, s.body.stepsDate);
+  const todaySleep = dailyValue(s.body.sleepHours, s.body.sleepDate);
+  const result = wellnessProgress(meals, s.body, s.waterLog[day], { steps: todaySteps, stepGoal: STEP_GOAL, sleepHours: todaySleep, sleepGoal: 8 });
+  const stepsLeft = Math.max(0, STEP_GOAL - (todaySteps ?? 0));
   const [nutrition, steps, sleep, micro, water] = result.values;
   const number = (value: number) => value.toLocaleString("de-DE", { maximumFractionDigits: 1 });
   const tiles = [
     { key: "nutrition", title: "Ernährung", icon: Salad, percent: nutrition ?? null, to: "/ernaehrung" as const, detail: result.targets ? `${number(result.protein)} / ${number(result.targets.protein)} g Protein` : "Persönlicher Richtwert fehlt", sub: result.targets ? `${number(result.fiber)} / ${result.targets.fiber} g Ballaststoffe` : "Körperdaten ergänzen" },
-    { key: "steps", title: "Schritte noch zu gehen", icon: StepsTileIcon, percent: steps ?? null, to: "/gesundheit" as const, detail: stepsLeft ? `${stepsLeft.toLocaleString("de-DE")} Schritte` : "Tagesziel erreicht", sub: `${(s.body.steps ?? 0).toLocaleString("de-DE")} / 10.000 gegangen`, tone: stepsTone(steps ?? null) },
-    { key: "sleep", title: "Schlaf", icon: Moon, percent: sleep ?? null, to: "/gesundheit" as const, detail: `${number(s.body.sleepHours ?? 0)} / 8 h`, sub: "Schlaf letzte Nacht" },
+    { key: "steps", title: "Schritte noch zu gehen", icon: StepsTileIcon, percent: steps ?? null, to: "/gesundheit" as const, detail: stepsLeft ? `${stepsLeft.toLocaleString("de-DE")} Schritte` : "Tagesziel erreicht", sub: `${(todaySteps ?? 0).toLocaleString("de-DE")} / 10.000 gegangen`, tone: stepsTone(steps ?? null) },
+    { key: "sleep", title: "Schlaf", icon: Moon, percent: sleep ?? null, to: "/gesundheit" as const, detail: `${number(todaySleep ?? 0)} / 8 h`, sub: "Schlaf letzte Nacht" },
     { key: "micro", title: "Vitamine & Mineralstoffe", icon: Sprout, percent: micro ?? null, to: "/ernaehrung/vitamine" as const, detail: `${result.microKnown} / ${result.microTotal} Nährstoffe erfasst`, sub: "Geschätzt · EU-Erwachsenenreferenz" },
     { key: "water", title: "Wasser", icon: Droplets, percent: water ?? null, to: "/ernaehrung" as const, detail: `${number(s.waterLog[day] ?? 0)} / 2,0 Liter`, sub: "Genug getrunken?" },
   ];

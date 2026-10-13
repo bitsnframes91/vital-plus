@@ -2,7 +2,7 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { Link } from "@tanstack/react-router";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useStore } from "@/lib/store";
+import { useStore, dailyValue } from "@/lib/store";
 import { StepsIcon } from "@/components/StepsIcon";
 
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
@@ -29,7 +29,7 @@ function HourChart({ tone }: { tone: string }) {
 export function MovementDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
   useLanguage();
   const { s } = useStore();
-  const steps = s.body?.steps ?? null;
+  const steps = dailyValue(s.body?.steps, s.body?.stepsDate);
   const goal = s.body?.stepGoal ?? 8000;
   const pct = steps != null ? Math.min(1, steps / goal) : 0;
   const r = 52, c = 2 * Math.PI * r;

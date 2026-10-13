@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { AppShell } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
 import { useStore } from "@/lib/store";
+import { todayKey } from "@/lib/daily-goals";
 import { fmtDate, status, labMarkers as catalog, type LabMarker } from "@/lib/data";
 import { analyzeLabPdf } from "@/lib/ai.functions";
 import { blobToBase64 } from "@/lib/record-wav";

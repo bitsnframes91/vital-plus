@@ -17,3 +17,13 @@ describe("daily lifestyle completion", () => {
   });
   it("uses measured steps and sleep only with valid targets", () => { expect(wellnessProgress([], body, undefined, { steps: 6500, stepGoal: 10000, sleepHours: 6, sleepGoal: 8 }).values.slice(1, 3)).toEqual([65, 75]); expect(completion(6, undefined)).toBeNull(); });
 });
+import { dailyValue, todayDateKey } from "@/lib/store";
+
+describe("daily counters reset at midnight", () => {
+  it("keeps values entered today and drops values from previous days", () => {
+    expect(dailyValue(6500, todayDateKey())).toBe(6500);
+    expect(dailyValue(6500, "2000-01-01")).toBeNull();
+    expect(dailyValue(6500, null)).toBeNull();
+    expect(dailyValue(null, todayDateKey())).toBeNull();
+  });
+});

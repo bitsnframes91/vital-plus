@@ -38,7 +38,8 @@ export const Route = createFileRoute("/ernaehrung")({
 });
 
 const labels = ["Frühstück", "Mittagessen", "Abendessen", "Snack"];
-const todayISO = () => new Date().toISOString().slice(0, 10);
+import { todayKey } from "@/lib/daily-goals";
+const todayISO = todayKey;
 const nowTime = () => new Date().toLocaleTimeString(languageLocale(), { hour: "2-digit", minute: "2-digit" });
 const fmtDay = (iso: string) =>
   new Date(iso + "T12:00:00").toLocaleDateString(languageLocale(), { weekday: "long", day: "2-digit", month: "long", year: "numeric" });

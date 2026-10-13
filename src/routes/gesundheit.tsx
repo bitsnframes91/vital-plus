@@ -5,7 +5,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { HealthMascot } from "@/components/HealthMascot";
-import { useStore } from "@/lib/store";
+import { useStore, todayDateKey, dailyValue } from "@/lib/store";
 import { StepsIcon } from "@/components/StepsIcon";
 import sleepGfx from "@/assets/schlaf.png.asset.json";
 import bodyGfx from "@/assets/koerperdaten.png.asset.json";
@@ -139,10 +139,13 @@ function Health() {
   const bmi = calcBmi(liveWeight, liveHeight);
   const cat = bmi != null ? bmiCategory(bmi) : null;
   const goal = stepGoalFor(bmi);
+  // Daily counters reset at midnight: only values entered today count.
+  const todaySteps = dailyValue(b.steps, b.stepsDate);
+  const todaySleep = dailyValue(b.sleepHours, b.sleepDate);
   // The doctor asks for whatever is still missing, in page order: Körperdaten, Schritte, Schlaf.
   const missingMessage = !b.weightKg || !b.heightCm
     ? "Gib deine Körperdaten ein."
-    : !b.steps ? "Gib deine Schritte ein." : !b.sleepHours ? "Gib deine Schlafstunden ein." : undefined;
+    : !todaySteps ? "Gib deine Schritte ein." : !todaySleep ? "Gib deine Schlafstunden ein." : undefined;
 
   return (
     <AppShell>
@@ -174,19 +177,19 @@ function Health() {
             <div className="text-[18px] font-semibold"><Localized>{"Schlaf letzte Nacht"}</Localized></div>
           </div>
           <p className="mt-1 text-[14px] text-ink/55">
-            <Localized>{b.sleepHours ? `Erfasst: ${b.sleepHours} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}</Localized>
+            <Localized>{todaySleep ? `Erfasst: ${todaySleep} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}</Localized>
           </p>
-          <NumInput value={b.sleepHours} onSave={(v) => setBody({ sleepHours: v })} placeholder={translateText("Stunden, z. B. 7,5 (empfohlen: 8 h)")} unit="h" />
+          <NumInput value={todaySleep} onSave={(v) => setBody({ sleepHours: v, sleepDate: todayDateKey() })} placeholder={translateText("Stunden, z. B. 7,5 (empfohlen: 8 h)")} unit="h" />
         </div>
 
         <div className="card-surface p-5">
           <EditIcon label={translateText("Alltag und Aktivität")}><StepsIcon /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold"><Localized>{"Schritte heute"}</Localized></div>
           <p className="mt-1 text-[14px] text-ink/55">
-            <Localized>{b.steps ? `Heute: ${b.steps.toLocaleString(languageLocale())} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}</Localized>
+            <Localized>{todaySteps ? `Heute: ${todaySteps.toLocaleString(languageLocale())} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}</Localized>
           </p>
           {(goal ?? b.stepGoal) ? <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Dein Tagesziel: "}</Localized><Localized>{(goal ?? b.stepGoal)!.toLocaleString(languageLocale())}</Localized><Localized>{" Schritte (aus deinem BMI)"}</Localized></p> : null}
-          <NumInput value={b.steps ?? 0} onSave={(v) => setBody({ steps: v })} placeholder={translateText("z. B. 8000")} unit="Speichern" />
+          <NumInput value={todaySteps ?? 0} onSave={(v) => setBody({ steps: v, stepsDate: todayDateKey() })} placeholder={translateText("z. B. 8000")} unit="Speichern" />
         </div>
 
         <HealthTrends />

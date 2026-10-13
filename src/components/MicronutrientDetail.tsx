@@ -11,7 +11,8 @@ import {
   micronutrientStatus,
 } from "@/lib/micronutrients";
 
-const todayISO = () => new Date().toISOString().slice(0, 10);
+import { todayKey } from "@/lib/daily-goals";
+const todayISO = todayKey;
 
 const statusMeta: Record<"good" | "near" | "bad", { bar: string; text: string; mood: StatusMood; label: string }> = {
   good: { bar: "bg-bmi-good", text: "text-bmi-good", mood: "good", label: "Im grünen Bereich" },

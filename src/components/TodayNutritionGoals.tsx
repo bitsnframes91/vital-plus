@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 import { Localized, useLanguage } from "./Localized";
 import { StatusFace } from "./StatusFace";
 import { useStore } from "@/lib/store";
+import { todayKey } from "@/lib/daily-goals";
 import { nutritionAlerts } from "@/lib/nutrition-alerts";
 import { nutritionTargets } from "@/lib/nutrition-targets";
 import { languageLocale, translateText } from "@/lib/language";
@@ -14,7 +15,7 @@ export function TodayNutritionGoals() {
   useLanguage();
   const [miniAnimOk, setMiniAnimOk] = useState(true);
   const { s } = useStore();
-  const meals = s.meals.filter(meal => meal.date === new Date().toISOString().slice(0, 10));
+  const meals = s.meals.filter(meal => meal.date === todayKey());
   const alerts = nutritionAlerts(meals, nutritionTargets(s.body));
   const fmt = (value: number) => value.toLocaleString(languageLocale(), { maximumFractionDigits: 1 });
   return <section className="mt-4 px-4" data-today-nutrition>
