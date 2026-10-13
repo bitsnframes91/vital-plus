@@ -35,6 +35,18 @@ function Login() {
   const [msg, setMsg] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
+  const [magic, setMagic] = useState(false);
+  const [magicSent, setMagicSent] = useState(false);
+
+  const sendMagicLink = async () => {
+    if (!email) return setMsg("Bitte gib zuerst deine E-Mail-Adresse ein.");
+    setBusy(true);
+    setMsg(null);
+    const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: window.location.origin + "/heute" } });
+    setBusy(false);
+    if (error) return setMsg("Senden nicht möglich – bitte in einer Minute erneut versuchen.");
+    setMagicSent(true);
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
