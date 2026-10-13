@@ -139,10 +139,13 @@ function Health() {
   const bmi = calcBmi(liveWeight, liveHeight);
   const cat = bmi != null ? bmiCategory(bmi) : null;
   const goal = stepGoalFor(bmi);
+  // Daily counters reset at midnight: only values entered today count.
+  const todaySteps = dailyValue(b.steps, b.stepsDate);
+  const todaySleep = dailyValue(b.sleepHours, b.sleepDate);
   // The doctor asks for whatever is still missing, in page order: Körperdaten, Schritte, Schlaf.
   const missingMessage = !b.weightKg || !b.heightCm
     ? "Gib deine Körperdaten ein."
-    : !b.steps ? "Gib deine Schritte ein." : !b.sleepHours ? "Gib deine Schlafstunden ein." : undefined;
+    : !todaySteps ? "Gib deine Schritte ein." : !todaySleep ? "Gib deine Schlafstunden ein." : undefined;
 
   return (
     <AppShell>
