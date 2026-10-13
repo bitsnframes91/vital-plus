@@ -1,7 +1,7 @@
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AppShell, Icon } from "@/components/AppShell";
 import { RangeBar } from "@/components/RangeBar";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import { micronutrientGaps, nutritionGaps } from "@/lib/nutrition-products";
 import { suggestedProducts } from "@/lib/plan-products";
 import { goalProducts } from "@/lib/goal-plan";
 import { TodayNutritionGoals } from "@/components/TodayNutritionGoals";
+import { greetingFor } from "@/lib/greeting";
 
 export const Route = createFileRoute("/heute")({
   staticData: { sitemap: false },
@@ -39,6 +40,13 @@ function Today() {
   const { s } = useStore();
   const goTo = useNavigate();
   useEffect(() => { if (s.account && !s.onboarded) goTo({ to: "/onboarding" }); }, [s.account, s.onboarded]);
+  const [greeting, setGreeting] = useState(greetingFor());
+  useEffect(() => {
+    const refresh = () => setGreeting(greetingFor());
+    refresh();
+    const timer = setInterval(refresh, 30000);
+    return () => clearInterval(timer);
+  }, []);
   const measured = reportMarkers(s.aiPlan, s.labs);
   const featured = measured[0];
   const featuredProduct = featured ? productForMarker(featured) : undefined;
@@ -65,7 +73,7 @@ function Today() {
           <div className="today-mascot-greeting mt-7 flex items-center gap-3">
             <Button asChild variant="ghost" size="icon" className="size-11 shrink-0 rounded-full bg-warm-soft text-muted-foreground" title={translateText("Profil")}><Link to="/profil" aria-label={translateText("Profil")}><UserRound /></Link></Button>
             <div className="min-w-0">
-              <p className="text-[13px] font-medium text-foreground"><Localized>{"Guten Morgen"}</Localized></p>
+              <p className="text-[13px] font-medium text-foreground"><Localized>{greeting}</Localized></p>
               {s.name && <p className="mt-0.5 truncate text-[16px] font-bold leading-snug text-foreground"><Localized>{s.name}</Localized></p>}
             </div>
           </div>
