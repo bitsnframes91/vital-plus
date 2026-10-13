@@ -43,12 +43,6 @@ function Plan() {
   const labIds = new Set(suggestions.map((e) => e.product.shopwareId));
   const goalSuggestions = goalProducts(userGoals).filter((e) => !labIds.has(e.product.shopwareId));
   const doneCount = items.filter((it) => s.actionsDone[`${d}:${it.key}`]).length;
-  const toggleDaily = (key: string) => {
-    if (key.startsWith("plan-")) {
-      const i = Number(key.slice(5));
-      if (s.aiPlan) set({ aiPlan: { ...s.aiPlan, items: s.aiPlan.items.map((it, j) => (j === i ? { ...it, daily: it.daily === false } : it)) } });
-    } else set({ goalOff: { ...(s.goalOff ?? {}), [key]: !s.goalOff?.[key] } });
-  };
   const toggleDone = (key: string) => {
     const k = `${d}:${key}`;
     set({ actionsDone: { ...s.actionsDone, [k]: !s.actionsDone[k] } });
@@ -84,7 +78,6 @@ function Plan() {
             <ul className="mt-4 space-y-2">
               {items.map((it, i) => {
                 const done = !!s.actionsDone[`${d}:${it.key}`];
-                const daily = it.daily;
                 return (
                   <li key={it.key} className="rounded-[14px] ring-1 ring-border">
                     <div className="flex items-center gap-3 px-3 py-3">
