@@ -186,10 +186,10 @@ function Health() {
           <EditIcon label={translateText("Alltag und Aktivität")}><StepsIcon /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold"><Localized>{"Schritte heute"}</Localized></div>
           <p className="mt-1 text-[14px] text-ink/55">
-            <Localized>{b.steps ? `Heute: ${b.steps.toLocaleString(languageLocale())} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}</Localized>
+            <Localized>{todaySteps ? `Heute: ${todaySteps.toLocaleString(languageLocale())} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}</Localized>
           </p>
           {(goal ?? b.stepGoal) ? <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Dein Tagesziel: "}</Localized><Localized>{(goal ?? b.stepGoal)!.toLocaleString(languageLocale())}</Localized><Localized>{" Schritte (aus deinem BMI)"}</Localized></p> : null}
-          <NumInput value={b.steps ?? 0} onSave={(v) => setBody({ steps: v })} placeholder={translateText("z. B. 8000")} unit="Speichern" />
+          <NumInput value={todaySteps ?? 0} onSave={(v) => setBody({ steps: v, stepsDate: todayDateKey() })} placeholder={translateText("z. B. 8000")} unit="Speichern" />
         </div>
 
         <HealthTrends />
