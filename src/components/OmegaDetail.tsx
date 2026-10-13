@@ -3,12 +3,13 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { AppShell } from "@/components/AppShell";
 import { languageLocale, translateText } from "@/lib/language";
 import { useStore } from "@/lib/store";
+import { todayKey } from "@/lib/daily-goals";
 import { omegaSummary } from "@/lib/omega3";
 
 export function OmegaDetail() {
   useLanguage();
   const { s } = useStore();
-  const today = new Date().toISOString().slice(0, 10);
+  const today = todayKey();
   const summary = omegaSummary(s.meals.filter(meal => meal.date === today));
   const fmt = (value: number) => value.toLocaleString(languageLocale(), { maximumFractionDigits: 1 });
   return (

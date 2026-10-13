@@ -1,0 +1,172 @@
+{
+  "vitd": {
+    "aliases": [
+      "vitamin d",
+      "25 oh",
+      "calcidiol"
+    ],
+    "definition": "Vitamin D unterstützt Knochen, Muskeln und den Calciumhaushalt.",
+    "low": "Niedrige Werte können durch wenig Sonnenlicht, geringe Zufuhr oder eine gestörte Aufnahme entstehen.",
+    "high": "Hohe Werte können durch eine zu hohe Vitamin-D-Supplementierung entstehen."
+  },
+  "ferritin": {
+    "aliases": [
+      "ferritin"
+    ],
+    "definition": "Ferritin ist ein Eisenspeicherprotein und hilft, die Eisenreserven einzuschätzen.",
+    "low": "Niedrige Werte können durch Blutverlust, geringe Eisenzufuhr oder erhöhten Eisenbedarf entstehen.",
+    "high": "Hohe Werte können bei Entzündungen, Lebererkrankungen oder einer Eisenüberladung auftreten."
+  },
+  "b12": {
+    "aliases": [
+      "b12",
+      "holo tc",
+      "holotranscobalamin",
+      "cobalamin"
+    ],
+    "definition": "Vitamin B12 unterstützt Nerven und Blutbildung; Holo-TC misst den verfügbaren Anteil.",
+    "low": "Niedrige Werte können durch geringe Zufuhr oder eine gestörte Aufnahme, etwa durch bestimmte Medikamente, entstehen.",
+    "high": "Hohe Werte können durch Supplemente auftreten, aber auch mit Leber- oder Nierenerkrankungen zusammenhängen."
+  },
+  "omega": {
+    "aliases": [
+      "omega 3",
+      "epa dha"
+    ],
+    "definition": "Der Omega-3-Index beschreibt den Anteil von EPA und DHA in den roten Blutkörperchen.",
+    "low": "Niedrige Werte können mit einer geringen Zufuhr von EPA und DHA, etwa aus Fisch oder Algenöl, zusammenhängen.",
+    "high": "Hohe Werte können mit einer hohen Zufuhr von EPA und DHA durch Ernährung oder Supplemente zusammenhängen."
+  },
+  "glucose": {
+    "aliases": [
+      "glucose",
+      "glukose",
+      "blutzucker"
+    ],
+    "definition": "Glukose ist der Blutzucker und liefert den Zellen Energie.",
+    "low": "Niedrige Werte können nach längerem Fasten, starker Belastung oder durch blutzuckersenkende Medikamente auftreten.",
+    "high": "Hohe Werte können nach einer Mahlzeit, bei Stress oder durch eine gestörte Blutzuckerregulation auftreten."
+  },
+  "hematocrit": {
+    "aliases": [
+      "hematocrit",
+      "hamatokrit",
+      "hct"
+    ],
+    "definition": "Der Hämatokrit beschreibt den Anteil der roten Blutkörperchen am Blutvolumen.",
+    "low": "Niedrige Werte können bei Blutarmut, Blutverlust oder einem erhöhten Flüssigkeitsanteil auftreten.",
+    "high": "Hohe Werte können bei Flüssigkeitsmangel, Rauchen oder einem Aufenthalt in großer Höhe auftreten."
+  },
+  "hemoglobin": {
+    "aliases": [
+      "hemoglobin",
+      "hamoglobin",
+      "hgb"
+    ],
+    "definition": "Hämoglobin transportiert Sauerstoff in den roten Blutkörperchen.",
+    "low": "Niedrige Werte können durch Blutverlust oder einen Mangel an Eisen, Vitamin B12 oder Folat entstehen.",
+    "high": "Hohe Werte können bei Flüssigkeitsmangel, Rauchen oder einer vermehrten Bildung roter Blutkörperchen auftreten."
+  },
+  "folate": {
+    "aliases": [
+      "folate",
+      "folsaure",
+      "folic",
+      "vitamin b9"
+    ],
+    "definition": "Folat unterstützt Zellteilung und Blutbildung.",
+    "low": "Niedrige Werte können durch geringe Zufuhr, eine gestörte Aufnahme oder erhöhte Verluste entstehen.",
+    "high": "Hohe Werte können mit Supplementen, Medikamenten oder Veränderungen im Stoffwechsel zusammenhängen."
+  },
+  "magnesium": {
+    "aliases": [
+      "magnesium"
+    ],
+    "definition": "Magnesium unterstützt Muskeln, Nerven und den Energiestoffwechsel.",
+    "low": "Niedrige Werte können durch geringe Zufuhr, eine gestörte Aufnahme oder erhöhte Verluste entstehen.",
+    "high": "Hohe Werte können durch eine eingeschränkte Nierenfunktion oder eine hohe Magnesiumzufuhr entstehen."
+  },
+  "zinc": {
+    "aliases": [
+      "zinc",
+      "zink"
+    ],
+    "definition": "Zink unterstützt Immunsystem, Wundheilung und viele Enzyme.",
+    "low": "Niedrige Werte können durch geringe Zufuhr, eine gestörte Aufnahme oder erhöhte Verluste entstehen.",
+    "high": "Hohe Werte können mit Supplementen, Medikamenten oder Veränderungen im Stoffwechsel zusammenhängen."
+  },
+  "selenium": {
+    "aliases": [
+      "selenium",
+      "selen"
+    ],
+    "definition": "Selen unterstützt die Schilddrüse und den Schutz der Zellen.",
+    "low": "Niedrige Werte können durch geringe Zufuhr, eine gestörte Aufnahme oder erhöhte Verluste entstehen.",
+    "high": "Hohe Werte können mit Supplementen, Medikamenten oder Veränderungen im Stoffwechsel zusammenhängen."
+  },
+  "calcium": {
+    "aliases": [
+      "calcium",
+      "kalzium"
+    ],
+    "definition": "Calcium unterstützt Knochen, Muskeln und die Weiterleitung von Nervensignalen.",
+    "low": "Niedrige Werte können bei Vitamin-D-Mangel, niedrigem Albumin oder Störungen der Nieren- oder Nebenschilddrüsenfunktion auftreten.",
+    "high": "Hohe Werte können bei einer überaktiven Nebenschilddrüse oder einer übermäßigen Vitamin-D-Zufuhr auftreten."
+  },
+  "copper": {
+    "aliases": [
+      "copper",
+      "kupfer"
+    ],
+    "definition": "Kupfer unterstützt den Eisenstoffwechsel und die Funktion von Enzymen.",
+    "low": "Niedrige Werte können durch geringe Zufuhr, eine gestörte Aufnahme oder erhöhte Verluste entstehen.",
+    "high": "Hohe Werte können mit Supplementen, Medikamenten oder Veränderungen im Stoffwechsel zusammenhängen."
+  },
+  "vita": {
+    "aliases": [
+      "vitamin a",
+      "retinol"
+    ],
+    "definition": "Vitamin A unterstützt Sehen, Haut und Immunsystem.",
+    "low": "Niedrige Werte können durch geringe Zufuhr, eine gestörte Aufnahme oder erhöhte Verluste entstehen.",
+    "high": "Hohe Werte können mit Supplementen, Medikamenten oder Veränderungen im Stoffwechsel zusammenhängen."
+  },
+  "vitc": {
+    "aliases": [
+      "vitamin c",
+      "ascorbin",
+      "ascorbic"
+    ],
+    "definition": "Vitamin C unterstützt die Kollagenbildung und die Aufnahme von Eisen.",
+    "low": "Niedrige Werte können durch geringe Zufuhr, eine gestörte Aufnahme oder erhöhte Verluste entstehen.",
+    "high": "Hohe Werte können mit Supplementen, Medikamenten oder Veränderungen im Stoffwechsel zusammenhängen."
+  },
+  "vite": {
+    "aliases": [
+      "vitamin e",
+      "tocopherol"
+    ],
+    "definition": "Vitamin E hilft, Zellen vor oxidativem Stress zu schützen.",
+    "low": "Niedrige Werte können durch geringe Zufuhr, eine gestörte Aufnahme oder erhöhte Verluste entstehen.",
+    "high": "Hohe Werte können mit Supplementen, Medikamenten oder Veränderungen im Stoffwechsel zusammenhängen."
+  },
+  "vitk": {
+    "aliases": [
+      "vitamin k",
+      "phyllo",
+      "menaquin"
+    ],
+    "definition": "Vitamin K unterstützt Blutgerinnung und Knochenstoffwechsel.",
+    "low": "Niedrige Werte können durch geringe Zufuhr, eine gestörte Aufnahme oder erhöhte Verluste entstehen.",
+    "high": "Hohe Werte können mit Supplementen, Medikamenten oder Veränderungen im Stoffwechsel zusammenhängen."
+  },
+  "iron": {
+    "aliases": [
+      "eisen",
+      "iron"
+    ],
+    "definition": "Eisen wird für den Sauerstofftransport und die Blutbildung benötigt.",
+    "low": "Niedrige Werte können durch geringe Zufuhr, eine gestörte Aufnahme oder erhöhte Verluste entstehen.",
+    "high": "Hohe Werte können mit Supplementen, Medikamenten oder Veränderungen im Stoffwechsel zusammenhängen."
+  }
+}

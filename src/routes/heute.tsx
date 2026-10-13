@@ -5,34 +5,20 @@ import { useEffect, useState } from "react";
 import { AppShell, Icon } from "@/components/AppShell";
 import { RangeBar } from "@/components/RangeBar";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useStore } from "@/lib/store";
 import { fmtDate, status } from "@/lib/data";
 import { productForMarker, reportMarkers } from "@/lib/plan-products";
-import { dailyTip, msUntilNextTip } from "@/lib/daily-tip";
 import { TodayMascot } from "@/components/TodayMascot";
-import { StepsIcon } from "@/components/StepsIcon";
-import sleepGfx from "@/assets/schlaf.png.asset.json";
-import goalsGfx from "@/assets/tagesziele.png.asset.json";
-import { MovementDialog } from "@/components/MovementDialog";
 import { VivoBrand } from "@/components/VivoBrand";
-import { Activity, ChevronRight, Clock, FlaskConical, Heart, Leaf, Plus, Salad, Sun, UserRound, Watch } from "lucide-react";
+import { UserRound } from "lucide-react";
+import { TodayWellnessGoals } from "@/components/TodayWellnessGoals";
 import { todayKey } from "@/lib/daily-goals";
-import type { RoutineTip } from "@/lib/deficiency-routines";
 import { nutritionTargets } from "@/lib/nutrition-targets";
 import { micronutrientGaps, nutritionGaps } from "@/lib/nutrition-products";
 import { suggestedProducts } from "@/lib/plan-products";
 import { goalProducts } from "@/lib/goal-plan";
 import { TodayNutritionGoals } from "@/components/TodayNutritionGoals";
-import { nutritionAlerts } from "@/lib/nutrition-alerts";
-
-const tipIcon = {
-  food: Salad,
-  sun: Sun,
-  walk: StepsIcon,
-  clock: Clock,
-  heart: Heart,
-} satisfies Record<RoutineTip["icon"], React.ComponentType<{ className?: string }>>;
+import { greetingFor } from "@/lib/greeting";
 
 export const Route = createFileRoute("/heute")({
   staticData: { sitemap: false },
@@ -52,21 +38,19 @@ export const Route = createFileRoute("/heute")({
 function Today() {
   useLanguage();
   const { s } = useStore();
-  const [moveOpen, setMoveOpen] = useState(false);
   const goTo = useNavigate();
   useEffect(() => { if (s.account && !s.onboarded) goTo({ to: "/onboarding" }); }, [s.account, s.onboarded]);
+  const [greeting, setGreeting] = useState(greetingFor());
+  useEffect(() => {
+    const refresh = () => setGreeting(greetingFor());
+    refresh();
+    const timer = setInterval(refresh, 30000);
+    return () => clearInterval(timer);
+  }, []);
   const measured = reportMarkers(s.aiPlan, s.labs);
   const featured = measured[0];
   const featuredProduct = featured ? productForMarker(featured) : undefined;
   const last = featured?.history.at(-1);
-  const [tipNow, setTipNow] = useState(() => new Date());
-  const [tipOpen, setTipOpen] = useState(false);
-  useEffect(() => {
-    const t = setTimeout(() => { setTipNow(new Date()); setTipOpen(false); }, msUntilNextTip(tipNow) + 1000);
-    return () => clearTimeout(t);
-  }, [tipNow]);
-  const tip = dailyTip(s.aiPlan, s.labs, s.account?.userId, tipNow);
-  const TipIcon = tipIcon[tip.tip.icon];
   const today = todayKey();
 
   const todayMeals = s.meals.filter((m) => m.date === today);
@@ -76,84 +60,35 @@ function Today() {
   const microGaps = micronutrientGaps(todayMeals);
   const labIds = new Set(suggestedProducts(s.aiPlan, s.labs).map((e) => e.product.shopwareId));
   const goalSuggestions = goalProducts(s.onboarded ? s.goals : []).filter((e) => !labIds.has(e.product.shopwareId));
-  const alerts = nutritionAlerts(todayMeals, nutritionTargets(s.body));
   const fmtNum = (n: number) => n.toLocaleString(languageLocale(), { maximumFractionDigits: 1 });
 
   return (
     <AppShell>
-      <header className="vivo-today-header today-mascot-header relative overflow-hidden px-6 pt-8 pb-7">
+      <header className="today-goals-header today-mascot-header relative overflow-hidden px-6 pt-8 pb-7">
         <TodayMascot />
         <div className="relative">
-          <div className="flex items-center justify-between">
-            <Link to="/" aria-label={translateText("Vitalplus Startseite")}><VivoBrand /></Link>
-            <div className="flex gap-2">
-              <Button asChild variant="ghost" size="icon" className="rounded-full text-muted-foreground" title={translateText("Uhr")}><Link to="/uhr" aria-label={translateText("Uhr")}><Watch /></Link></Button>
-              <Button asChild variant="ghost" size="icon" className="rounded-full bg-warm-soft text-muted-foreground" title={translateText("Profil")}><Link to="/profil" aria-label={translateText("Profil")}><UserRound /></Link></Button>
+          <div className="flex justify-center">
+            <Link to="/" aria-label={translateText("Vitalplus Startseite")}><VivoBrand className="h-[58px] w-auto -translate-x-3 object-contain" /></Link>
+          </div>
+          <div className="today-mascot-greeting mt-7 flex items-center gap-3">
+            <Button asChild variant="ghost" size="icon" className="size-11 shrink-0 rounded-full bg-warm-soft text-muted-foreground" title={translateText("Profil")}><Link to="/profil" aria-label={translateText("Profil")}><UserRound /></Link></Button>
+            <div className="min-w-0">
+              <p className="text-[13px] font-medium text-foreground"><Localized>{greeting}</Localized></p>
+              {s.name && <p className="mt-0.5 truncate text-[16px] font-bold leading-snug text-foreground"><Localized>{s.name}</Localized></p>}
             </div>
           </div>
-          <p className="today-mascot-greeting mt-8 text-[13px] font-medium text-foreground"><Localized>{"Guten Morgen, "}</Localized><Localized>{s.name}</Localized><Localized>{"."}</Localized></p>
-          <h1 className="today-mascot-heading mt-1 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>{"Gesünder leben."}</Localized><br /><Localized>{"Glücklicher sein."}</Localized></h1>
-          <button
-            type="button"
-            onClick={() => setTipOpen(true)}
-            aria-label={translateText("Tipp des Tages öffnen")}
-            className="vivo-focus mt-6 flex h-auto min-h-[116px] w-full items-start gap-3 whitespace-normal rounded-2xl bg-card/95 px-4 py-4 text-left hover:bg-card"
-          >
-            <span className="grid size-12 shrink-0 place-items-center rounded-full bg-teal-soft text-fresh"><TipIcon className="size-7" /></span>
-            <span className="min-w-0 flex-1">
-              <span className="block text-[10px] font-medium text-muted-foreground">
-                <Localized>{tip.marker ? `Tipp des Tages · ${tip.marker.name}` : "Tipp des Tages"}</Localized>
-              </span>
-              <span className="mt-1 block text-[15px] font-bold leading-snug"><Localized>{tip.tip.title}</Localized></span>
-              <span className="mt-1.5 block text-[11px] font-medium leading-relaxed text-muted-foreground line-clamp-2"><Localized>{tip.tip.text}</Localized></span>
-            </span>
-            <span className="my-auto grid size-7 shrink-0 place-items-center rounded-full bg-muted text-fv-deep"><ChevronRight /></span>
-          </button>
-          <Dialog open={tipOpen} onOpenChange={setTipOpen}>
-            <DialogContent className="rounded-3xl sm:max-w-sm">
-              <DialogHeader>
-                <span className="mx-auto grid size-14 place-items-center rounded-full bg-teal-soft text-fresh"><TipIcon className="size-8" /></span>
-                <span className="text-[10px] font-medium text-muted-foreground">
-                  <Localized>{tip.marker ? `Tipp des Tages · ${tip.marker.name}` : "Tipp des Tages"}</Localized>
-                </span>
-                <DialogTitle className="text-center text-[19px] font-bold leading-snug"><Localized>{tip.tip.title}</Localized></DialogTitle>
-                <DialogDescription className="text-center text-[14px] font-medium leading-relaxed text-foreground/80">
-                  <Localized>{tip.tip.text}</Localized>
-                </DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
+          <h1 className="today-mascot-heading mt-4 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>{"Gesünder leben."}</Localized><br /><Localized>{"Glücklicher sein."}</Localized></h1>
         </div>
       </header>
 
-      <section className="px-6 pt-1">
-        <div className="mb-3 flex items-center justify-between"><h2 className="text-[14px] font-bold"><Localized>{"Dein Fortschritt"}</Localized></h2><Link to="/gesundheit" className="text-[11px] text-fv-deep"><Localized>{"Alle ansehen"}</Localized></Link></div>
-        <div className="grid grid-cols-3 gap-3">
-          <Link to="/gesundheit" className="vivo-progress bg-teal-soft text-fv-deep">
-            <StepsIcon className="mx-auto size-7" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{"—"}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Schritte"}</Localized></div><MiniBars tone="teal" />
-          </Link>
-          <Link to="/ernaehrung" className="vivo-progress bg-fresh-soft text-fresh">
-            <img src={goalsGfx.url} alt="" className="mx-auto size-7 object-contain" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{alerts.length}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Tagesziele"}</Localized></div><MiniBars tone="fresh" />
-          </Link>
-          <Link to="/gesundheit" className="vivo-progress bg-sky-soft text-sky">
-            <img src={sleepGfx.url} alt="" className="vivo-sway mx-auto size-7" /><div className="mt-2 text-[20px] font-bold text-foreground"><Localized>{"—"}</Localized></div><div className="text-[10px] text-muted-foreground"><Localized>{"Schlaf"}</Localized></div><MiniBars tone="sky" />
-          </Link>
-        </div>
-      </section>
-      <section className="px-6 pt-6 pb-3">
-        <h2 className="mb-3 text-[14px] font-bold"><Localized>{"Schnellzugriff"}</Localized></h2>
-        <div className="grid grid-cols-4 gap-3 text-center">
-          <button type="button" onClick={() => setMoveOpen(true)} className="vivo-quick"><span className="bg-teal-soft text-fv-deep"><Activity /></span><span><Localized>{"Bewegung"}</Localized></span></button>
-          <Link to="/plan" className="vivo-quick"><span className="bg-fresh-soft text-fresh"><Leaf /></span><span><Localized>{"Mein Plan"}</Localized></span></Link>
-          <Link to="/ernaehrung" className="vivo-quick"><span className="bg-fresh-soft text-fresh"><Salad /></span><span><Localized>{"Ernährung"}</Localized></span></Link>
-          <Link to="/labor" className="vivo-quick"><span className="bg-sky-soft text-sky"><FlaskConical /></span><span><Localized>{"Labor"}</Localized></span></Link>
-        </div>
-      </section>
+      <TodayWellnessGoals />
+
+      <section className="mt-4 px-4"><WeekRecap /></section>
 
       <TodayNutritionGoals />
 
-      {goalSuggestions.length > 0 && <section className="mt-4 space-y-3 px-4" aria-label={translateText("Fairvital Empfehlungen zu deinen Zielen")}>
-        <h2 className="px-1 text-[15px] font-semibold"><Localized>{"Passend zu deinen Zielen"}</Localized></h2>
+      {goalSuggestions.length > 0 && <section className="mt-4 space-y-3 px-4 md:grid md:grid-cols-2 md:gap-3 md:space-y-0" aria-label={translateText("Fairvital Empfehlungen zu deinen Zielen")}>
+        <h2 className="px-1 text-[15px] font-semibold md:col-span-2"><Localized>{"Passend zu deinen Zielen"}</Localized></h2>
         {goalSuggestions.map(({ product, goals }) => <a key={product.shopwareId} href={product.url} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
           <img src={product.image} alt={translateText(product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
           <div className="min-w-0 flex-1">
@@ -163,11 +98,11 @@ function Today() {
             <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
           </div>
         </a>)}
-        <p className="px-1 text-[11px] text-muted-foreground"><Localized>{"Einnahme bitte ärztlich abklären, besonders bei Vorerkrankungen oder Medikamenten."}</Localized></p>
+        <p className="px-1 text-[11px] text-muted-foreground md:col-span-2"><Localized>{"Einnahme bitte ärztlich abklären, besonders bei Vorerkrankungen oder Medikamenten."}</Localized></p>
       </section>}
 
-      {(gaps.length > 0 || microGaps.length > 0) && <section className="mt-4 space-y-3 px-4" data-nutrition-gaps>
-        <h2 className="px-1 text-[15px] font-semibold"><Localized>{"Das fehlt dir noch für heute:"}</Localized></h2>
+      {(gaps.length > 0 || microGaps.length > 0) && <section className="mt-4 space-y-3 px-4 md:grid md:grid-cols-2 md:gap-3 md:space-y-0" data-nutrition-gaps>
+        <h2 className="px-1 text-[15px] font-semibold md:col-span-2"><Localized>{"Das fehlt dir noch für heute:"}</Localized></h2>
         {gaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
           <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
           <div className="min-w-0 flex-1">
@@ -186,10 +121,9 @@ function Today() {
               <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
             </div>
           </a>)}
-        <p className="px-1 text-[11px] text-muted-foreground"><Localized>{"Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten."}</Localized></p>
+        <p className="px-1 text-[11px] text-muted-foreground md:col-span-2"><Localized>{"Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten."}</Localized></p>
       </section>}
 
-      <MovementDialog open={moveOpen} onOpenChange={setMoveOpen} />
       {featured && last && <section className="mt-4 px-4">
         <div className="card-surface p-5">
           <Link to="/labor" className="block">
@@ -222,21 +156,9 @@ function Today() {
         </div>
       </section>}
 
-      <section className="mt-4 px-4">
-        <WeekRecap />
-      </section>
     </AppShell>
   );
 }
-
-function MiniBars({ tone }: { tone: "teal" | "fresh" | "sky" }) {
-  useLanguage();
-  return <div aria-hidden="true" className={`vivo-mini-bars vivo-mini-bars-${tone}`}>
-    {[12, 22, 16, 30, 21, 26, 35, 43, 52].map((height, i) => <span key={i} style={{ height: `${height}%` }} />)}
-  </div>;
-}
-
-
 
 function WeekRecap() {
   useLanguage();
@@ -245,15 +167,17 @@ function WeekRecap() {
   for (let i = 6; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    days.push(d.toISOString().slice(0, 10));
+    days.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
   }
-  const goalCount = days.reduce((sum, d) => sum + (s.weekLog[d] ?? 0), 0);
   const meals = s.meals.filter((m) => days.includes(m.date));
+  const mealsPerDay = (d: string) => meals.filter((m) => m.date === d).length;
+  const dayCount = (d: string) => (s.weekLog[d] ?? 0) + mealsPerDay(d);
+  const goalCount = days.reduce((sum, d) => sum + (s.weekLog[d] ?? 0), 0);
   const weights = Object.entries(s.weightLog).sort(([a], [b]) => a.localeCompare(b));
   const latestW = weights.at(-1);
   const prevW = weights.length > 1 ? weights[weights.length - 2] : null;
   const diff = latestW && prevW ? +(latestW[1] - prevW[1]).toFixed(1) : null;
-  const maxDay = Math.max(...days.map((d) => s.weekLog[d] ?? 0), 1);
+  const maxDay = Math.max(...days.map(dayCount), 1);
 
   return (
     <Link to="/gesundheit" className="card-surface block p-5">
@@ -262,12 +186,12 @@ function WeekRecap() {
 
       <div aria-hidden="true" className="mt-4 flex h-16 items-end justify-between gap-2">
         {days.map((d, i) => {
-          const count = s.weekLog[d] ?? 0;
+          const count = dayCount(d);
           return (
             <div key={d} className="flex flex-1 flex-col items-center gap-1">
               <div className="flex h-12 w-full items-end justify-center">
                 <span
-                  className={`w-full max-w-[26px] rounded-t-[6px] transition-all ${count > 0 ? (i === days.length - 1 ? "bg-fv-deep" : "bg-fv/30") : "bg-ink/10"}`}
+                  className={`w-full max-w-[26px] rounded-t-[6px] transition-all ${count > 0 ? "bg-fv" : "bg-ink/10"}`}
                   style={{ height: `${Math.max(count, 0.2) / maxDay * 100}%` }}
                 />
               </div>

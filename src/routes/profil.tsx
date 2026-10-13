@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { deleteAccount } from "@/lib/account.functions";
 import { AppShell } from "@/components/AppShell";
+import { ProfileMascot } from "@/components/ProfileMascot";
 import { useStore } from "@/lib/store";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -33,7 +34,7 @@ function MenuRow({ category, title, sub, icon: Icon, onClick }: { category: stri
     <section>
       <h2 className="mb-2 text-[11px] font-semibold uppercase text-muted-foreground"><Localized>{category}</Localized></h2>
       <Button variant="outline" onClick={onClick} className="h-auto min-h-20 w-full justify-start gap-3 whitespace-normal rounded-2xl border-border bg-card px-3 py-3 text-left shadow-none">
-        <span className="grid size-12 shrink-0 place-items-center rounded-full bg-fresh-soft text-fv-deep"><Icon className="size-6!" strokeWidth={1.6} /></span>
+        <span className="grid size-12 shrink-0 place-items-center rounded-full bg-fresh text-ink"><Icon className="size-6!" strokeWidth={1.6} /></span>
         <span className="min-w-0 flex-1"><span className="block text-[14px] font-semibold leading-5"><Localized>{title}</Localized></span><span className="mt-0.5 block text-[12px] font-normal leading-5 text-muted-foreground"><Localized>{sub}</Localized></span></span>
         <ChevronRight className="size-5! text-muted-foreground" strokeWidth={1.7} />
       </Button>
@@ -83,8 +84,9 @@ function Profile() {
   if (pathname !== "/profil") return <Outlet />;
   return (
     <AppShell>
-      <header className="relative overflow-hidden bg-header px-5 pb-5 pt-6">
-        <div className="relative"><h1 className="text-[29px] font-bold leading-tight"><Localized>{"Profil"}</Localized></h1><p className="mt-1 text-sm text-muted-foreground"><Localized>{"Deine Daten gehören dir."}</Localized></p></div>
+      <header className="profile-mascot-header relative overflow-hidden bg-header px-5 pb-5 pt-6">
+        <div className="profile-mascot-copy relative"><h1 className="text-[29px] font-bold leading-tight"><Localized>{"Profil"}</Localized></h1><p className="mt-1 text-sm text-muted-foreground"><Localized>{"Deine Daten gehören dir."}</Localized></p></div>
+        <ProfileMascot />
       </header>
       <div className="space-y-4 px-4 pt-4">
         <MenuRow category={translateText("Persönlich")} title={translateText("Gesundheitsprofil bearbeiten")} sub={translateText("Name, Größe, Gewicht, Ziele und mehr")} icon={UserRound} onClick={() => openMenu("personal")} />
@@ -97,7 +99,7 @@ function Profile() {
         <div className="rounded-2xl border border-border bg-card p-4 text-[13px] text-muted-foreground">
           <div className="eyebrow mb-1"><Localized>{"Vitalplus Konto"}</Localized></div>
           <div className="mt-3 flex items-start gap-3">
-          <span className="grid size-12 shrink-0 place-items-center rounded-full bg-fresh-soft text-fv-deep"><Mail className="size-6" strokeWidth={1.6} /></span>
+          <span className="grid size-12 shrink-0 place-items-center rounded-full bg-fresh text-ink"><Mail className="size-6" strokeWidth={1.6} /></span>
           <div className="min-w-0 flex-1">
           {s.account ? (
             <>
@@ -150,7 +152,7 @@ function Profile() {
               <Button disabled={busy || code.length < 6} onClick={confirmDelete} className="w-full rounded-full bg-destructive py-2.5 text-sm font-medium text-destructive-foreground disabled:opacity-50">
                 <Localized>{busy ? "Wird gelöscht…" : "Konto endgültig löschen"}</Localized>
               </Button>
-              <Button disabled={busy} onClick={sendCode} className="text-[13px] font-medium text-fv-deep"><Localized>{"Code erneut senden"}</Localized></Button>
+              <Button disabled={busy} onClick={sendCode} className="text-[13px] font-medium"><Localized>{"Code erneut senden"}</Localized></Button>
             </>
           )}
         </DialogContent>

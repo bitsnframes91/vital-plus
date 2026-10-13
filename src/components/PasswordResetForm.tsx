@@ -1,7 +1,7 @@
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { requestPasswordReset } from "@/lib/account.functions";
 import { publicAppUrl } from "@/lib/native-app";
 import { Button } from "@/components/ui/button";
 
@@ -17,11 +17,10 @@ export function PasswordResetForm({ initialEmail = "" }: { initialEmail?: string
       if (busy) return;
       setBusy(true); setError("");
       try {
-        const { error: failure } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: publicAppUrl("/reset-password") });
-        if (failure) setError("Senden nicht möglich – bitte in einer Minute erneut versuchen.");
-        else setSent(true);
+        await requestPasswordReset({ data: { email: email.trim(), redirectTo: publicAppUrl("/reset-password") } });
+        setSent(true);
       } catch {
-        setError("Senden nicht möglich – bitte prüfe deine Verbindung und versuche es erneut.");
+        setError("Senden nicht möglich – bitte in einer Minute erneut versuchen.");
       } finally { setBusy(false); }
     }}>
       <p className="text-sm leading-6 text-muted-foreground"><Localized>{"Gib deine E-Mail-Adresse ein, um einen Link zum Zurücksetzen deines Passworts zu erhalten."}</Localized></p>

@@ -8,6 +8,7 @@ import { NutritionProfileFields } from "@/components/NutritionProfileFields";
 import type { NutritionProfile } from "@/lib/nutrition-targets";
 import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
 import { questionnaireReturn } from "@/lib/questionnaire-return";
+import { saveQuestionnaire } from "@/lib/questionnaire-draft";
 
 export const Route = createFileRoute("/onboarding")({
   staticData: { sitemap: true },
@@ -137,7 +138,13 @@ function Onboarding() {
       return returnToOrigin();
     }
     if (step < steps.length - 1) return setStep(step + 1);
-    set({ name, goals, onboarded: true, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? stepGoalFor(bmi) } });
+    if (!s.account) {
+      if (!profile.age || !profile.sex || !profile.activity) return;
+      saveQuestionnaire({ name: name.trim(), goals, diet, body: { age: profile.age, sex: profile.sex, activity: profile.activity, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) ?? 8000 } });
+      nav({ to: "/login", search: { mode: "register" } });
+      return;
+    }
+    set({ name, goals, onboarded: true, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? 0 } });
     nav({ to: "/heute" });
   };
 
@@ -157,7 +164,7 @@ function Onboarding() {
         <div className="flex gap-2 px-6 pb-8 pt-6">
           {editing ? <Button onClick={returnToOrigin} className="rounded-full px-5 py-3 text-sm ring-1 ring-border"><Localized>{"Abbrechen"}</Localized></Button> : step > 0 && <Button onClick={() => setStep(step - 1)} className="rounded-full px-5 py-3 text-sm ring-1 ring-border"><Localized>{"Zurück"}</Localized></Button>}
           <Button disabled={!cur.valid} onClick={next} className="flex-1 rounded-full bg-fresh py-3 text-sm font-medium text-ink disabled:opacity-40">
-            <Localized>{editing ? "Speichern" : step === steps.length - 1 ? "Los geht's" : "Weiter"}</Localized>
+            <Localized>{editing ? "Speichern" : step === steps.length - 1 ? (s.account ? "Los geht's" : "Konto anlegen") : "Weiter"}</Localized>
           </Button>
         </div>
       </div>

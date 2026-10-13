@@ -1,7 +1,8 @@
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
-import { Link, useLocation } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState, type ReactNode } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Home, Salad, HeartPulse, FlaskConical, ClipboardList, UserRound } from "lucide-react";
 import { ConfirmBanner } from "./ConfirmBanner";
 
@@ -23,30 +24,55 @@ export function Icon({ d, className = "size-5" }: { d: string; className?: strin
   );
 }
 
+const PROTECTED = ["/heute", "/ernaehrung", "/gesundheit", "/labor", "/plan", "/profil", "/trends", "/uhr"];
+export const isProtectedPath = (p: string) => PROTECTED.some((t) => p === t || p.startsWith(`${t}/`));
+
 export function AppShell({ children }: { children: ReactNode }) {
   useLanguage();
   const navIcons = [Home, Salad, HeartPulse, FlaskConical, ClipboardList, UserRound];
   const pathname = useLocation({ select: (s) => s.pathname });
+  const navigate = useNavigate();
+  const guarded = isProtectedPath(pathname);
+  const [allowed, setAllowed] = useState(false);
+  useEffect(() => {
+    if (!guarded) return;
+    let alive = true;
+    const check = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (!alive) return;
+      if (data.user?.email_confirmed_at) setAllowed(true);
+      else { setAllowed(false); navigate({ to: "/", replace: true }); }
+    };
+    void check();
+    const { data: sub } = supabase.auth.onAuthStateChange((e) => { if (e === "SIGNED_OUT" || e === "SIGNED_IN") void check(); });
+    return () => { alive = false; sub.subscription.unsubscribe(); };
+  }, [guarded, navigate]);
+  if (guarded && !allowed) return <div className="min-h-screen bg-background" aria-busy="true" />;
+  // Pages like the signup confirmation screen show no tab bar, so it cannot be used to skip ahead.
+  const showNav = guarded;
   return (
-    <div className="min-h-screen w-full bg-mist sm:grid sm:place-items-start sm:p-4">
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col overflow-hidden bg-background sm:h-[calc(100dvh-2rem)] sm:min-h-0 sm:rounded-[28px] sm:ring-1 sm:ring-border">
-        <main className="flex-1 pb-28 sm:min-h-0 sm:overflow-y-auto"><ConfirmBanner /><Localized>{children}</Localized></main>
-        <nav aria-label={translateText("Hauptnavigation")} className="fixed bottom-0 left-1/2 z-30 w-full max-w-[440px] -translate-x-1/2 border-t border-border bg-card/95 px-2 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md sm:absolute">
-          <div className="grid grid-cols-6">
+    <div className="min-h-screen w-full bg-mist sm:grid sm:place-items-start sm:p-4 md:block md:p-0">
+      <div className="relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col overflow-hidden bg-background sm:h-[calc(100dvh-2rem)] sm:min-h-0 sm:rounded-[28px] sm:ring-1 sm:ring-border md:h-dvh md:max-w-none md:rounded-none md:ring-0">
+        <main className="flex-1 pb-28 sm:min-h-0 sm:overflow-y-auto md:pb-24"><div className="md:mx-auto md:w-full md:max-w-[1040px]"><ConfirmBanner /><Localized>{children}</Localized></div></main>
+        {showNav && (
+        <nav aria-label={translateText("Hauptnavigation")} className="fixed bottom-0 left-1/2 z-30 w-full max-w-[440px] -translate-x-1/2 border-t border-border bg-card/95 px-2 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md sm:absolute md:max-w-none">
+          <div className="grid grid-cols-6 md:mx-auto md:max-w-[1040px]">
             {tabs.map((t, i) => {
               const NavIcon = navIcons[i];
+              const active = pathname === t.to || pathname.startsWith(`${t.to}/`);
               return (
               <Link
                 key={t.to}
                 to={t.to}
-                className={`flex min-w-0 flex-col items-center gap-1 ${pathname === t.to || pathname.startsWith(`${t.to}/`) ? "text-fresh" : "text-ink/40"}`}
+                className={`flex min-w-0 flex-col items-center gap-1 ${active ? "text-ink" : "text-ink/40"}`}
               >
-                {NavIcon && <NavIcon className="size-5" strokeWidth={1.7} />}
+                {NavIcon && <span className={`grid size-8 place-items-center rounded-full transition-colors ${active ? "bg-fresh text-ink" : ""}`}><NavIcon className="size-5" strokeWidth={1.7} /></span>}
                 <span className="text-[9px] font-medium"><Localized>{t.to === "/profil" ? "Profil" : t.label}</Localized></span>
               </Link>
             ); })}
           </div>
         </nav>
+        )}
       </div>
     </div>
   );

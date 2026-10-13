@@ -15,7 +15,6 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { StoreProvider } from "../lib/store";
 import { registerAppServiceWorker } from "../lib/pwa-register";
 import { isNativeApp } from "../lib/native-app";
-import { AppLockProvider } from "../components/AppLock";
 import { AppSettingsProvider } from "../components/AppSettings";
 
 function NotFoundComponent() {
@@ -93,7 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "theme-color", content: "#2E6B3F" },
+      { name: "theme-color", content: "#9dce4c" },
       { name: "application-name", content: "Vitalplus" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
@@ -142,7 +141,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <StoreProvider>
-        <AppSettingsProvider><AppLockProvider><Outlet /></AppLockProvider></AppSettingsProvider>
+        <AppSettingsProvider><Outlet /></AppSettingsProvider>
       </StoreProvider>
     </QueryClientProvider>
   );

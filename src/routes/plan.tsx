@@ -43,12 +43,6 @@ function Plan() {
   const labIds = new Set(suggestions.map((e) => e.product.shopwareId));
   const goalSuggestions = goalProducts(userGoals).filter((e) => !labIds.has(e.product.shopwareId));
   const doneCount = items.filter((it) => s.actionsDone[`${d}:${it.key}`]).length;
-  const toggleDaily = (key: string) => {
-    if (key.startsWith("plan-")) {
-      const i = Number(key.slice(5));
-      if (s.aiPlan) set({ aiPlan: { ...s.aiPlan, items: s.aiPlan.items.map((it, j) => (j === i ? { ...it, daily: it.daily === false } : it)) } });
-    } else set({ goalOff: { ...(s.goalOff ?? {}), [key]: !s.goalOff?.[key] } });
-  };
   const toggleDone = (key: string) => {
     const k = `${d}:${key}`;
     set({ actionsDone: { ...s.actionsDone, [k]: !s.actionsDone[k] } });
@@ -84,7 +78,6 @@ function Plan() {
             <ul className="mt-4 space-y-2">
               {items.map((it, i) => {
                 const done = !!s.actionsDone[`${d}:${it.key}`];
-                const daily = it.daily;
                 return (
                   <li key={it.key} className="rounded-[14px] ring-1 ring-border">
                     <div className="flex items-center gap-3 px-3 py-3">
@@ -101,13 +94,6 @@ function Plan() {
                     {open === i && (
                       <div className="border-t px-3 py-3">
                         <p className="text-[14px] text-ink/65"><Localized>{it.detail}</Localized></p>
-                        <label className="mt-3 flex items-center justify-between text-[13px]">
-                          <span><Localized>{"In meinen Tageszielen anzeigen"}</Localized></span>
-                          <Button variant="ghost" size="icon" onClick={() => toggleDaily(it.key)} role="switch" aria-label={translateText("In meinen Tageszielen anzeigen")} aria-checked={daily}
-                            className={`h-6 w-11 rounded-full p-0.5 transition ${daily ? "bg-fv" : "bg-ink/15"}`}>
-                            <span className={`block size-5 rounded-full bg-card transition ${daily ? "translate-x-5" : ""}`} />
-                          </Button>
-                        </label>
                       </div>
                     )}
                   </li>
@@ -122,7 +108,7 @@ function Plan() {
           <section className="pt-5" aria-label={translateText("Fairvital Empfehlungen zu deinen Zielen")}>
             <h2 className="px-1 text-[18px] font-semibold"><Localized>{"Passend zu deinen Zielen"}</Localized></h2>
             <p className="mb-3 px-1 text-[13px] text-ink/55"><Localized>{"Fairvital Ergänzungen zu dem, was dir im Fragebogen wichtig war."}</Localized></p>
-            <div className="space-y-3">
+            <div className="space-y-3 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
               {goalSuggestions.map(({ product, goals }) => (
                 <a key={product.shopwareId} href={product.url} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-4">
                   <img src={product.image} alt={translateText(product.name)} className="size-16 shrink-0 rounded-xl bg-white object-contain p-1 ring-1 ring-border" loading="lazy" />
@@ -142,7 +128,7 @@ function Plan() {
           <section className="pt-5" aria-label={translateText("Empfehlungen bei niedrigen Werten")}>
             <h2 className="px-1 text-[18px] font-semibold"><Localized>{"Deine niedrigen Werte"}</Localized></h2>
             <p className="mb-3 px-1 text-[13px] text-ink/55"><Localized>{"Ergänzungen und Alltagstipps passend zu deinen gemessenen Werten."}</Localized></p>
-            {deficient.length ? <div className="space-y-3">
+            {deficient.length ? <div className="space-y-3 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
               {deficient.map((marker) => {
                 const product = suggestions.find((entry) => entry.marker.id === marker.id)?.product;
                 const expanded = openRoutine === marker.id;
@@ -172,7 +158,7 @@ function Plan() {
                       {routineTips(marker).map((tip) => {
                         const TipIcon = icons[tip.icon];
                         return <div key={tip.title} className="flex items-start gap-3">
-                          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-fv/10 text-fv-deep"><TipIcon className="size-5" aria-hidden="true" /></span>
+                          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-fv text-ink"><TipIcon className="size-5" aria-hidden="true" /></span>
                           <div className="min-w-0"><div className="text-[14px] font-semibold"><Localized>{tip.title}</Localized></div><p className="mt-1 text-[13px] leading-relaxed text-ink/65"><Localized>{tip.text}</Localized></p></div>
                         </div>;
                       })}

@@ -46,13 +46,10 @@ The iOS work adds **no new recipients**:
 - ✅ **No location, contacts, tracking (ATT), HealthKit or push permissions.**
 
 ### Feature-specific
-- ✅ **App Lock** reports "Auf diesem Gerät nicht verfügbar" on iOS.
-  - WebAuthn needs a web relying-party origin, which `capacitor://localhost` doesn't have.
-  - The web App Lock is unchanged.
-  - A native Face ID gate is possible later; it would be a privacy gate, **not encryption**.
-- ✅ **Notifications.** iOS shows that system notifications aren't available yet. In-app reminders still appear while the app is open. No background delivery is claimed.
+- ✅ **No App Lock or system notifications.** The current web app removed both (light-only settings with in-app reminders only), so the iOS app offers neither. In-app reminders appear while the app is open; no background delivery is claimed.
 - ✅ **Shopware links open in Safari.** Cart and checkout stay on fairvital.com, and no data is passed to the shop.
 - 🟡 **Account deletion** reuses the verified server flow (`deleteAccount`). On iOS it works **only after** the `src/start.ts` origin allowance is published (see architecture.md). Until then it fails safely with an error.
+- 🟡 **Password reset** now runs through the `requestPasswordReset` server function. Like account deletion, it works on iOS **only after** the `src/start.ts` origin allowance is published. Until then it fails safely with an error.
 
 ### Third parties already used by the web app (unchanged; included in App Privacy answers)
 - **Supabase / Lovable Cloud:** auth and the data store.
@@ -64,7 +61,7 @@ The iOS work adds **no new recipients**:
 
 ### Privacy policy (src/lib/privacy-policy.ts) — needs legal update, not changed here
 - ⬜ **§4 is inaccurate about voice input.** It says voice input uses the browser/OS speech recognition, but `mealFromVoice` uploads the recording to the Lovable AI Gateway for transcription.
-- ⬜ **§6 doesn't describe the iOS app.** It refers to browser notifications and WebAuthn App Lock. Add the iOS specifics: Keychain session, camera and microphone use, App Lock unavailable.
+- ⬜ **§6 doesn't describe the iOS app.** It refers to browser-shown reminders and notifications. Add the iOS specifics: Keychain session, camera and microphone use.
 - ⬜ **The policy is only in the app.** App Store Connect needs a public Privacy Policy URL.
 
 ## App Store "App Privacy" draft answers (to be confirmed by legal)

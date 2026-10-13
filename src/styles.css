@@ -7,8 +7,12 @@
 /* Fairvital Health design system — adapt brand tokens here to match the exact Fairvital CI. */
 
 @theme inline {
+  --color-goal-low: var(--goal-low);
+  --color-goal-partial: var(--goal-partial);
+  --color-goal-good: var(--goal-good);
+  --color-goal-track: var(--goal-track);
   --color-nutrition-near: #ce6b12;
-  --color-bmi-good: #3f9a2c;
+  --color-bmi-good: #9dce4c;
   --color-bmi-mid: #c99a00;
   --color-bmi-bad: #d93a2b;
   --font-display: "Plus Jakarta Sans", sans-serif;
@@ -68,7 +72,12 @@
 }
 
 :root {
-  --browser-theme: #2E6B3F;
+  --goal-low: oklch(0.61 0.21 27);
+  --goal-partial: oklch(0.79 0.16 88);
+  --goal-good: var(--fresh);
+  --goal-track: oklch(0.94 0.004 230);
+  --shadow-goal-tile: 0 3px 14px oklch(0.28 0.027 251 / 0.055);
+  --browser-theme: #9dce4c;
   --trend-surface: oklch(1 0 0);
   --trend-foreground: var(--ink);
   --trend-icon: oklch(0.96 0.006 210);
@@ -82,12 +91,12 @@
   --trend-walk-soft: oklch(0.958 0.028 298);
   --trend-run-soft: oklch(0.958 0.028 333);
   --radius: 1rem;
-  --fv: oklch(0.78 0.19 140);
-  --fv-deep: oklch(0.42 0.09 152);
-  --fresh: oklch(0.758 0.184 134.9);
+  --fv: #9dce4c;
+  --fv-deep: #9dce4c;
+  --fresh: #9dce4c;
   --sky: oklch(0.7 0.17 55);
-  --teal-soft: oklch(0.955 0.035 145);
-  --fresh-soft: oklch(0.959 0.038 141);
+  --teal-soft: #d7f3a8;
+  --fresh-soft: #d7f3a8;
   --sky-soft: oklch(0.96 0.03 70);
   --warm-soft: oklch(0.967 0.017 85);
   --ink: oklch(0.28 0.027 251);
@@ -110,13 +119,13 @@
   --card-foreground: var(--ink);
   --popover: oklch(1 0 0);
   --popover-foreground: var(--ink);
-  --primary: var(--fv-deep);
-  --primary-foreground: oklch(0.99 0 0);
+  --primary: var(--fresh);
+  --primary-foreground: var(--ink);
   --secondary: oklch(0.97 0.006 210);
   --secondary-foreground: var(--ink);
   --muted: oklch(0.96 0.006 210);
   --muted-foreground: oklch(0.5 0.015 220);
-  --accent: oklch(0.94 0.04 145);
+  --accent: #d7f3a8;
   --accent-foreground: var(--fv-deep);
   --destructive: oklch(0.6 0.2 27);
   --destructive-foreground: oklch(0.99 0 0);
@@ -124,56 +133,19 @@
   --input: oklch(0.18 0.012 220 / 12%);
   --ring: var(--fv);
   --gradient-hero:
-    radial-gradient(120% 90% at 15% 0%, oklch(0.72 0.15 145 / 0.5) 0%, transparent 55%),
+    radial-gradient(120% 90% at 15% 0%, #9dce4c80 0%, transparent 55%),
     radial-gradient(100% 80% at 100% 20%, oklch(0.85 0.12 70 / 0.3) 0%, transparent 50%),
     linear-gradient(115deg, oklch(1 0 0 / 0.07) 0 34%, transparent 34%),
     linear-gradient(245deg, oklch(1 0 0 / 0.05) 0 55%, transparent 55%),
-    radial-gradient(60% 45% at 80% 100%, oklch(0.72 0.15 145 / 0.4) 0%, transparent 60%);
+    radial-gradient(60% 45% at 80% 100%, #9dce4c66 0%, transparent 60%);
+  /* Startseite hero — built from the app's own brand green (--fv). */
+  --gradient-hero-green:
+    radial-gradient(62% 52% at 84% 86%, rgba(215, 243, 168, 0.88) 0%, transparent 64%),
+    radial-gradient(105% 80% at 6% 0%, rgba(215, 243, 168, 0.92) 0%, transparent 58%),
+    radial-gradient(78% 66% at 96% 100%, rgba(157, 206, 76, 0.52) 0%, transparent 62%),
+    linear-gradient(165deg, #d7f3a8 0%, #9dce4c 100%);
 }
 
-.dark {
-  --browser-theme: #000000;
-  --mist: oklch(0 0 0);
-  --ink: oklch(0.95 0 0);
-  --background: oklch(0 0 0);
-  --foreground: var(--ink);
-  --card: oklch(0.17 0 0);
-  --card-foreground: var(--ink);
-  --popover: oklch(0.2 0 0);
-  --popover-foreground: var(--ink);
-  --fv-deep: oklch(0.78 0.15 145);
-  --primary: var(--fresh);
-  --primary-foreground: oklch(0.15 0 0);
-  --secondary: oklch(0.22 0 0);
-  --secondary-foreground: var(--ink);
-  --muted: oklch(0.24 0 0);
-  --muted-foreground: oklch(0.74 0 0);
-  --accent: oklch(0.28 0.04 145);
-  --accent-foreground: var(--ink);
-  --destructive: oklch(0.72 0.18 27);
-  --border: oklch(1 0 0 / 14%);
-  --input: oklch(1 0 0 / 22%);
-  --teal-soft: oklch(0.22 0.025 145);
-  --fresh-soft: oklch(0.24 0.04 141);
-  --sky-soft: oklch(0.24 0.03 70);
-  --warm-soft: oklch(0.24 0.015 85);
-  --home-warm: var(--warm-soft);
-  --trend-surface: var(--card);
-  --trend-icon: var(--muted);
-  --trend-control: var(--muted);
-  --trend-move-soft: oklch(0.24 0.04 8);
-  --trend-distance-soft: oklch(0.24 0.04 226);
-  --trend-walk-soft: oklch(0.24 0.04 298);
-  --trend-run-soft: oklch(0.24 0.04 333);
-  --page-image-overlay: linear-gradient(180deg, oklch(0 0 0 / 0.85), oklch(0 0 0 / 0.35));
-  --labor-image-overlay: linear-gradient(90deg, oklch(0 0 0 / 0.96), oklch(0 0 0 / 0.45));
-  --ridge-image-overlay: var(--labor-image-overlay);
-  --citrus-image-overlay: var(--labor-image-overlay);
-  --profile-image-overlay: var(--labor-image-overlay);
-}
-
-/* Action labels stay dark on the brand's bright green in either theme. */
-.dark .bg-fresh, .dark .bg-fv { --ink: oklch(0.15 0 0); }
 
 @layer base {
   * { border-color: var(--color-border); }
@@ -190,6 +162,10 @@
 }
 
 @utility hero-glow { background-image: var(--gradient-hero); }
+@utility hero-surface {
+  background-image: var(--gradient-hero-green);
+  box-shadow: 0 32px 90px -46px #9dce4c80;
+}
 @utility home-image-overlay { background-image: var(--home-image-overlay); }
 @utility today-image-overlay { background-image: var(--today-image-overlay); }
 @utility page-image-overlay { background-image: var(--page-image-overlay); }
@@ -217,6 +193,15 @@
 
 .bg-header { --on-ink: var(--ink); }
 .vivo-today-header { min-height: 348px; }
+.today-goals-header { min-height: 264px; }
+.goal-tile { border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-goal-tile); }
+.goal-surface { background-color: var(--goal-surface, var(--card)); transition: background-color 450ms ease; }
+.goal-surface-missing { --goal-surface: var(--card); }
+.goal-surface-low { --goal-surface: oklch(0.61 0.21 27 / 9%); }
+.goal-surface-partial { --goal-surface: oklch(0.79 0.16 88 / 13%); }
+.goal-surface-good { --goal-surface: #d7f3a8; }
+.goal-progress-arc { transition: stroke-dashoffset 850ms ease, color 450ms ease; }
+@media (prefers-reduced-motion: reduce) { .goal-progress-arc, .goal-tile, .goal-surface { transition: none; } }
 .today-mascot-header { background: var(--card); }
 @keyframes food-photo-drop { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 .food-photo-fill > * { animation: food-photo-drop 420ms ease-out both; }
@@ -231,6 +216,15 @@
   .labor-mascot { right: 8px; width: 100px; }
 }
 @media (prefers-reduced-motion: reduce) { .labor-mascot video { display: none; } }
+/* Labor shares the shared speech bubble: when it shows, the header makes room
+   above the mascot exactly like on Gesundheit. */
+.labor-mascot-header:has(.nutrition-mascot-says) {
+  padding-top: calc(84px + env(safe-area-inset-top));
+  min-height: calc(320px + env(safe-area-inset-top));
+}
+.labor-mascot-header:has(.nutrition-mascot-says) .labor-mascot {
+  top: calc(76px + env(safe-area-inset-top));
+}
 .nutrition-mascot-header { min-height: 256px; }
 .nutrition-mascot-copy { width: calc(100% - 132px); }
 .nutrition-mascot { top: 22px; right: 8px; width: 132px; height: 218px; }
@@ -245,6 +239,29 @@
   50% { transform: translateY(-4px) rotate(-1.2deg); }
 }
 @media (prefers-reduced-motion: reduce) { .nutrition-mascot-img { animation: none; } }
+/* Rounded speech bubble above the mascot; its tail is drawn by JS so it aims at the mouth.
+   Bubble and tail share one drop shadow so the join reads as a single shape. */
+.nutrition-mascot-says-layer {
+  z-index: 2; pointer-events: none;
+  filter: drop-shadow(0 8px 14px rgb(0 0 0 / 12%));
+}
+.nutrition-mascot-says {
+  position: absolute; top: calc(22px + env(safe-area-inset-top)); right: 14px;
+  max-width: min(250px, calc(100% - 44px));
+  background: var(--fresh-soft); border-radius: 9999px;
+  padding: 10px 18px; font-size: 13px; font-weight: 500; line-height: 1.35; text-align: center;
+  animation: nutrition-bubble-in 420ms ease-out both;
+}
+.nutrition-mascot-says-tail path { fill: var(--fresh-soft); }
+.nutrition-mascot-header:has(.nutrition-mascot-says) {
+  padding-top: calc(84px + env(safe-area-inset-top));
+  min-height: calc(320px + env(safe-area-inset-top));
+}
+.nutrition-mascot-header:has(.nutrition-mascot-says) .nutrition-mascot {
+  top: calc(76px + env(safe-area-inset-top));
+}
+@keyframes nutrition-bubble-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .nutrition-mascot-says { animation: none; } }
 .health-mascot-header { min-height: 256px; }
 .health-mascot-copy { width: calc(100% - 132px); }
 .health-mascot { top: 22px; right: 14px; width: 120px; height: 218px; }
@@ -253,7 +270,15 @@
   .health-mascot-copy h1 { font-size: 25px; overflow-wrap: anywhere; }
   .health-mascot { right: 8px; width: 100px; }
 }
-@media (prefers-reduced-motion: reduce) { .health-mascot video { display: none; } }
+/* Gesundheit shares the Ernährung speech bubble: when it shows, the header
+   makes room above the mascot exactly like there. */
+.health-mascot-header:has(.nutrition-mascot-says) {
+  padding-top: calc(84px + env(safe-area-inset-top));
+  min-height: calc(320px + env(safe-area-inset-top));
+}
+.health-mascot-header:has(.nutrition-mascot-says) .health-mascot {
+  top: calc(76px + env(safe-area-inset-top));
+}
 .plan-mascot-header { min-height: 256px; }
 .plan-mascot-copy { width: calc(100% - 140px); }
 .plan-mascot { top: 22px; right: 8px; width: 132px; height: 218px; }
@@ -271,7 +296,15 @@
   .today-mascot-heading, .today-mascot-greeting { max-width: calc(100% - 92px); }
   .today-mascot-heading { font-size: 25px; }
 }
-@media (prefers-reduced-motion: reduce) { .today-mascot video { display: none; } }
+@media (prefers-reduced-motion: reduce) { .today-mascot-anim { visibility: hidden; } }
+.profile-mascot-header { min-height: 216px; }
+.profile-mascot-copy { width: calc(100% - 132px); }
+.profile-mascot { top: 22px; right: 14px; width: 120px; height: 172px; }
+@media (max-width: 360px) {
+  .profile-mascot-copy { width: calc(100% - 110px); }
+  .profile-mascot { right: 8px; width: 100px; height: 144px; }
+}
+@media (prefers-reduced-motion: reduce) { .profile-mascot-anim { visibility: hidden; } }
 .vivo-focus { box-shadow: 0 6px 22px var(--border); }
 .vivo-progress { display: block; min-width: 0; border-radius: 12px; padding: 15px 6px 8px; text-align: center; }
 .vivo-mini-bars { display: flex; height: 28px; align-items: end; justify-content: center; gap: 4px; margin-top: 6px; }
@@ -281,7 +314,40 @@
 .vivo-quick > span:first-child { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; }
 .vivo-quick svg { width: 25px; height: 25px; }
 @keyframes vivo-bounce { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.06); } }
-@keyframes vivo-sway { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(7deg); } }
+@keyframes vivo-sway { 0%, 100% { transform: translateY(0) rotate(-10deg); } 50% { transform: translateY(-3px) rotate(10deg); } }
 .vivo-bounce { animation: vivo-bounce 2.6s ease-in-out infinite; }
 .vivo-sway { animation: vivo-sway 3.4s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .vivo-bounce, .vivo-sway { animation: none; } }
+
+@keyframes home-mascot-float { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-10px) rotate(1.5deg); } }
+.home-mascot { animation: home-mascot-float 5s ease-in-out infinite; transform-origin: 50% 90%; }
+@media (prefers-reduced-motion: reduce) { .home-mascot { animation: none; } }
+
+/* Heute mini mascot for the empty Ernährung prompt */
+.today-empty-mascot { width: 52px; height: 52px; flex-shrink: 0; object-fit: contain; animation: home-mascot-float 4.5s ease-in-out infinite; transform-origin: 50% 90%; }
+.today-empty-bubble { background: var(--fresh-soft); }
+@media (prefers-reduced-motion: reduce) { .today-empty-mascot { animation: none; } }
+
+/* Uploaded produce artwork on a white, full-bleed introduction. */
+.home-entry { position: relative; isolation: isolate; min-height: 100svh; max-width: 1440px; margin-inline: auto; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+.home-entry-header { padding: 32px 24px 0; }
+.home-produce { position: absolute; z-index: -1; width: 100%; height: calc(100svh - 190px); bottom: 0; object-fit: cover; object-position: center bottom; }
+.home-entry-controls { width: 100%; max-width: 440px; margin: auto auto 0; padding: 24px 24px max(24px, env(safe-area-inset-bottom)); }
+.home-entry-login .home-entry-controls { background: linear-gradient(0deg, var(--card) 75%, transparent); padding-top: 48px; }
+.swipe-track { box-shadow: 0 4px 22px var(--border); }
+.swipe-thumb { will-change: transform; }
+@media (min-width: 600px) {
+  .home-entry-header { padding: 44px 48px 0; }
+  .home-produce { width: min(100%, 800px); height: calc(100svh - 200px); left: 50%; transform: translateX(-50%); object-fit: contain; }
+}
+@media (min-width: 1024px) {
+  .home-entry-header { padding: 64px 72px 0; }
+  .home-produce { width: 65%; height: 100svh; right: 0; left: auto; transform: none; }
+  .home-entry-controls { margin-left: 48px; margin-bottom: 48px; }
+  .home-entry-login .home-entry-controls { background: none; }
+}
+@media (max-height: 700px) and (max-width: 599px) {
+  .home-entry-header { padding-top: 20px; }
+  .home-entry-header p { margin-top: 12px; font-size: 26px; }
+  .home-entry-login { min-height: 700px; }
+}

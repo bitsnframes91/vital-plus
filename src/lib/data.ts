@@ -1,4 +1,5 @@
 import { languageLocale } from "./language";
+import { todayKey } from "./daily-goals";
 import type { MicronutrientAmounts } from "./micronutrients";
 // Mock data for version 1. Products/prices will later come from the Fairvital Shopware API
 // (see src/lib/shopware.ts); lab values will later come from a laboratory API.
@@ -247,9 +248,11 @@ export type Meal = {
   time: string;
   date: string; // ISO day, e.g. 2026-10-03
 };
-export const initialMeals: Meal[] = [
-  { id: "m1", label: "Frühstück", name: "Skyr mit Beeren & Walnüssen", protein: 32, kcal: 380, fiber: 6, carbs: 34, fat: 14, time: "07:40", date: new Date().toISOString().slice(0, 10) },
-  { id: "m2", label: "Mittagessen", name: "Linsen-Bowl mit Gemüse", protein: 22, kcal: 460, fiber: 12, carbs: 58, fat: 12, time: "12:40", date: new Date().toISOString().slice(0, 10) },
+export const initialMeals: Meal[] = [];
+export const DEMO_MEAL_IDS = ["m1", "m2"];
+const _unusedDemoMeals: Meal[] = [
+  { id: "m1", label: "Frühstück", name: "Skyr mit Beeren & Walnüssen", protein: 32, kcal: 380, fiber: 6, carbs: 34, fat: 14, time: "07:40", date: todayKey() },
+  { id: "m2", label: "Mittagessen", name: "Linsen-Bowl mit Gemüse", protein: 22, kcal: 460, fiber: 12, carbs: 58, fat: 12, time: "12:40", date: todayKey() },
 ];
 
 export type Supplement = { id: string; name: string; dose: string; time: string; fairvital: boolean };

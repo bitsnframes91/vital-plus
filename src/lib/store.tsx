@@ -2,11 +2,14 @@ import { createContext, useContext, useEffect, useRef, useState, type ReactNode 
 import type React from "react";
 import { initialMeals, initialSupplements, labMarkers as seedLabs, type Meal, type Supplement, type LabMarker } from "./data";
 import { supabase } from "@/integrations/supabase/client";
+import { questionnaireForAccount } from "./questionnaire-draft";
+import { todayKey } from "./daily-goals";
 
 // Health state: kept in the browser and synced to the signed-in user's Lovable Cloud account.
 type State = {
   name: string;
   goals: string[];
+  diet?: string;
   onboarded: boolean;
   meals: Meal[];
   supplements: Supplement[];
@@ -15,10 +18,11 @@ type State = {
   consent: { practitioner: boolean; analytics: boolean };
   account: { email: string; userId: string } | null;
   aiPlan: { date: string; items: { title: string; detail: string; daily?: boolean }[] } | null;
-  body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null; heightCm?: number | null; age?: number | null; sex?: "female" | "male" | "diverse" | "unspecified" | null; activity?: string | null; stepGoal?: number | null; targetWeightKg?: number | null };
+  body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null; stepsDate?: string | null; sleepDate?: string | null; heightCm?: number | null; age?: number | null; sex?: "female" | "male" | "diverse" | "unspecified" | null; activity?: string | null; stepGoal?: number | null; targetWeightKg?: number | null };
   weekLog: Record<string, number>;
   weightLog: Record<string, number>;
   fullDays: Record<string, boolean>;
+  waterLog: Record<string, number>;
   goalOff?: Record<string, boolean>;
 };
 
@@ -37,6 +41,7 @@ const initial: State = {
   weekLog: {},
   weightLog: {},
   fullDays: {},
+  waterLog: {},
 };
 
 type CtxValue = { s: State; set: (p: Partial<State>) => void } | null;
@@ -46,8 +51,9 @@ const KEY = "fv-health-v1";
 
 function migrate(parsed: any) {
   if (Array.isArray(parsed.meals)) {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = todayKey();
     parsed.meals = parsed.meals.map((m: any) => ({ kcal: 0, fiber: 0, carbs: 0, fat: 0, date: today, ...m }));
+    parsed.meals = parsed.meals.filter((m: any) => !((m.id === "m1" && m.name === "Skyr mit Beeren & Walnüssen") || (m.id === "m2" && m.name === "Linsen-Bowl mit Gemüse")));
   }
   if (parsed.account && !parsed.account.userId) parsed.account = null;
   // "Gesund altern" was renamed to "Longevity".
@@ -55,8 +61,9 @@ function migrate(parsed: any) {
   parsed.weekLog = typeof parsed.weekLog === "object" && parsed.weekLog !== null ? parsed.weekLog : {};
   parsed.weightLog = typeof parsed.weightLog === "object" && parsed.weightLog !== null ? parsed.weightLog : {};
   parsed.fullDays = typeof parsed.fullDays === "object" && parsed.fullDays !== null ? parsed.fullDays : {};
+  parsed.waterLog = typeof parsed.waterLog === "object" && parsed.waterLog !== null ? parsed.waterLog : {};
   if (parsed.actionsDone) {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = todayKey();
     if (parsed.weekLog[today] === undefined) {
       parsed.weekLog[today] = Object.entries(parsed.actionsDone).filter(([k, v]) => (k.startsWith(today) || !k.includes(":")) && v).length;
     }
@@ -93,7 +100,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (!cached.account) setS({ ...initial, ...cached });
     } catch { /* ignore */ }
 
-    const onUser = async (user: { id: string; email?: string } | null, signedOut = false) => {
+    const onUser = async (user: { id: string; email?: string; user_metadata?: Record<string, unknown> } | null, signedOut = false) => {
       if (!user) {
         userRef.current = null;
         if (timer.current) clearTimeout(timer.current);
@@ -110,22 +117,24 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (timer.current) clearTimeout(timer.current);
       userRef.current = user.id;
       const account = { email: user.email ?? "", userId: user.id };
-      const { data } = await supabase.from("user_data").select("state").eq("user_id", user.id).maybeSingle();
+      const { data, error } = await supabase.from("user_data").select("state").eq("user_id", user.id).maybeSingle();
       if (userRef.current !== user.id) return;
+      const questionnaire = error ? null : questionnaireForAccount(data?.state, user.user_metadata?.["questionnaire"]);
       setS((p) => {
         // A new account never inherits data held on this device (privacy: shared devices / previous accounts).
         // New accounts start empty: no demo meals, lab values or completed goals.
         const fresh: State = { ...initial, meals: [], labs: [], actionsDone: {}, account };
-        const next = data?.state ? { ...fresh, ...migrate(data.state as any), account } : fresh;
+        const next = data?.state ? { ...fresh, ...migrate(data.state as any), account } : questionnaire ? { ...fresh, name: questionnaire.name, goals: questionnaire.goals, diet: questionnaire.diet, body: { ...fresh.body, ...questionnaire.body, steps: 0 }, onboarded: true } : fresh;
         localStorage.setItem(KEY, JSON.stringify(next));
-        if (!data) push(next);
+        if (!data && !error) push(next);
         return next;
       });
     };
 
     supabase.auth.getUser().then(({ data }) => onUser(data.user));
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN" || event === "SIGNED_OUT") void onUser(session?.user ?? null, event === "SIGNED_OUT");
+      if (event === "SIGNED_OUT") void onUser(null, true);
+      if (event === "SIGNED_IN") void supabase.auth.getUser().then(({ data }) => onUser(data.user));
     });
     return () => {
       sub.subscription.unsubscribe();
@@ -137,7 +146,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const set = (p: Partial<State>) =>
     setS((prev) => {
       const next = { ...prev, ...p };
-      const today = new Date().toISOString().slice(0, 10);
+      const today = todayKey();
       if (p.actionsDone) {
         next.weekLog = { ...prev.weekLog, [today]: Object.entries(p.actionsDone).filter(([k, v]) => (k.startsWith(today) || !k.includes(":")) && v).length };
       }
@@ -149,6 +158,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       return next;
     });
   return <Ctx.Provider value={{ s, set }}>{children}</Ctx.Provider>;
+}
+
+/** Today's date key (local), matching the day-based logs. */
+export const todayDateKey = todayKey;
+
+/** Daily counters reset at midnight: steps/sleep only count for the day they were entered. */
+export function dailyValue<T>(value: T | null | undefined, date: string | null | undefined): T | null {
+  return value != null && date === todayDateKey() ? value : null;
 }
 
 export function useStore() {

@@ -1,19 +1,64 @@
 {
-  "Essen fotografieren": ["Photograph food", "Fotografiar comida"],
-  "Essensfoto auswählen": ["Choose food photo", "Elegir foto de comida"],
-  "Protein in g": ["Protein in g", "Proteína en g"],
-  "Foto-Schätzung · Portionsgröße und Zutaten können abweichen.": ["Photo estimate · Portion size and ingredients may vary.", "Estimación por foto · La porción y los ingredientes pueden variar."],
-  "Kein Essen erkannt. Bitte fotografiere die Mahlzeit erneut.": ["No food recognized. Please photograph the meal again.", "No se reconoció comida. Fotografía la comida de nuevo."],
-  "Das Foto konnte nicht ausgewertet werden. Bitte versuche es später erneut.": ["The photo could not be analyzed. Please try again later.", "No se pudo analizar la foto. Inténtalo más tarde."],
-  "Bitte wähle ein Foto bis 20 MB.": ["Please choose a photo up to 20 MB.", "Elige una foto de hasta 20 MB."],
-  "Unter dem Tagesrichtwert": ["Below the daily reference", "Por debajo de la referencia diaria"],
-  "Über dem Tagesrichtwert": ["Above the daily reference", "Por encima de la referencia diaria"],
-  "Keine gelben oder roten Ernährungswerte mit Richtwert für heute.": ["No yellow or red nutrition values with a reference today.", "No hay valores nutricionales amarillos o rojos con referencia hoy."],
-  "Omega fette": ["Omega fats", "Grasas omega"],
-  "Anteil der erfassten Omega-Fette": ["Share of logged omega fats", "Proporción de grasas omega registradas"],
-  "Omega-Fette: geschätzte Mengen aus heutigen Mahlzeiten. Die Balken zeigen den Anteil an der erfassten Gesamtmenge, keinen Tagesbedarf.": ["Omega fats: estimated amounts from today’s meals. Bars show the share of the logged total, not a daily requirement.", "Grasas omega: cantidades estimadas de las comidas de hoy. Las barras muestran la proporción del total registrado, no una necesidad diaria."],
-  "Geschätzte Aufnahme": ["Estimated intake", "Ingesta estimada"],
-  "Heute · geschätzt": ["Today · estimated", "Hoy · estimado"],
+  "Essen fotografieren": [
+    "Photograph food",
+    "Fotografiar comida"
+  ],
+  "Essensfoto auswählen": [
+    "Choose food photo",
+    "Elegir foto de comida"
+  ],
+  "Protein in g": [
+    "Protein in g",
+    "Proteína en g"
+  ],
+  "Foto-Schätzung · Portionsgröße und Zutaten können abweichen.": [
+    "Photo estimate · Portion size and ingredients may vary.",
+    "Estimación por foto · La porción y los ingredientes pueden variar."
+  ],
+  "Kein Essen erkannt. Bitte fotografiere die Mahlzeit erneut.": [
+    "No food recognized. Please photograph the meal again.",
+    "No se reconoció comida. Fotografía la comida de nuevo."
+  ],
+  "Das Foto konnte nicht ausgewertet werden. Bitte versuche es später erneut.": [
+    "The photo could not be analyzed. Please try again later.",
+    "No se pudo analizar la foto. Inténtalo más tarde."
+  ],
+  "Bitte wähle ein Foto bis 20 MB.": [
+    "Please choose a photo up to 20 MB.",
+    "Elige una foto de hasta 20 MB."
+  ],
+  "Unter dem Tagesrichtwert": [
+    "Below the daily reference",
+    "Por debajo de la referencia diaria"
+  ],
+  "Über dem Tagesrichtwert": [
+    "Above the daily reference",
+    "Por encima de la referencia diaria"
+  ],
+  "Keine gelben oder roten Ernährungswerte mit Richtwert für heute.": [
+    "No yellow or red nutrition values with a reference today.",
+    "No hay valores nutricionales amarillos o rojos con referencia hoy."
+  ],
+  "Omega fette": [
+    "Omega fats",
+    "Grasas omega"
+  ],
+  "Anteil der erfassten Omega-Fette": [
+    "Share of logged omega fats",
+    "Proporción de grasas omega registradas"
+  ],
+  "Omega-Fette: geschätzte Mengen aus heutigen Mahlzeiten. Die Balken zeigen den Anteil an der erfassten Gesamtmenge, keinen Tagesbedarf.": [
+    "Omega fats: estimated amounts from today’s meals. Bars show the share of the logged total, not a daily requirement.",
+    "Grasas omega: cantidades estimadas de las comidas de hoy. Las barras muestran la proporción del total registrado, no una necesidad diaria."
+  ],
+  "Geschätzte Aufnahme": [
+    "Estimated intake",
+    "Ingesta estimada"
+  ],
+  "Heute · geschätzt": [
+    "Today · estimated",
+    "Hoy · estimado"
+  ],
   "Vitamine": [
     "Vitamins",
     "Vitaminas"
@@ -113,6 +158,26 @@
   "Tagesziele": [
     "Daily goals",
     "Objetivos diarios"
+  ],
+  "Deine erreichten Tagesziele": [
+    "Your daily goals reached",
+    "Tus objetivos diarios alcanzados"
+  ],
+  "heute erreicht": [
+    "achieved today",
+    "logrado hoy"
+  ],
+  "Zwischenstand": [
+    "Interim",
+    "Provisional"
+  ],
+  "{n} von 5 Kategorien erfasst": [
+    "{n} of 5 categories tracked",
+    "{n} de 5 categorías registradas"
+  ],
+  "Unterversorgung": [
+    "Nutrient gaps",
+    "Déficit nutricional"
   ],
   "Schlaf": [
     "Sleep",
@@ -390,6 +455,38 @@
     "Today / Daily target · approx.",
     "Hoy / Referencia diaria · aprox."
   ],
+  "Genug getrunken?": [
+    "Had enough to drink?",
+    "¿Has bebido suficiente?"
+  ],
+  "Liter": [
+    "liters",
+    "litros"
+  ],
+  "Heute / Tagesziel": [
+    "Today / Daily goal",
+    "Hoy / Objetivo diario"
+  ],
+  "Noch nicht genug getrunken": [
+    "Not enough water yet",
+    "Aún no has bebido suficiente"
+  ],
+  "Fast am Tagesziel": [
+    "Almost at the daily goal",
+    "Casi en el objetivo diario"
+  ],
+  "Tagesziel erreicht": [
+    "Daily goal reached",
+    "Objetivo diario alcanzado"
+  ],
+  "250 ml Wasser hinzufügen": [
+    "Add 250 ml of water",
+    "Añadir 250 ml de agua"
+  ],
+  "250 ml weniger": [
+    "Remove 250 ml",
+    "Quitar 250 ml"
+  ],
   "Protein · noch ca.": [
     "Protein · still approx.",
     "Proteína · todavía aprox."
@@ -553,6 +650,14 @@
   "Befund fotografieren": [
     "Photograph report",
     "Fotografiar informe"
+  ],
+  "Lass dich testen": [
+    "Get yourself tested",
+    "Hazte una prueba"
+  ],
+  "Test-Set für zu Hause – bequem bestellen und das Ergebnis digital erhalten.": [
+    "Test kit for home – order easily and receive your results digitally.",
+    "Kit de prueba para casa: pídelo cómodamente y recibe tus resultados en digital."
   ],
   "Kamera öffnen und deine Blutwerte abfotografieren.": [
     "Open the camera and photograph your blood results.",
@@ -1014,14 +1119,6 @@
     "Reset link by email",
     "Enlace de restablecimiento por correo"
   ],
-  "App Lock": [
-    "App Lock",
-    "Bloqueo de aplicación"
-  ],
-  "Gerätecode oder Biometrie": [
-    "Device code or biometrics",
-    "Código del dispositivo o biometría"
-  ],
   "Verbundene Apps": [
     "Connected apps",
     "Aplicaciones conectadas"
@@ -1414,41 +1511,9 @@
     "Activity",
     "Actividad"
   ],
-  "Vitalplus ist gesperrt": [
-    "Vitalplus is locked",
-    "Vitalplus está bloqueado"
-  ],
-  "Entsperre Vitalplus mit deiner Gerätebestätigung.": [
-    "Unlock Vitalplus with your device verification.",
-    "Desbloquea Vitalplus con la verificación de tu dispositivo."
-  ],
-  "App entsperren": [
-    "Unlock app",
-    "Desbloquear aplicación"
-  ],
-  "Abmelden und App Lock zurücksetzen": [
-    "Sign out and reset App Lock",
-    "Cerrar sesión y restablecer el bloqueo"
-  ],
-  "Face ID, Passcode, PIN, Muster": [
-    "Face ID, passcode, PIN, pattern",
-    "Face ID, código de acceso, PIN, patrón"
-  ],
   "Bitte anmelden.": [
     "Please sign in.",
     "Inicia sesión."
-  ],
-  "Auf diesem Gerät nicht verfügbar.": [
-    "Not available on this device.",
-    "No disponible en este dispositivo."
-  ],
-  "App Lock konnte nicht geladen werden. Melde dich erneut an.": [
-    "App Lock could not be loaded. Sign in again.",
-    "No se pudo cargar el bloqueo. Inicia sesión de nuevo."
-  ],
-  "Gerätebestätigung fehlgeschlagen oder abgebrochen. Bitte versuche es erneut.": [
-    "Device verification failed or was cancelled. Try again.",
-    "La verificación del dispositivo falló o se canceló. Inténtalo de nuevo."
   ],
   "Zeit für deinen täglichen Check-in.": [
     "Time for your daily check-in.",
@@ -1601,6 +1666,38 @@
   "Guten Morgen,": [
     "Good morning,",
     "Buenos días,"
+  ],
+  "Guten Morgen": [
+    "Good morning",
+    "Buenos días"
+  ],
+  "Guten Tag": [
+    "Good afternoon",
+    "Buenas tardes"
+  ],
+  "Guten Abend": [
+    "Good evening",
+    "Buenas noches"
+  ],
+  "Bitte gib ein, was du gegessen hast.": [
+    "Please log what you ate.",
+    "Por favor, registra lo que comiste."
+  ],
+  "Gib deine Körperdaten ein.": [
+    "Please enter your body data.",
+    "Introduce tus datos corporales."
+  ],
+  "Gib deine Schritte ein.": [
+    "Please enter your steps.",
+    "Introduce tus pasos."
+  ],
+  "Gib deine Schlafstunden ein.": [
+    "Please enter your sleep hours.",
+    "Introduce tus horas de sueño."
+  ],
+  "Lade deine Blutwerte hoch.": [
+    "Upload your blood values.",
+    "Sube tus análisis de sangre."
   ],
   "Tipp des Tages öffnen": [
     "Open tip of the day",
@@ -2914,12 +3011,16 @@
     "Copper as a trace element",
     "Cobre como oligoelemento"
   ],
-  "Systembenachrichtigungen sind in der iOS-App noch nicht verfügbar. Erinnerungen erscheinen, während die App geöffnet ist.": [
-    "System notifications are not yet available in the iOS app. Reminders appear while the app is open.",
-    "Las notificaciones del sistema aún no están disponibles en la app de iOS. Los recordatorios aparecen mientras la app está abierta."
-  ],
   "Keine Internetverbindung. Anmeldung, Synchronisierung und KI-Funktionen sind erst wieder online verfügbar.": [
     "No internet connection. Sign-in, sync and AI features are available again once you are online.",
     "Sin conexión a internet. El inicio de sesión, la sincronización y las funciones de IA vuelven a estar disponibles cuando estés en línea."
+  ],
+  "Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach.": [
+    "Please confirm your email first using the link in your inbox.",
+    "Primero confirma tu correo con el enlace de tu bandeja de entrada."
+  ],
+  "Wenn ein bestätigtes Konto mit dieser E-Mail-Adresse existiert, erhältst du einen Link zum Zurücksetzen deines Passworts.": [
+    "If a confirmed account with this email exists, you'll receive a password reset link.",
+    "Si existe una cuenta confirmada con este correo, recibirás un enlace para restablecer tu contraseña."
   ]
 }

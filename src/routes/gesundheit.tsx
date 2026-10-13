@@ -2,14 +2,13 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { HealthMascot } from "@/components/HealthMascot";
-import { useStore } from "@/lib/store";
+import { useStore, todayDateKey, dailyValue } from "@/lib/store";
 import { StepsIcon } from "@/components/StepsIcon";
 import sleepGfx from "@/assets/schlaf.png.asset.json";
 import bodyGfx from "@/assets/koerperdaten.png.asset.json";
-import bloodGfx from "@/assets/blutwerte.png.asset.json";
 import { ChevronRight, Minus, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -18,7 +17,7 @@ export const Route = createFileRoute("/gesundheit")({
   head: () => ({
     meta: [
       { title: "Gesundheit — Vitalplus" },
-      { name: "description", content: "Messwerte und Verläufe verständlich an einem Ort: Blutwerte, Gewicht, Körperdaten, Schlaf, Schritte und Trends." },
+      { name: "description", content: "Messwerte und Verläufe verständlich an einem Ort: Gewicht, Körperdaten, Schlaf, Schritte und Trends." },
       { property: "og:title", content: "Gesundheit — Vitalplus" },
       { property: "og:description", content: "Messwerte und Verläufe verständlich an einem Ort." },
       { property: "og:type", content: "website" },
@@ -38,7 +37,7 @@ function EditIcon({ label, children }: { label: string; children: React.ReactNod
     <div className="flex flex-col items-center">
       <button type="button" aria-label={translateText(`${label} im Gesundheitsprofil ändern (doppelt tippen)`)} onDoubleClick={open}
         onClick={() => { const t = Date.now(); if (t - last.current < 350) { last.current = 0; open(); } else last.current = t; }}
-        className="grid size-11 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 transition active:scale-95"><Localized>{children}</Localized></button>
+        className="grid size-11 place-items-center rounded-full bg-fresh text-ink transition active:scale-95"><Localized>{children}</Localized></button>
       <span className="mt-1 text-[11px] text-ink/55"><Localized>{"Doppelt tippen zum Ändern"}</Localized></span>
     </div>
   );
@@ -56,12 +55,12 @@ function HealthTrends() {
     <section aria-labelledby="health-trends-title" className="card-surface p-5">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 text-fresh">
+          <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-fresh text-ink">
             <TrendingUp className="size-6" />
           </span>
           <h2 id="health-trends-title" className="text-[18px] font-semibold"><Localized>{"Trends"}</Localized></h2>
         </div>
-        <Button asChild variant="ghost" size="icon" className="rounded-full bg-fresh/15 ring-1 ring-fresh/40 text-fv-deep hover:bg-fresh/25 hover:text-fv-deep">
+        <Button asChild variant="ghost" size="icon" className="rounded-full bg-fresh text-ink hover:bg-fresh/90">
           <Link to="/trends" aria-label={translateText("Details zu Trends")}>
             <ChevronRight className="!size-6" />
           </Link>
@@ -90,13 +89,20 @@ function HealthTrends() {
 function NumInput({ value, onSave, placeholder, unit, onDraftChange }: { value: number | null; onSave: (v: number | null) => void; placeholder: string; unit: string; onDraftChange?: (text: string) => void }) {
   useLanguage();
   const [text, setText] = useState(value?.toString() ?? "");
+  // Keep the field in sync when the stored value changes elsewhere (e.g. cleared).
+  useEffect(() => {
+    setText(value?.toString() ?? "");
+  }, [value]);
+  const save = (raw: string) => {
+    const n = Number(raw.replace(",", "."));
+    onSave(raw.trim() && !isNaN(n) ? n : null);
+  };
   return (
     <form
       className="mt-3 flex gap-2"
       onSubmit={(e) => {
         e.preventDefault();
-        const n = Number(text.replace(",", "."));
-        onSave(text.trim() && !isNaN(n) ? n : null);
+        save(text);
       }}
     >
       <input
@@ -105,6 +111,7 @@ function NumInput({ value, onSave, placeholder, unit, onDraftChange }: { value: 
           setText(e.target.value);
           onDraftChange?.(e.target.value);
         }}
+        onBlur={() => save(text)}
         inputMode="decimal"
         placeholder={translateText(placeholder)}
         className="w-full rounded-xl bg-muted px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
@@ -132,6 +139,13 @@ function Health() {
   const bmi = calcBmi(liveWeight, liveHeight);
   const cat = bmi != null ? bmiCategory(bmi) : null;
   const goal = stepGoalFor(bmi);
+  // Daily counters reset at midnight: only values entered today count.
+  const todaySteps = dailyValue(b.steps, b.stepsDate);
+  const todaySleep = dailyValue(b.sleepHours, b.sleepDate);
+  // The doctor asks for whatever is still missing, in page order: Körperdaten, Schritte, Schlaf.
+  const missingMessage = !b.weightKg || !b.heightCm
+    ? "Gib deine Körperdaten ein."
+    : !todaySteps ? "Gib deine Schritte ein." : !todaySleep ? "Gib deine Schlafstunden ein." : undefined;
 
   return (
     <AppShell>
@@ -141,17 +155,9 @@ function Health() {
           <h1 className="mt-4 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>Deine Messwerte</Localized></h1>
           <p className="mt-3 text-sm text-muted-foreground"><Localized>Messwerte und Verläufe verständlich an einem Ort.</Localized></p>
         </div>
-        <HealthMascot />
+        <HealthMascot message={missingMessage} />
       </header>
-      <div className="grid grid-cols-1 gap-3 px-4 pt-4">
-        <div className="card-surface p-5">
-          <div className="flex justify-center">
-            <Link to="/labor" aria-label={translateText("Blutwerte öffnen")} className="grid size-11 place-items-center rounded-full bg-fresh/15 ring-1 ring-fresh/40 transition active:scale-95"><img src={bloodGfx.url} alt="" className="object-contain size-7" /></Link>
-          </div>
-          <div className="mt-2 text-[18px] font-semibold"><Localized>{"Blutwerte"}</Localized></div>
-          <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Laborwerte manuell erfassen und zeitlich vergleichen."}</Localized></p>
-          <Link to="/labor" className="mt-2 inline-block text-[15px] font-semibold text-fv-deep"><Localized>{"Meine Blutwerte →"}</Localized></Link>
-        </div>
+      <div className="grid grid-cols-1 gap-3 px-4 pt-4 md:grid-cols-2">
 
         <div className="card-surface p-5">
           <EditIcon label={translateText("Körperdaten")}><img src={bodyGfx.url} alt="" className="object-contain size-7" /></EditIcon>
@@ -171,19 +177,19 @@ function Health() {
             <div className="text-[18px] font-semibold"><Localized>{"Schlaf letzte Nacht"}</Localized></div>
           </div>
           <p className="mt-1 text-[14px] text-ink/55">
-            <Localized>{b.sleepHours ? `Erfasst: ${b.sleepHours} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}</Localized>
+            <Localized>{todaySleep ? `Erfasst: ${todaySleep} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}</Localized>
           </p>
-          <NumInput value={b.sleepHours} onSave={(v) => setBody({ sleepHours: v })} placeholder={translateText("Stunden, z. B. 7,5 (empfohlen: 8 h)")} unit="h" />
+          <NumInput value={todaySleep} onSave={(v) => setBody({ sleepHours: v, sleepDate: todayDateKey() })} placeholder={translateText("Stunden, z. B. 7,5 (empfohlen: 8 h)")} unit="h" />
         </div>
 
         <div className="card-surface p-5">
           <EditIcon label={translateText("Alltag und Aktivität")}><StepsIcon /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold"><Localized>{"Schritte heute"}</Localized></div>
           <p className="mt-1 text-[14px] text-ink/55">
-            <Localized>{b.steps ? `Heute: ${b.steps.toLocaleString(languageLocale())} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}</Localized>
+            <Localized>{todaySteps ? `Heute: ${todaySteps.toLocaleString(languageLocale())} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}</Localized>
           </p>
           {(goal ?? b.stepGoal) ? <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Dein Tagesziel: "}</Localized><Localized>{(goal ?? b.stepGoal)!.toLocaleString(languageLocale())}</Localized><Localized>{" Schritte (aus deinem BMI)"}</Localized></p> : null}
-          <NumInput value={b.steps ?? 0} onSave={(v) => setBody({ steps: v })} placeholder={translateText("z. B. 8000")} unit="Speichern" />
+          <NumInput value={todaySteps ?? 0} onSave={(v) => setBody({ steps: v, stepsDate: todayDateKey() })} placeholder={translateText("z. B. 8000")} unit="Speichern" />
         </div>
 
         <HealthTrends />

@@ -1,7 +1,13 @@
 import { Localized, useLanguage } from "@/components/Localized";
-import { translateText, languageLocale } from "@/lib/language";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import heroImage from "@/assets/ganzheitlich.png.asset.json";
+import { translateText } from "@/lib/language";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import startseiteProduce from "@/assets/startseite-produce.png.asset.json";
+import { Button } from "@/components/ui/button";
+import { SwipeAction } from "@/components/SwipeAction";
+import { supabase } from "@/integrations/supabase/client";
+import { useStore } from "@/lib/store";
+import { clearQuestionnaire } from "@/lib/questionnaire-draft";
 import { VivoBrand } from "@/components/VivoBrand";
 
 export const Route = createFileRoute("/")({
@@ -21,29 +27,48 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   useLanguage();
-  return (
-    <div className="min-h-screen bg-card font-sans text-foreground">
-      <header className="mx-auto grid min-h-[128px] max-w-[1600px] grid-cols-1 items-center gap-2 px-5 py-2 sm:min-h-[92px] sm:grid-cols-[1fr_auto_1fr] sm:gap-4 sm:px-8">
-        <span aria-hidden="true" className="hidden sm:block" />
-        <Link to="/" aria-label={translateText("Vitalplus Startseite")} className="justify-self-center"><VivoBrand /></Link>
-        <div className="flex shrink-0 items-center justify-self-center gap-2 sm:justify-self-end sm:gap-5">
-          <Link to="/login" search={{ mode: "login" }} className="rounded-md border border-border px-3 py-2.5 text-sm font-semibold text-home-green transition-colors hover:bg-muted sm:px-6 sm:text-base"><Localized>{"Einloggen"}</Localized></Link>
-          <Link to="/login" search={{ mode: "register" }} className="rounded-md bg-home-green px-3 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 sm:px-7 sm:text-base"><Localized>{"Kostenlos Registrieren"}</Localized></Link>
-        </div>
+  const navigate = useNavigate();
+  const { s } = useStore();
+  const [mode, setMode] = useState<"new" | "login">("new");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const signIn = async () => {
+    if (!email.trim() || !password) { setError("Bitte gib deine E-Mail-Adresse und dein Passwort ein."); return; }
+    setBusy(true); setError(null);
+    try {
+      const { data: signed, error: authError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+      if (authError) { setError(authError.code === "email_not_confirmed" ? "Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach." : "E-Mail oder Passwort ist falsch."); return; }
+      if (!signed.user?.email_confirmed_at) { await supabase.auth.signOut(); setError("Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach."); return; }
+      clearQuestionnaire();
+      await navigate({ to: "/heute" });
+    } catch { setError("Anmelden ist gerade nicht möglich. Bitte versuche es erneut."); }
+    finally { setBusy(false); }
+  };
+  return <div className="min-h-screen bg-card font-sans text-foreground">
+    <main className={`home-entry ${mode === "login" ? "home-entry-login" : ""}`}>
+      <img src={startseiteProduce.url} alt={translateText("Vitali mit frischem Obst und Gemüse")} width={768} height={1152} fetchPriority="high" className="home-produce" />
+      <header className="home-entry-header relative z-10">
+        <Link to="/" aria-label={translateText("Vitalplus Startseite")} className="inline-block"><VivoBrand className="h-auto w-[190px] object-contain sm:w-[240px]" /></Link>
+        <h1 className="sr-only">Vitalplus</h1>
+        <p className="mt-5 text-[30px] font-semibold leading-tight sm:text-[40px]"><Localized>{"Gesünder leben."}</Localized><br /><Localized>{"Glücklicher sein."}</Localized></p>
       </header>
-
-      <main className="px-3 pb-10 sm:px-5">
-        <section id="philosophie" className="relative mx-auto flex min-h-[540px] max-w-[1600px] flex-col items-center justify-center overflow-hidden rounded-[26px] px-5 py-16 text-center sm:min-h-[540px] sm:rounded-[30px]">
-          <img src={heroImage.url} alt={translateText("Ganzheitliches Leben in Bewegung — Forschung, Sport und Vitalität")} width={1920} height={960} fetchPriority="high" className="absolute inset-0 size-full object-cover object-center" />
-          <div className="today-image-overlay absolute inset-0" aria-hidden="true" />
-          <div className="relative z-10 flex w-full max-w-[1000px] flex-col items-center">
-            <p className="text-xs font-semibold uppercase text-fv-deep sm:text-sm"><Localized>{"MESSEN → VERSTEHEN → HANDELN → ÜBERPRÜFEN"}</Localized></p>
-            <h1 className="mt-7 max-w-[1000px] text-balance text-[36px] font-bold leading-[1.1] text-foreground sm:mt-8 sm:text-[56px]"><Localized>{"Vitalplus"}</Localized><span className="sr-only"> – <Localized>{"Gesünder leben mit Ernährung und Laborwerten"}</Localized></span></h1>
-            <p className="mt-4 text-[24px] font-semibold text-foreground"><Localized>{"Gesünder leben. Glücklicher sein."}</Localized></p>
-            <p className="mt-5 max-w-[700px] text-pretty text-base font-medium text-foreground sm:text-lg"><Localized>{"Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern."}</Localized></p>
+      <div className="home-entry-controls relative z-10">
+        {s.account ? <SwipeAction label="Weiter zu Heute" onComplete={() => navigate({ to: "/heute" })} /> : <>
+          <div className="mb-4 flex justify-center gap-5 rounded-full bg-card/95">
+            <Button variant="link" onClick={() => { setMode("new"); setError(null); }} aria-pressed={mode === "new"} className={mode === "new" ? "font-bold text-ink underline underline-offset-4" : "text-muted-foreground"}><Localized>{"Neu hier"}</Localized></Button>
+            <Button variant="link" onClick={() => { setMode("login"); setError(null); }} aria-pressed={mode === "login"} className={mode === "login" ? "font-bold text-ink underline underline-offset-4" : "text-muted-foreground"}><Localized>{"Einloggen"}</Localized></Button>
           </div>
-        </section>
-      </main>
-    </div>
-  );
+          {mode === "login" && <form onSubmit={e => { e.preventDefault(); void signIn(); }} className="mb-4 space-y-3">
+            <input aria-label={translateText("E-Mail")} type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder={translateText("E-Mail")} className="h-12 w-full rounded-lg border border-input bg-card px-4 text-base outline-none focus:ring-2 focus:ring-ring" />
+            <input aria-label={translateText("Passwort")} type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} placeholder={translateText("Passwort")} className="h-12 w-full rounded-lg border border-input bg-card px-4 text-base outline-none focus:ring-2 focus:ring-ring" />
+            <Link to="/login" search={{ mode: "login" }} className="block text-right text-xs text-muted-foreground underline"><Localized>{"Passwort vergessen?"}</Localized></Link>
+          </form>}
+          {error && <p role="alert" className="mb-3 text-sm text-destructive"><Localized>{error}</Localized></p>}
+          <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : signIn} />
+        </>}
+      </div>
+    </main>
+  </div>;
 }

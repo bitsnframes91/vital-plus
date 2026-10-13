@@ -38,7 +38,8 @@ export const Route = createFileRoute("/ernaehrung")({
 });
 
 const labels = ["Frühstück", "Mittagessen", "Abendessen", "Snack"];
-const todayISO = () => new Date().toISOString().slice(0, 10);
+import { todayKey } from "@/lib/daily-goals";
+const todayISO = todayKey;
 const nowTime = () => new Date().toLocaleTimeString(languageLocale(), { hour: "2-digit", minute: "2-digit" });
 const fmtDay = (iso: string) =>
   new Date(iso + "T12:00:00").toLocaleDateString(languageLocale(), { weekday: "long", day: "2-digit", month: "long", year: "numeric" });
@@ -133,7 +134,7 @@ function NutritionPage() {
   }, [todayMeals.map((m) => `${m.id}:${Boolean(m.micronutrients)}:${m.omega3Mg}:${m.omega6Mg}:${m.omega9Mg}`).join()]);
 
   // Diary: group meals by day, newest first.
-  const days = [...new Set(s.meals.map((m) => m.date))].sort().reverse();
+  const days = todayMeals.length ? [today] : [];
 
   const toggleVoice = async () => {
     setVmsg(null);
@@ -149,8 +150,11 @@ function NutritionPage() {
       const r = await voice({ data: { base64: await blobToBase64(blob) } });
       if (!r.ok) { setVmsg(r.error); return; }
       const time = nowTime();
-      set({ meals: [...s.meals, ...r.meals.map((m) => ({ ...m, id: crypto.randomUUID(), time, date: today }))] });
-      setVmsg(`„${r.transcript}“ – ${r.meals.length} Mahlzeit${r.meals.length > 1 ? "en" : ""} hinzugefügt.`);
+      const drinkMl = r.meals.reduce((a, m) => a + (m.drinkMl ?? 0), 0);
+      const next: Partial<typeof s> = { meals: [...s.meals, ...r.meals.map((m) => ({ ...m, id: crypto.randomUUID(), time, date: today }))] };
+      if (drinkMl > 0) next.waterLog = { ...s.waterLog, [today]: Math.round(((s.waterLog?.[today] ?? 0) + drinkMl / 1000) * 100) / 100 };
+      set(next);
+      setVmsg(`„${r.transcript}“ – ${r.meals.length} Mahlzeit${r.meals.length > 1 ? "en" : ""} hinzugefügt.${drinkMl > 0 ? ` ${Math.round(drinkMl)} ml Getränke gezählt.` : ""}`);
     } catch (e) {
       setVmsg(e instanceof Error ? e.message : "Aufnahme fehlgeschlagen.");
     } finally {
@@ -184,7 +188,6 @@ function NutritionPage() {
     { label: "Protein", key: "protein", unit: "g" },
     { label: "Ballaststoffe", key: "fiber", unit: "g" },
     { label: "Kohlenhydrate", key: "carbs", unit: "g" },
-    { label: "Fett", key: "fat", unit: "g" },
   ] as const;
   const feedback: Record<"good" | "near" | "bad", { color: string; mood: StatusMood; label: string }> = {
     good: { color: "text-bmi-good", mood: "good", label: "Im grünen Bereich" },
@@ -198,6 +201,14 @@ function NutritionPage() {
 
   const omega = omegaSummary(todayMeals);
 
+  const waterGoal = 2;
+  const water = Math.round((s.waterLog?.[today] ?? 0) * 100) / 100;
+  const waterMood: StatusMood = water >= waterGoal ? "good" : water >= 1.5 ? "neutral" : "bad";
+  const waterColor = waterMood === "good" ? "text-bmi-good" : waterMood === "neutral" ? "text-nutrition-near" : "text-bmi-bad";
+  const liters = (n: number) => n.toLocaleString(languageLocale(), { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const addWater = (delta: number) => set({ waterLog: { ...s.waterLog, [today]: Math.max(0, Math.round(((s.waterLog?.[today] ?? 0) + delta) * 100) / 100) } });
+
+
   return (
     <AppShell>
       <header className="nutrition-mascot-header relative overflow-hidden bg-card px-6 pb-8 pt-9">
@@ -206,71 +217,9 @@ function NutritionPage() {
           <h1 className="mt-4 text-[29px] font-bold leading-[1.15] text-foreground"><Localized>Was hast du heute gegessen?</Localized></h1>
           <p className="mt-3 text-sm text-muted-foreground"><Localized>Dein Ernährungstagebuch mit Kalorien, Protein, Ballaststoffen, Kohlenhydraten und Fett – sowie Vitaminen und Mineralien.</Localized></p>
         </div>
-        <NutritionMascot />
+        <NutritionMascot message={todayMeals.length === 0 ? "Bitte gib ein, was du gegessen hast." : undefined} />
       </header>
       <div className="space-y-4 px-4 pt-4">
-        <div className="grid grid-cols-2 gap-3">
-          {statCards.map((c) => {
-            const target = targets?.[c.key];
-            const state = target ? feedback[nutrientStatus(c.key, totals[c.key], target)] : neutral;
-            return <div key={c.key} data-nutrition={c.key} className="card-surface min-w-0 p-4">
-              <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{c.label}</Localized></div><StatusFace mood={state.mood} alt={translateText(state.label)} className="size-5" /></div>
-              <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${target ? state.color : "text-foreground"}`}>
-                <span className="text-[23px] font-semibold"><Localized>{format(totals[c.key])}</Localized> <Localized>{c.unit}</Localized></span>
-                <span className="text-[13px]"><Localized>{"/ "}</Localized><Localized>{target ? `${format(target)} ${c.unit}` : "—"}</Localized></span>
-              </div>
-              <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{"Heute / Tagesrichtwert · ca."}</Localized></div>
-            </div>;
-          })}
-          <Link to="/ernaehrung/omega-fette" data-nutrition="omega" className="card-surface block min-w-0 p-4">
-            <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{"Omega fette"}</Localized></div><StatusFace mood="neutral" alt={translateText(omega.available ? "Geschätzte Aufnahme" : "Noch keine Nährstoffdaten")} className="size-5" /></div>
-            <div className="font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 text-foreground"><span className="text-[23px] font-semibold">{omega.available ? format(omega.total) : "—"}</span><span className="text-[13px]">mg</span></div>
-            <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{omega.available ? "Heute · geschätzt" : "Noch keine Nährstoffdaten"}</Localized></div>
-            {omega.available && omega.partial && <div className="mt-1 text-[11px] text-muted-foreground"><Localized>{"Teilweise erfasst · heute"}</Localized></div>}
-          </Link>
-          {(["vitamins", "minerals"] as const).map((group) => {
-            const summary = micronutrientSummary(todayMeals, group);
-            const state = summary.available ? feedback[nutrientStatus("protein", summary.reached, summary.total)] : neutral;
-            return <Link key={group} to={group === "vitamins" ? "/ernaehrung/vitamine" : "/ernaehrung/mineralien"} data-nutrition={group} className="card-surface block min-w-0 p-4">
-              <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{group === "vitamins" ? "Vitamine" : "Mineralien"}</Localized></div><StatusFace mood={state.mood} alt={translateText(summary.available ? state.label : "Noch keine Nährstoffdaten")} className="size-5" /></div>
-              <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${state.color}`}><span className="text-[23px] font-semibold">{summary.available ? summary.reached : "—"}</span><span className="text-[13px]">/ {summary.total}</span></div>
-              <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{summary.available ? "Tagesziele erreicht · ca." : "Noch keine Nährstoffdaten"}</Localized></div>
-              <div className="mt-1 text-[11px] text-muted-foreground"><Localized>{summary.available && summary.partial ? "Teilweise erfasst · heute" : "Heute / Tagesrichtwert · ca."}</Localized></div>
-            </Link>;
-          })}
-        </div>
-        <p className="text-[11px] leading-relaxed text-muted-foreground"><Localized>{"Vitamine und Mineralien: geschätzte Mengen aus erfassten Mahlzeiten, verglichen mit EU-Referenzmengen für Erwachsene. Keine Laborwerte oder persönlichen Bedarfswerte."}</Localized></p>
-        {(gaps.length > 0 || microGaps.length > 0) && <section className="space-y-3" data-nutrition-gaps>
-          <h2 className="text-[17px] font-semibold"><Localized>{"Das fehlt dir noch für heute:"}</Localized></h2>
-          {gaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
-            <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
-            <div className="min-w-0 flex-1">
-              <div className="eyebrow"><Localized>{g.key === "protein" ? "Protein" : "Ballaststoffe"}</Localized><Localized>{" · noch ca. "}</Localized><Localized>{format(Math.max(g.missing, 0))}</Localized><Localized>{" g"}</Localized></div>
-              <div className="mt-1 text-[15px] font-semibold"><Localized>{g.product.name}</Localized></div>
-              <div className="text-xs text-muted-foreground"><Localized>{g.reason}</Localized></div>
-              <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
-            </div>
-          </a>)}
-          {microGaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
-            <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
-            <div className="min-w-0 flex-1">
-              <div className="eyebrow"><Localized>{g.name}</Localized><Localized>{" · noch ca. "}</Localized><Localized>{format(Math.max(g.missing, 0))}</Localized>{" "}{g.unit}</div>
-              <div className="mt-1 text-[15px] font-semibold"><Localized>{g.product.name}</Localized></div>
-              <div className="text-xs text-muted-foreground"><Localized>{g.reason}</Localized></div>
-              <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
-            </div>
-          </a>)}
-          <p className="text-[11px] text-muted-foreground"><Localized>{"Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten."}</Localized></p>
-        </section>}
-        {targets ? <p className="text-[11px] leading-relaxed text-muted-foreground"><Localized>{"Geschätzte Richtwerte zum Gewichtserhalt, keine medizinischen Grenzwerte. Mehr Protein oder Ballaststoffe ist nicht automatisch ungesund. Bei Schwangerschaft, Stillzeit oder Erkrankungen ärztlich abstimmen."}</Localized></p> : <section className="space-y-3 border-y border-border py-4">
-          <h2 className="text-[15px] font-semibold"><Localized>{"Deine Tagesrichtwerte"}</Localized></h2>
-          <NutritionProfileFields value={profile} onChange={setProfile} />
-          {(!s.body.weightKg || !s.body.heightCm) && <Link to="/gesundheit" className="block text-sm text-fv-deep underline"><Localized>{"Gewicht und Größe ergänzen"}</Localized></Link>}
-          {profile.sex === "unspecified" && <p className="text-xs text-muted-foreground"><Localized>{"Ohne diese Angabe ist keine persönliche Schätzung möglich."}</Localized></p>}
-          <Button disabled={!profile.age || profile.age < 18 || profile.age > 120 || !profile.sex || !profile.activity} onClick={() => set({ body: { ...s.body, ...profile } })} className="w-full bg-fresh text-ink"><Localized>{"Angaben speichern"}</Localized></Button>
-        </section>}
-
-
         <button onClick={() => void toggleVoice()} disabled={vs === "busy"}
           className={`card-surface relative w-full overflow-hidden text-left disabled:opacity-60 ${vs === "rec" ? "ring-2 ring-fv" : ""}`}>
           <span aria-hidden className="absolute inset-y-0 right-0 w-[48%]">
@@ -343,6 +292,78 @@ function NutritionPage() {
           {estErr && <p className="text-[12px] text-destructive"><Localized>{estErr}</Localized></p>}
           <Button type="submit" disabled={estBusy || photoBusy} className="w-full rounded-full bg-fresh text-ink"><Localized>{estBusy || photoBusy ? "Berechne…" : "Speichern"}</Localized></Button>
         </form>
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+          {statCards.map((c) => {
+            const target = targets?.[c.key];
+            const state = target ? feedback[nutrientStatus(c.key, totals[c.key], target)] : neutral;
+            return <div key={c.key} data-nutrition={c.key} className="card-surface min-w-0 p-4">
+              <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{c.label}</Localized></div><StatusFace mood={state.mood} alt={translateText(state.label)} className="size-5" /></div>
+              <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${target ? state.color : "text-foreground"}`}>
+                <span className="text-[23px] font-semibold"><Localized>{format(totals[c.key])}</Localized> <Localized>{c.unit}</Localized></span>
+                <span className="text-[13px]"><Localized>{"/ "}</Localized><Localized>{target ? `${format(target)} ${c.unit}` : "—"}</Localized></span>
+              </div>
+              <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{"Heute / Tagesrichtwert · ca."}</Localized></div>
+            </div>;
+          })}
+          <div data-nutrition="water" className="card-surface min-w-0 p-4">
+            <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{"Genug getrunken?"}</Localized></div><StatusFace mood={waterMood} alt={waterMood === "good" ? "Tagesziel erreicht" : waterMood === "neutral" ? "Fast am Tagesziel" : "Noch nicht genug getrunken"} className="size-5" /></div>
+            <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${waterColor}`}>
+              <span className="text-[23px] font-semibold"><Localized>{liters(water)}</Localized></span>
+              <span className="text-[13px]"><Localized>{"/ "}</Localized><Localized>{liters(waterGoal)}</Localized><Localized>{" Liter"}</Localized></span>
+            </div>
+            <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{"Heute / Tagesziel"}</Localized></div>
+            <div className="mt-2.5 flex items-center gap-1.5">
+              <button type="button" onClick={() => addWater(-0.25)} aria-label={translateText("250 ml weniger")} className="rounded-full bg-muted px-2.5 py-1 text-[12px] font-semibold text-ink/70">−250 ml</button>
+              <button type="button" onClick={() => addWater(0.25)} aria-label={translateText("250 ml Wasser hinzufügen")} className="rounded-full bg-fresh px-2.5 py-1 text-[12px] font-semibold text-ink">+250 ml</button>
+            </div>
+          </div>
+          <Link to="/ernaehrung/omega-fette" data-nutrition="omega" className="card-surface block min-w-0 p-4">
+            <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{"Omega fette"}</Localized></div><StatusFace mood="neutral" alt={translateText(omega.available ? "Geschätzte Aufnahme" : "Noch keine Nährstoffdaten")} className="size-5" /></div>
+            <div className="font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 text-foreground"><span className="text-[23px] font-semibold">{omega.available ? format(omega.total) : "—"}</span><span className="text-[13px]">mg</span></div>
+            <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{omega.available ? "Heute · geschätzt" : "Noch keine Nährstoffdaten"}</Localized></div>
+            {omega.available && omega.partial && <div className="mt-1 text-[11px] text-muted-foreground"><Localized>{"Teilweise erfasst · heute"}</Localized></div>}
+          </Link>
+          {(["vitamins", "minerals"] as const).map((group) => {
+            const summary = micronutrientSummary(todayMeals, group);
+            const state = summary.available ? feedback[nutrientStatus("protein", summary.reached, summary.total)] : neutral;
+            return <Link key={group} to={group === "vitamins" ? "/ernaehrung/vitamine" : "/ernaehrung/mineralien"} data-nutrition={group} className="card-surface block min-w-0 p-4">
+              <div className="flex items-center justify-between gap-1"><div className="eyebrow break-words"><Localized>{group === "vitamins" ? "Vitamine" : "Mineralien"}</Localized></div><StatusFace mood={state.mood} alt={translateText(summary.available ? state.label : "Noch keine Nährstoffdaten")} className="size-5" /></div>
+              <div className={`font-data mt-2 flex flex-wrap items-baseline gap-x-1.5 gap-y-1 ${state.color}`}><span className="text-[23px] font-semibold">{summary.available ? summary.reached : "—"}</span><span className="text-[13px]">/ {summary.total}</span></div>
+              <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{summary.available ? "Tagesziele erreicht · ca." : "Noch keine Nährstoffdaten"}</Localized></div>
+              <div className="mt-1 text-[11px] text-muted-foreground"><Localized>{summary.available && summary.partial ? "Teilweise erfasst · heute" : "Heute / Tagesrichtwert · ca."}</Localized></div>
+            </Link>;
+          })}
+        </div>
+        <p className="text-[11px] leading-relaxed text-muted-foreground"><Localized>{"Vitamine und Mineralien: geschätzte Mengen aus erfassten Mahlzeiten, verglichen mit EU-Referenzmengen für Erwachsene. Keine Laborwerte oder persönlichen Bedarfswerte."}</Localized></p>
+        {(gaps.length > 0 || microGaps.length > 0) && <section className="space-y-3 md:grid md:grid-cols-2 md:gap-3 md:space-y-0" data-nutrition-gaps>
+          <h2 className="text-[17px] font-semibold md:col-span-2"><Localized>{"Das fehlt dir noch für heute:"}</Localized></h2>
+          {gaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
+            <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
+            <div className="min-w-0 flex-1">
+              <div className="eyebrow"><Localized>{g.key === "protein" ? "Protein" : "Ballaststoffe"}</Localized><Localized>{" · noch ca. "}</Localized><Localized>{format(Math.max(g.missing, 0))}</Localized><Localized>{" g"}</Localized></div>
+              <div className="mt-1 text-[15px] font-semibold"><Localized>{g.product.name}</Localized></div>
+              <div className="text-xs text-muted-foreground"><Localized>{g.reason}</Localized></div>
+              <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
+            </div>
+          </a>)}
+          {microGaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
+            <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
+            <div className="min-w-0 flex-1">
+              <div className="eyebrow"><Localized>{g.name}</Localized><Localized>{" · noch ca. "}</Localized><Localized>{format(Math.max(g.missing, 0))}</Localized>{" "}{g.unit}</div>
+              <div className="mt-1 text-[15px] font-semibold"><Localized>{g.product.name}</Localized></div>
+              <div className="text-xs text-muted-foreground"><Localized>{g.reason}</Localized></div>
+              <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
+            </div>
+          </a>)}
+          <p className="text-[11px] text-muted-foreground md:col-span-2"><Localized>{"Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten."}</Localized></p>
+        </section>}
+        {targets ? <p className="text-[11px] leading-relaxed text-muted-foreground"><Localized>{"Geschätzte Richtwerte zum Gewichtserhalt, keine medizinischen Grenzwerte. Mehr Protein oder Ballaststoffe ist nicht automatisch ungesund. Bei Schwangerschaft, Stillzeit oder Erkrankungen ärztlich abstimmen."}</Localized></p> : <section className="space-y-3 border-y border-border py-4">
+          <h2 className="text-[15px] font-semibold"><Localized>{"Deine Tagesrichtwerte"}</Localized></h2>
+          <NutritionProfileFields value={profile} onChange={setProfile} />
+          {(!s.body.weightKg || !s.body.heightCm) && <Link to="/gesundheit" className="block text-sm text-fv-deep underline"><Localized>{"Gewicht und Größe ergänzen"}</Localized></Link>}
+          {profile.sex === "unspecified" && <p className="text-xs text-muted-foreground"><Localized>{"Ohne diese Angabe ist keine persönliche Schätzung möglich."}</Localized></p>}
+          <Button disabled={!profile.age || profile.age < 18 || profile.age > 120 || !profile.sex || !profile.activity} onClick={() => set({ body: { ...s.body, ...profile } })} className="w-full bg-fresh text-ink"><Localized>{"Angaben speichern"}</Localized></Button>
+        </section>}
       </div>
     </AppShell>
   );

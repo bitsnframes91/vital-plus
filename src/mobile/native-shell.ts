@@ -27,17 +27,9 @@ export function deepLinkPath(raw: string): string | null {
   return path + url.search;
 }
 
-// Keeps status bar text readable against the in-app light/dark theme.
+// The app uses light-only tokens, so the status bar always needs dark text.
 function syncStatusBar() {
-  const apply = () => {
-    const dark = document.documentElement.classList.contains("dark");
-    void StatusBar.setStyle({ style: dark ? Style.Dark : Style.Light }).catch(() => {});
-  };
-  apply();
-  new MutationObserver(apply).observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ["class"],
-  });
+  void StatusBar.setStyle({ style: Style.Light }).catch(() => {});
 }
 
 // Server-dependent features (sync, AI, account) need a connection; say so instead of failing silently.

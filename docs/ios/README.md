@@ -104,7 +104,7 @@ Signed TestFlight upload. **Prepared but never run.** It does nothing unless the
 6. **Food photo / lab upload.** Camera prompt with the German purpose text; photo library picker opens without a permission prompt. The AI result only arrives after the server change is published; before that, expect the error state (HTTP 403).
 7. **Voice meal.** Microphone prompt; recording works (WKWebView `getUserMedia`).
 8. **Shopware product link.** Opens Safari; returning to the app keeps the screen.
-9. **Settings.** Dark mode switches the status bar style. Notifications show the iOS message. App Lock shows "Auf diesem Gerät nicht verfügbar".
+9. **Settings.** The status bar shows dark text over the light-only theme. In-app reminders appear while the app is open.
 10. **Airplane mode.** The offline notice appears; it disappears when back online.
 11. **Deep link.** `xcrun simctl openurl booted vivohealth://ernaehrung` opens Ernährung.
 12. **Account deletion** (after the server change is published). The code email arrives, the account is deleted, and the app returns to `/`.
