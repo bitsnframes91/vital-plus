@@ -34,6 +34,18 @@ function Home() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [magic, setMagic] = useState(false);
+  const [magicSent, setMagicSent] = useState(false);
+  const sendMagicLink = async () => {
+    if (!email.trim()) { setError("Bitte gib zuerst deine E-Mail-Adresse ein."); return; }
+    setBusy(true); setError(null);
+    try {
+      const { error: otpError } = await supabase.auth.signInWithOtp({ email: email.trim(), options: { shouldCreateUser: false, emailRedirectTo: window.location.origin + "/heute" } });
+      if (otpError) { setError("Senden nicht möglich – bitte in einer Minute erneut versuchen."); return; }
+      setMagicSent(true);
+    } catch { setError("Senden nicht möglich – bitte in einer Minute erneut versuchen."); }
+    finally { setBusy(false); }
+  };
   const signIn = async () => {
     if (!email.trim() || !password) { setError("Bitte gib deine E-Mail-Adresse und dein Passwort ein."); return; }
     setBusy(true); setError(null);
@@ -60,13 +72,24 @@ function Home() {
             <Button variant="link" onClick={() => { setMode("new"); setError(null); }} aria-pressed={mode === "new"} className={mode === "new" ? "font-bold text-ink underline underline-offset-4" : "text-muted-foreground"}><Localized>{"Neu hier"}</Localized></Button>
             <Button variant="link" onClick={() => { setMode("login"); setError(null); }} aria-pressed={mode === "login"} className={mode === "login" ? "font-bold text-ink underline underline-offset-4" : "text-muted-foreground"}><Localized>{"Einloggen"}</Localized></Button>
           </div>
-          {mode === "login" && <form onSubmit={e => { e.preventDefault(); void signIn(); }} className="mb-4 space-y-3">
+          {mode === "login" && (magicSent ? (
+            <div className="mb-4 space-y-2 rounded-lg bg-card p-4 text-sm">
+              <p><Localized>{"Wir haben dir einen Login-Link geschickt an:"}</Localized> <b>{email}</b></p>
+              <p className="text-muted-foreground"><Localized>{"Klicke auf den Link in deinem Postfach, um dich ohne Passwort anzumelden. Bitte prüfe auch deinen Spam-Ordner."}</Localized></p>
+              <button type="button" onClick={() => { setMagicSent(false); setError(null); }} className="text-xs font-semibold text-muted-foreground underline"><Localized>{"Zurück zur Anmeldung"}</Localized></button>
+            </div>
+          ) : (
+          <form onSubmit={e => { e.preventDefault(); void (magic ? sendMagicLink() : signIn()); }} className="mb-4 space-y-3">
             <input aria-label={translateText("E-Mail")} type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder={translateText("E-Mail")} className="h-12 w-full rounded-lg border border-input bg-card px-4 text-base outline-none focus:ring-2 focus:ring-ring" />
-            <input aria-label={translateText("Passwort")} type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} placeholder={translateText("Passwort")} className="h-12 w-full rounded-lg border border-input bg-card px-4 text-base outline-none focus:ring-2 focus:ring-ring" />
-            <Link to="/login" search={{ mode: "login" }} className="block text-right text-xs text-muted-foreground underline"><Localized>{"Passwort vergessen?"}</Localized></Link>
-          </form>}
+            {!magic && <input aria-label={translateText("Passwort")} type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} placeholder={translateText("Passwort")} className="h-12 w-full rounded-lg border border-input bg-card px-4 text-base outline-none focus:ring-2 focus:ring-ring" />}
+            <div className="flex items-center justify-between text-xs">
+              <button type="button" onClick={() => { setMagic(!magic); setError(null); }} className="font-semibold text-muted-foreground underline"><Localized>{magic ? "Stattdessen mit Passwort anmelden" : "Ohne Passwort anmelden (Login-Link per E-Mail)"}</Localized></button>
+              {!magic && <Link to="/login" search={{ mode: "login" }} className="text-muted-foreground underline"><Localized>{"Passwort vergessen?"}</Localized></Link>}
+            </div>
+          </form>
+          ))}
           {error && <p role="alert" className="mb-3 text-sm text-destructive"><Localized>{error}</Localized></p>}
-          <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : signIn} />
+          {!magicSent && <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : magic ? "Login-Link senden" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : magic ? sendMagicLink : signIn} />}
         </>}
       </div>
     </main>
