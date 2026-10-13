@@ -57,7 +57,7 @@ jobs:
       - name: Lint iOS-related files (strict)
         run: >
           bunx eslint src/mobile src/lib/native-app.ts src/start.ts src/test/native-app.test.ts
-          vite.config.mobile.ts capacitor.config.ts
+          vite.config.mobile.ts capacitor.config.ts eslint.config.js
 
       # The repository already has formatting errors on main (docs/ios/README.md#known-issues).
       # Reported, not enforced, until they are fixed in their own change.
