@@ -158,6 +158,17 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   return <Ctx.Provider value={{ s, set }}>{children}</Ctx.Provider>;
 }
 
+/** Today's date key (local), matching the day-based logs. */
+export function todayDateKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+/** Daily counters reset at midnight: steps/sleep only count for the day they were entered. */
+export function dailyValue<T>(value: T | null | undefined, date: string | null | undefined): T | null {
+  return value != null && date === todayDateKey() ? value : null;
+}
+
 export function useStore() {
   const c = useContext(Ctx);
   if (!c) throw new Error("StoreProvider missing");
