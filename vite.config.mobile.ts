@@ -42,6 +42,9 @@ export default defineConfig({
   nitro: false,
   tanstackStart: {
     server: { entry: "server" },
+    // The app imports the committed src/routeTree.gen.ts; this copy only absorbs the
+    // mobile-specific type registration so the tracked file stays unchanged.
+    router: { generatedRouteTree: "./mobile/routeTree.mobile.gen.ts" },
     start: { entry: "mobile/start" },
     client: { entry: "mobile/client" },
     spa: { enabled: true, prerender: { outputPath: "/index.html" } },
