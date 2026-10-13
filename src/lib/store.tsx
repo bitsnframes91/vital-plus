@@ -159,8 +159,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 }
 
 /** Today's date key (local), matching the day-based logs. */
-export { todayKey as todayDateKey } from "./daily-goals";
-declare function todayDateKey(): string;
+export const todayDateKey = todayKey;
 
 /** Daily counters reset at midnight: steps/sleep only count for the day they were entered. */
 export function dailyValue<T>(value: T | null | undefined, date: string | null | undefined): T | null {
