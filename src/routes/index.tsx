@@ -34,6 +34,18 @@ function Home() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [magic, setMagic] = useState(false);
+  const [magicSent, setMagicSent] = useState(false);
+  const sendMagicLink = async () => {
+    if (!email.trim()) { setError("Bitte gib zuerst deine E-Mail-Adresse ein."); return; }
+    setBusy(true); setError(null);
+    try {
+      const { error: otpError } = await supabase.auth.signInWithOtp({ email: email.trim(), options: { shouldCreateUser: false, emailRedirectTo: window.location.origin + "/heute" } });
+      if (otpError) { setError("Senden nicht möglich – bitte in einer Minute erneut versuchen."); return; }
+      setMagicSent(true);
+    } catch { setError("Senden nicht möglich – bitte in einer Minute erneut versuchen."); }
+    finally { setBusy(false); }
+  };
   const signIn = async () => {
     if (!email.trim() || !password) { setError("Bitte gib deine E-Mail-Adresse und dein Passwort ein."); return; }
     setBusy(true); setError(null);
