@@ -19,7 +19,7 @@ export function PasswordResetForm({ initialEmail = "" }: { initialEmail?: string
         await requestPasswordReset({ data: { email: email.trim(), redirectTo: `${window.location.origin}/reset-password` } });
         setSent(true);
       } catch {
-        setError("Senden nicht möglich – bitte prüfe deine Verbindung und versuche es erneut.");
+        setError("Senden nicht möglich – bitte in einer Minute erneut versuchen.");
       } finally { setBusy(false); }
     }}>
       <p className="text-sm leading-6 text-muted-foreground"><Localized>{"Gib deine E-Mail-Adresse ein, um einen Link zum Zurücksetzen deines Passworts zu erhalten."}</Localized></p>

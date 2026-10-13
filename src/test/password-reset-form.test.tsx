@@ -13,7 +13,7 @@ it("requests a reset link for the entered email with the password reset destinat
   await waitFor(() => expect(reset).toHaveBeenCalledWith({ data: { email: "person@example.com", redirectTo: `${window.location.origin}/reset-password` } }));
 });
 it("allows retrying when sending fails", async () => {
-  reset.mockRejectedValue(new Error("Rate limited"));
+  reset.mockImplementation(async () => { throw new Error("Rate limited"); });
   render(<PasswordResetForm initialEmail="person@example.com" />);
   fireEvent.click(screen.getByRole("button"));
   await screen.findByRole("alert");
