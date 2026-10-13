@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ChevronRight, Droplets, Moon, Salad, Sprout } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useStore } from "@/lib/store";
+import { useStore, dailyValue } from "@/lib/store";
 import { todayKey } from "@/lib/daily-goals";
 import { progressTone, wellnessProgress } from "@/lib/wellness-progress";
 import { StepsIcon } from "./StepsIcon";
