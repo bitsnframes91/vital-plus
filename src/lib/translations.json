@@ -3050,5 +3050,17 @@
   "Zurück zur Anmeldung": [
     "Back to sign in",
     "Volver a iniciar sesión"
+  ],
+  "Mit Magischem Link anmelden": [
+    "Sign in with magic link",
+    "Iniciar sesión con enlace mágico"
+  ],
+  "Mit Passwort anmelden": [
+    "Sign in with password",
+    "Iniciar sesión con contraseña"
+  ],
+  "ODER": [
+    "OR",
+    "O"
   ]
 }
