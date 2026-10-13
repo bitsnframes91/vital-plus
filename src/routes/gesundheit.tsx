@@ -5,7 +5,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { HealthMascot } from "@/components/HealthMascot";
-import { useStore } from "@/lib/store";
+import { useStore, todayDateKey, dailyValue } from "@/lib/store";
 import { StepsIcon } from "@/components/StepsIcon";
 import sleepGfx from "@/assets/schlaf.png.asset.json";
 import bodyGfx from "@/assets/koerperdaten.png.asset.json";
