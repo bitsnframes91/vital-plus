@@ -1,3 +1,4 @@
+import { requestPasswordReset } from "@/lib/account.functions";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -40,9 +41,10 @@ function Login() {
     setBusy(true);
     setMsg(null);
     if (mode === "login") {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data: signed, error } = await supabase.auth.signInWithPassword({ email, password });
       setBusy(false);
-      if (error) return setMsg("E-Mail oder Passwort ist falsch.");
+      if (error) return setMsg(error.code === "email_not_confirmed" ? "Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach." : "E-Mail oder Passwort ist falsch.");
+      if (!signed.user?.email_confirmed_at) { await supabase.auth.signOut(); return setMsg("Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach."); }
       navigate({ to: "/heute" });
     } else {
       const questionnaire = readQuestionnaire();
@@ -84,9 +86,9 @@ function Login() {
             onClick={async () => {
               if (!email) return setMsg("Bitte gib zuerst deine E-Mail-Adresse ein.");
               setBusy(true);
-              const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + "/reset-password" });
+              const error = await requestPasswordReset({ data: { email, redirectTo: window.location.origin + "/reset-password" } }).then(() => null, (e) => e);
               setBusy(false);
-              setMsg(error ? "Senden nicht möglich – bitte in einer Minute erneut versuchen." : "Wir haben dir einen Link zum Zurücksetzen deines Passworts geschickt.");
+              setMsg(error ? "Senden nicht möglich – bitte in einer Minute erneut versuchen." : "Wenn ein bestätigtes Konto mit dieser E-Mail-Adresse existiert, erhältst du einen Link zum Zurücksetzen deines Passworts.");
             }}
             className="w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4"
           ><Localized>{" Passwort vergessen? "}</Localized></button>

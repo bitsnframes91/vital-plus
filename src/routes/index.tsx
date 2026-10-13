@@ -38,8 +38,9 @@ function Home() {
     if (!email.trim() || !password) { setError("Bitte gib deine E-Mail-Adresse und dein Passwort ein."); return; }
     setBusy(true); setError(null);
     try {
-      const { error: authError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-      if (authError) { setError("E-Mail oder Passwort ist falsch."); return; }
+      const { data: signed, error: authError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+      if (authError) { setError(authError.code === "email_not_confirmed" ? "Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach." : "E-Mail oder Passwort ist falsch."); return; }
+      if (!signed.user?.email_confirmed_at) { await supabase.auth.signOut(); setError("Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach."); return; }
       clearQuestionnaire();
       await navigate({ to: "/heute" });
     } catch { setError("Anmelden ist gerade nicht möglich. Bitte versuche es erneut."); }
