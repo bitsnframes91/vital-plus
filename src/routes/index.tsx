@@ -1,3 +1,4 @@
+import { KeyRound, Link2 } from "lucide-react";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText } from "@/lib/language";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
