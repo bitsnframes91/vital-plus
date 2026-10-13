@@ -3,7 +3,7 @@ import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-import { Camera, Upload, Trash2, Info } from "lucide-react";
+import { Camera, Upload, Trash2, Info, TestTube, ExternalLink } from "lucide-react";
 import { useEffect } from "react";
 import { AppShell } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
@@ -150,6 +150,14 @@ function Labs() {
           <input type="file" accept="image/*" capture="environment" className="sr-only" disabled={busy}
             onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
         </label>
+        <a href="https://www.cerascreen.de/" target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-5">
+          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv text-ink"><TestTube size={20} strokeWidth={2.2} aria-hidden="true" /></span>
+          <div className="min-w-0 flex-1">
+            <div className="text-[15px] font-medium"><Localized>{"Lass dich testen"}</Localized></div>
+            <div className="text-[12px] text-ink/45"><Localized>{"Test-Set für zu Hause – bequem bestellen und das Ergebnis digital erhalten."}</Localized></div>
+          </div>
+          <ExternalLink size={16} strokeWidth={2} className="shrink-0 text-ink/35" aria-hidden="true" />
+        </a>
         {(busy || progress === 100) && (
           <div className="card-surface space-y-2 p-4">
             <div className="flex items-center justify-between text-[12px]">
