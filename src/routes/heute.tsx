@@ -186,7 +186,7 @@ function WeekRecap() {
 
       <div aria-hidden="true" className="mt-4 flex h-16 items-end justify-between gap-2">
         {days.map((d, i) => {
-          const count = s.weekLog[d] ?? 0;
+          const count = dayCount(d);
           return (
             <div key={d} className="flex flex-1 flex-col items-center gap-1">
               <div className="flex h-12 w-full items-end justify-center">
