@@ -14,7 +14,6 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { StoreProvider } from "../lib/store";
 import { registerAppServiceWorker } from "../lib/pwa-register";
-import { AppLockProvider } from "../components/AppLock";
 import { AppSettingsProvider } from "../components/AppSettings";
 
 function NotFoundComponent() {
@@ -136,7 +135,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <StoreProvider>
-        <AppSettingsProvider><AppLockProvider><Outlet /></AppLockProvider></AppSettingsProvider>
+        <AppSettingsProvider><Outlet /></AppSettingsProvider>
       </StoreProvider>
     </QueryClientProvider>
   );
