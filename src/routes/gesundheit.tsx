@@ -157,7 +157,7 @@ function Health() {
         </div>
         <HealthMascot message={missingMessage} />
       </header>
-      <div className="grid grid-cols-1 gap-3 px-4 pt-4">
+      <div className="grid grid-cols-1 gap-3 px-4 pt-4 md:grid-cols-2">
 
         <div className="card-surface p-5">
           <EditIcon label={translateText("Körperdaten")}><img src={bodyGfx.url} alt="" className="object-contain size-7" /></EditIcon>

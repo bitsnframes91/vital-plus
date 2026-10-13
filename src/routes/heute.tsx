@@ -87,8 +87,8 @@ function Today() {
 
       <TodayNutritionGoals />
 
-      {goalSuggestions.length > 0 && <section className="mt-4 space-y-3 px-4" aria-label={translateText("Fairvital Empfehlungen zu deinen Zielen")}>
-        <h2 className="px-1 text-[15px] font-semibold"><Localized>{"Passend zu deinen Zielen"}</Localized></h2>
+      {goalSuggestions.length > 0 && <section className="mt-4 space-y-3 px-4 md:grid md:grid-cols-2 md:gap-3 md:space-y-0" aria-label={translateText("Fairvital Empfehlungen zu deinen Zielen")}>
+        <h2 className="px-1 text-[15px] font-semibold md:col-span-2"><Localized>{"Passend zu deinen Zielen"}</Localized></h2>
         {goalSuggestions.map(({ product, goals }) => <a key={product.shopwareId} href={product.url} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
           <img src={product.image} alt={translateText(product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
           <div className="min-w-0 flex-1">
@@ -98,11 +98,11 @@ function Today() {
             <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
           </div>
         </a>)}
-        <p className="px-1 text-[11px] text-muted-foreground"><Localized>{"Einnahme bitte ärztlich abklären, besonders bei Vorerkrankungen oder Medikamenten."}</Localized></p>
+        <p className="px-1 text-[11px] text-muted-foreground md:col-span-2"><Localized>{"Einnahme bitte ärztlich abklären, besonders bei Vorerkrankungen oder Medikamenten."}</Localized></p>
       </section>}
 
-      {(gaps.length > 0 || microGaps.length > 0) && <section className="mt-4 space-y-3 px-4" data-nutrition-gaps>
-        <h2 className="px-1 text-[15px] font-semibold"><Localized>{"Das fehlt dir noch für heute:"}</Localized></h2>
+      {(gaps.length > 0 || microGaps.length > 0) && <section className="mt-4 space-y-3 px-4 md:grid md:grid-cols-2 md:gap-3 md:space-y-0" data-nutrition-gaps>
+        <h2 className="px-1 text-[15px] font-semibold md:col-span-2"><Localized>{"Das fehlt dir noch für heute:"}</Localized></h2>
         {gaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
           <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
           <div className="min-w-0 flex-1">
@@ -121,7 +121,7 @@ function Today() {
               <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
             </div>
           </a>)}
-        <p className="px-1 text-[11px] text-muted-foreground"><Localized>{"Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten."}</Localized></p>
+        <p className="px-1 text-[11px] text-muted-foreground md:col-span-2"><Localized>{"Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten."}</Localized></p>
       </section>}
 
       {featured && last && <section className="mt-4 px-4">

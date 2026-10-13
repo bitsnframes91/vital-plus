@@ -292,7 +292,7 @@ function NutritionPage() {
           {estErr && <p className="text-[12px] text-destructive"><Localized>{estErr}</Localized></p>}
           <Button type="submit" disabled={estBusy || photoBusy} className="w-full rounded-full bg-fresh text-ink"><Localized>{estBusy || photoBusy ? "Berechne…" : "Speichern"}</Localized></Button>
         </form>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
           {statCards.map((c) => {
             const target = targets?.[c.key];
             const state = target ? feedback[nutrientStatus(c.key, totals[c.key], target)] : neutral;
@@ -335,8 +335,8 @@ function NutritionPage() {
           })}
         </div>
         <p className="text-[11px] leading-relaxed text-muted-foreground"><Localized>{"Vitamine und Mineralien: geschätzte Mengen aus erfassten Mahlzeiten, verglichen mit EU-Referenzmengen für Erwachsene. Keine Laborwerte oder persönlichen Bedarfswerte."}</Localized></p>
-        {(gaps.length > 0 || microGaps.length > 0) && <section className="space-y-3" data-nutrition-gaps>
-          <h2 className="text-[17px] font-semibold"><Localized>{"Das fehlt dir noch für heute:"}</Localized></h2>
+        {(gaps.length > 0 || microGaps.length > 0) && <section className="space-y-3 md:grid md:grid-cols-2 md:gap-3 md:space-y-0" data-nutrition-gaps>
+          <h2 className="text-[17px] font-semibold md:col-span-2"><Localized>{"Das fehlt dir noch für heute:"}</Localized></h2>
           {gaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
             <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
             <div className="min-w-0 flex-1">
@@ -355,7 +355,7 @@ function NutritionPage() {
               <div className="mt-1 text-xs font-semibold text-fv-deep"><Localized>{"Bei Fairvital ansehen →"}</Localized></div>
             </div>
           </a>)}
-          <p className="text-[11px] text-muted-foreground"><Localized>{"Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten."}</Localized></p>
+          <p className="text-[11px] text-muted-foreground md:col-span-2"><Localized>{"Ergänzung zu einer ausgewogenen Ernährung, kein Ersatz für Mahlzeiten."}</Localized></p>
         </section>}
         {targets ? <p className="text-[11px] leading-relaxed text-muted-foreground"><Localized>{"Geschätzte Richtwerte zum Gewichtserhalt, keine medizinischen Grenzwerte. Mehr Protein oder Ballaststoffe ist nicht automatisch ungesund. Bei Schwangerschaft, Stillzeit oder Erkrankungen ärztlich abstimmen."}</Localized></p> : <section className="space-y-3 border-y border-border py-4">
           <h2 className="text-[15px] font-semibold"><Localized>{"Deine Tagesrichtwerte"}</Localized></h2>
