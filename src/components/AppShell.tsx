@@ -23,10 +23,32 @@ export function Icon({ d, className = "size-5" }: { d: string; className?: strin
   );
 }
 
+const PROTECTED = ["/heute", "/ernaehrung", "/gesundheit", "/labor", "/plan", "/profil", "/trends", "/uhr"];
+export const isProtectedPath = (p: string) => PROTECTED.some((t) => p === t || p.startsWith(`${t}/`));
+
 export function AppShell({ children }: { children: ReactNode }) {
   useLanguage();
   const navIcons = [Home, Salad, HeartPulse, FlaskConical, ClipboardList, UserRound];
   const pathname = useLocation({ select: (s) => s.pathname });
+  const navigate = useNavigate();
+  const guarded = isProtectedPath(pathname);
+  const [allowed, setAllowed] = useState(false);
+  useEffect(() => {
+    if (!guarded) return;
+    let alive = true;
+    const check = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (!alive) return;
+      if (data.user?.email_confirmed_at) setAllowed(true);
+      else { setAllowed(false); navigate({ to: "/", replace: true }); }
+    };
+    void check();
+    const { data: sub } = supabase.auth.onAuthStateChange((e) => { if (e === "SIGNED_OUT" || e === "SIGNED_IN") void check(); });
+    return () => { alive = false; sub.subscription.unsubscribe(); };
+  }, [guarded, navigate]);
+  if (guarded && !allowed) return <div className="min-h-screen bg-background" aria-busy="true" />;
+  // Pages like the signup confirmation screen show no tab bar, so it cannot be used to skip ahead.
+  const showNav = guarded;
   return (
     <div className="min-h-screen w-full bg-mist sm:grid sm:place-items-start sm:p-4 md:block md:p-0">
       <div className="relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col overflow-hidden bg-background sm:h-[calc(100dvh-2rem)] sm:min-h-0 sm:rounded-[28px] sm:ring-1 sm:ring-border md:h-dvh md:max-w-none md:rounded-none md:ring-0">
