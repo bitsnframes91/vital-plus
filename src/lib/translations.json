@@ -1074,14 +1074,6 @@
     "Reset link by email",
     "Enlace de restablecimiento por correo"
   ],
-  "App Lock": [
-    "App Lock",
-    "Bloqueo de aplicación"
-  ],
-  "Gerätecode oder Biometrie": [
-    "Device code or biometrics",
-    "Código del dispositivo o biometría"
-  ],
   "Verbundene Apps": [
     "Connected apps",
     "Aplicaciones conectadas"
@@ -1474,41 +1466,9 @@
     "Activity",
     "Actividad"
   ],
-  "Vitalplus ist gesperrt": [
-    "Vitalplus is locked",
-    "Vitalplus está bloqueado"
-  ],
-  "Entsperre Vitalplus mit deiner Gerätebestätigung.": [
-    "Unlock Vitalplus with your device verification.",
-    "Desbloquea Vitalplus con la verificación de tu dispositivo."
-  ],
-  "App entsperren": [
-    "Unlock app",
-    "Desbloquear aplicación"
-  ],
-  "Abmelden und App Lock zurücksetzen": [
-    "Sign out and reset App Lock",
-    "Cerrar sesión y restablecer el bloqueo"
-  ],
-  "Face ID, Passcode, PIN, Muster": [
-    "Face ID, passcode, PIN, pattern",
-    "Face ID, código de acceso, PIN, patrón"
-  ],
   "Bitte anmelden.": [
     "Please sign in.",
     "Inicia sesión."
-  ],
-  "Auf diesem Gerät nicht verfügbar.": [
-    "Not available on this device.",
-    "No disponible en este dispositivo."
-  ],
-  "App Lock konnte nicht geladen werden. Melde dich erneut an.": [
-    "App Lock could not be loaded. Sign in again.",
-    "No se pudo cargar el bloqueo. Inicia sesión de nuevo."
-  ],
-  "Gerätebestätigung fehlgeschlagen oder abgebrochen. Bitte versuche es erneut.": [
-    "Device verification failed or was cancelled. Try again.",
-    "La verificación del dispositivo falló o se canceló. Inténtalo de nuevo."
   ],
   "Zeit für deinen täglichen Check-in.": [
     "Time for your daily check-in.",
