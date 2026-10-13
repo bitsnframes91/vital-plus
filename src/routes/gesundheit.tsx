@@ -177,9 +177,9 @@ function Health() {
             <div className="text-[18px] font-semibold"><Localized>{"Schlaf letzte Nacht"}</Localized></div>
           </div>
           <p className="mt-1 text-[14px] text-ink/55">
-            <Localized>{b.sleepHours ? `Erfasst: ${b.sleepHours} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}</Localized>
+            <Localized>{todaySleep ? `Erfasst: ${todaySleep} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}</Localized>
           </p>
-          <NumInput value={b.sleepHours} onSave={(v) => setBody({ sleepHours: v })} placeholder={translateText("Stunden, z. B. 7,5 (empfohlen: 8 h)")} unit="h" />
+          <NumInput value={todaySleep} onSave={(v) => setBody({ sleepHours: v, sleepDate: todayDateKey() })} placeholder={translateText("Stunden, z. B. 7,5 (empfohlen: 8 h)")} unit="h" />
         </div>
 
         <div className="card-surface p-5">
