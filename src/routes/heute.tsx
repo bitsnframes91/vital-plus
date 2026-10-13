@@ -167,15 +167,17 @@ function WeekRecap() {
   for (let i = 6; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    days.push(d.toISOString().slice(0, 10));
+    days.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`);
   }
-  const goalCount = days.reduce((sum, d) => sum + (s.weekLog[d] ?? 0), 0);
   const meals = s.meals.filter((m) => days.includes(m.date));
+  const mealsPerDay = (d: string) => meals.filter((m) => m.date === d).length;
+  const dayCount = (d: string) => (s.weekLog[d] ?? 0) + mealsPerDay(d);
+  const goalCount = days.reduce((sum, d) => sum + (s.weekLog[d] ?? 0), 0);
   const weights = Object.entries(s.weightLog).sort(([a], [b]) => a.localeCompare(b));
   const latestW = weights.at(-1);
   const prevW = weights.length > 1 ? weights[weights.length - 2] : null;
   const diff = latestW && prevW ? +(latestW[1] - prevW[1]).toFixed(1) : null;
-  const maxDay = Math.max(...days.map((d) => s.weekLog[d] ?? 0), 1);
+  const maxDay = Math.max(...days.map(dayCount), 1);
 
   return (
     <Link to="/gesundheit" className="card-surface block p-5">
@@ -184,7 +186,7 @@ function WeekRecap() {
 
       <div aria-hidden="true" className="mt-4 flex h-16 items-end justify-between gap-2">
         {days.map((d, i) => {
-          const count = s.weekLog[d] ?? 0;
+          const count = dayCount(d);
           return (
             <div key={d} className="flex flex-1 flex-col items-center gap-1">
               <div className="flex h-12 w-full items-end justify-center">
