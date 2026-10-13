@@ -55,7 +55,11 @@ function Login() {
     if (mode === "login") {
       const { data: signed, error } = await supabase.auth.signInWithPassword({ email, password });
       setBusy(false);
-      if (error) return setMsg(error.code === "email_not_confirmed" ? "Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach." : "E-Mail oder Passwort ist falsch.");
+      if (error) {
+        if (error.code === "email_not_confirmed") return setMsg("Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach.");
+        const { exists } = await accountExists({ data: { email } }).catch(() => ({ exists: true }));
+        return setMsg(exists ? "E-Mail oder Passwort ist falsch." : "Dieses Konto existiert nicht.");
+      }
       if (!signed.user?.email_confirmed_at) { await supabase.auth.signOut(); return setMsg("Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach."); }
       navigate({ to: "/heute" });
     } else {
