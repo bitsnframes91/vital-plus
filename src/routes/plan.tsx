@@ -43,12 +43,6 @@ function Plan() {
   const labIds = new Set(suggestions.map((e) => e.product.shopwareId));
   const goalSuggestions = goalProducts(userGoals).filter((e) => !labIds.has(e.product.shopwareId));
   const doneCount = items.filter((it) => s.actionsDone[`${d}:${it.key}`]).length;
-  const toggleDaily = (key: string) => {
-    if (key.startsWith("plan-")) {
-      const i = Number(key.slice(5));
-      if (s.aiPlan) set({ aiPlan: { ...s.aiPlan, items: s.aiPlan.items.map((it, j) => (j === i ? { ...it, daily: it.daily === false } : it)) } });
-    } else set({ goalOff: { ...(s.goalOff ?? {}), [key]: !s.goalOff?.[key] } });
-  };
   const toggleDone = (key: string) => {
     const k = `${d}:${key}`;
     set({ actionsDone: { ...s.actionsDone, [k]: !s.actionsDone[k] } });
@@ -84,7 +78,6 @@ function Plan() {
             <ul className="mt-4 space-y-2">
               {items.map((it, i) => {
                 const done = !!s.actionsDone[`${d}:${it.key}`];
-                const daily = it.daily;
                 return (
                   <li key={it.key} className="rounded-[14px] ring-1 ring-border">
                     <div className="flex items-center gap-3 px-3 py-3">
@@ -101,13 +94,6 @@ function Plan() {
                     {open === i && (
                       <div className="border-t px-3 py-3">
                         <p className="text-[14px] text-ink/65"><Localized>{it.detail}</Localized></p>
-                        <label className="mt-3 flex items-center justify-between text-[13px]">
-                          <span><Localized>{"In meinen Tageszielen anzeigen"}</Localized></span>
-                          <Button variant="ghost" size="icon" onClick={() => toggleDaily(it.key)} role="switch" aria-label={translateText("In meinen Tageszielen anzeigen")} aria-checked={daily}
-                            className={`h-6 w-11 rounded-full p-0.5 transition ${daily ? "bg-fv" : "bg-ink/15"}`}>
-                            <span className={`block size-5 rounded-full bg-card transition ${daily ? "translate-x-5" : ""}`} />
-                          </Button>
-                        </label>
                       </div>
                     )}
                   </li>
