@@ -1795,6 +1795,10 @@
     "Email or password is incorrect.",
     "El correo o la contraseña son incorrectos."
   ],
+  "Dieses Konto existiert nicht.": [
+    "This account does not exist.",
+    "Esta cuenta no existe."
+  ],
   "Für diese E-Mail gibt es bereits ein Konto.": [
     "An account already exists for this email.",
     "Ya existe una cuenta con este correo."

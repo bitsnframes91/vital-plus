@@ -8,6 +8,7 @@ import { SwipeAction } from "@/components/SwipeAction";
 import { supabase } from "@/integrations/supabase/client";
 import { useStore } from "@/lib/store";
 import { clearQuestionnaire } from "@/lib/questionnaire-draft";
+import { accountExists } from "@/lib/account.functions";
 import { VivoBrand } from "@/components/VivoBrand";
 
 export const Route = createFileRoute("/")({

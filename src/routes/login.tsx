@@ -1,4 +1,4 @@
-import { requestPasswordReset } from "@/lib/account.functions";
+import { accountExists, requestPasswordReset } from "@/lib/account.functions";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
