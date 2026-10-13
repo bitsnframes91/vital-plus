@@ -2,6 +2,7 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { publicAppUrl } from "@/lib/native-app";
 import { Button } from "@/components/ui/button";
 
 export function PasswordResetForm({ initialEmail = "" }: { initialEmail?: string }) {
@@ -16,7 +17,7 @@ export function PasswordResetForm({ initialEmail = "" }: { initialEmail?: string
       if (busy) return;
       setBusy(true); setError("");
       try {
-        const { error: failure } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: `${window.location.origin}/reset-password` });
+        const { error: failure } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: publicAppUrl("/reset-password") });
         if (failure) setError("Senden nicht möglich – bitte in einer Minute erneut versuchen.");
         else setSent(true);
       } catch {

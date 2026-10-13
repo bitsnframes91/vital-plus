@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { StoreProvider } from "../lib/store";
 import { registerAppServiceWorker } from "../lib/pwa-register";
+import { isNativeApp } from "../lib/native-app";
 import { AppLockProvider } from "../components/AppLock";
 import { AppSettingsProvider } from "../components/AppSettings";
 
@@ -82,7 +83,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        name: "viewport",
+        content: isNativeApp
+          ? "width=device-width, initial-scale=1, viewport-fit=cover"
+          : "width=device-width, initial-scale=1",
+      },
       { title: "Vitalplus" },
       { name: "description", content: "Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
       { property: "og:type", content: "website" },

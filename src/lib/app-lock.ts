@@ -1,3 +1,4 @@
+import { isNativeApp } from "./native-app";
 export type LockCredential = { id: string; publicKey: string };
 const prefix = "vivo-app-lock:";
 export const encode = (buffer: ArrayBuffer) => btoa(String.fromCharCode(...new Uint8Array(buffer)));
@@ -14,6 +15,8 @@ export function saveLock(userId: string, credential: LockCredential | null) {
   else localStorage.removeItem(prefix + userId);
 }
 export async function supportsAppLock() {
+  // WebAuthn needs a web origin as relying party; capacitor://localhost has none, so iOS reports unavailable.
+  if (isNativeApp) return false;
   return window.isSecureContext && typeof PublicKeyCredential !== "undefined" && await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
 }
 export async function createLock(userId: string): Promise<LockCredential> {

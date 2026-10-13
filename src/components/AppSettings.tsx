@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { defaultSettings, parseSettings, reminderDue, SETTINGS_KEY, showAppNotification, type AppSettings } from "@/lib/app-settings";
+import { isNativeApp } from "@/lib/native-app";
 
 type SettingsContext = { settings: AppSettings; update: (value: Partial<AppSettings>) => void };
 const Context = createContext<SettingsContext | null>(null);
@@ -62,7 +63,7 @@ export function AppSettingsControls() {
   const notifications = async (enabled: boolean) => {
     setError(""); setTestSent(false);
     if (!enabled) { update({ notifications: false }); return; }
-    if (typeof Notification === "undefined") { setError("Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte Vitalplus zum Home-Bildschirm hinzufügen."); return; }
+    if (typeof Notification === "undefined") { setError(isNativeApp ? "Systembenachrichtigungen sind in der iOS-App noch nicht verfügbar. Erinnerungen erscheinen, während die App geöffnet ist." : "Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte Vitalplus zum Home-Bildschirm hinzufügen."); return; }
     setBusy(true);
     try {
       const permission = await Notification.requestPermission();

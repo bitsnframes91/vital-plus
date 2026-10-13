@@ -2913,5 +2913,13 @@
   "Kupfer als Spurenelement": [
     "Copper as a trace element",
     "Cobre como oligoelemento"
+  ],
+  "Systembenachrichtigungen sind in der iOS-App noch nicht verfügbar. Erinnerungen erscheinen, während die App geöffnet ist.": [
+    "System notifications are not yet available in the iOS app. Reminders appear while the app is open.",
+    "Las notificaciones del sistema aún no están disponibles en la app de iOS. Los recordatorios aparecen mientras la app está abierta."
+  ],
+  "Keine Internetverbindung. Anmeldung, Synchronisierung und KI-Funktionen sind erst wieder online verfügbar.": [
+    "No internet connection. Sign-in, sync and AI features are available again once you are online.",
+    "Sin conexión a internet. El inicio de sesión, la sincronización y las funciones de IA vuelven a estar disponibles cuando estés en línea."
   ]
 }

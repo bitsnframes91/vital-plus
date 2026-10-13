@@ -4,6 +4,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
+import { publicAppUrl } from "@/lib/native-app";
 
 export const Route = createFileRoute("/login")({
   staticData: { sitemap: true },
@@ -43,7 +44,7 @@ function Login() {
       if (error) return setMsg("E-Mail oder Passwort ist falsch.");
       navigate({ to: "/heute" });
     } else {
-      const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + "/heute" } });
+      const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: publicAppUrl("/heute") } });
       setBusy(false);
       if (error) return setMsg(error.message.includes("registered") ? "Für diese E-Mail gibt es bereits ein Konto." : "Konto konnte nicht angelegt werden (Passwort mind. 8 Zeichen).");
       if (!data.session) { setMsg("Fast geschafft: Bitte bestätige deine E-Mail-Adresse über den Link, den wir dir geschickt haben."); setMode("login"); return; }
@@ -76,7 +77,7 @@ function Login() {
             onClick={async () => {
               if (!email) return setMsg("Bitte gib zuerst deine E-Mail-Adresse ein.");
               setBusy(true);
-              const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + "/reset-password" });
+              const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: publicAppUrl("/reset-password") });
               setBusy(false);
               setMsg(error ? "Senden nicht möglich – bitte in einer Minute erneut versuchen." : "Wir haben dir einen Link zum Zurücksetzen deines Passworts geschickt.");
             }}

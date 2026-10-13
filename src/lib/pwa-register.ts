@@ -1,3 +1,5 @@
+import { isNativeApp } from "./native-app";
+
 // Single place that registers the app service worker. Never registers in dev,
 // iframes, or Lovable preview hosts; `?sw=off` unregisters it.
 const SW_URL = "/sw.js";
@@ -28,6 +30,8 @@ async function unregisterAppWorkers() {
 
 export function registerAppServiceWorker() {
   if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
+  // Capacitor serves bundled files itself; a worker would only add a second, stale cache.
+  if (isNativeApp) return;
   if (isRefusedContext()) {
     void unregisterAppWorkers().catch(() => {});
     return;
