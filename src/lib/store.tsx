@@ -3,6 +3,7 @@ import type React from "react";
 import { initialMeals, initialSupplements, labMarkers as seedLabs, type Meal, type Supplement, type LabMarker } from "./data";
 import { supabase } from "@/integrations/supabase/client";
 import { questionnaireForAccount } from "./questionnaire-draft";
+import { todayKey } from "./daily-goals";
 
 // Health state: kept in the browser and synced to the signed-in user's Lovable Cloud account.
 type State = {
