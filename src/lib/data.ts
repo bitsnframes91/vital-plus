@@ -1,4 +1,5 @@
 import { languageLocale } from "./language";
+import { todayKey } from "./daily-goals";
 import type { MicronutrientAmounts } from "./micronutrients";
 // Mock data for version 1. Products/prices will later come from the Fairvital Shopware API
 // (see src/lib/shopware.ts); lab values will later come from a laboratory API.

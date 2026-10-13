@@ -3,6 +3,7 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { AppShell } from "@/components/AppShell";
 import { languageLocale, translateText } from "@/lib/language";
 import { useStore } from "@/lib/store";
+import { todayKey } from "@/lib/daily-goals";
 import { omegaSummary } from "@/lib/omega3";
 
 export function OmegaDetail() {

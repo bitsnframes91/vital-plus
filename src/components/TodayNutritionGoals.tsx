@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 import { Localized, useLanguage } from "./Localized";
 import { StatusFace } from "./StatusFace";
 import { useStore } from "@/lib/store";
+import { todayKey } from "@/lib/daily-goals";
 import { nutritionAlerts } from "@/lib/nutrition-alerts";
 import { nutritionTargets } from "@/lib/nutrition-targets";
 import { languageLocale, translateText } from "@/lib/language";
