@@ -2,9 +2,8 @@ import type { CapacitorConfig } from "@capacitor/cli";
 
 // iOS shell for the bundled SPA from `bun run build:mobile`. See docs/ios/README.md.
 const config: CapacitorConfig = {
-  // Placeholder until the App Store bundle ID is registered; override with CAPACITOR_APP_ID.
-  // The Xcode project keeps its own PRODUCT_BUNDLE_IDENTIFIER (docs/ios/app-store-readiness.md).
-  appId: process.env["CAPACITOR_APP_ID"] ?? "com.example.vitalplus",
+  // Registered App Store bundle ID. Must match PRODUCT_BUNDLE_IDENTIFIER in the Xcode project.
+  appId: "com.fairvital.vivohealth",
   appName: "Vivo Health",
   webDir: "dist-mobile/client",
   // No `url`: the app ships its UI and never loads the website into the web view.

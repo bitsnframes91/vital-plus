@@ -42,7 +42,7 @@ xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug \
 Run in the Simulator (☐, needs Xcode): `bun run ios:open`, pick an iPhone simulator, then Run. To use the CI artifact instead:
 1. Unzip `VivoHealth-simulator.app.zip`.
 2. Run `xcrun simctl install booted App.app`.
-3. Run `xcrun simctl launch booted com.example.vitalplus`.
+3. Run `xcrun simctl launch booted com.fairvital.vivohealth`.
 
 **After every web code change, run `bun run ios:sync` again.** The bundled files in `ios/App/App/public` are generated and git-ignored.
 
@@ -51,13 +51,15 @@ Run in the Simulator (☐, needs Xcode): `bun run ios:open`, pick an iPhone simu
 | Path | Purpose |
 |---|---|
 | `vite.config.mobile.ts` | Mobile build. It:<br>• enables SPA mode, with no Nitro and no PWA<br>• uses the mobile entries<br>• swaps in the Keychain session storage<br>• rewrites CDN asset URLs to absolute ones |
-| `capacitor.config.ts` | App name, placeholder bundle ID, `webDir`, iOS web view settings |
+| `capacitor.config.ts` | App name, bundle ID `com.fairvital.vivohealth`, `webDir`, iOS web view settings |
 | `src/mobile/start.ts` | Web start options plus `serverFns.fetch` → hosted origin |
 | `src/mobile/client.tsx`, `native-shell.ts`, `native.css` | Hydration, status bar, deep links (`vivohealth://…`), offline notice, safe areas |
 | `src/mobile/secure-auth-storage.ts` | Supabase session storage backed by the iOS Keychain |
 | `src/lib/native-app.ts` | `isNativeApp` flag and `publicAppUrl()` for auth email links |
 | `ios/App/App/SecureSessionStoragePlugin.swift`, `MainViewController.swift` | In-app Keychain plugin and its registration |
 | `ios/App/App/Info.plist` | Display name, permissions (camera, microphone), URL scheme, iPhone portrait |
+| `ios/App/App/PrivacyInfo.xcprivacy` | Privacy manifest: collected data types (no tracking) and the `UserDefaults` reason `CA92.1` |
+| `ios/App/App.xcodeproj` | Bundle ID, Team `R9RKNU986H`. Debug signs automatically; Release signs manually with Apple Distribution and the profile named by `VIVO_APPSTORE_PROFILE` |
 | `src/start.ts` | Server: allows the app origin `capacitor://localhost` for server functions only |
 
 ## Environment configuration
@@ -66,7 +68,6 @@ Run in the Simulator (☐, needs Xcode): `bun run ios:open`, pick an iPhone simu
 |---|---|---|---|
 | `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` | `.env` (committed by Lovable; publishable values) | — | Supabase client (same as web) |
 | `VITE_NATIVE_WEB_ORIGIN` | build environment | `https://vital-plus.lovable.app` | Server functions, auth email links, CDN assets |
-| `CAPACITOR_APP_ID` | `cap sync` environment | `com.example.vitalplus` | Bundle ID written to the native config |
 
 No secret is bundled into the app. `LOVABLE_API_KEY` and the service-role key stay on the server.
 
@@ -92,7 +93,19 @@ Permissions are `contents: read`. Actions are pinned to commit SHAs.
 
 ### `.github/workflows/ios-release.yml`
 
-Signed TestFlight upload. **Prepared but never run.** It does nothing unless the variable `IOS_RELEASE_ENABLED` is `true`, and it runs in the `ios-release` environment (configure required reviewers there). Setup is in [app-store-readiness.md](app-store-readiness.md#1-apple-developer-and-app-store-connect).
+Signed App Store build. **Never run yet.** Manual dispatch only; it does nothing unless the variable `IOS_RELEASE_ENABLED` is `true`, and it runs in the `ios-release` environment (configure required reviewers there). Setup is in [app-store-readiness.md](app-store-readiness.md#1-apple-developer-and-app-store-connect).
+
+Inputs: `marketing_version` (e.g. `1.0.0`), optional `build_number` (default: the workflow run number), and `upload` (default **off**: sign and export the IPA only, nothing is sent to Apple).
+
+Steps:
+1. Check that the secrets exist (names only) and that the bundle ID and team in the workflow, the Xcode project and `capacitor.config.ts` agree.
+2. Typecheck, unit tests, mobile bundle, `cap sync ios`.
+3. Import the certificate into a temporary keychain.
+4. Verify the profile: App Store type, App ID `R9RKNU986H.com.fairvital.vivohealth`, not expired, and issued for the imported Apple Distribution certificate. Only the profile name, UUID, expiry and certificate name are printed.
+5. Archive. Only `VIVO_APPSTORE_PROFILE`, the version and the build number go on the command line, because signing settings passed there would also hit the Swift package targets.
+6. Verify the archive: bundle ID, version, build number, privacy manifest, embedded profile and the Apple Distribution signature.
+7. Export the IPA, or upload it when `upload` is checked.
+8. Delete the keychain, key and profile files.
 
 ## Device / Simulator test plan (☐ all pending)
 

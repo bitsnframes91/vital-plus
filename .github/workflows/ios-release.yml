@@ -1,7 +1,8 @@
-# Signed TestFlight release — PREPARED, NOT YET RUN (no Apple Developer account yet).
+# Signed App Store build for TestFlight. Manual dispatch only.
 # Inert until the repository variable IOS_RELEASE_ENABLED is "true" and every secret
 # listed in docs/ios/app-store-readiness.md exists. The `ios-release` environment should
-# require reviewer approval (Settings → Environments) so each upload is approved manually.
+# require reviewer approval (Settings → Environments) so each run is approved manually.
+# With `upload` unchecked (the default) the run signs and exports the IPA but uploads nothing.
 name: iOS release (TestFlight)
 
 on:
@@ -10,6 +11,15 @@ on:
       marketing_version:
         description: "Marketing version (CFBundleShortVersionString), e.g. 1.0.0"
         required: true
+        default: "1.0.0"
+      build_number:
+        description: "Build number (CFBundleVersion). Empty = workflow run number."
+        required: false
+        default: ""
+      upload:
+        description: "Upload to App Store Connect / TestFlight (unchecked = sign and export only)"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -25,18 +35,21 @@ jobs:
     environment: ios-release
     timeout-minutes: 60
     env:
-      BUNDLE_ID: ${{ vars.IOS_BUNDLE_ID }}
-      TEAM_ID: ${{ vars.APPLE_TEAM_ID }}
+      # Must match PRODUCT_BUNDLE_IDENTIFIER / DEVELOPMENT_TEAM in the Xcode project (checked below).
+      BUNDLE_ID: com.fairvital.vivohealth
+      TEAM_ID: R9RKNU986H
       MARKETING_VERSION: ${{ inputs.marketing_version }}
-      # Monotonic build number for App Store Connect.
-      BUILD_NUMBER: ${{ github.run_number }}
+      # Must increase for every upload of the same marketing version.
+      BUILD_NUMBER: ${{ inputs.build_number || github.run_number }}
+      UPLOAD: ${{ inputs.upload }}
+      NODE_VERSION: "22"
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      - name: Check release configuration (names only)
+      - name: Check release configuration (names only, values never printed)
         env:
           DIST_CERT_P12_BASE64: ${{ secrets.IOS_DIST_CERT_P12_BASE64 }}
           DIST_CERT_PASSWORD: ${{ secrets.IOS_DIST_CERT_PASSWORD }}
@@ -46,17 +59,27 @@ jobs:
           ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
         run: |
           missing=0
-          for name in BUNDLE_ID TEAM_ID DIST_CERT_P12_BASE64 DIST_CERT_PASSWORD PROFILE_BASE64 ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_P8_BASE64; do
-            [ -n "${!name:-}" ] || { echo "::error::Missing ${name}"; missing=1; }
+          required="DIST_CERT_P12_BASE64 DIST_CERT_PASSWORD PROFILE_BASE64"
+          [ "$UPLOAD" != "true" ] || required="$required ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_P8_BASE64"
+          for name in $required; do
+            [ -n "${!name:-}" ] || { echo "::error::Missing secret ${name}"; missing=1; }
           done
-          [ "$BUNDLE_ID" != "com.example.vitalplus" ] || { echo "::error::Replace the placeholder bundle ID first"; missing=1; }
+          for name in VITE_SUPABASE_URL VITE_SUPABASE_PUBLISHABLE_KEY; do
+            grep -Eq "^${name}=.+" .env || { echo "::error::Missing build variable ${name} in .env"; missing=1; }
+          done
           [[ "$MARKETING_VERSION" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || { echo "::error::Invalid marketing version"; missing=1; }
+          [[ "$BUILD_NUMBER" =~ ^[1-9][0-9]{0,8}$ ]] || { echo "::error::Invalid build number"; missing=1; }
+          # The project, not the command line, carries the identity, so the three must agree.
+          pbx=ios/App/App.xcodeproj/project.pbxproj
+          [ "$(grep -c "PRODUCT_BUNDLE_IDENTIFIER = ${BUNDLE_ID};" "$pbx")" = 2 ] || { echo "::error::Xcode bundle ID differs from ${BUNDLE_ID}"; missing=1; }
+          [ "$(grep -c "DEVELOPMENT_TEAM = ${TEAM_ID};" "$pbx")" = 2 ] || { echo "::error::Xcode team differs from ${TEAM_ID}"; missing=1; }
+          grep -q "appId: \"${BUNDLE_ID}\"" capacitor.config.ts || { echo "::error::capacitor.config.ts appId differs from ${BUNDLE_ID}"; missing=1; }
           exit $missing
 
       - name: Set up Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: "22"
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Set up Bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
@@ -64,8 +87,6 @@ jobs:
           bun-version: "1.4.3"
 
       - name: Install, test, build bundle, sync
-        env:
-          CAPACITOR_APP_ID: ${{ vars.IOS_BUNDLE_ID }}
         run: |
           bun install --frozen-lockfile
           bunx tsc --noEmit
@@ -74,7 +95,8 @@ jobs:
 
       - name: Select Xcode 26
         run: |
-          xcode=$(ls -d /Applications/Xcode_26*.app | grep -Ev 'beta|Release_Candidate' | sort -V | tail -1)
+          xcode=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | grep -Ev 'beta|Release_Candidate' | sort -V | tail -1)
+          if [ -z "$xcode" ]; then echo "::error::No Xcode 26 installation found on runner"; exit 1; fi
           sudo xcode-select -s "$xcode/Contents/Developer"
           xcodebuild -version
 
@@ -95,12 +117,61 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN" >/dev/null
           security list-keychains -d user -s "$KEYCHAIN" $(security list-keychains -d user | tr -d '"')
           rm "$RUNNER_TEMP/dist.p12"
-          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
           echo "$PROFILE_BASE64" | base64 --decode > "$RUNNER_TEMP/profile.mobileprovision"
-          PROFILE_UUID=$(security cms -D -i "$RUNNER_TEMP/profile.mobileprovision" | plutil -extract UUID raw -)
-          cp "$RUNNER_TEMP/profile.mobileprovision" "$HOME/Library/MobileDevice/Provisioning Profiles/$PROFILE_UUID.mobileprovision"
-          echo "PROFILE_UUID=$PROFILE_UUID" >> "$GITHUB_ENV"
+          security cms -D -i "$RUNNER_TEMP/profile.mobileprovision" > "$RUNNER_TEMP/profile.plist"
+          echo "KEYCHAIN=$KEYCHAIN" >> "$GITHUB_ENV"
 
+      # Fails before archiving if the profile is not an App Store profile for this bundle ID and
+      # team, has expired, or was not issued for the imported Apple Distribution certificate.
+      - name: Verify provisioning profile against bundle ID and certificate
+        run: |
+          security find-identity -p codesigning "$KEYCHAIN" > "$RUNNER_TEMP/identities.txt"
+          python3 - "$RUNNER_TEMP/profile.plist" "$RUNNER_TEMP/identities.txt" <<'PY'
+          import datetime, hashlib, os, plistlib, re, sys
+          team, bundle = os.environ["TEAM_ID"], os.environ["BUNDLE_ID"]
+          with open(sys.argv[1], "rb") as f:
+              profile = plistlib.load(f)
+          ent = profile.get("Entitlements", {})
+          errors = []
+          if team not in profile.get("TeamIdentifier", []):
+              errors.append("profile team does not match TEAM_ID")
+          if ent.get("application-identifier") != f"{team}.{bundle}":
+              errors.append("profile App ID is not TEAM_ID.BUNDLE_ID")
+          if ent.get("get-task-allow"):
+              errors.append("profile is a development profile")
+          if "ProvisionedDevices" in profile or profile.get("ProvisionsAllDevices"):
+              errors.append("profile is ad hoc or enterprise, not App Store")
+          now = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
+          expires = profile["ExpirationDate"]
+          if expires <= now:
+              errors.append("profile has expired")
+          name = profile["Name"]
+          if not re.fullmatch(r"[^\n\r\"]{1,200}", name):
+              errors.append("profile name contains unsupported characters")
+          profile_certs = {hashlib.sha1(c).hexdigest().upper() for c in profile.get("DeveloperCertificates", [])}
+          identities = re.findall(r'\)\s+([0-9A-F]{40})\s+"([^"]+)"', open(sys.argv[2]).read())
+          matched = [label for sha, label in identities
+                     if sha in profile_certs and label.startswith("Apple Distribution:") and label.endswith(f"({team})")]
+          if not matched:
+              errors.append("no imported Apple Distribution identity for this team is included in the profile")
+          for e in errors:
+              print(f"::error::{e}")
+          if errors:
+              sys.exit(1)
+          with open(os.environ["GITHUB_ENV"], "a") as env:
+              env.write(f"PROFILE_NAME={name}\nPROFILE_UUID={profile['UUID']}\n")
+          days = (expires - now).days
+          print(f"Profile '{name}' ({profile['UUID']}) matches {team}.{bundle}; expires {expires:%Y-%m-%d} ({days} days).")
+          print(f"Signing identity: {matched[0]}")
+          if days < 30:
+              print(f"::warning::Provisioning profile expires in {days} days")
+          PY
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          cp "$RUNNER_TEMP/profile.mobileprovision" "$HOME/Library/MobileDevice/Provisioning Profiles/$(plutil -extract UUID raw "$RUNNER_TEMP/profile.plist").mobileprovision"
+
+      # Signing style, identity and team live in the App target's Release configuration.
+      # Only VIVO_APPSTORE_PROFILE is passed here: command-line signing settings would also
+      # apply to the Swift package targets, which cannot take a provisioning profile.
       - name: Archive (Release, Apple Distribution)
         run: |
           set -o pipefail
@@ -108,41 +179,65 @@ jobs:
           xcodebuild archive \
             -project ios/App/App.xcodeproj -scheme App -configuration Release \
             -destination 'generic/platform=iOS' -archivePath build/App.xcarchive \
-            PRODUCT_BUNDLE_IDENTIFIER="$BUNDLE_ID" DEVELOPMENT_TEAM="$TEAM_ID" \
+            VIVO_APPSTORE_PROFILE="$PROFILE_NAME" \
             MARKETING_VERSION="$MARKETING_VERSION" CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
-            CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="Apple Distribution" \
-            PROVISIONING_PROFILE_SPECIFIER="$PROFILE_UUID" \
             2>&1 | tee build/xcodebuild-archive.log
 
-      - name: Export IPA and upload to TestFlight
+      - name: Verify archive
+        run: |
+          app=build/App.xcarchive/Products/Applications/App.app
+          fail() { echo "::error::$1"; exit 1; }
+          [ "$(plutil -extract CFBundleIdentifier raw "$app/Info.plist")" = "$BUNDLE_ID" ] || fail "Archived bundle ID differs"
+          [ "$(plutil -extract CFBundleShortVersionString raw "$app/Info.plist")" = "$MARKETING_VERSION" ] || fail "Archived marketing version differs"
+          [ "$(plutil -extract CFBundleVersion raw "$app/Info.plist")" = "$BUILD_NUMBER" ] || fail "Archived build number differs"
+          [ -f "$app/PrivacyInfo.xcprivacy" ] || fail "PrivacyInfo.xcprivacy missing from the app bundle"
+          [ -f "$app/public/index.html" ] || fail "Bundled web assets missing"
+          [ "$(security cms -D -i "$app/embedded.mobileprovision" | plutil -extract UUID raw -)" = "$PROFILE_UUID" ] || fail "Embedded profile differs"
+          codesign --verify --deep --strict "$app" || fail "Code signature invalid"
+          codesign -dvv "$app" 2>&1 | grep -q "^Authority=Apple Distribution: .*(${TEAM_ID})$" || fail "App is not signed with Apple Distribution"
+          echo "Archive OK: $BUNDLE_ID $MARKETING_VERSION ($BUILD_NUMBER)"
+
+      - name: Export IPA (and upload to TestFlight when requested)
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
         run: |
           set -o pipefail
-          KEY_PATH="$RUNNER_TEMP/AuthKey.p8"
-          echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$KEY_PATH"
+          destination=export
+          auth=()
+          if [ "$UPLOAD" = "true" ]; then
+            destination=upload
+            KEY_PATH="$RUNNER_TEMP/AuthKey.p8"
+            echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$KEY_PATH"
+            auth=(-authenticationKeyPath "$KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID")
+          fi
           cat > "$RUNNER_TEMP/ExportOptions.plist" <<EOF
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0"><dict>
             <key>method</key><string>app-store-connect</string>
-            <key>destination</key><string>upload</string>
+            <key>destination</key><string>${destination}</string>
             <key>teamID</key><string>${TEAM_ID}</string>
             <key>signingStyle</key><string>manual</string>
+            <key>signingCertificate</key><string>Apple Distribution</string>
             <key>provisioningProfiles</key><dict><key>${BUNDLE_ID}</key><string>${PROFILE_UUID}</string></dict>
             <key>manageAppVersionAndBuildNumber</key><false/>
+            <key>uploadSymbols</key><true/>
           </dict></plist>
           EOF
           xcodebuild -exportArchive \
             -archivePath build/App.xcarchive -exportPath build/export \
             -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
-            -authenticationKeyPath "$KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" \
-            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            "${auth[@]}" \
             2>&1 | tee build/xcodebuild-export.log
-          rm -f "$KEY_PATH"
-          echo "### Uploaded build $MARKETING_VERSION ($BUILD_NUMBER) to App Store Connect" >> "$GITHUB_STEP_SUMMARY"
+          rm -f "$RUNNER_TEMP/AuthKey.p8"
+          if [ "$UPLOAD" = "true" ]; then
+            echo "### Uploaded build $MARKETING_VERSION ($BUILD_NUMBER) to App Store Connect" >> "$GITHUB_STEP_SUMMARY"
+          else
+            ls build/export/*.ipa >/dev/null || { echo "::error::No IPA exported"; exit 1; }
+            echo "### Signed and exported $MARKETING_VERSION ($BUILD_NUMBER); nothing uploaded" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Upload release logs
         if: always()
@@ -157,4 +252,5 @@ jobs:
         if: always()
         run: |
           security delete-keychain "$RUNNER_TEMP/signing.keychain-db" 2>/dev/null || true
-          rm -f "$RUNNER_TEMP"/*.p12 "$RUNNER_TEMP"/*.p8 "$RUNNER_TEMP"/*.mobileprovision
+          rm -f "$RUNNER_TEMP"/*.p12 "$RUNNER_TEMP"/*.p8 "$RUNNER_TEMP"/*.mobileprovision "$RUNNER_TEMP"/profile.plist
+          rm -rf build/export

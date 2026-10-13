@@ -68,10 +68,11 @@ The iOS work adds **no new recipients**:
 
 | Apple category | Collected | Linked to user | Tracking | Purpose |
 |---|---|---|---|---|
+| Contact info: name | Yes (profile name, synced to the account) | Yes | No | App functionality |
 | Contact info: email address | Yes | Yes | No | App functionality (account) |
 | Health & fitness: health, fitness | Yes | Yes | No | App functionality |
 | User content: photos, audio data | Yes (sent for analysis, not stored by us — verify the AI provider's retention) | Yes | No | App functionality |
 | Identifiers: user ID | Yes | Yes | No | App functionality |
 | Diagnostics, usage data, location, purchases | No | — | — | — |
 
-A privacy manifest (`PrivacyInfo.xcprivacy`) is needed before submission. Capacitor 8 and its plugins ship their own manifests. The app manifest must declare `NSPrivacyAccessedAPICategoryUserDefaults` (reason `CA92.1`), because `SecureSessionStoragePlugin` uses `UserDefaults`.
+`ios/App/App/PrivacyInfo.xcprivacy` declares these collected data types (linked to the user, not used for tracking, purpose App Functionality) and `NSPrivacyAccessedAPICategoryUserDefaults` with reason `CA92.1`, because `SecureSessionStoragePlugin` uses `UserDefaults`. Keep it in sync with this table and with the App Store Connect answers. Capacitor 8.5.3 and Cordova ship their own manifests; their binaries import no required-reason APIs. `@capacitor/app` and `@capacitor/status-bar` use none either.

@@ -11,13 +11,13 @@ Status: **not ready for submission.** The unsigned Simulator build is the first 
 
 | Item | Status | Notes |
 |---|---|---|
-| Apple Developer Program membership | ⛔ | Organization enrollment (D-U-N-S number) for Fairvital / the publisher. Determines the Team ID. |
-| Final bundle ID | ⛔ | Placeholder `com.example.vitalplus`. Change in **two** places:<br>• `capacitor.config.ts` (`CAPACITOR_APP_ID`)<br>• Xcode `PRODUCT_BUNDLE_IDENTIFIER`<br>The release workflow overrides it from the `IOS_BUNDLE_ID` variable. |
-| App ID + capabilities | ⬜ | Needed: Data Protection (`NSFileProtectionComplete`, recommended).<br>Later, for universal links: Associated Domains.<br>Not needed: Push, HealthKit, Sign in with Apple (no third-party login is offered in the app). |
-| Apple Distribution certificate | ⛔ | Export as `.p12` → secret `IOS_DIST_CERT_P12_BASE64` and `IOS_DIST_CERT_PASSWORD`. |
-| App Store provisioning profile | ⛔ | → secret `IOS_APPSTORE_PROFILE_BASE64` |
-| App Store Connect API key (App Manager role) | ⛔ | → secrets `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8_BASE64` |
-| App record in App Store Connect | ⛔ | Name, primary language (German), bundle ID, SKU |
+| Apple Developer Program membership | ✅ | Team ID `R9RKNU986H`, set as `DEVELOPMENT_TEAM` in the Xcode project. |
+| Final bundle ID | ✅ | `com.fairvital.vivohealth` in `capacitor.config.ts` and Xcode `PRODUCT_BUNDLE_IDENTIFIER` (Debug and Release). The release workflow fails if they differ. |
+| App ID + capabilities | 🟡 | The app uses no entitlements, so any App Store profile for the App ID fits.<br>Recommended later: Data Protection (`NSFileProtectionComplete`). Enabling it on the App ID **requires a regenerated profile** before the entitlement can be added.<br>Later, for universal links: Associated Domains.<br>Not needed: Push, HealthKit, Sign in with Apple (no third-party login is offered in the app). |
+| Apple Distribution certificate | 🟡 | Created; reported as stored in secrets `IOS_DIST_CERT_P12_BASE64` and `IOS_DIST_CERT_PASSWORD`. Verified by the first workflow run. |
+| App Store provisioning profile | 🟡 | Created; reported as stored in secret `IOS_APPSTORE_PROFILE_BASE64`. The workflow checks type, App ID, expiry and certificate before archiving. |
+| App Store Connect API key (App Manager role) | 🟡 | Reported as stored in secrets `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8_BASE64`. Only used when `upload` is checked. |
+| App record in App Store Connect | ✅ | Exists (reported). |
 
 ## 2. Store listing
 
@@ -34,7 +34,7 @@ Status: **not ready for submission.** The unsigned Simulator build is the first 
 | Age rating questionnaire | ⬜ | Medical/treatment information: "infrequent/mild" is likely. To be answered by the product owner. |
 | App Privacy questionnaire | 🟡 | Draft in `privacy-checklist.md`. |
 | Export compliance | ✅ | `ITSAppUsesNonExemptEncryption = NO` (HTTPS only). |
-| Privacy manifest (`PrivacyInfo.xcprivacy`) | ⬜ | Must declare UserDefaults (`CA92.1`). |
+| Privacy manifest (`PrivacyInfo.xcprivacy`) | ✅ | In the App target's resources. Declares UserDefaults (`CA92.1`), no tracking, and the collected data types from `privacy-checklist.md`. Capacitor 8.5.3 and Cordova ship their own (empty) manifests. |
 
 ## 3. App Review Guidelines assessment
 
@@ -54,17 +54,18 @@ Status: **not ready for submission.** The unsigned Simulator build is the first 
 
 ## 4. Engineering items before the first TestFlight build
 
-1. **Publish the server change.** Merge to `main` and publish in Lovable so production allows `capacitor://localhost` (`src/start.ts`). That is a production deployment and needs explicit approval. Then verify AI and account deletion on iOS.
+1. **Publish the server change.** Bring `src/start.ts` into Lovable's branch (`vital-plus`) and publish, so production allows `capacitor://localhost`. That is a production deployment and needs explicit approval. Then verify AI, password reset and account deletion on iOS.
 2. **Run on the Simulator** (Mac with Xcode 26, or download the CI artifact; see README) and walk the test plan in `README.md`.
-3. **Fix the bundle ID and team.** Set the final bundle ID and Team ID; enable automatic or manual signing.
-4. **Add the privacy manifest.** Add `PrivacyInfo.xcprivacy` to the App target.
+3. ✅ **Bundle ID and team** are set; Release uses manual Apple Distribution signing.
+4. ✅ **Privacy manifest** is in the App target.
 5. **Replace the icon and launch artwork** with final assets.
 6. **Prepare TestFlight review details:** a demo account and review notes. The notes should explain:
    - the AI features
    - that purchases happen on fairvital.com (physical goods)
    - the medical disclaimer
 7. **Configure release CI:**
-   - repository variables `IOS_RELEASE_ENABLED=true`, `IOS_BUNDLE_ID`, `APPLE_TEAM_ID`
-   - the secrets listed in §1
+   - the secrets listed in §1 (bundle ID and team are now in the repository; the `IOS_BUNDLE_ID` and `APPLE_TEAM_ID` variables are no longer read)
    - a GitHub environment `ios-release` with required reviewers
-   - then run *iOS release (TestFlight)* manually.
+   - repository variable `IOS_RELEASE_ENABLED=true`
+   - run *iOS release (TestFlight)* manually with `upload` **unchecked** first, to prove signing and export
+   - then run it again with `upload` checked and a new build number.
