@@ -1658,6 +1658,14 @@
     "Good morning",
     "Buenos días"
   ],
+  "Guten Tag": [
+    "Good afternoon",
+    "Buenas tardes"
+  ],
+  "Guten Abend": [
+    "Good evening",
+    "Buenas noches"
+  ],
   "Bitte gib ein, was du gegessen hast.": [
     "Please log what you ate.",
     "Por favor, registra lo que comiste."
