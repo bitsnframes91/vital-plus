@@ -172,7 +172,7 @@ function WeekRecap() {
   const meals = s.meals.filter((m) => days.includes(m.date));
   const mealsPerDay = (d: string) => meals.filter((m) => m.date === d).length;
   const dayCount = (d: string) => (s.weekLog[d] ?? 0) + mealsPerDay(d);
-  const goalCount = days.reduce((sum, d) => sum + dayCount(d), 0);
+  const goalCount = days.reduce((sum, d) => sum + (s.weekLog[d] ?? 0), 0);
   const weights = Object.entries(s.weightLog).sort(([a], [b]) => a.localeCompare(b));
   const latestW = weights.at(-1);
   const prevW = weights.length > 1 ? weights[weights.length - 2] : null;
