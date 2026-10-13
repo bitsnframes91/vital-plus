@@ -53,7 +53,7 @@ export function TodayWellnessGoals() {
   const [nutrition, steps, sleep, micro, water] = result.values;
   const number = (value: number) => value.toLocaleString("de-DE", { maximumFractionDigits: 1 });
   const tiles = [
-    { key: "nutrition", title: "Ernährung", icon: Salad, percent: nutrition ?? null, to: "/ernährung" as const, detail: result.targets ? `${number(result.protein)} / ${number(result.targets.protein)} g Protein` : "Persönlicher Richtwert fehlt", sub: result.targets ? `${number(result.fiber)} / ${result.targets.fiber} g Ballaststoffe` : "Körperdaten ergänzen" },
+    { key: "nutrition", title: "Ernährung", icon: Salad, percent: nutrition ?? null, to: "/ernaehrung" as const, detail: result.targets ? `${number(result.protein)} / ${number(result.targets.protein)} g Protein` : "Persönlicher Richtwert fehlt", sub: result.targets ? `${number(result.fiber)} / ${result.targets.fiber} g Ballaststoffe` : "Körperdaten ergänzen" },
     { key: "steps", title: "Schritte noch zu gehen", icon: StepsTileIcon, percent: steps ?? null, to: "/gesundheit" as const, detail: stepsLeft ? `${stepsLeft.toLocaleString("de-DE")} Schritte` : "Tagesziel erreicht", sub: `${(todaySteps ?? 0).toLocaleString("de-DE")} / 10.000 gegangen`, tone: stepsTone(steps ?? null) },
     { key: "sleep", title: "Schlaf", icon: Moon, percent: sleep ?? null, to: "/gesundheit" as const, detail: `${number(todaySleep ?? 0)} / 8 h`, sub: "Schlaf letzte Nacht" },
     { key: "micro", title: "Vitamine & Mineralstoffe", icon: Sprout, percent: micro ?? null, to: "/ernaehrung/vitamine" as const, detail: `${result.microKnown} / ${result.microTotal} Nährstoffe erfasst`, sub: "Geschätzt · EU-Erwachsenenreferenz" },
