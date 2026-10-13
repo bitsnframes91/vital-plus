@@ -93,19 +93,36 @@ Permissions are `contents: read`. Actions are pinned to commit SHAs.
 
 ### `.github/workflows/ios-release.yml`
 
-Signed App Store build. **Never run yet.** Manual dispatch only; it does nothing unless the variable `IOS_RELEASE_ENABLED` is `true`, and it runs in the `ios-release` environment (configure required reviewers there). Setup is in [app-store-readiness.md](app-store-readiness.md#1-apple-developer-and-app-store-connect).
+Signed App Store build. Started manually, or called by `ios-testflight-upload.yml`. It does nothing unless the variable `IOS_RELEASE_ENABLED` is `true`, and it runs in the `ios-release` environment, whose required reviewers must approve before any secret is read. Setup is in [app-store-readiness.md](app-store-readiness.md#1-apple-developer-and-app-store-connect).
 
-Inputs: `marketing_version` (e.g. `1.0.0`), optional `build_number` (default: the workflow run number), and `upload` (default **off**: sign and export the IPA only, nothing is sent to Apple).
+Inputs: `marketing_version` (e.g. `1.0.0`), optional `build_number`, and `upload` (default **off**: sign, export and validate the IPA only).
 
 Steps:
 1. Check that the secrets exist (names only) and that the bundle ID and team in the workflow, the Xcode project and `capacitor.config.ts` agree.
-2. Typecheck, unit tests, mobile bundle, `cap sync ios`.
-3. Import the certificate into a temporary keychain.
-4. Verify the profile: App Store type, App ID `R9RKNU986H.com.fairvital.vivohealth`, not expired, and issued for the imported Apple Distribution certificate. Only the profile name, UUID, expiry and certificate name are printed.
-5. Archive. Only `VIVO_APPSTORE_PROFILE`, the version and the build number go on the command line, because signing settings passed there would also hit the Swift package targets.
-6. Verify the archive: bundle ID, version, build number, privacy manifest, embedded profile and the Apple Distribution signature.
-7. Export the IPA, or upload it when `upload` is checked.
-8. Delete the keychain, key and profile files.
+2. Upload runs only: find the App Store Connect app with exactly `com.fairvital.vivohealth` and pick the next build number: higher than every uploaded build, and at least 2. A requested `build_number` must satisfy the same rule.
+3. Typecheck, unit tests, mobile bundle, `cap sync ios`.
+4. Import the certificate into a temporary keychain and verify the profile: App Store type, App ID `R9RKNU986H.com.fairvital.vivohealth`, not expired, issued for the imported Apple Distribution certificate.
+5. Archive and verify the archive.
+6. Export the IPA and validate it: bundle ID, version, build number, privacy manifest, web assets, embedded profile, Apple Distribution signature, no `get-task-allow`. Upload it as a 7-day artifact.
+7. Upload runs only, and only from a manual dispatch or a push to `feature/ios-testflight-upload`: upload the same archive to App Store Connect for TestFlight.
+8. Delete the keychain, keys and profile files.
+
+Runs are serialized (job-level concurrency group `ios-release`), so two uploads can't pick the same build number.
+
+### `.github/workflows/ios-testflight-upload.yml`
+
+The dedicated TestFlight upload path. It runs only on a push to `feature/ios-testflight-upload` in `bitsnframes91/vital-plus` while `IOS_RELEASE_ENABLED` is `true`.
+
+A guard job without secrets requires the pushed commit to already be on `feature/ios-capacitor`. Then the workflow calls `ios-release.yml` with `upload: true` and version `1.0.0`. The upload goes to TestFlight only: nothing is submitted for review or released.
+
+Upload a reviewed commit:
+
+```sh
+git push origin feature/ios-capacitor                                 # the commit must be here first
+git push origin feature/ios-capacitor:refs/heads/feature/ios-testflight-upload
+```
+
+Then approve the `ios-release` deployment in the run.
 
 ## Device / Simulator test plan (☐ all pending)
 

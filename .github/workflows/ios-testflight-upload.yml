@@ -1,0 +1,51 @@
+# Uploads Vivo Health to App Store Connect for INTERNAL TestFlight testing.
+# Runs only on a push to the dedicated branch feature/ios-testflight-upload, and only for a
+# commit that is already on feature/ios-capacitor. The signing, archive, export and IPA
+# validation all run in ios-release.yml, inside the `ios-release` environment, which requires
+# reviewer approval before any secret is read. The upload is its last step.
+# Nothing is submitted for App Review or released on the App Store.
+name: iOS TestFlight upload
+
+on:
+  push:
+    branches: [feature/ios-testflight-upload]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-testflight-upload
+  cancel-in-progress: false
+
+jobs:
+  # No secrets and no environment: decides whether this push may upload at all.
+  guard:
+    if: >-
+      github.repository == 'bitsnframes91/vital-plus' &&
+      github.ref == 'refs/heads/feature/ios-testflight-upload' &&
+      github.event.deleted == false &&
+      vars.IOS_RELEASE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Require a commit that is already on feature/ios-capacitor
+        run: |
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/feature/ios-capacitor || {
+            echo "::error::Upload only commits that are already on feature/ios-capacitor"; exit 1; }
+          echo "Commit $GITHUB_SHA is on feature/ios-capacitor"
+
+  testflight:
+    needs: guard
+    uses: ./.github/workflows/ios-release.yml
+    with:
+      marketing_version: "1.0.0"
+      # Empty: ios-release.yml takes the next free App Store Connect build number (>= 2).
+      build_number: ""
+      upload: true
+    secrets: inherit

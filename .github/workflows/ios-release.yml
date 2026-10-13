@@ -1,9 +1,10 @@
-# Signed App Store build for TestFlight. Manual dispatch, plus a TEMPORARY push trigger
-# (see below) that only signs and exports — push runs can never upload.
+# Signed App Store build for TestFlight. Manual dispatch, or called by ios-testflight-upload.yml.
 # Inert until the repository variable IOS_RELEASE_ENABLED is "true" and every secret
-# listed in docs/ios/app-store-readiness.md exists. The `ios-release` environment should
-# require reviewer approval (Settings → Environments) so each run is approved manually.
-# With `upload` unchecked (the default) the run signs and exports the IPA but uploads nothing.
+# listed in docs/ios/app-store-readiness.md exists. The `ios-release` environment
+# requires reviewer approval before the job (and with it any secret) starts.
+# With `upload` off (the default) the run signs, exports and validates the IPA and uploads nothing.
+# An upload happens only as the last step, after export and IPA validation succeeded, and only
+# from a manual dispatch or a push to refs/heads/feature/ios-testflight-upload.
 name: iOS release (TestFlight)
 
 on:
@@ -21,34 +22,46 @@ on:
         description: "Upload to App Store Connect / TestFlight (unchecked = sign and export only)"
         type: boolean
         default: false
-  # TEMPORARY: signing test on the iOS branch. Push runs are forced to export-only (UPLOAD
-  # below) and never receive the App Store Connect key. Remove this block after the test.
-  push:
-    branches: [feature/ios-capacitor]
+  workflow_call:
+    inputs:
+      marketing_version:
+        type: string
+        required: true
+      build_number:
+        type: string
+        required: false
+        default: ""
+      upload:
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
-
-concurrency:
-  group: ios-release
-  cancel-in-progress: false
 
 jobs:
   testflight:
     if: vars.IOS_RELEASE_ENABLED == 'true'
     runs-on: macos-26
     environment: ios-release
+    # Job level so it also serializes runs called from ios-testflight-upload.yml; one signing
+    # run at a time keeps App Store Connect build numbers unique.
+    concurrency:
+      group: ios-release
+      cancel-in-progress: false
     timeout-minutes: 60
     env:
       # Must match PRODUCT_BUNDLE_IDENTIFIER / DEVELOPMENT_TEAM in the Xcode project (checked below).
       BUNDLE_ID: com.fairvital.vivohealth
       TEAM_ID: R9RKNU986H
-      # `inputs` is empty on push events, so every input needs a fallback.
       MARKETING_VERSION: ${{ inputs.marketing_version || '1.0.0' }}
-      # Must increase for every upload of the same marketing version.
-      BUILD_NUMBER: ${{ inputs.build_number || github.run_number }}
-      # Only a manual dispatch with `upload` checked may upload; every other event exports only.
-      UPLOAD: ${{ github.event_name == 'workflow_dispatch' && inputs.upload == true && 'true' || 'false' }}
+      # Empty = run number for export-only runs, next free App Store Connect number for uploads.
+      BUILD_NUMBER_INPUT: ${{ inputs.build_number }}
+      # Build 1 was already exported; uploads start above it.
+      MIN_BUILD_NUMBER: "2"
+      # For a called workflow, github.event_name/ref are the caller's. Uploads are allowed only
+      # from a manual dispatch or the dedicated upload branch; everything else exports only.
+      UPLOAD: ${{ inputs.upload == true && (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/feature/ios-testflight-upload')) && 'true' || 'false' }}
       NODE_VERSION: "22"
     steps:
       - name: Checkout
@@ -62,12 +75,14 @@ jobs:
           DIST_CERT_P12_BASE64: ${{ secrets.IOS_DIST_CERT_P12_BASE64 }}
           DIST_CERT_PASSWORD: ${{ secrets.IOS_DIST_CERT_PASSWORD }}
           PROFILE_BASE64: ${{ secrets.IOS_APPSTORE_PROFILE_BASE64 }}
-          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
-          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+          ASC_KEY_ID: ${{ env.UPLOAD == 'true' && secrets.ASC_KEY_ID || '' }}
+          ASC_ISSUER_ID: ${{ env.UPLOAD == 'true' && secrets.ASC_ISSUER_ID || '' }}
+          ASC_KEY_P8_BASE64: ${{ env.UPLOAD == 'true' && secrets.ASC_KEY_P8_BASE64 || '' }}
         run: |
           missing=0
-          echo "Event: ${EVENT_NAME}; upload: ${UPLOAD}; version ${MARKETING_VERSION} (${BUILD_NUMBER})"
+          BUILD_NUMBER="${BUILD_NUMBER_INPUT:-$GITHUB_RUN_NUMBER}"
+          echo "BUILD_NUMBER=$BUILD_NUMBER" >> "$GITHUB_ENV"
+          echo "Event: ${EVENT_NAME} (${GITHUB_REF}); upload: ${UPLOAD}; version ${MARKETING_VERSION}"
           required="DIST_CERT_P12_BASE64 DIST_CERT_PASSWORD PROFILE_BASE64"
           [ "$UPLOAD" != "true" ] || required="$required ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_P8_BASE64"
           for name in $required; do
@@ -84,6 +99,20 @@ jobs:
           [ "$(grep -c "DEVELOPMENT_TEAM = ${TEAM_ID};" "$pbx")" = 2 ] || { echo "::error::Xcode team differs from ${TEAM_ID}"; missing=1; }
           grep -q "appId: \"${BUNDLE_ID}\"" capacitor.config.ts || { echo "::error::capacitor.config.ts appId differs from ${BUNDLE_ID}"; missing=1; }
           exit $missing
+
+      # Upload runs only: confirms the App Store Connect record for exactly BUNDLE_ID and picks
+      # a build number that is unique and higher than every build uploaded so far (and >= 2).
+      - name: Choose build number from App Store Connect
+        if: env.UPLOAD == 'true'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+        run: |
+          KEY_PATH="$RUNNER_TEMP/asc-query.p8"
+          trap 'rm -f "$KEY_PATH"' EXIT
+          (umask 077; echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$KEY_PATH")
+          KEY_PATH="$KEY_PATH" python3 .github/scripts/asc_next_build.py
 
       - name: Set up Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -206,31 +235,16 @@ jobs:
           codesign -dvv "$app" 2>&1 | grep -q "^Authority=Apple Distribution: .*(${TEAM_ID})$" || fail "App is not signed with Apple Distribution"
           echo "Archive OK: $BUNDLE_ID $MARKETING_VERSION ($BUILD_NUMBER)"
 
-      - name: Export IPA (and upload to TestFlight when requested)
-        env:
-          # The App Store Connect key only enters the job for an upload run.
-          ASC_KEY_ID: ${{ env.UPLOAD == 'true' && secrets.ASC_KEY_ID || '' }}
-          ASC_ISSUER_ID: ${{ env.UPLOAD == 'true' && secrets.ASC_ISSUER_ID || '' }}
-          ASC_KEY_P8_BASE64: ${{ env.UPLOAD == 'true' && secrets.ASC_KEY_P8_BASE64 || '' }}
+      - name: Export IPA
         run: |
           set -o pipefail
-          if [ "$UPLOAD" = "true" ] && [ "$GITHUB_EVENT_NAME" != "workflow_dispatch" ]; then
-            echo "::error::Uploads are only allowed from a manual dispatch"; exit 1
-          fi
-          destination=export
-          auth=()
-          if [ "$UPLOAD" = "true" ]; then
-            destination=upload
-            KEY_PATH="$RUNNER_TEMP/AuthKey.p8"
-            echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$KEY_PATH"
-            auth=(-authenticationKeyPath "$KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID")
-          fi
-          cat > "$RUNNER_TEMP/ExportOptions.plist" <<EOF
+          write_export_options() {
+          cat > "$1" <<EOF
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0"><dict>
             <key>method</key><string>app-store-connect</string>
-            <key>destination</key><string>${destination}</string>
+            <key>destination</key><string>$2</string>
             <key>teamID</key><string>${TEAM_ID}</string>
             <key>signingStyle</key><string>manual</string>
             <key>signingCertificate</key><string>Apple Distribution</string>
@@ -239,18 +253,15 @@ jobs:
             <key>uploadSymbols</key><true/>
           </dict></plist>
           EOF
+          }
+          write_export_options "$RUNNER_TEMP/ExportOptions-export.plist" export
+          write_export_options "$RUNNER_TEMP/ExportOptions-upload.plist" upload
           xcodebuild -exportArchive \
             -archivePath build/App.xcarchive -exportPath build/export \
-            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
-            "${auth[@]}" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions-export.plist" \
             2>&1 | tee build/xcodebuild-export.log
-          rm -f "$RUNNER_TEMP/AuthKey.p8"
-          if [ "$UPLOAD" = "true" ]; then
-            echo "### Uploaded build $MARKETING_VERSION ($BUILD_NUMBER) to App Store Connect" >> "$GITHUB_STEP_SUMMARY"
-          fi
 
       - name: Validate exported IPA
-        if: env.UPLOAD != 'true'
         run: |
           fail() { echo "::error::$1"; exit 1; }
           ipas=(build/export/*.ipa)
@@ -277,7 +288,7 @@ jobs:
           mv "$ipa" "build/export/$name"
           echo "IPA_NAME=$name" >> "$GITHUB_ENV"
           {
-            echo "### Signed and exported $MARKETING_VERSION ($BUILD_NUMBER); nothing uploaded"
+            echo "### Signed and exported $MARKETING_VERSION ($BUILD_NUMBER)"
             echo "IPA validated: bundle ID, version, privacy manifest, embedded profile, Apple Distribution signature."
             echo "SHA-256: \`$(shasum -a 256 "build/export/$name" | cut -d' ' -f1)\`"
           } >> "$GITHUB_STEP_SUMMARY"
@@ -285,13 +296,43 @@ jobs:
       # Signed with the distribution identity; it cannot be installed on devices outside
       # TestFlight/App Store. Contains no certificates' private keys or API keys.
       - name: Upload signed IPA
-        if: success() && env.UPLOAD != 'true'
+        if: success()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: VivoHealth-signed-ipa-${{ env.MARKETING_VERSION }}-${{ env.BUILD_NUMBER }}
           path: build/export/${{ env.IPA_NAME }}
           if-no-files-found: error
           retention-days: 7
+
+      # Last step, reached only when signing, archive checks, export and IPA validation passed.
+      # Uploads the same validated archive with the same profile; Apple validates it on receipt.
+      # TestFlight only: nothing is submitted for review or released.
+      - name: Upload to TestFlight
+        if: success() && env.UPLOAD == 'true'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+        run: |
+          set -o pipefail
+          fail() { echo "::error::$1"; exit 1; }
+          case "$GITHUB_EVENT_NAME:$GITHUB_REF" in
+            workflow_dispatch:*|push:refs/heads/feature/ios-testflight-upload) ;;
+            *) fail "Uploads are only allowed from a manual dispatch or the upload branch" ;;
+          esac
+          [ "$BUNDLE_ID" = "com.fairvital.vivohealth" ] || fail "Unexpected bundle ID"
+          [ "$TEAM_ID" = "R9RKNU986H" ] || fail "Unexpected team"
+          [ -n "${ASC_BUILD_CONFIRMED:-}" ] && [ "$ASC_BUILD_CONFIRMED" = "$BUILD_NUMBER" ] || fail "Build number was not confirmed against App Store Connect"
+          KEY_PATH="$RUNNER_TEMP/AuthKey.p8"
+          trap 'rm -f "$KEY_PATH"' EXIT
+          (umask 077; echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$KEY_PATH")
+          xcodebuild -exportArchive \
+            -archivePath build/App.xcarchive -exportPath build/upload \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions-upload.plist" \
+            -authenticationKeyPath "$KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            2>&1 | tee build/xcodebuild-upload.log
+          echo "### Uploaded $BUNDLE_ID $MARKETING_VERSION ($BUILD_NUMBER) to App Store Connect for TestFlight" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload release logs
         if: always()
@@ -307,4 +348,4 @@ jobs:
         run: |
           security delete-keychain "$RUNNER_TEMP/signing.keychain-db" 2>/dev/null || true
           rm -f "$RUNNER_TEMP"/*.p12 "$RUNNER_TEMP"/*.p8 "$RUNNER_TEMP"/*.mobileprovision "$RUNNER_TEMP"/profile.plist
-          rm -rf build/export
+          rm -rf build/export build/upload

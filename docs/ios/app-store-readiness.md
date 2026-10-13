@@ -67,5 +67,5 @@ Status: **not ready for submission.** The unsigned Simulator build is the first 
    - the secrets listed in §1 (bundle ID and team are now in the repository; the `IOS_BUNDLE_ID` and `APPLE_TEAM_ID` variables are no longer read)
    - a GitHub environment `ios-release` with required reviewers
    - repository variable `IOS_RELEASE_ENABLED=true`
-   - run *iOS release (TestFlight)* manually with `upload` **unchecked** first, to prove signing and export
-   - then run it again with `upload` checked and a new build number.
+   - ✅ signing test: build 1 was signed, exported and validated with `upload` off
+   - first TestFlight upload: push the reviewed commit to `feature/ios-testflight-upload` and approve the `ios-release` deployment (README → GitHub Actions). The build number is taken from App Store Connect (≥ 2).
