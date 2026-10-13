@@ -8,6 +8,7 @@ import { SwipeAction } from "@/components/SwipeAction";
 import { supabase } from "@/integrations/supabase/client";
 import { useStore } from "@/lib/store";
 import { clearQuestionnaire } from "@/lib/questionnaire-draft";
+import { accountExists } from "@/lib/account.functions";
 import { VivoBrand } from "@/components/VivoBrand";
 
 export const Route = createFileRoute("/")({
@@ -51,7 +52,11 @@ function Home() {
     setBusy(true); setError(null);
     try {
       const { data: signed, error: authError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-      if (authError) { setError(authError.code === "email_not_confirmed" ? "Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach." : "E-Mail oder Passwort ist falsch."); return; }
+      if (authError) {
+        if (authError.code === "email_not_confirmed") { setError("Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach."); return; }
+        const { exists } = await accountExists({ data: { email: email.trim() } }).catch(() => ({ exists: true }));
+        setError(exists ? "E-Mail oder Passwort ist falsch." : "Dieses Konto existiert nicht."); return;
+      }
       if (!signed.user?.email_confirmed_at) { await supabase.auth.signOut(); setError("Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach."); return; }
       clearQuestionnaire();
       await navigate({ to: "/heute" });

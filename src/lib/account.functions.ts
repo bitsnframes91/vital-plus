@@ -48,3 +48,19 @@ export const requestPasswordReset = createServerFn({ method: "POST" })
     if (error) throw new Error("Senden nicht möglich");
     return { ok: true };
   });
+
+// Reports whether an account exists for the email, so sign-in can tell
+// "account deleted/never registered" apart from a wrong password.
+export const accountExists = createServerFn({ method: "POST" })
+  .inputValidator((d) => z.object({ email: z.string().trim().email().max(320) }).parse(d))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const email = data.email.toLowerCase();
+    for (let page = 1; page <= 50; page++) {
+      const { data: list, error } = await supabaseAdmin.auth.admin.listUsers({ page, perPage: 1000 });
+      if (error) return { exists: true }; // fail closed: keep the generic error
+      if (list.users.some((u) => u.email?.toLowerCase() === email)) return { exists: true };
+      if (list.users.length < 1000) break;
+    }
+    return { exists: false };
+  });
