@@ -1799,6 +1799,10 @@
     "An account already exists for this email.",
     "Ya existe una cuenta con este correo."
   ],
+  "Für diese E-Mail gibt es bereits ein Konto. Bitte melde dich an oder setze dein Passwort zurück.": [
+    "An account already exists for this email. Please sign in or reset your password.",
+    "Ya existe una cuenta con este correo. Inicia sesión o restablece tu contraseña."
+  ],
   "Konto konnte nicht angelegt werden (Passwort mind. 8 Zeichen).": [
     "Unable to create account (password must have at least 8 characters).",
     "No se pudo crear la cuenta (contraseña de al menos 8 caracteres)."

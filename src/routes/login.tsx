@@ -51,6 +51,8 @@ function Login() {
       const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + "/heute", ...(questionnaire ? { data: { questionnaire } } : {}) } });
       setBusy(false);
       if (error) return setMsg(error.message.includes("registered") ? "Für diese E-Mail gibt es bereits ein Konto." : "Konto konnte nicht angelegt werden (Passwort mind. 8 Zeichen).");
+      if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0)
+        return setMsg("Für diese E-Mail gibt es bereits ein Konto. Bitte melde dich an oder setze dein Passwort zurück.");
       clearQuestionnaire();
       if (!data.session) { setSent(true); return; }
       navigate({ to: "/heute" });
