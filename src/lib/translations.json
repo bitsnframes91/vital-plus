@@ -1,19 +1,64 @@
 {
-  "Essen fotografieren": ["Photograph food", "Fotografiar comida"],
-  "Essensfoto auswählen": ["Choose food photo", "Elegir foto de comida"],
-  "Protein in g": ["Protein in g", "Proteína en g"],
-  "Foto-Schätzung · Portionsgröße und Zutaten können abweichen.": ["Photo estimate · Portion size and ingredients may vary.", "Estimación por foto · La porción y los ingredientes pueden variar."],
-  "Kein Essen erkannt. Bitte fotografiere die Mahlzeit erneut.": ["No food recognized. Please photograph the meal again.", "No se reconoció comida. Fotografía la comida de nuevo."],
-  "Das Foto konnte nicht ausgewertet werden. Bitte versuche es später erneut.": ["The photo could not be analyzed. Please try again later.", "No se pudo analizar la foto. Inténtalo más tarde."],
-  "Bitte wähle ein Foto bis 20 MB.": ["Please choose a photo up to 20 MB.", "Elige una foto de hasta 20 MB."],
-  "Unter dem Tagesrichtwert": ["Below the daily reference", "Por debajo de la referencia diaria"],
-  "Über dem Tagesrichtwert": ["Above the daily reference", "Por encima de la referencia diaria"],
-  "Keine gelben oder roten Ernährungswerte mit Richtwert für heute.": ["No yellow or red nutrition values with a reference today.", "No hay valores nutricionales amarillos o rojos con referencia hoy."],
-  "Omega fette": ["Omega fats", "Grasas omega"],
-  "Anteil der erfassten Omega-Fette": ["Share of logged omega fats", "Proporción de grasas omega registradas"],
-  "Omega-Fette: geschätzte Mengen aus heutigen Mahlzeiten. Die Balken zeigen den Anteil an der erfassten Gesamtmenge, keinen Tagesbedarf.": ["Omega fats: estimated amounts from today’s meals. Bars show the share of the logged total, not a daily requirement.", "Grasas omega: cantidades estimadas de las comidas de hoy. Las barras muestran la proporción del total registrado, no una necesidad diaria."],
-  "Geschätzte Aufnahme": ["Estimated intake", "Ingesta estimada"],
-  "Heute · geschätzt": ["Today · estimated", "Hoy · estimado"],
+  "Essen fotografieren": [
+    "Photograph food",
+    "Fotografiar comida"
+  ],
+  "Essensfoto auswählen": [
+    "Choose food photo",
+    "Elegir foto de comida"
+  ],
+  "Protein in g": [
+    "Protein in g",
+    "Proteína en g"
+  ],
+  "Foto-Schätzung · Portionsgröße und Zutaten können abweichen.": [
+    "Photo estimate · Portion size and ingredients may vary.",
+    "Estimación por foto · La porción y los ingredientes pueden variar."
+  ],
+  "Kein Essen erkannt. Bitte fotografiere die Mahlzeit erneut.": [
+    "No food recognized. Please photograph the meal again.",
+    "No se reconoció comida. Fotografía la comida de nuevo."
+  ],
+  "Das Foto konnte nicht ausgewertet werden. Bitte versuche es später erneut.": [
+    "The photo could not be analyzed. Please try again later.",
+    "No se pudo analizar la foto. Inténtalo más tarde."
+  ],
+  "Bitte wähle ein Foto bis 20 MB.": [
+    "Please choose a photo up to 20 MB.",
+    "Elige una foto de hasta 20 MB."
+  ],
+  "Unter dem Tagesrichtwert": [
+    "Below the daily reference",
+    "Por debajo de la referencia diaria"
+  ],
+  "Über dem Tagesrichtwert": [
+    "Above the daily reference",
+    "Por encima de la referencia diaria"
+  ],
+  "Keine gelben oder roten Ernährungswerte mit Richtwert für heute.": [
+    "No yellow or red nutrition values with a reference today.",
+    "No hay valores nutricionales amarillos o rojos con referencia hoy."
+  ],
+  "Omega fette": [
+    "Omega fats",
+    "Grasas omega"
+  ],
+  "Anteil der erfassten Omega-Fette": [
+    "Share of logged omega fats",
+    "Proporción de grasas omega registradas"
+  ],
+  "Omega-Fette: geschätzte Mengen aus heutigen Mahlzeiten. Die Balken zeigen den Anteil an der erfassten Gesamtmenge, keinen Tagesbedarf.": [
+    "Omega fats: estimated amounts from today’s meals. Bars show the share of the logged total, not a daily requirement.",
+    "Grasas omega: cantidades estimadas de las comidas de hoy. Las barras muestran la proporción del total registrado, no una necesidad diaria."
+  ],
+  "Geschätzte Aufnahme": [
+    "Estimated intake",
+    "Ingesta estimada"
+  ],
+  "Heute · geschätzt": [
+    "Today · estimated",
+    "Hoy · estimado"
+  ],
   "Vitamine": [
     "Vitamins",
     "Vitaminas"
@@ -2965,5 +3010,13 @@
   "Kupfer als Spurenelement": [
     "Copper as a trace element",
     "Cobre como oligoelemento"
+  ],
+  "Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach.": [
+    "Please confirm your email first using the link in your inbox.",
+    "Primero confirma tu correo con el enlace de tu bandeja de entrada."
+  ],
+  "Wenn ein bestätigtes Konto mit dieser E-Mail-Adresse existiert, erhältst du einen Link zum Zurücksetzen deines Passworts.": [
+    "If a confirmed account with this email exists, you'll receive a password reset link.",
+    "Si existe una cuenta confirmada con este correo, recibirás un enlace para restablecer tu contraseña."
   ]
 }
