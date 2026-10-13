@@ -3022,5 +3022,29 @@
   "Wenn ein bestätigtes Konto mit dieser E-Mail-Adresse existiert, erhältst du einen Link zum Zurücksetzen deines Passworts.": [
     "If a confirmed account with this email exists, you'll receive a password reset link.",
     "Si existe una cuenta confirmada con este correo, recibirás un enlace para restablecer tu contraseña."
+  ],
+  "Ohne Passwort anmelden (Login-Link per E-Mail)": [
+    "Sign in without a password (login link by email)",
+    "Iniciar sesión sin contraseña (enlace por correo)"
+  ],
+  "Stattdessen mit Passwort anmelden": [
+    "Sign in with password instead",
+    "Iniciar sesión con contraseña"
+  ],
+  "Login-Link senden": [
+    "Send login link",
+    "Enviar enlace de acceso"
+  ],
+  "Wir haben dir einen Login-Link geschickt an:": [
+    "We've sent you a login link to:",
+    "Te hemos enviado un enlace de acceso a:"
+  ],
+  "Klicke auf den Link in deinem Postfach, um dich ohne Passwort anzumelden. Bitte prüfe auch deinen Spam-Ordner.": [
+    "Click the link in your inbox to sign in without a password. Please also check your spam folder.",
+    "Haz clic en el enlace de tu bandeja de entrada para iniciar sesión sin contraseña. Revisa también la carpeta de spam."
+  ],
+  "Zurück zur Anmeldung": [
+    "Back to sign in",
+    "Volver a iniciar sesión"
   ]
 }
