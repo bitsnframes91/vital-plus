@@ -53,6 +53,7 @@ function migrate(parsed: any) {
   if (Array.isArray(parsed.meals)) {
     const today = todayKey();
     parsed.meals = parsed.meals.map((m: any) => ({ kcal: 0, fiber: 0, carbs: 0, fat: 0, date: today, ...m }));
+    parsed.meals = parsed.meals.filter((m: any) => !((m.id === "m1" && m.name === "Skyr mit Beeren & Walnüssen") || (m.id === "m2" && m.name === "Linsen-Bowl mit Gemüse")));
   }
   if (parsed.account && !parsed.account.userId) parsed.account = null;
   // "Gesund altern" was renamed to "Longevity".

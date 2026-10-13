@@ -134,7 +134,7 @@ function NutritionPage() {
   }, [todayMeals.map((m) => `${m.id}:${Boolean(m.micronutrients)}:${m.omega3Mg}:${m.omega6Mg}:${m.omega9Mg}`).join()]);
 
   // Diary: group meals by day, newest first.
-  const days = [...new Set(s.meals.map((m) => m.date))].sort().reverse();
+  const days = todayMeals.length ? [today] : [];
 
   const toggleVoice = async () => {
     setVmsg(null);
