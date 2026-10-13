@@ -51,7 +51,7 @@ const KEY = "fv-health-v1";
 
 function migrate(parsed: any) {
   if (Array.isArray(parsed.meals)) {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = todayKey();
     parsed.meals = parsed.meals.map((m: any) => ({ kcal: 0, fiber: 0, carbs: 0, fat: 0, date: today, ...m }));
   }
   if (parsed.account && !parsed.account.userId) parsed.account = null;
@@ -62,7 +62,7 @@ function migrate(parsed: any) {
   parsed.fullDays = typeof parsed.fullDays === "object" && parsed.fullDays !== null ? parsed.fullDays : {};
   parsed.waterLog = typeof parsed.waterLog === "object" && parsed.waterLog !== null ? parsed.waterLog : {};
   if (parsed.actionsDone) {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = todayKey();
     if (parsed.weekLog[today] === undefined) {
       parsed.weekLog[today] = Object.entries(parsed.actionsDone).filter(([k, v]) => (k.startsWith(today) || !k.includes(":")) && v).length;
     }
@@ -145,7 +145,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const set = (p: Partial<State>) =>
     setS((prev) => {
       const next = { ...prev, ...p };
-      const today = new Date().toISOString().slice(0, 10);
+      const today = todayKey();
       if (p.actionsDone) {
         next.weekLog = { ...prev.weekLog, [today]: Object.entries(p.actionsDone).filter(([k, v]) => (k.startsWith(today) || !k.includes(":")) && v).length };
       }

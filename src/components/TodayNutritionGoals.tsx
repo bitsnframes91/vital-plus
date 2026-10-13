@@ -14,7 +14,7 @@ export function TodayNutritionGoals() {
   useLanguage();
   const [miniAnimOk, setMiniAnimOk] = useState(true);
   const { s } = useStore();
-  const meals = s.meals.filter(meal => meal.date === new Date().toISOString().slice(0, 10));
+  const meals = s.meals.filter(meal => meal.date === todayKey());
   const alerts = nutritionAlerts(meals, nutritionTargets(s.body));
   const fmt = (value: number) => value.toLocaleString(languageLocale(), { maximumFractionDigits: 1 });
   return <section className="mt-4 px-4" data-today-nutrition>
