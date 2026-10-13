@@ -101,13 +101,6 @@ function Plan() {
                     {open === i && (
                       <div className="border-t px-3 py-3">
                         <p className="text-[14px] text-ink/65"><Localized>{it.detail}</Localized></p>
-                        <label className="mt-3 flex items-center justify-between text-[13px]">
-                          <span><Localized>{"In meinen Tageszielen anzeigen"}</Localized></span>
-                          <Button variant="ghost" size="icon" onClick={() => toggleDaily(it.key)} role="switch" aria-label={translateText("In meinen Tageszielen anzeigen")} aria-checked={daily}
-                            className={`h-6 w-11 rounded-full p-0.5 transition ${daily ? "bg-fv" : "bg-ink/15"}`}>
-                            <span className={`block size-5 rounded-full bg-card transition ${daily ? "translate-x-5" : ""}`} />
-                          </Button>
-                        </label>
                       </div>
                     )}
                   </li>
