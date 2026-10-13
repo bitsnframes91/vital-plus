@@ -7,6 +7,24 @@ import { fileURLToPath } from "node:url";
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import type { Plugin } from "vite";
 
+// Hosted app serving server functions, auth email links and CDN assets.
+const webOrigin = process.env["VITE_NATIVE_WEB_ORIGIN"] || "https://vital-plus.lovable.app";
+
+// Lovable asset pointers (*.asset.json) hold root-relative URLs that the hosted app
+// serves; inside the app they would resolve against capacitor://localhost.
+function absoluteAssetUrls(): Plugin {
+  return {
+    name: "vivo-absolute-asset-urls",
+    enforce: "pre",
+    transform(code, id) {
+      if (!id.endsWith(".asset.json")) return;
+      const asset = JSON.parse(code) as { url?: unknown };
+      if (typeof asset.url !== "string" || !asset.url.startsWith("/")) return;
+      return { code: JSON.stringify({ ...asset, url: webOrigin + asset.url }), map: null };
+    },
+  };
+}
+
 // The generated Supabase client must not be edited, so the native build swaps its
 // session storage module for the Keychain-backed one. Fails the build if the
 // generated import ever changes, rather than silently falling back to localStorage.
@@ -38,7 +56,7 @@ function nativeAuthStorage(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [nativeAuthStorage()],
+  plugins: [nativeAuthStorage(), absoluteAssetUrls()],
   nitro: false,
   tanstackStart: {
     server: { entry: "server" },
@@ -51,6 +69,9 @@ export default defineConfig({
   },
   vite: {
     build: { outDir: "dist-mobile" },
-    define: { "import.meta.env.VITE_NATIVE_APP": JSON.stringify("true") },
+    define: {
+      "import.meta.env.VITE_NATIVE_APP": JSON.stringify("true"),
+      "import.meta.env.VITE_NATIVE_WEB_ORIGIN": JSON.stringify(webOrigin),
+    },
   },
 });
