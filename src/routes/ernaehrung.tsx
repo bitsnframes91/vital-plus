@@ -156,7 +156,9 @@ function NutritionPage() {
       set(next);
       setVmsg(`„${r.transcript}“ – ${r.meals.length} Mahlzeit${r.meals.length > 1 ? "en" : ""} hinzugefügt.${drinkMl > 0 ? ` ${Math.round(drinkMl)} ml Getränke gezählt.` : ""}`);
     } catch (e) {
-      setVmsg(e instanceof Error ? e.message : "Aufnahme fehlgeschlagen.");
+      console.error("voice failed", e);
+      const msg = e instanceof Error ? e.message : e && typeof e === "object" && "message" in e ? String((e as { message: unknown }).message) : "";
+      setVmsg(msg && !/seroval/i.test(msg) ? msg : "Aufnahme fehlgeschlagen. Bitte versuche es erneut.");
     } finally {
       rec.current = null;
       setVs("idle");
