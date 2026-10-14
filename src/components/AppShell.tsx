@@ -27,24 +27,51 @@ export function Icon({ d, className = "size-5" }: { d: string; className?: strin
 const PROTECTED = ["/heute", "/ernaehrung", "/gesundheit", "/labor", "/plan", "/profil", "/trends", "/uhr"];
 export const isProtectedPath = (p: string) => PROTECTED.some((t) => p === t || p.startsWith(`${t}/`));
 
+// Verified once per session and cached, so tab switches don't re-block on a network
+// round-trip and offline use keeps working for already-confirmed users.
+let confirmedUserId: string | null = null;
+
 export function AppShell({ children }: { children: ReactNode }) {
   useLanguage();
   const navIcons = [Home, Salad, HeartPulse, FlaskConical, ClipboardList, UserRound];
   const pathname = useLocation({ select: (s) => s.pathname });
   const navigate = useNavigate();
   const guarded = isProtectedPath(pathname);
-  const [allowed, setAllowed] = useState(false);
+  const [allowed, setAllowed] = useState(confirmedUserId !== null);
   useEffect(() => {
     if (!guarded) return;
     let alive = true;
     const check = async () => {
-      const { data } = await supabase.auth.getUser();
+      // Local session first: no network needed, keeps offline use working.
+      const { data: sessionData } = await supabase.auth.getSession();
+      const sessionUser = sessionData.session?.user;
+      if (!sessionUser) {
+        if (!alive) return;
+        confirmedUserId = null;
+        setAllowed(false);
+        navigate({ to: "/", replace: true });
+        return;
+      }
+      if (confirmedUserId === sessionUser.id) {
+        if (alive) setAllowed(true);
+        return;
+      }
+      // First check this session: confirm the email server-side. A network
+      // failure here must NOT kick the user out — only a definitive answer does.
+      const { data, error } = await supabase.auth.getUser();
       if (!alive) return;
-      if (data.user?.email_confirmed_at) setAllowed(true);
-      else { setAllowed(false); navigate({ to: "/", replace: true }); }
+      if (error) {
+        if (sessionUser.email_confirmed_at) { confirmedUserId = sessionUser.id; setAllowed(true); }
+        return;
+      }
+      if (data.user?.email_confirmed_at) { confirmedUserId = data.user.id; setAllowed(true); }
+      else { confirmedUserId = null; setAllowed(false); navigate({ to: "/", replace: true }); }
     };
     void check();
-    const { data: sub } = supabase.auth.onAuthStateChange((e) => { if (e === "SIGNED_OUT" || e === "SIGNED_IN") void check(); });
+    const { data: sub } = supabase.auth.onAuthStateChange((e) => {
+      if (e === "SIGNED_OUT") { confirmedUserId = null; setAllowed(false); navigate({ to: "/", replace: true }); }
+      else if (e === "SIGNED_IN") void check();
+    });
     return () => { alive = false; sub.subscription.unsubscribe(); };
   }, [guarded, navigate]);
   if (guarded && !allowed) return <div className="min-h-screen bg-background" aria-busy="true" />;

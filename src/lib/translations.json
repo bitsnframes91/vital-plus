@@ -1795,9 +1795,17 @@
     "Email or password is incorrect.",
     "El correo o la contraseña son incorrectos."
   ],
+  "Dieses Konto existiert nicht.": [
+    "This account does not exist.",
+    "Esta cuenta no existe."
+  ],
   "Für diese E-Mail gibt es bereits ein Konto.": [
     "An account already exists for this email.",
     "Ya existe una cuenta con este correo."
+  ],
+  "Für diese E-Mail gibt es bereits ein Konto. Bitte melde dich an oder setze dein Passwort zurück.": [
+    "An account already exists for this email. Please sign in or reset your password.",
+    "Ya existe una cuenta con este correo. Inicia sesión o restablece tu contraseña."
   ],
   "Konto konnte nicht angelegt werden (Passwort mind. 8 Zeichen).": [
     "Unable to create account (password must have at least 8 characters).",
@@ -3022,5 +3030,41 @@
   "Wenn ein bestätigtes Konto mit dieser E-Mail-Adresse existiert, erhältst du einen Link zum Zurücksetzen deines Passworts.": [
     "If a confirmed account with this email exists, you'll receive a password reset link.",
     "Si existe una cuenta confirmada con este correo, recibirás un enlace para restablecer tu contraseña."
+  ],
+  "Ohne Passwort anmelden (Login-Link per E-Mail)": [
+    "Sign in without a password (login link by email)",
+    "Iniciar sesión sin contraseña (enlace por correo)"
+  ],
+  "Stattdessen mit Passwort anmelden": [
+    "Sign in with password instead",
+    "Iniciar sesión con contraseña"
+  ],
+  "Login-Link senden": [
+    "Send login link",
+    "Enviar enlace de acceso"
+  ],
+  "Wir haben dir einen Login-Link geschickt an:": [
+    "We've sent you a login link to:",
+    "Te hemos enviado un enlace de acceso a:"
+  ],
+  "Klicke auf den Link in deinem Postfach, um dich ohne Passwort anzumelden. Bitte prüfe auch deinen Spam-Ordner.": [
+    "Click the link in your inbox to sign in without a password. Please also check your spam folder.",
+    "Haz clic en el enlace de tu bandeja de entrada para iniciar sesión sin contraseña. Revisa también la carpeta de spam."
+  ],
+  "Zurück zur Anmeldung": [
+    "Back to sign in",
+    "Volver a iniciar sesión"
+  ],
+  "Mit Magischem Link anmelden": [
+    "Sign in with magic link",
+    "Iniciar sesión con enlace mágico"
+  ],
+  "Mit Passwort anmelden": [
+    "Sign in with password",
+    "Iniciar sesión con contraseña"
+  ],
+  "ODER": [
+    "OR",
+    "O"
   ]
 }

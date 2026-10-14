@@ -9,7 +9,7 @@ export const deleteAccount = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ code: z.string().trim().regex(/^\d{6,10}$/) }).parse(d))
   .handler(async ({ data, context }) => {
     const url = process.env["SUPABASE_URL"]!;
-    const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
+    const key = process.env["SUPABASE_PUBLISHABLE_KEY"] ?? process.env["SUPABASE_ANON_KEY"] ?? "";
     const auth = getRequestHeader("authorization") ?? "";
     // The code (nonce) is only accepted by the auth server together with a password update.
     const res = await fetch(`${url}/auth/v1/user`, {
@@ -17,7 +17,10 @@ export const deleteAccount = createServerFn({ method: "POST" })
       headers: { "content-type": "application/json", apikey: key, authorization: auth },
       body: JSON.stringify({ password: crypto.randomUUID() + "Aa1!", nonce: data.code }),
     });
-    if (!res.ok) throw new Error("Der Code ist ungültig oder abgelaufen.");
+    if (!res.ok) {
+      console.error("deleteAccount nonce check failed", res.status, (await res.text()).slice(0, 300));
+      throw new Error("Der Code ist ungültig oder abgelaufen.");
+    }
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     await supabaseAdmin.from("user_data").delete().eq("user_id", context.userId);
     const { error } = await supabaseAdmin.auth.admin.deleteUser(context.userId);
@@ -44,4 +47,20 @@ export const requestPasswordReset = createServerFn({ method: "POST" })
     const { error } = await supabaseAdmin.auth.resetPasswordForEmail(email, { redirectTo: data.redirectTo });
     if (error) throw new Error("Senden nicht möglich");
     return { ok: true };
+  });
+
+// Reports whether an account exists for the email, so sign-in can tell
+// "account deleted/never registered" apart from a wrong password.
+export const accountExists = createServerFn({ method: "POST" })
+  .inputValidator((d) => z.object({ email: z.string().trim().email().max(320) }).parse(d))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const email = data.email.toLowerCase();
+    for (let page = 1; page <= 50; page++) {
+      const { data: list, error } = await supabaseAdmin.auth.admin.listUsers({ page, perPage: 1000 });
+      if (error) return { exists: true }; // fail closed: keep the generic error
+      if (list.users.some((u) => u.email?.toLowerCase() === email)) return { exists: true };
+      if (list.users.length < 1000) break;
+    }
+    return { exists: false };
   });
