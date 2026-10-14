@@ -1,11 +1,11 @@
 # Unsigned iOS Simulator build of the Capacitor app. No Apple credentials, no uploads.
-# Produces a Simulator .app — NOT an App Store / TestFlight IPA. See docs/ios/README.md.
+# Produces a Simulator .app ΓÇö NOT an App Store / TestFlight IPA. See docs/ios/README.md.
 name: iOS build (Simulator, unsigned)
 
 on:
   workflow_dispatch:
   push:
-    branches: [feature/ios-capacitor]
+    branches: [feature/ios-capacitor, feature/ios-native-enhancements]
 
 permissions:
   contents: read
@@ -100,7 +100,7 @@ jobs:
           test -f "$app/public/index.html" || { echo "::error::Bundled web assets missing from App.app"; exit 1; }
           ditto -c -k --keepParent "$app" build/VivoHealth-simulator.app.zip
           echo "### iOS Simulator build succeeded" >> "$GITHUB_STEP_SUMMARY"
-          echo "Unsigned Debug build for Simulator — not installable on devices, not for App Store." >> "$GITHUB_STEP_SUMMARY"
+          echo "Unsigned Debug build for Simulator ΓÇö not installable on devices, not for App Store." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Simulator app
         if: success()
