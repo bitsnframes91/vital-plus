@@ -48,8 +48,8 @@ The iOS work adds **no new recipients**:
 ### Feature-specific
 - ✅ **No App Lock or system notifications.** The current web app removed both (light-only settings with in-app reminders only), so the iOS app offers neither. In-app reminders appear while the app is open; no background delivery is claimed.
 - ✅ **Shopware links open in Safari.** Cart and checkout stay on fairvital.com, and no data is passed to the shop.
-- 🟡 **Account deletion** reuses the verified server flow (`deleteAccount`). On iOS it works **only after** the `src/start.ts` origin allowance is published (see architecture.md). Until then it fails safely with an error.
-- 🟡 **Password reset** now runs through the `requestPasswordReset` server function. Like account deletion, it works on iOS **only after** the `src/start.ts` origin allowance is published. Until then it fails safely with an error.
+- 🟡 **Account deletion** reuses the verified server flow (`deleteAccount`). On iOS it works **only after** production allows `capacitor://localhost` via CORS (Lovable; see architecture.md). Until then it fails safely with an error.
+- 🟡 **Password reset** now runs through the `requestPasswordReset` server function. Like account deletion, it works on iOS **only after** production allows `capacitor://localhost` via CORS (Lovable). Until then it fails safely with an error.
 
 ### Third parties already used by the web app (unchanged; included in App Privacy answers)
 - **Supabase / Lovable Cloud:** auth and the data store.

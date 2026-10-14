@@ -62,7 +62,7 @@ Run in the Simulator (☐, needs Xcode): `bun run ios:open`, pick an iPhone simu
 | `ios/App/App/Info.plist` | Display name, permissions (camera, microphone, Health read/write), URL scheme, iPhone portrait |
 | `ios/App/App/PrivacyInfo.xcprivacy` | Privacy manifest: collected data types (no tracking) and the `UserDefaults` reason `CA92.1` |
 | `ios/App/App.xcodeproj` | Bundle ID, Team `R9RKNU986H`. Debug signs automatically; Release signs manually with Apple Distribution and the profile named by `VIVO_APPSTORE_PROFILE` |
-| `src/start.ts` | Server: allows the app origin `capacitor://localhost` for server functions only |
+| `src/start.ts` | Server: CSRF accepts the app origin `capacitor://localhost` for server functions only (CORS is provided by Lovable in production) |
 
 ## Environment configuration
 
@@ -158,7 +158,7 @@ git push origin ios-native-testflight-v1.0.0-<label>
 ## Troubleshooting
 
 - **`xcodebuild: error: tool 'xcodebuild' requires Xcode`:** only Command Line Tools are installed. Use CI or install Xcode 26.
-- **AI features or account deletion fail with 403 on iOS:** production doesn't have the `src/start.ts` change yet (see architecture.md).
+- **AI features or account deletion fail with 403 on iOS:** production doesn't allow `capacitor://localhost` via CORS yet (Lovable; see PHASE-2B-VOICE-HANDOFF.md).
 - **Images missing:** the device is offline. Mascot, logo and product images load from the hosted origin.
 - **Build error "Supabase client no longer imports ./previewAuthStorage":** Lovable regenerated `src/integrations/supabase/client.ts` with a different import. Update `nativeAuthStorage()` in `vite.config.mobile.ts`. The build fails on purpose instead of silently storing tokens in `localStorage`.
 - **Lint in CI is red but the job is green:** that's the report-only full-repository lint; see Known issues.
@@ -166,7 +166,7 @@ git push origin ios-native-testflight-v1.0.0-<label>
 
 ## Known issues
 
-- The production server must be published with the `src/start.ts` change before the AI features and account deletion work on iOS.
+- Production must allow `capacitor://localhost` via CORS (Lovable) before the AI features and account deletion work on iOS.
 - `main` already fails `bun run lint` (formatting). This branch adds no new problems: the count is 1,736 before and after.
 - On Node 25, 6 existing tests fail for environmental reasons (see Requirements). On Node 22 all pass.
 - In local web builds the `vite-plugin-pwa` precache is empty ("precache 1 entries"), apparently because `outDir: dist/client` doesn't match Nitro's `.output/public`. Lovable's deploy pipeline may differ. This is web-only and unchanged by this work; worth a separate look.
@@ -176,7 +176,7 @@ git push origin ios-native-testflight-v1.0.0-<label>
 ## Security considerations
 
 - The app ships no secrets. Server functions keep their keys server-side.
-- The server allowlist accepts exactly `capacitor://localhost` for `/_serverFn` only. Other origins (including other `capacitor://` hosts), cross-site and no-origin requests are still rejected (verified locally).
+- The CSRF allowlist accepts exactly `capacitor://localhost` for `/_serverFn` only. Other origins (including other `capacitor://` hosts), cross-site and no-origin requests are still rejected (verified locally).
 - Sessions live in the Keychain (this device only, after first unlock), are excluded from backups, and are cleared on reinstall.
 - Deep links accept only `vivohealth://` and the hosted origin, and only plain in-app paths (`deepLinkPath`, unit-tested).
 - No new third-party SDKs: the native plugins are the official `@capacitor/app` and `@capacitor/status-bar`.

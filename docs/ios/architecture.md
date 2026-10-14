@@ -39,7 +39,7 @@ vite.config.mobile.ts   → iOS: SPA mode, nitro:false, no PWA      → dist-mob
   - `vivohealth://` deep links, validated by `deepLinkPath`
   - an offline notice
 - `src/mobile/secure-auth-storage.ts` replaces the generated `previewAuthStorage` module in the mobile build only. A guarded Vite `resolveId` hook does the swap, so the auto-generated Supabase client is not edited. Sessions are stored in the iOS Keychain by the in-app plugin `ios/App/App/SecureSessionStoragePlugin.swift`.
-- Server side, `src/start.ts` allows exactly one extra origin, `capacitor://localhost`, for server-function requests only (CORS + CSRF). Everything else, including other `capacitor://` hosts, still gets 403.
+- Server side, `src/start.ts` lets the CSRF check accept exactly one extra origin, `capacitor://localhost`, for server-function requests only. CORS for that origin is provided by Lovable in production, not by this branch.
 
 ### Why the server change is safe
 
@@ -58,7 +58,7 @@ vite.config.mobile.ts   → iOS: SPA mode, nitro:false, no PWA      → dist-mob
 
 ## Trade-offs and constraints
 
-1. **AI features and account deletion on iOS need the `src/start.ts` change published to production.** Until then, those 5 calls fail on iOS with HTTP 403. Login, data sync and all local features work without it. Publishing is a separate, manual decision.
+1. **AI features and account deletion on iOS need production CORS support for `capacitor://localhost`** (implemented by Lovable; requirements in `PHASE-2B-VOICE-HANDOFF.md`). Until then, those 5 calls fail on iOS with HTTP 403. Login, data sync and all local features work without it. Publishing is a separate, manual decision.
 2. **Version coupling.** The app talks to whatever server version is deployed. Server-function signatures must stay backwards compatible while older app versions are in use. Renaming or moving a `*.functions.ts` export changes its ID.
 3. **Web bundle impact.** The shared files gain a few `isNativeApp` checks. On the web the flag is `false` at runtime. No Capacitor code enters the web bundle (verified: 0 references in `.output/public/assets`).
 4. **Android later.** Nothing is iOS-specific outside `ios/`, `SecureSessionStoragePlugin.swift` and `NATIVE_APP_ORIGINS`. For Android:

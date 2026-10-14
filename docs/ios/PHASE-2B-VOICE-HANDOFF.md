@@ -122,25 +122,27 @@ approval for the HealthKit capability, entitlements and a regenerated provisioni
 ## Fix: "Keine Verbindung" on TestFlight (voice upload)
 
 **Root cause.** The app calls `POST https://vital-plus.lovable.app/_serverFn/<mealFromVoice id>`
-from `capacitor://localhost`. Production is published from `vital-plus`, which does not contain the
-native-origin CORS middleware, so the preflight is answered `403 Forbidden` without
-`Access-Control-Allow-Origin` (reproduced with curl on 2026-10-14). WebKit rejects `fetch` with
-`TypeError: Load failed`, and the voice card mapped every `TypeError` to "Keine Verbindung". The
-request never reached authentication, transcription or the AI Gateway.
+from `capacitor://localhost`. Production did not allow that origin, so the CORS preflight was
+answered `403 Forbidden` without `Access-Control-Allow-Origin` (reproduced with curl on 2026-10-14).
+WebKit rejects `fetch` with `TypeError: Load failed`, and the voice card mapped every `TypeError` to
+"Keine Verbindung". The request never reached authentication, transcription or the AI Gateway.
 
-A second defect would have appeared once the CORS change was published: the middleware did not send
-`Access-Control-Expose-Headers`, so WKWebView could not read `x-tss-serialized` and the server
-function client would return the raw serialized payload instead of the result. Fixed in
-`src/lib/native-cors.ts`.
+**Backend dependency.** CORS for the native origin is implemented and maintained by Lovable in
+production; this branch contains no CORS code. Voice (and every other server function) works on iOS
+only once production answers server-function requests from `capacitor://localhost` with:
 
-**Backend deployment required.** `src/start.ts` + `src/lib/native-cors.ts` must be merged into the
-Lovable branch and published before voice (and every other server function) works on iOS. Check after
-publishing:
+- preflight (`OPTIONS`): `204`, `Access-Control-Allow-Origin: capacitor://localhost`, and
+  `Access-Control-Allow-Headers` covering `authorization, content-type, accept, x-tsr-serverfn`;
+- every response: `Access-Control-Allow-Origin: capacitor://localhost` and
+  **`Access-Control-Expose-Headers: x-tss-serialized, x-tss-raw`**. Without the exposed headers WKWebView
+  cannot read them, and the server function client returns the raw serialized payload instead of the
+  result (the voice card then shows "Die Sprachauswertung ist fehlgeschlagen").
+
+Check production:
 
 ```sh
 curl -si -X OPTIONS https://vital-plus.lovable.app/_serverFn/x -H "Origin: capacitor://localhost" \
   -H "Access-Control-Request-Method: POST" | grep -iE "^HTTP|access-control"
-# expect: 204, Access-Control-Allow-Origin: capacitor://localhost, Access-Control-Expose-Headers: x-tss-serialized, x-tss-raw
 ```
 
 **Client.** `src/lib/server-fetch.ts` classifies failures: offline, server unreachable (online but no
@@ -151,3 +153,10 @@ flight and sends nothing if the audio is still being encoded.
 **Diagnostics** (Safari Web Inspector): `[server-fn]` lines (function id prefix, status, duration,
 online flag) and `[voice]` lines (audio size in KB, duration, outcome category, meal count). No
 tokens, URLs with query strings, audio, transcripts or meal contents are logged.
+
+| Message on iPhone | Likely cause |
+|---|---|
+| "Keine Verbindung …" | Device offline (`navigator.onLine` false) |
+| "Der Vital-Plus-Server ist gerade nicht erreichbar …" | No response while online: production CORS missing, server down, DNS |
+| "Die Sprachauswertung ist fehlgeschlagen …" | Response unreadable: check `Access-Control-Expose-Headers` |
+| "Deine Anmeldung ist abgelaufen …" | 401 / missing or expired Supabase session |

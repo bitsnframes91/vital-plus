@@ -41,7 +41,7 @@ Status: **not ready for submission.** The unsigned Simulator build is the first 
 | Guideline | Status | Assessment |
 |---|---|---|
 | **4.2 Minimum functionality** | 🟡 | The UI is bundled (no remote website wrapper). There are native touches: Keychain sessions, status bar, deep links, camera/microphone, offline notice. App Review may still judge it "web-like"; adding native value (e.g. Face ID lock, local reminders) would strengthen the submission. |
-| **5.1.1(v) Account deletion** | ⛔ | The flow exists in the app (Profil → Meine Daten), but on iOS it calls a server function that is blocked until the `src/start.ts` change is **published**. **Must work before submission.** |
+| **5.1.1(v) Account deletion** | ⛔ | The flow exists in the app (Profil → Meine Daten), but on iOS it calls a server function that is blocked until production allows `capacitor://localhost` via CORS (Lovable). **Must work before submission.** |
 | **5.1.1 Data collection / privacy** | 🟡 | Permissions are limited to camera and microphone with purpose strings. The privacy policy needs corrections (voice transcription, iOS specifics). |
 | **5.1.2 Data use and sharing** | 🟡 | Health data must not be used for advertising, and isn't. Disclose the AI provider. |
 | **5.1.3 Health and health research** | 🟡 | No HealthKit. Lab values are entered or uploaded by the user. Make sure no data is shared with third parties beyond the disclosed AI processing. |
@@ -54,7 +54,7 @@ Status: **not ready for submission.** The unsigned Simulator build is the first 
 
 ## 4. Engineering items before the first TestFlight build
 
-1. **Publish the server change.** Bring `src/start.ts` into Lovable's branch (`vital-plus`) and publish, so production allows `capacitor://localhost`. That is a production deployment and needs explicit approval. Then verify AI, password reset and account deletion on iOS.
+1. **Production CORS (Lovable).** Production must allow `capacitor://localhost` for server functions, including `Access-Control-Expose-Headers: x-tss-serialized, x-tss-raw` (see `PHASE-2B-VOICE-HANDOFF.md`). Then verify AI, password reset and account deletion on iOS.
 2. **Run on the Simulator** (Mac with Xcode 26, or download the CI artifact; see README) and walk the test plan in `README.md`.
 3. ✅ **Bundle ID and team** are set; Release uses manual Apple Distribution signing.
 4. ✅ **Privacy manifest** is in the App target.
