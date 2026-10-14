@@ -126,6 +126,20 @@ git push origin feature/ios-capacitor:refs/heads/feature/ios-testflight-upload
 
 Then approve the `ios-release` deployment in the run.
 
+### `.github/workflows/ios-testflight-native.yml`
+
+TestFlight upload from `feature/ios-native-enhancements` (Phases 2A–2C, HealthKit). It starts **only** when a release tag is pushed; ordinary pushes to the branch run just the unsigned Simulator build. A tag works even though this workflow is not on the default branch (GitHub shows *Run workflow* only for workflows on the default branch).
+
+```sh
+git fetch origin
+git tag -a ios-native-testflight-v1.0.0-<label> origin/feature/ios-native-enhancements -m "TestFlight: <what changed>"
+git push origin ios-native-testflight-v1.0.0-<label>
+```
+
+- Format: `ios-native-testflight-v<MARKETING_VERSION>-<label>`; the version must equal `MARKETING_VERSION` in the Xcode project, and the tagged commit must be on `feature/ios-native-enhancements`. Use a new label for every upload.
+- Then approve the `ios-release` deployment in the run. If the environment limits deployment branches/tags, allow the tag pattern `ios-native-testflight-v*`.
+- The build number is the next free number in App Store Connect. The profile must grant every entitlement in `ios/App/App/App.entitlements` (HealthKit); the archive and IPA are checked for them too.
+
 ## Device / Simulator test plan (☐ all pending)
 
 1. **Launch.** Expect: splash, then `/`. No content under the notch or Dynamic Island. Bottom nav sits above the home indicator.

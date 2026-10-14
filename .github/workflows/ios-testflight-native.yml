@@ -1,0 +1,67 @@
+# Uploads Vital Plus from feature/ios-native-enhancements to App Store Connect for INTERNAL
+# TestFlight testing. Runs only when a release tag is pushed:
+#
+#   ios-native-testflight-v<marketing version>-<label>     e.g. ios-native-testflight-v1.0.0-healthkit1
+#
+# Ordinary branch pushes never start it. A guard job without secrets checks the tag format, that
+# the version matches the Xcode project, and that the tagged commit is on
+# feature/ios-native-enhancements. Signing, archive, export, IPA validation and the upload run in
+# ios-release.yml inside the `ios-release` environment, which requires reviewer approval before any
+# secret is read. The build number is taken from App Store Connect (next free number).
+# Nothing is submitted for App Review or released on the App Store.
+name: iOS TestFlight upload (native enhancements)
+
+on:
+  push:
+    tags: ["ios-native-testflight-v*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-testflight-native
+  cancel-in-progress: false
+
+jobs:
+  guard:
+    if: >-
+      github.repository == 'bitsnframes91/vital-plus' &&
+      startsWith(github.ref, 'refs/tags/ios-native-testflight-v') &&
+      github.event.deleted == false &&
+      vars.IOS_RELEASE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      marketing_version: ${{ steps.check.outputs.marketing_version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Validate release tag and commit
+        id: check
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          fail() { echo "::error::$1"; exit 1; }
+          [[ "$TAG" =~ ^ios-native-testflight-v([0-9]+\.[0-9]+\.[0-9]+)-[A-Za-z0-9._-]{1,40}$ ]] ||
+            fail "Tag must look like ios-native-testflight-v1.0.0-<label>"
+          version="${BASH_REMATCH[1]}"
+          [ "$(grep -c "MARKETING_VERSION = ${version};" ios/App/App.xcodeproj/project.pbxproj)" = 2 ] ||
+            fail "Tag version ${version} differs from MARKETING_VERSION in the Xcode project"
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/feature/ios-native-enhancements ||
+            fail "Tag only commits that are already on feature/ios-native-enhancements"
+          echo "marketing_version=${version}" >> "$GITHUB_OUTPUT"
+          echo "Release tag ${TAG}: version ${version}, commit ${GITHUB_SHA} is on feature/ios-native-enhancements"
+
+  testflight:
+    needs: guard
+    uses: ./.github/workflows/ios-release.yml
+    with:
+      marketing_version: ${{ needs.guard.outputs.marketing_version }}
+      # Empty: ios-release.yml takes the next free App Store Connect build number.
+      build_number: ""
+      upload: true
+    secrets: inherit
