@@ -4,6 +4,7 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { Button } from "@/components/ui/button";
 import type { Meal } from "@/lib/data";
 import { isNativeApp } from "@/lib/native-app";
+import { classifyServerCallError, httpStatusOf, type ServerCallFailure } from "@/lib/server-fetch";
 import { blobToBase64, MAX_RECORDING_SECONDS, MicError, micErrorFrom, startRecording, type MicErrorCode, type Recording } from "@/lib/record-wav";
 import voiceCardBg from "@/assets/voice-card-bg.png";
 
@@ -11,7 +12,7 @@ export type VoiceMeal = Omit<Meal, "id" | "time" | "date"> & { drinkMl?: number 
 export type VoiceResult = { ok: true; transcript: string; meals: VoiceMeal[] } | { ok: false; error: string };
 
 type Phase = "idle" | "starting" | "recording" | "processing" | "review";
-type NoticeKind = MicErrorCode | "noMeal" | "network" | "failed" | "cancelled" | "background" | "interrupted" | "discarded" | "saved";
+type NoticeKind = MicErrorCode | ServerCallFailure | "noMeal" | "recordingFailed" | "cancelled" | "background" | "interrupted" | "discarded" | "saved";
 type Notice = { text: string; alert: boolean };
 
 const messages: Record<NoticeKind, string> = {
@@ -24,8 +25,17 @@ const messages: Record<NoticeKind, string> = {
   empty: "Aufnahme war leer – bitte noch einmal.",
   silent: "Keine Sprache erkannt. Bitte sprich etwas lauter und versuche es erneut.",
   noMeal: "Keine Mahlzeit erkannt. Bitte beschreibe, was du gegessen hast.",
-  network: "Keine Verbindung. Bitte prüfe deine Internetverbindung und versuche es erneut.",
-  failed: "Aufnahme fehlgeschlagen.",
+  recordingFailed: "Aufnahme fehlgeschlagen.",
+  offline: "Keine Verbindung. Bitte prüfe deine Internetverbindung und versuche es erneut.",
+  unreachable: "Der Vital-Plus-Server ist gerade nicht erreichbar. Deine Internetverbindung ist aktiv – bitte versuche es später erneut.",
+  timeout: "Die Auswertung hat zu lange gedauert. Bitte versuche es erneut, gern mit einer kürzeren Aufnahme.",
+  unauthorized: "Deine Anmeldung ist abgelaufen. Bitte melde dich erneut an und versuche es noch einmal.",
+  rejected: "Der Server hat die Anfrage der App abgelehnt. Bitte aktualisiere die App oder versuche es später erneut.",
+  notFound: "Die Sprachauswertung ist auf dem Server nicht verfügbar. Bitte aktualisiere die App oder versuche es später erneut.",
+  tooLarge: "Die Aufnahme ist zu groß zum Senden. Bitte beschreibe deine Mahlzeit in einer kürzeren Aufnahme.",
+  rateLimited: "Gerade sind zu viele Anfragen. Bitte versuche es gleich noch einmal.",
+  server: "Beim Server ist ein Fehler aufgetreten. Bitte versuche es später erneut.",
+  failed: "Die Sprachauswertung ist fehlgeschlagen. Bitte versuche es erneut.",
   cancelled: "Aufnahme abgebrochen. Es wurde nichts gespeichert oder gesendet.",
   background: "Aufnahme beendet, weil die App in den Hintergrund gewechselt ist. Es wurde nichts gesendet.",
   interrupted: "Die Aufnahme wurde unterbrochen. Es wurde nichts gesendet.",
@@ -35,13 +45,18 @@ const messages: Record<NoticeKind, string> = {
 const info = new Set<NoticeKind>(["cancelled", "discarded", "saved"]);
 const notice = (kind: NoticeKind): Notice => ({ text: messages[kind], alert: !info.has(kind) });
 
-// Fixed backend messages that have a clearer client-side equivalent.
-function serverNotice(error: string): Notice {
-  if (error.startsWith("Ich habe nichts verstanden")) return notice("silent");
-  if (error.startsWith("Verstanden:")) return notice("noMeal");
-  return { text: error, alert: true };
+// Fixed backend messages that have a clearer client-side equivalent. "Verstanden: …"
+// contains the transcript, so only the category ever reaches the diagnostic log.
+function serverNotice(error: unknown): { kind: string; notice: Notice } {
+  if (typeof error !== "string" || !error) return { kind: "undecodable", notice: notice("failed") };
+  if (error.startsWith("Ich habe nichts verstanden")) return { kind: "silent", notice: notice("silent") };
+  if (error.startsWith("Verstanden:")) return { kind: "noMeal", notice: notice("noMeal") };
+  return { kind: "declined", notice: { text: error, alert: true } };
 }
-const isNetworkError = (error: unknown) => (typeof navigator !== "undefined" && navigator.onLine === false) || error instanceof TypeError;
+// Covers transcription and meal analysis; WebKit itself gives up on a silent connection after ~60 s.
+export const VOICE_UPLOAD_TIMEOUT_MS = 90_000;
+// Sizes, durations and outcome categories only: never audio, transcripts, meals or tokens.
+const diagnostic = (event: string, fields: Record<string, string | number | boolean | undefined>) => console.info(`[voice] ${event}`, fields);
 const clock = (seconds: number) => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
 
 /**
@@ -50,7 +65,7 @@ const clock = (seconds: number) => `${Math.floor(seconds / 60)}:${String(Math.fl
  * saved after the user confirms the review.
  */
 export function VoiceMealEntry({ transcribe, onConfirm, record = startRecording }: {
-  transcribe: (base64Wav: string) => Promise<VoiceResult>;
+  transcribe: (base64Wav: string, signal: AbortSignal) => Promise<VoiceResult>;
   onConfirm: (meals: VoiceMeal[]) => void;
   record?: typeof startRecording;
 }) {
@@ -66,11 +81,15 @@ export function VoiceMealEntry({ transcribe, onConfirm, record = startRecording 
   // Bumped by cancel, backgrounding and unmount so late results of an older session are dropped.
   const session = useRef(0);
   const pendingReview = useRef<VoiceMeal[] | null>(null);
+  // The upload in flight, aborted when the user cancels or leaves.
+  const upload = useRef<AbortController | null>(null);
 
   const abort = (kind: NoticeKind) => {
     session.current++;
     recording.current?.cancel();
     recording.current = null;
+    upload.current?.abort();
+    upload.current = null;
     busy.current = false;
     setPhase("idle");
     setElapsed(0);
@@ -109,18 +128,38 @@ export function VoiceMealEntry({ transcribe, onConfirm, record = startRecording 
     setPhase("processing");
     try {
       const base64 = await blobToBase64(await rec.stop());
+      // Cancelled while the audio was being encoded: nothing is sent.
+      if (session.current !== id) return;
+      const audioKB = Math.round((base64.length * 3) / 4 / 1024);
+      const controller = new AbortController();
+      upload.current = controller;
+      let timedOut = false;
+      const timer = setTimeout(() => { timedOut = true; controller.abort(); }, VOICE_UPLOAD_TIMEOUT_MS);
+      const sentAt = Date.now();
       let result: VoiceResult;
       try {
-        result = await transcribe(base64);
+        result = await transcribe(base64, controller.signal);
       } catch (error) {
-        // Only failures of the upload itself count as connection problems.
         if (session.current !== id) return;
+        const kind = classifyServerCallError(error, { timedOut, elapsedMs: Date.now() - sentAt });
+        console.warn("[voice] upload failed", { kind, status: httpStatusOf(error), audioKB, ms: Date.now() - sentAt, online: navigator.onLine });
         setPhase("idle");
-        setMessage(notice(isNetworkError(error) ? "network" : "failed"));
+        setMessage(notice(kind));
         return;
+      } finally {
+        clearTimeout(timer);
+        if (upload.current === controller) upload.current = null;
       }
       if (session.current !== id) return;
-      if (!result.ok) { setPhase("idle"); setMessage(serverNotice(result.error)); return; }
+      const ms = Date.now() - sentAt;
+      if (!result?.ok) {
+        const { kind, notice: shown } = serverNotice(result?.error);
+        diagnostic("not analysed", { kind, audioKB, ms });
+        setPhase("idle");
+        setMessage(shown);
+        return;
+      }
+      diagnostic("analysed", { audioKB, ms, meals: result.meals.length });
       if (!result.meals.length) { setPhase("idle"); setMessage(notice("noMeal")); return; }
       pendingReview.current = result.meals;
       setReview({ transcript: result.transcript, meals: result.meals });
@@ -128,7 +167,7 @@ export function VoiceMealEntry({ transcribe, onConfirm, record = startRecording 
     } catch (error) {
       if (session.current !== id) return;
       setPhase("idle");
-      setMessage(notice(error instanceof MicError ? error.code : "failed"));
+      setMessage(notice(error instanceof MicError ? error.code : "recordingFailed"));
     } finally {
       if (session.current === id) busy.current = false;
     }
@@ -178,6 +217,7 @@ export function VoiceMealEntry({ transcribe, onConfirm, record = startRecording 
       sessions.current++;
       recording.current?.cancel();
       recording.current = null;
+      upload.current?.abort();
     };
   }, []);
 

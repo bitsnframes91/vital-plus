@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { VoiceMealEntry, type VoiceMeal, type VoiceResult } from "@/components/VoiceMealEntry";
+import { VOICE_UPLOAD_TIMEOUT_MS, VoiceMealEntry, type VoiceMeal, type VoiceResult } from "@/components/VoiceMealEntry";
+import { ServerHttpError } from "@/lib/server-fetch";
 import { MAX_RECORDING_SECONDS, MicError, type Recording } from "@/lib/record-wav";
 import { setLanguage } from "@/lib/language";
 
@@ -22,7 +23,7 @@ function setup({ result = { ok: true, transcript: "Mittags Nudeln mit Hähnchen 
   let onInterrupt: (() => void) | undefined;
   const recording = { sampleRate: 16000, seconds: () => 1, stop: vi.fn<() => Promise<Blob>>(stop), cancel: vi.fn<() => void>() } satisfies Recording;
   const record = vi.fn(async (options?: { onInterrupt?: () => void }) => { onInterrupt = options?.onInterrupt; return recording; });
-  const transcribe = vi.fn(async (_base64: string) => result);
+  const transcribe = vi.fn(async (_base64: string, _signal: AbortSignal) => result);
   const onConfirm = vi.fn();
   const view = render(<VoiceMealEntry record={record} transcribe={transcribe} onConfirm={onConfirm} />);
   return { view, record, recording, transcribe, onConfirm, interrupt: () => act(() => onInterrupt?.()) };
@@ -148,12 +149,112 @@ describe("Voice meal entry", () => {
     expect(card()).not.toBeDisabled();
   });
 
-  it("explains a network failure", async () => {
-    const { transcribe } = setup();
-    transcribe.mockRejectedValueOnce(new TypeError("Load failed"));
-    await startRecording();
-    fireEvent.click(card());
-    expect(await screen.findByRole("alert")).toHaveTextContent("Keine Verbindung.");
+  describe("upload failures", () => {
+    const setOnline = (online: boolean) => Object.defineProperty(navigator, "onLine", { configurable: true, get: () => online });
+    beforeEach(() => { setOnline(true); vi.spyOn(console, "warn").mockImplementation(() => {}); vi.spyOn(console, "info").mockImplementation(() => {}); });
+    afterEach(() => { setOnline(true); vi.restoreAllMocks(); });
+
+    const failWith = async (error: unknown) => {
+      const { transcribe, onConfirm } = setup();
+      transcribe.mockRejectedValueOnce(error);
+      await startRecording();
+      fireEvent.click(card());
+      const alert = await screen.findByRole("alert");
+      expect(onConfirm).not.toHaveBeenCalled();
+      expect(card()).not.toBeDisabled();
+      return alert;
+    };
+
+    it("explains that the device is offline", async () => {
+      setOnline(false);
+      expect(await failWith(new TypeError("Load failed"))).toHaveTextContent("Keine Verbindung.");
+    });
+
+    // Regression for the TestFlight report: the hosted server rejected the app's CORS
+    // preflight, WebKit threw "Load failed" and a working connection was called offline.
+    it("does not blame the connection when the server cannot be reached while online", async () => {
+      const alert = await failWith(new TypeError("Load failed"));
+      expect(alert).toHaveTextContent("Server ist gerade nicht erreichbar");
+      expect(alert).not.toHaveTextContent("Keine Verbindung");
+    });
+
+    it.each([
+      [401, "Deine Anmeldung ist abgelaufen."],
+      [404, "Die Sprachauswertung ist auf dem Server nicht verfügbar."],
+      [413, "Die Aufnahme ist zu groß zum Senden."],
+      [429, "Gerade sind zu viele Anfragen."],
+      [500, "Beim Server ist ein Fehler aufgetreten."],
+    ])("explains HTTP %i", async (status, text) => {
+      expect(await failWith(new ServerHttpError(status))).toHaveTextContent(text);
+    });
+
+    it("explains an expired session reported by the auth middleware", async () => {
+      expect(await failWith(new Error("Unauthorized: Invalid token"))).toHaveTextContent("Deine Anmeldung ist abgelaufen.");
+    });
+
+    it("aborts a slow upload and explains the timeout", async () => {
+      const { transcribe } = setup();
+      let signal: AbortSignal | undefined;
+      transcribe.mockImplementationOnce((_base64, s) => { signal = s; return new Promise((_resolve, reject) => s.addEventListener("abort", () => reject(new DOMException("aborted", "AbortError")))); });
+      vi.useFakeTimers({ shouldAdvanceTime: true });
+      await startRecording();
+      fireEvent.click(card());
+      await waitFor(() => expect(transcribe).toHaveBeenCalledTimes(1));
+      await act(async () => { await vi.advanceTimersByTimeAsync(VOICE_UPLOAD_TIMEOUT_MS - 1000); });
+      expect(signal?.aborted).toBe(false);
+      await act(async () => { await vi.advanceTimersByTimeAsync(1500); });
+      expect(signal?.aborted).toBe(true);
+      expect(await screen.findByRole("alert")).toHaveTextContent("Die Auswertung hat zu lange gedauert.");
+    });
+
+    it("cancels the upload in flight when the user aborts processing", async () => {
+      const { transcribe } = setup();
+      let signal: AbortSignal | undefined;
+      transcribe.mockImplementationOnce((_base64, s) => { signal = s; return new Promise(() => {}); });
+      await startRecording();
+      fireEvent.click(card());
+      await waitFor(() => expect(transcribe).toHaveBeenCalledTimes(1));
+      fireEvent.click(screen.getByRole("button", { name: "Abbrechen" }));
+      expect(signal?.aborted).toBe(true);
+      expect(screen.getByRole("status")).toHaveTextContent("Verworfen.");
+    });
+
+    it("sends nothing when the user cancels while the audio is being prepared", async () => {
+      let release: (blob: Blob) => void = () => {};
+      const { transcribe } = setup({ stop: () => new Promise<Blob>((resolve) => { release = resolve; }) });
+      await startRecording();
+      fireEvent.click(card());
+      fireEvent.click(await screen.findByRole("button", { name: "Abbrechen" }));
+      await act(async () => { release(new Blob([new Uint8Array(4096)], { type: "audio/wav" })); await new Promise((r) => setTimeout(r, 20)); });
+      expect(transcribe).not.toHaveBeenCalled();
+      expect(screen.getByRole("status")).toHaveTextContent("Verworfen.");
+    });
+
+    it("explains a result the app cannot decode", async () => {
+      const { transcribe } = setup();
+      transcribe.mockResolvedValueOnce({ t: 10, i: 0 } as unknown as VoiceResult);
+      await startRecording();
+      fireEvent.click(card());
+      expect(await screen.findByRole("alert")).toHaveTextContent("Die Sprachauswertung ist fehlgeschlagen.");
+    });
+
+    it("logs diagnostics without audio, transcripts or meals", async () => {
+      const transcript = "Mittags Nudeln mit Hähnchen";
+      const { transcribe } = setup({ result: { ok: false, error: `Verstanden: „${transcript}“ – aber keine Mahlzeit erkannt.` } });
+      await startRecording();
+      fireEvent.click(card());
+      await screen.findByRole("alert");
+      transcribe.mockRejectedValueOnce(new ServerHttpError(500));
+      await startRecording();
+      fireEvent.click(card());
+      await screen.findByText(/Beim Server ist ein Fehler/);
+      const base64 = transcribe.mock.calls[0]![0];
+      const logged = JSON.stringify([...vi.mocked(console.info).mock.calls, ...vi.mocked(console.warn).mock.calls]);
+      expect(logged).toContain("noMeal");
+      expect(logged).toContain('"status":500');
+      expect(logged).not.toContain(transcript);
+      expect(logged).not.toContain(base64.slice(0, 40));
+    });
   });
 
   it("shows messages in the selected language", async () => {

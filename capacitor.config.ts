@@ -7,7 +7,7 @@ const config: CapacitorConfig = {
   appName: "Vital Plus",
   webDir: "dist-mobile/client",
   // No `url`: the app ships its UI and never loads the website into the web view.
-  // The scheme/hostname form the origin allowed by the server (NATIVE_APP_ORIGINS in src/start.ts).
+  // The scheme/hostname form the origin allowed by the server (NATIVE_APP_ORIGINS in src/lib/native-cors.ts).
   server: { iosScheme: "capacitor", hostname: "localhost" },
   ios: {
     // viewport-fit=cover plus env(safe-area-inset-*) in src/mobile/native.css handle the insets.

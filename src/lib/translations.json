@@ -3370,5 +3370,37 @@
   "„Keine Daten“ heißt: Apple Health hat keine Werte geliefert. Das kann auch bedeuten, dass der Lesezugriff nicht erlaubt ist.": [
     "“No data” means Apple Health returned no values. It can also mean that read access is not allowed.",
     "«Sin datos» significa que Apple Health no ha devuelto valores. También puede significar que el acceso de lectura no está permitido."
+  ],
+  "Der Vital-Plus-Server ist gerade nicht erreichbar. Deine Internetverbindung ist aktiv – bitte versuche es später erneut.": [
+    "The Vital Plus server can't be reached right now. Your internet connection is working – please try again later.",
+    "El servidor de Vital Plus no está disponible en este momento. Tu conexión a internet funciona: inténtalo de nuevo más tarde."
+  ],
+  "Die Auswertung hat zu lange gedauert. Bitte versuche es erneut, gern mit einer kürzeren Aufnahme.": [
+    "The analysis took too long. Please try again, ideally with a shorter recording.",
+    "El análisis tardó demasiado. Inténtalo de nuevo, si es posible con una grabación más corta."
+  ],
+  "Deine Anmeldung ist abgelaufen. Bitte melde dich erneut an und versuche es noch einmal.": [
+    "Your sign-in has expired. Please sign in again and try once more.",
+    "Tu sesión ha caducado. Vuelve a iniciar sesión e inténtalo de nuevo."
+  ],
+  "Der Server hat die Anfrage der App abgelehnt. Bitte aktualisiere die App oder versuche es später erneut.": [
+    "The server rejected the app's request. Please update the app or try again later.",
+    "El servidor rechazó la solicitud de la app. Actualiza la app o inténtalo de nuevo más tarde."
+  ],
+  "Die Sprachauswertung ist auf dem Server nicht verfügbar. Bitte aktualisiere die App oder versuche es später erneut.": [
+    "Voice analysis isn't available on the server. Please update the app or try again later.",
+    "El análisis de voz no está disponible en el servidor. Actualiza la app o inténtalo de nuevo más tarde."
+  ],
+  "Die Aufnahme ist zu groß zum Senden. Bitte beschreibe deine Mahlzeit in einer kürzeren Aufnahme.": [
+    "The recording is too large to send. Please describe your meal in a shorter recording.",
+    "La grabación es demasiado grande para enviarla. Describe tu comida en una grabación más corta."
+  ],
+  "Beim Server ist ein Fehler aufgetreten. Bitte versuche es später erneut.": [
+    "Something went wrong on the server. Please try again later.",
+    "Se produjo un error en el servidor. Inténtalo de nuevo más tarde."
+  ],
+  "Die Sprachauswertung ist fehlgeschlagen. Bitte versuche es erneut.": [
+    "Voice analysis failed. Please try again.",
+    "El análisis de voz falló. Inténtalo de nuevo."
   ]
 }

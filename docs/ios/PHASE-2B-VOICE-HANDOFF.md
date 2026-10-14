@@ -118,3 +118,36 @@ approval for the HealthKit capability, entitlements and a regenerated provisioni
 
 - Branch: `feature/ios-native-enhancements` (pushed to `origin` only)
 - Implementation commit: `948499fa91b4437d42c5ba8dbf4111bcf99ae912` (`feat(ios): improve native voice meal recording reliability`)
+
+## Fix: "Keine Verbindung" on TestFlight (voice upload)
+
+**Root cause.** The app calls `POST https://vital-plus.lovable.app/_serverFn/<mealFromVoice id>`
+from `capacitor://localhost`. Production is published from `vital-plus`, which does not contain the
+native-origin CORS middleware, so the preflight is answered `403 Forbidden` without
+`Access-Control-Allow-Origin` (reproduced with curl on 2026-10-14). WebKit rejects `fetch` with
+`TypeError: Load failed`, and the voice card mapped every `TypeError` to "Keine Verbindung". The
+request never reached authentication, transcription or the AI Gateway.
+
+A second defect would have appeared once the CORS change was published: the middleware did not send
+`Access-Control-Expose-Headers`, so WKWebView could not read `x-tss-serialized` and the server
+function client would return the raw serialized payload instead of the result. Fixed in
+`src/lib/native-cors.ts`.
+
+**Backend deployment required.** `src/start.ts` + `src/lib/native-cors.ts` must be merged into the
+Lovable branch and published before voice (and every other server function) works on iOS. Check after
+publishing:
+
+```sh
+curl -si -X OPTIONS https://vital-plus.lovable.app/_serverFn/x -H "Origin: capacitor://localhost" \
+  -H "Access-Control-Request-Method: POST" | grep -iE "^HTTP|access-control"
+# expect: 204, Access-Control-Allow-Origin: capacitor://localhost, Access-Control-Expose-Headers: x-tss-serialized, x-tss-raw
+```
+
+**Client.** `src/lib/server-fetch.ts` classifies failures: offline, server unreachable (online but no
+response, which includes a CORS rejection), timeout (90 s client limit or WebKit's ~60 s), 401 / expired
+session, 403, 404, 413, 429 and 5xx, each with its own message. Cancelling now aborts the upload in
+flight and sends nothing if the audio is still being encoded.
+
+**Diagnostics** (Safari Web Inspector): `[server-fn]` lines (function id prefix, status, duration,
+online flag) and `[voice]` lines (audio size in KB, duration, outcome category, meal count). No
+tokens, URLs with query strings, audio, transcripts or meal contents are logged.

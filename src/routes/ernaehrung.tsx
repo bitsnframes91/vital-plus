@@ -14,6 +14,7 @@ import { currentLanguage } from "@/lib/language";
 import { Camera, LoaderCircle } from "lucide-react";
 import { blobToBase64 } from "@/lib/record-wav";
 import { VoiceMealEntry, type VoiceMeal } from "@/components/VoiceMealEntry";
+import { serverFetch } from "@/lib/server-fetch";
 import { Button } from "@/components/ui/button";
 import { NutritionProfileFields } from "@/components/NutritionProfileFields";
 import { nutrientStatus, nutritionTargets, type NutritionProfile } from "@/lib/nutrition-targets";
@@ -199,7 +200,7 @@ function NutritionPage() {
         <NutritionMascot message={todayMeals.length === 0 ? "Bitte gib ein, was du gegessen hast." : undefined} />
       </header>
       <div className="space-y-4 px-4 pt-4">
-        <VoiceMealEntry transcribe={(base64) => voice({ data: { base64 } })} onConfirm={saveVoiceMeals} />
+        <VoiceMealEntry transcribe={(base64, signal) => voice({ data: { base64 }, signal, fetch: serverFetch })} onConfirm={saveVoiceMeals} />
 
         <div className="space-y-4">
           <div className="eyebrow px-1"><Localized>{"Ernährungstagebuch"}</Localized></div>
