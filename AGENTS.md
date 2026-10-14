@@ -38,5 +38,5 @@
 
 - Heute uses wellness-progress.ts and TodayWellnessGoals for live completion; missing Health measurements stay unassessed. Nutrition alerts mirror Ernährung via nutrition-alerts.ts. Neither writes plan history. Why: distinguish goals from clinical status and completed tasks.
 
-- Lab info uses bundled definitions and range-based causes. Why: no diagnosis.
-- Capacitor origins (lib/native-origins.ts) get CORS/CSRF; native-fetch targets the live URL. Why: local iOS bundles are cross-origin.
+- Lab info uses bundled definitions and range-based causes. Why: avoid diagnosis.
+- Capacitor origins (lib/native-origins.ts) get CORS/CSRF; native-fetch uses the live URL. Why: iOS bundles are cross-origin.
