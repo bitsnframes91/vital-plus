@@ -11,7 +11,7 @@ import { mealFromVoice, mealNutrition } from "@/lib/ai.functions";
 import { mealFromPhoto } from "@/lib/food-photo.functions";
 import { prepareFoodPhoto } from "@/lib/food-photo/image";
 import { currentLanguage } from "@/lib/language";
-import { Camera, LoaderCircle } from "lucide-react";
+import { Camera, LoaderCircle, Minus, Plus } from "lucide-react";
 import { blobToBase64, recordWav } from "@/lib/record-wav";
 import { Button } from "@/components/ui/button";
 import { NutritionProfileFields } from "@/components/NutritionProfileFields";
@@ -312,9 +312,12 @@ function NutritionPage() {
               <span className="text-[13px]"><Localized>{"/ "}</Localized><Localized>{liters(waterGoal)}</Localized><Localized>{" Liter"}</Localized></span>
             </div>
             <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{"Heute / Tagesziel"}</Localized></div>
-            <div className="mt-2.5 flex items-center gap-1.5">
-              <button type="button" onClick={() => addWater(-0.25)} aria-label={translateText("250 ml weniger")} className="rounded-full bg-muted px-2.5 py-1 text-[12px] font-semibold text-ink/70">−250 ml</button>
-              <button type="button" onClick={() => addWater(0.25)} aria-label={translateText("250 ml Wasser hinzufügen")} className="rounded-full bg-fresh px-2.5 py-1 text-[12px] font-semibold text-ink">+250 ml</button>
+            <div className="mt-2.5 flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <button type="button" onClick={() => addWater(-0.25)} aria-label={translateText("250 ml weniger")} className="grid size-8 place-items-center rounded-full bg-muted text-ink/70 transition active:scale-95"><Minus className="size-4" aria-hidden="true" /></button>
+                <button type="button" onClick={() => addWater(0.25)} aria-label={translateText("250 ml Wasser hinzufügen")} className="grid size-8 place-items-center rounded-full bg-fresh text-ink transition active:scale-95"><Plus className="size-4" aria-hidden="true" /></button>
+              </div>
+              <span className="text-[12px] font-semibold text-muted-foreground">250 ml</span>
             </div>
           </div>
           <Link to="/ernaehrung/omega-fette" data-nutrition="omega" className="card-surface block min-w-0 p-4">
