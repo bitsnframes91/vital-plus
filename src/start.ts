@@ -2,6 +2,8 @@ import { createStart, createCsrfMiddleware, createMiddleware } from "@tanstack/r
 
 import { renderErrorPage } from "./lib/error-page";
 import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
+import { isNativeAppOrigin } from "./lib/native-origins";
+import "./lib/native-fetch";
 
 const errorMiddleware = createMiddleware().server(async ({ next, request }) => {
   // /lovable/* server routes (email webhooks, previews) authenticate themselves.
@@ -25,8 +27,15 @@ const errorMiddleware = createMiddleware().server(async ({ next, request }) => {
 // Start installs this automatically when src/start.ts is absent; defining the
 // file opts out, so re-add it explicitly to keep server functions protected
 // from cross-site requests.
+// The Capacitor app shell runs from capacitor://localhost, so its requests are
+// cross-site; accept only those known native origins in addition to same-origin.
 const csrfMiddleware = createCsrfMiddleware({
   filter: (ctx) => ctx.handlerType === "serverFn",
+  secFetchSite: (site, ctx) =>
+    site === "same-origin" ||
+    (site === "cross-site" && isNativeAppOrigin(ctx.request.headers.get("Origin"))),
+  origin: (origin, ctx) =>
+    origin === new URL(ctx.request.url).origin || isNativeAppOrigin(origin),
 });
 
 export const startInstance = createStart(() => ({
