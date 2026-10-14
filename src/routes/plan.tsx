@@ -18,9 +18,9 @@ export const Route = createFileRoute("/plan")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "Mein Plan — Vitalplus" },
+      { title: "Mein Plan — Vital Plus" },
       { name: "description", content: "Dein persönlicher Plan mit Schritten für heute und Empfehlungen zu niedrigen Laborwerten." },
-      { property: "og:title", content: "Mein Plan — Vitalplus" },
+      { property: "og:title", content: "Mein Plan — Vital Plus" },
       { property: "og:description", content: "Praktische Schritte und Empfehlungen zu niedrigen Laborwerten, auf dich abgestimmt." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

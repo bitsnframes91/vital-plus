@@ -12,10 +12,10 @@ export const Route = createFileRoute("/profil/feedback")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "Feedback geben — Vitalplus" },
-      { name: "description", content: "Teile dein Feedback zur Vitalplus App: Sterne, Themen und Nachricht." },
-      { property: "og:title", content: "Feedback geben — Vitalplus" },
-      { property: "og:description", content: "Hilf uns, die Vitalplus App zu verbessern." },
+      { title: "Feedback geben — Vital Plus" },
+      { name: "description", content: "Teile dein Feedback zur Vital Plus App: Sterne, Themen und Nachricht." },
+      { property: "og:title", content: "Feedback geben — Vital Plus" },
+      { property: "og:description", content: "Hilf uns, die Vital Plus App zu verbessern." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

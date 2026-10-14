@@ -1,4 +1,11 @@
 /* Native-shell only (src/mobile/client.tsx); the web build never loads this file. */
+html[data-native-app] {
+  /* <body> reserves the top inset below, so page headers must not add it again
+     (--page-safe-top) and full-height layouts subtract it (--shell-inset-top). See src/styles.css. */
+  --page-safe-top: 0px;
+  --shell-inset-top: env(safe-area-inset-top, 0px);
+}
+
 html[data-native-app] body {
   /* viewport-fit=cover lets the web view reach the screen edges; keep content clear of the notch / Dynamic Island. */
   padding-top: env(safe-area-inset-top);

@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>de</string>
 	<key>CFBundleDisplayName</key>
-	<string>Vivo Health</string>
+	<string>Vital Plus</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -38,9 +38,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Vivo Health nutzt die Kamera nur, wenn du ein Foto deiner Mahlzeit oder deines Laborbefunds aufnimmst.</string>
+	<string>Vital Plus nutzt die Kamera nur, wenn du ein Foto deiner Mahlzeit oder deines Laborbefunds aufnimmst.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Vivo Health nutzt das Mikrofon nur, wenn du eine Mahlzeit per Sprache erfasst.</string>
+	<string>Vital Plus nutzt das Mikrofon nur, wenn du eine Mahlzeit per Sprache erfasst.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -7,16 +7,17 @@ import { AppShell, PageHeader } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
 import { readQuestionnaire, clearQuestionnaire } from "@/lib/questionnaire-draft";
 import { publicAppUrl } from "@/lib/native-app";
+import { SwipeAction } from "@/components/SwipeAction";
 
 export const Route = createFileRoute("/login")({
   staticData: { sitemap: true },
   validateSearch: (search: Record<string, unknown>) => ({ mode: search["mode"] === "register" ? ("register" as const) : ("login" as const) }),
   head: () => ({
     meta: [
-      { title: "Anmelden — Vitalplus" },
-      { name: "description", content: "Mit E-Mail und Passwort bei Vitalplus anmelden oder ein Konto anlegen." },
-      { property: "og:title", content: "Anmelden — Vitalplus" },
-      { property: "og:description", content: "Dein Vitalplus-Konto – deine Werte auf allen Geräten." },
+      { title: "Anmelden — Vital Plus" },
+      { name: "description", content: "Mit E-Mail und Passwort bei Vital Plus anmelden oder ein Konto anlegen." },
+      { property: "og:title", content: "Anmelden — Vital Plus" },
+      { property: "og:description", content: "Dein Vital-Plus-Konto – deine Werte auf allen Geräten." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -78,7 +79,7 @@ function Login() {
 
   if (sent) return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText("Bestätige deine E-Mail")} sub={translateText("Fast geschafft!")} />
+      <PageHeader eyebrow={translateText("Vital Plus Konto")} title={translateText("Bestätige deine E-Mail")} sub={translateText("Fast geschafft!")} />
       <div className="card-surface mx-4 mt-4 space-y-2 p-5 text-sm">
         <p><Localized>{"Wir haben dir einen Bestätigungslink geschickt an:"}</Localized> <b>{email}</b></p>
         <p className="text-ink/70"><Localized>{"Erst nach dem Klick auf den Link in deinem Postfach ist dein Konto aktiv. Danach gelangst du direkt zu Heute."}</Localized></p>
@@ -88,7 +89,7 @@ function Login() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText(mode === "login" ? "Anmelden" : "Konto anlegen")} sub={translateText("Deine Werte sicher gespeichert – auf allen Geräten.")} />
+      <PageHeader eyebrow={translateText("Vital Plus Konto")} title={translateText(mode === "login" ? "Anmelden" : "Konto anlegen")} sub={translateText("Deine Werte sicher gespeichert – auf allen Geräten.")} />
       <div className="card-surface mx-4 mt-4 space-y-3 p-5">
         {mode === "login" && magicSent ? (
           <div className="space-y-2 text-sm">
@@ -104,9 +105,7 @@ function Login() {
             <input required type="password" autoComplete={mode === "login" ? "current-password" : "new-password"} minLength={mode === "register" ? 8 : 1} placeholder={translateText("Passwort")} value={password} onChange={(e) => setPassword(e.target.value)} className={field} />
           )}
           {msg && <p className="rounded-xl bg-warn/15 px-3 py-2 text-[13px]"><Localized>{msg}</Localized></p>}
-          <button disabled={busy} className="w-full rounded-full bg-fresh py-2.5 text-sm font-medium text-ink disabled:opacity-50">
-            <Localized>{busy ? "Bitte warten…" : mode === "login" ? (magic ? "Login-Link senden" : "Anmelden") : "Konto anlegen"}</Localized>
-          </button>
+          <SwipeAction type="submit" busy={busy} label={mode === "login" ? (magic ? "Login-Link senden" : "Anmelden") : "Konto anlegen"} />
           {mode === "login" && (
             <button type="button" onClick={() => { setMagic(!magic); setMsg(null); }} className="w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4">
               <Localized>{magic ? "Stattdessen mit Passwort anmelden" : "Ohne Passwort anmelden (Login-Link per E-Mail)"}</Localized>

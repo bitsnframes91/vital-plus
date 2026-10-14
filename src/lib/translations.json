@@ -735,9 +735,9 @@
     "Value",
     "Valor"
   ],
-  "Hinweis: Vitalplus stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.": [
-    "Note: Vitalplus does not diagnose conditions. Discuss abnormal values with your doctor. Lab integration is coming.",
-    "Nota: Vitalplus no realiza diagnósticos. Consulta los valores anómalos con tu médico. La conexión de laboratorio llegará próximamente."
+  "Hinweis: Vital Plus stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.": [
+    "Note: Vital Plus does not diagnose conditions. Discuss abnormal values with your doctor. Lab integration is coming.",
+    "Nota: Vital Plus no realiza diagnósticos. Consulta los valores anómalos con tu médico. La conexión de laboratorio llegará próximamente."
   ],
   "Doppelt tippen zum Ändern": [
     "Double tap to change",
@@ -1003,9 +1003,9 @@
     "Terms and conditions, legal notice",
     "Condiciones generales, aviso legal"
   ],
-  "Vitalplus Konto": [
-    "Vitalplus account",
-    "Cuenta Vitalplus"
+  "Vital Plus Konto": [
+    "Vital Plus account",
+    "Cuenta Vital Plus"
   ],
   "Angemeldet als {email}.": [
     "Signed in as {email}.",
@@ -1267,9 +1267,9 @@
     "Close",
     "Cerrar"
   ],
-  "Dein Vitalplus-Konto – deine Werte auf allen Geräten.": [
-    "Your Vitalplus account – your values on all devices.",
-    "Tu cuenta Vitalplus: tus valores en todos tus dispositivos."
+  "Dein Vital-Plus-Konto – deine Werte auf allen Geräten.": [
+    "Your Vital Plus account – your values on all devices.",
+    "Tu cuenta Vital Plus: tus valores en todos tus dispositivos."
   ],
   "Neu hier": [
     "New here",
@@ -1307,9 +1307,9 @@
     "We sent you a password reset link.",
     "Te enviamos un enlace para restablecer tu contraseña."
   ],
-  "Lege ein neues Passwort für dein Vitalplus-Konto fest.": [
-    "Set a new password for your Vitalplus account.",
-    "Establece una nueva contraseña para tu cuenta Vitalplus."
+  "Lege ein neues Passwort für dein Vital-Plus-Konto fest.": [
+    "Set a new password for your Vital Plus account.",
+    "Establece una nueva contraseña para tu cuenta Vital Plus."
   ],
   "Neues Passwort": [
     "New password",
@@ -1391,9 +1391,9 @@
     "Your data, your decision.",
     "Tus datos, tu decisión."
   ],
-  "Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. Vitalplus ersetzt keine ärztliche Beratung.": [
-    "I consent to processing my health data for display in the app. Vitalplus does not replace medical advice.",
-    "Consiento el tratamiento de mis datos de salud para mostrarlos en la aplicación. Vitalplus no sustituye el consejo médico."
+  "Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. Vital Plus ersetzt keine ärztliche Beratung.": [
+    "I consent to processing my health data for display in the app. Vital Plus does not replace medical advice.",
+    "Consiento el tratamiento de mis datos de salud para mostrarlos en la aplicación. Vital Plus no sustituye el consejo médico."
   ],
   "Los geht's": [
     "Let's go",
@@ -1531,13 +1531,13 @@
     "Got it",
     "Entendido"
   ],
-  "Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte Vitalplus zum Home-Bildschirm hinzufügen.": [
-    "Notifications are not supported here. On iPhone, add Vitalplus to your home screen.",
-    "Las notificaciones no son compatibles aquí. En iPhone, añade Vitalplus a tu pantalla de inicio."
+  "Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte Vital Plus zum Home-Bildschirm hinzufügen.": [
+    "Notifications are not supported here. On iPhone, add Vital Plus to your home screen.",
+    "Las notificaciones no son compatibles aquí. En iPhone, añade Vital Plus a tu pantalla de inicio."
   ],
-  "Bitte erlaube Benachrichtigungen für Vitalplus in deinen Geräte- oder Browser-Einstellungen.": [
-    "Allow Vitalplus notifications in your device or browser settings.",
-    "Permite las notificaciones de Vitalplus en los ajustes del dispositivo o navegador."
+  "Bitte erlaube Benachrichtigungen für Vital Plus in deinen Geräte- oder Browser-Einstellungen.": [
+    "Allow Vital Plus notifications in your device or browser settings.",
+    "Permite las notificaciones de Vital Plus en los ajustes del dispositivo o navegador."
   ],
   "Benachrichtigungen konnten nicht aktiviert werden.": [
     "Notifications could not be enabled.",
@@ -1591,9 +1591,9 @@
     "Daily at",
     "Cada día a las"
   ],
-  "Erinnerungen erscheinen, solange Vitalplus geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App.": [
-    "Reminders appear while Vitalplus is open or the next time you open it. No delivery while the app is closed.",
-    "Los recordatorios aparecen mientras Vitalplus está abierto o al volver a abrirlo. No se entregan con la app cerrada."
+  "Erinnerungen erscheinen, solange Vital Plus geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App.": [
+    "Reminders appear while Vital Plus is open or the next time you open it. No delivery while the app is closed.",
+    "Los recordatorios aparecen mientras Vital Plus está abierto o al volver a abrirlo. No se entregan con la app cerrada."
   ],
   "Neuer Link wurde gesendet.": [
     "A new link was sent.",
@@ -1619,9 +1619,9 @@
     "Step ring",
     "Anillo de pasos"
   ],
-  "Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt Vitalplus deine selbst eingetragenen Schritte.": [
-    "Apple Health and Google Health Connect are not connected yet. Until then, Vitalplus shows your manually entered steps.",
-    "Apple Health y Google Health Connect aún no están conectados. Hasta entonces, Vitalplus muestra tus pasos introducidos manualmente."
+  "Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt Vital Plus deine selbst eingetragenen Schritte.": [
+    "Apple Health and Google Health Connect are not connected yet. Until then, Vital Plus shows your manually entered steps.",
+    "Apple Health y Google Health Connect aún no están conectados. Hasta entonces, Vital Plus muestra tus pasos introducidos manualmente."
   ],
   "Schritte in Gesundheit eintragen →": [
     "Enter steps in Health →",
@@ -1755,9 +1755,9 @@
     "Live healthier. Be happier.",
     "Vive más sano. Sé más feliz."
   ],
-  "Vitalplus Startseite": [
-    "Vitalplus homepage",
-    "Página de inicio Vitalplus"
+  "Vital Plus Startseite": [
+    "Vital Plus homepage",
+    "Página de inicio Vital Plus"
   ],
   "Ganzheitliches Leben in Bewegung — Forschung, Sport und Vitalität": [
     "Holistic living in motion — science, sport and vitality",
@@ -1835,9 +1835,9 @@
     "e.g. 175",
     "p. ej. 175"
   ],
-  "Vitalplus · Schritt": [
-    "Vitalplus · Step",
-    "Vitalplus · Paso"
+  "Vital Plus · Schritt": [
+    "Vital Plus · Step",
+    "Vital Plus · Paso"
   ],
   "Wähle im Fragebogen, was dir wichtig ist – oder lade deinen Laborbefund hoch. Daraus entstehen dein Plan und deine Tagesziele.": [
     "Choose your questionnaire priorities or upload your lab report to create your plan and daily goals.",
@@ -1859,9 +1859,9 @@
     "Manage account",
     "Gestionar cuenta"
   ],
-  "Die offizielle Datenschutzerklärung für Vitalplus wurde noch nicht hinterlegt.": [
-    "Vitalplus’s official privacy policy has not yet been provided.",
-    "La política de privacidad oficial de Vitalplus aún no está disponible."
+  "Die offizielle Datenschutzerklärung für Vital Plus wurde noch nicht hinterlegt.": [
+    "Vital Plus’s official privacy policy has not yet been provided.",
+    "La política de privacidad oficial de Vital Plus aún no está disponible."
   ],
   "Zurück zum Profil": [
     "Back to Profile",
@@ -1895,17 +1895,17 @@
     "Terms and conditions",
     "Condiciones generales"
   ],
-  "Die Nutzungsbedingungen für Vitalplus wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.": [
-    "Vitalplus’s terms have not yet been provided. Purchases take place exclusively in the Fairvital shop.",
-    "Las condiciones de Vitalplus aún no están disponibles. Las compras se realizan exclusivamente en la tienda Fairvital."
+  "Die Nutzungsbedingungen für Vital Plus wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.": [
+    "Vital Plus’s terms have not yet been provided. Purchases take place exclusively in the Fairvital shop.",
+    "Las condiciones de Vital Plus aún no están disponibles. Las compras se realizan exclusivamente en la tienda Fairvital."
   ],
-  "Das offizielle Impressum für Vitalplus wurde noch nicht hinterlegt.": [
-    "Vitalplus’s official legal notice has not yet been provided.",
-    "El aviso legal oficial de Vitalplus aún no está disponible."
+  "Das offizielle Impressum für Vital Plus wurde noch nicht hinterlegt.": [
+    "Vital Plus’s official legal notice has not yet been provided.",
+    "El aviso legal oficial de Vital Plus aún no está disponible."
   ],
-  "Vitalplus verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.": [
-    "Vitalplus uses open-source software including React, TanStack, Radix UI and Lucide. A complete license overview has not yet been provided.",
-    "Vitalplus utiliza software de código abierto como React, TanStack, Radix UI y Lucide. La lista completa de licencias aún no está disponible."
+  "Vital Plus verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.": [
+    "Vital Plus uses open-source software including React, TanStack, Radix UI and Lucide. A complete license overview has not yet been provided.",
+    "Vital Plus utiliza software de código abierto como React, TanStack, Radix UI y Lucide. La lista completa de licencias aún no está disponible."
   ],
   "Zielgewicht in kg": [
     "Target weight in kg",
@@ -1919,9 +1919,9 @@
     "Download data",
     "Descargar datos"
   ],
-  "Hilf uns, die Vitalplus App zu verbessern.": [
-    "Help us improve the Vitalplus app.",
-    "Ayúdanos a mejorar la aplicación Vitalplus."
+  "Hilf uns, die Vital Plus App zu verbessern.": [
+    "Help us improve the Vital Plus app.",
+    "Ayúdanos a mejorar la aplicación Vital Plus."
   ],
   "Feedback konnte nicht gesendet werden. Bitte später erneut versuchen.": [
     "Unable to send feedback. Try again later.",
@@ -3066,5 +3066,21 @@
   "ODER": [
     "OR",
     "O"
+  ],
+  "Los geht’s": [
+    "Let’s go",
+    "Empezar"
+  ],
+  "Weiter zu Heute": [
+    "Continue to Today",
+    "Continuar a Hoy"
+  ],
+  "Nach rechts wischen": [
+    "Swipe right",
+    "Desliza a la derecha"
+  ],
+  "Geschafft": [
+    "Done",
+    "Listo"
   ]
 }

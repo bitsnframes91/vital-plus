@@ -16,9 +16,9 @@ export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "Vitalplus — Gesünder leben. Glücklicher sein." },
-      { name: "description", content: "Vitalplus: dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
-      { property: "og:title", content: "Vitalplus — Gesünder leben. Glücklicher sein." },
+      { title: "Vital Plus — Gesünder leben. Glücklicher sein." },
+      { name: "description", content: "Vital Plus: dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
+      { property: "og:title", content: "Vital Plus — Gesünder leben. Glücklicher sein." },
       { property: "og:description", content: "Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -68,8 +68,8 @@ function Home() {
     <main className={`home-entry ${mode === "login" ? "home-entry-login" : ""}`}>
       <img src={startseiteProduce.url} alt={translateText("Vitali mit frischem Obst und Gemüse")} width={768} height={1152} fetchPriority="high" className="home-produce" />
       <header className="home-entry-header relative z-10">
-        <Link to="/" aria-label={translateText("Vitalplus Startseite")} className="inline-block"><VivoBrand className="h-auto w-[190px] object-contain sm:w-[240px]" /></Link>
-        <h1 className="sr-only">Vitalplus</h1>
+        <Link to="/" aria-label={translateText("Vital Plus Startseite")} className="inline-block"><VivoBrand className="home-entry-logo object-contain" /></Link>
+        <h1 className="sr-only">Vital Plus</h1>
         <p className="mt-5 text-[30px] font-semibold leading-tight sm:text-[40px]"><Localized>{"Gesünder leben."}</Localized><br /><Localized>{"Glücklicher sein."}</Localized></p>
       </header>
       <div className="home-entry-controls relative z-10">
