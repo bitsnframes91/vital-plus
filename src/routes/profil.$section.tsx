@@ -16,6 +16,7 @@ const sexOptions = [["female", "Weiblich"], ["male", "Männlich"], ["diverse", "
 const numFields = { age: { label: "Alter in Jahren", key: "age", min: 18, max: 110, step: "1" }, height: { label: "Größe in cm", key: "heightCm", min: 120, max: 230, step: "1" }, weight: { label: "Gewicht in kg", key: "weightKg", min: 30, max: 300, step: "0.1" } } as const;
 import { PasswordResetForm } from "@/components/PasswordResetForm";
 import { AppSettingsControls } from "@/components/AppSettings";
+import { AppleHealthSection } from "@/components/AppleHealth";
 
 const titles: Record<string, string> = { personal: "Gesundheitsprofil bearbeiten", security: "Konto & Sicherheit", settings: "App-Einstellungen", privacy: "Meine Daten", help: "Kundenservice kontaktieren", legal: "Rechtliches", account: "Konto verwalten" };
 
@@ -148,10 +149,11 @@ function ProfileSubmenu() {
         <Row title={translateText("Aktivitätslevel")} sub={translateText(activityLevels.find(a => a.value === s.body.activity)?.label ?? "Nicht angegeben")} icon={Activity} onClick={() => openField("activity", "Aktivitätslevel")} />
         <Row title={translateText("Gesundheitsziele")} sub={translateText(s.goals.join(", ") || "Nicht angegeben")} icon={Heart} onClick={() => openField("goals", "Gesundheitsziele")} />
       </div>}
+      {section === "personal" && <AppleHealthSection />}
       {(section === "security" || section === "account") && <>
         {section === "account" && <h2 className="eyebrow"><Localized>{"Vital Plus Konto"}</Localized></h2>}
         <div className="space-y-px overflow-hidden rounded-lg"><div className="flex min-h-16 w-full items-center gap-3 rounded-lg bg-card px-3 py-3 text-left text-foreground"><span className="grid size-9 shrink-0 place-items-center rounded-full"><Mail className="size-5!" strokeWidth={1.6} /></span><span className="min-w-0 flex-1"><span className="block text-[13px] font-semibold leading-5"><Localized>{"E-Mail-Adresse"}</Localized></span><span className="block break-words text-[12px] font-normal leading-4 text-muted-foreground"><Localized>{s.account?.email ?? "Nicht angemeldet"}</Localized></span></span></div><Row title={translateText("Passwort ändern")} sub={translateText("Reset-Link per E-Mail")} icon={KeyRound} onClick={password} />
-        {section === "account" && <Row title={translateText("Verbundene Apps")} sub={translateText("Apple Health, Health Connect")} icon={LayoutGrid} onClick={() => notice("Verbundene Apps", "Apple Health und Google Health Connect sind noch nicht verbunden. In dieser Web-App ist kein direkter Zugriff verfügbar.")} />}</div>
+        {section === "account" && <Row title={translateText("Verbundene Apps")} sub={translateText("Apple Health, Health Connect")} icon={LayoutGrid} onClick={() => notice("Verbundene Apps", "Apple Health verbindest du in der iPhone-App unter Profil › Gesundheitsprofil bearbeiten. Google Health Connect ist noch nicht verfügbar.")} />}</div>
         <Row title={translateText("Konto löschen")} icon={Trash2} danger onClick={deletion} />
       </>}
       {section === "settings" && <AppSettingsControls />}

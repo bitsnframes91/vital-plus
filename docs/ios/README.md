@@ -57,7 +57,9 @@ Run in the Simulator (☐, needs Xcode): `bun run ios:open`, pick an iPhone simu
 | `src/mobile/secure-auth-storage.ts` | Supabase session storage backed by the iOS Keychain |
 | `src/lib/native-app.ts` | `isNativeApp` flag and `publicAppUrl()` for auth email links |
 | `ios/App/App/SecureSessionStoragePlugin.swift`, `MainViewController.swift` | In-app Keychain plugin and its registration |
-| `ios/App/App/Info.plist` | Display name, permissions (camera, microphone), URL scheme, iPhone portrait |
+| `ios/App/App/VitalHealthPlugin.swift`, `App.entitlements` | Apple Health (HealthKit) plugin and its entitlement. See [PHASE-2C-APPLE-HEALTH-HANDOFF.md](PHASE-2C-APPLE-HEALTH-HANDOFF.md) |
+| `src/lib/apple-health/`, `src/components/AppleHealth.tsx` | Apple Health bridge, device-only state, import, export planning and UI |
+| `ios/App/App/Info.plist` | Display name, permissions (camera, microphone, Health read/write), URL scheme, iPhone portrait |
 | `ios/App/App/PrivacyInfo.xcprivacy` | Privacy manifest: collected data types (no tracking) and the `UserDefaults` reason `CA92.1` |
 | `ios/App/App.xcodeproj` | Bundle ID, Team `R9RKNU986H`. Debug signs automatically; Release signs manually with Apple Distribution and the profile named by `VIVO_APPSTORE_PROFILE` |
 | `src/start.ts` | Server: allows the app origin `capacitor://localhost` for server functions only |

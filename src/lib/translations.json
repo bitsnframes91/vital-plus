@@ -3178,5 +3178,197 @@
   "KI ist nicht konfiguriert.": [
     "AI is not configured.",
     "La IA no está configurada."
+  ],
+  "Aktive Energie": [
+    "Active energy",
+    "Energía activa"
+  ],
+  "Aktive Energie ist Energie aus Bewegung, Ruheenergie der Grundumsatz, Nahrungsenergie die gegessene Energie. Werte aus Apple Health ändern dein Vital Plus Profil nicht.": [
+    "Active energy is energy from movement, resting energy is your basal metabolism, and dietary energy is the energy you ate. Apple Health values do not change your Vital Plus profile.",
+    "La energía activa procede del movimiento, la energía en reposo es tu metabolismo basal y la energía alimentaria es la que has comido. Los valores de Apple Health no cambian tu perfil de Vital Plus."
+  ],
+  "Apple Health": [
+    "Apple Health",
+    "Apple Health"
+  ],
+  "Apple Health ist auf diesem Gerät nicht verfügbar.": [
+    "Apple Health is not available on this device.",
+    "Apple Health no está disponible en este dispositivo."
+  ],
+  "Apple Health ist in der Vital Plus App auf dem iPhone verfügbar.": [
+    "Apple Health is available in the Vital Plus app on iPhone.",
+    "Apple Health está disponible en la app Vital Plus para iPhone."
+  ],
+  "Apple Health konnte nicht synchronisiert werden. Bitte versuche es erneut.": [
+    "Apple Health could not be synced. Please try again.",
+    "No se pudo sincronizar Apple Health. Inténtalo de nuevo."
+  ],
+  "Apple Health konnte nicht verbunden werden.": [
+    "Apple Health could not be connected.",
+    "No se pudo conectar Apple Health."
+  ],
+  "Apple Health trennen?": [
+    "Disconnect Apple Health?",
+    "¿Desconectar Apple Health?"
+  ],
+  "Apple Health verbinden": [
+    "Connect Apple Health",
+    "Conectar Apple Health"
+  ],
+  "Apple Health verbinden?": [
+    "Connect Apple Health?",
+    "¿Conectar Apple Health?"
+  ],
+  "Apple Health verbindest du in der iPhone-App unter Profil › Gesundheitsprofil bearbeiten. Google Health Connect ist noch nicht verfügbar.": [
+    "Connect Apple Health in the iPhone app under Profile › Edit health profile. Google Health Connect is not available yet.",
+    "Conecta Apple Health en la app para iPhone en Perfil › Editar perfil de salud. Google Health Connect aún no está disponible."
+  ],
+  "Apple-Health-Daten konnten auf diesem iPhone nicht gespeichert werden.": [
+    "Apple Health data could not be saved on this iPhone.",
+    "No se pudieron guardar los datos de Apple Health en este iPhone."
+  ],
+  "Daten aus Apple Health bleiben auf diesem iPhone. Sie werden nicht in deinem Vital Plus Konto gespeichert und nicht an KI-Dienste oder Dritte gesendet.": [
+    "Data from Apple Health stays on this iPhone. It is not stored in your Vital Plus account and not sent to AI services or third parties.",
+    "Los datos de Apple Health permanecen en este iPhone. No se guardan en tu cuenta de Vital Plus ni se envían a servicios de IA ni a terceros."
+  ],
+  "Die Freigabe für Apple Health gilt für dieses iPhone. Lese- und Schreibrechte änderst oder widerrufst du unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus.": [
+    "Apple Health access applies to this iPhone. Change or revoke read and write access in Settings › Privacy & Security › Health › Vital Plus.",
+    "El acceso a Apple Health se aplica a este iPhone. Cambia o revoca los permisos de lectura y escritura en Ajustes › Privacidad y seguridad › Salud › Vital Plus."
+  ],
+  "Du entscheidest in Apple Health, welche Daten Vital Plus lesen darf. Du kannst die Verbindung jederzeit unter Profil › Gesundheitsprofil bearbeiten ändern.": [
+    "You decide in Apple Health which data Vital Plus may read. You can change the connection at any time under Profile › Edit health profile.",
+    "Tú decides en Apple Health qué datos puede leer Vital Plus. Puedes cambiar la conexión en cualquier momento en Perfil › Editar perfil de salud."
+  ],
+  "Einige Einträge konnten nicht in Apple Health gespeichert werden.": [
+    "Some entries could not be saved to Apple Health.",
+    "Algunas entradas no se pudieron guardar en Apple Health."
+  ],
+  "Erneut versuchen": [
+    "Try again",
+    "Reintentar"
+  ],
+  "Gewicht (letzter Wert)": [
+    "Weight (latest value)",
+    "Peso (último valor)"
+  ],
+  "Herzfrequenz (Durchschnitt)": [
+    "Heart rate (average)",
+    "Frecuencia cardiaca (media)"
+  ],
+  "Heute aus Apple Health": [
+    "Today from Apple Health",
+    "Hoy desde Apple Health"
+  ],
+  "In Apple Health speichern": [
+    "Save to Apple Health",
+    "Guardar en Apple Health"
+  ],
+  "Jetzt nicht": [
+    "Not now",
+    "Ahora no"
+  ],
+  "Jetzt synchronisieren": [
+    "Sync now",
+    "Sincronizar ahora"
+  ],
+  "Keine Daten": [
+    "No data",
+    "Sin datos"
+  ],
+  "Lokale Apple-Health-Daten konnten nicht geladen werden.": [
+    "Local Apple Health data could not be loaded.",
+    "No se pudieron cargar los datos locales de Apple Health."
+  ],
+  "Nahrungsenergie": [
+    "Dietary energy",
+    "Energía alimentaria"
+  ],
+  "Nahrungsenergie aus Mahlzeiten": [
+    "Dietary energy from meals",
+    "Energía alimentaria de las comidas"
+  ],
+  "Nicht verbunden": [
+    "Not connected",
+    "No conectado"
+  ],
+  "Nicht verfügbar: Vital Plus zeichnet noch keine Trainings auf. Aktive Energie wird nie aus Mahlzeiten geschätzt.": [
+    "Not available: Vital Plus does not record workouts yet. Active energy is never estimated from meals.",
+    "No disponible: Vital Plus aún no registra entrenamientos. La energía activa nunca se estima a partir de las comidas."
+  ],
+  "Noch nicht synchronisiert": [
+    "Not synced yet",
+    "Aún no sincronizado"
+  ],
+  "Nur Einträge, die du in Vital Plus machst, ab dem Tag des Einschaltens. Werte aus Apple Health werden nie zurückgeschrieben.": [
+    "Only entries you make in Vital Plus, from the day you turn this on. Values from Apple Health are never written back.",
+    "Solo las entradas que haces en Vital Plus, desde el día en que lo activas. Los valores de Apple Health nunca se vuelven a escribir."
+  ],
+  "Ruheenergie": [
+    "Resting energy",
+    "Energía en reposo"
+  ],
+  "Schlaf (letzte Nacht)": [
+    "Sleep (last night)",
+    "Sueño (última noche)"
+  ],
+  "Schläge/Min.": [
+    "bpm",
+    "lpm"
+  ],
+  "Schreiben ist in Apple Health nicht erlaubt. Erlaube es unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus.": [
+    "Writing is not allowed in Apple Health. Allow it in Settings › Privacy & Security › Health › Vital Plus.",
+    "La escritura no está permitida en Apple Health. Permítela en Ajustes › Privacidad y seguridad › Salud › Vital Plus."
+  ],
+  "Std.": [
+    "h",
+    "h"
+  ],
+  "Synchronisiert …": [
+    "Syncing …",
+    "Sincronizando …"
+  ],
+  "Synchronisierung abbrechen": [
+    "Cancel sync",
+    "Cancelar sincronización"
+  ],
+  "Trennen": [
+    "Disconnect",
+    "Desconectar"
+  ],
+  "Trennen und lokale Daten löschen": [
+    "Disconnect and delete local data",
+    "Desconectar y borrar datos locales"
+  ],
+  "Verbunden": [
+    "Connected",
+    "Conectado"
+  ],
+  "Vital Plus kann Schritte, Herzfrequenz, Gewicht, Schlaf, Energie und Wasser aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone.": [
+    "Vital Plus can show steps, heart rate, weight, sleep, energy and water from Apple Health. This data stays on your iPhone.",
+    "Vital Plus puede mostrar pasos, frecuencia cardiaca, peso, sueño, energía y agua de Apple Health. Estos datos permanecen en tu iPhone."
+  ],
+  "Vital Plus liest keine Daten aus Apple Health.": [
+    "Vital Plus does not read any data from Apple Health.",
+    "Vital Plus no lee ningún dato de Apple Health."
+  ],
+  "Vital Plus löscht die auf diesem iPhone gespeicherten Apple-Health-Daten und speichert nichts mehr in Apple Health. Bereits gespeicherte Einträge bleiben in Apple Health. Die Berechtigungen widerrufst du in den iPhone-Einstellungen.": [
+    "Vital Plus deletes the Apple Health data stored on this iPhone and stops saving to Apple Health. Entries already saved stay in Apple Health. Revoke the permissions in the iPhone settings.",
+    "Vital Plus borra los datos de Apple Health guardados en este iPhone y deja de guardar en Apple Health. Las entradas ya guardadas permanecen en Apple Health. Revoca los permisos en los ajustes del iPhone."
+  ],
+  "Wasser": [
+    "Water",
+    "Agua"
+  ],
+  "Wird geladen …": [
+    "Loading …",
+    "Cargando …"
+  ],
+  "Zuletzt synchronisiert": [
+    "Last synced",
+    "Última sincronización"
+  ],
+  "„Keine Daten“ heißt: Apple Health hat keine Werte geliefert. Das kann auch bedeuten, dass der Lesezugriff nicht erlaubt ist.": [
+    "“No data” means Apple Health returned no values. It can also mean that read access is not allowed.",
+    "«Sin datos» significa que Apple Health no ha devuelto valores. También puede significar que el acceso de lectura no está permitido."
   ]
 }

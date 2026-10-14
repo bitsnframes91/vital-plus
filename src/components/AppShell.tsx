@@ -5,6 +5,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Home, Salad, HeartPulse, FlaskConical, ClipboardList, UserRound } from "lucide-react";
 import { ConfirmBanner } from "./ConfirmBanner";
+import { AppleHealthIntro } from "./AppleHealth";
 
 const tabs = [
   { to: "/heute", label: "Heute", d: "M3 11l9-8 9 8M5 10v10h14V10" },
@@ -100,6 +101,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </nav>
         )}
+        {showNav && <AppleHealthIntro />}
       </div>
     </div>
   );
