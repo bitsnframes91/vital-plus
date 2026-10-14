@@ -53,6 +53,7 @@ function corsHeaders(origin: string): Record<string, string> {
     "Access-Control-Allow-Headers":
       "Content-Type, Authorization, X-Requested-With, Accept, X-TSS-Serialized, x-tsr-serverFn, x-tsr-redirect",
     "Access-Control-Max-Age": "86400",
+    "Access-Control-Expose-Headers": "x-tss-serialized, x-tss-raw",
     Vary: "Origin",
   };
 }
