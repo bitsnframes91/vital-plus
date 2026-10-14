@@ -3082,5 +3082,101 @@
   "Geschafft": [
     "Done",
     "Listo"
+  ],
+  "Kein Mikrofonzugriff. Bitte erlaube den Zugriff in den iPhone-Einstellungen unter Datenschutz & Sicherheit › Mikrofon.": [
+    "No microphone access. Please allow access in iPhone Settings under Privacy & Security › Microphone.",
+    "Sin acceso al micrófono. Permite el acceso en Ajustes del iPhone, en Privacidad y seguridad › Micrófono."
+  ],
+  "Kein Mikrofonzugriff. Bitte erlaube den Zugriff in den Browser-Einstellungen.": [
+    "No microphone access. Please allow access in your browser settings.",
+    "Sin acceso al micrófono. Permite el acceso en los ajustes del navegador."
+  ],
+  "Spracheingabe wird auf diesem Gerät nicht unterstützt.": [
+    "Voice input is not supported on this device.",
+    "La entrada por voz no es compatible con este dispositivo."
+  ],
+  "Kein Mikrofon gefunden.": [
+    "No microphone found.",
+    "No se ha encontrado ningún micrófono."
+  ],
+  "Das Mikrofon wird gerade von einer anderen App verwendet.": [
+    "The microphone is being used by another app.",
+    "Otra aplicación está usando el micrófono."
+  ],
+  "Keine Sprache erkannt. Bitte sprich etwas lauter und versuche es erneut.": [
+    "No speech detected. Please speak a little louder and try again.",
+    "No se ha detectado voz. Habla un poco más alto e inténtalo de nuevo."
+  ],
+  "Keine Mahlzeit erkannt. Bitte beschreibe, was du gegessen hast.": [
+    "No meal recognized. Please describe what you ate.",
+    "No se ha reconocido ninguna comida. Describe lo que has comido."
+  ],
+  "Keine Verbindung. Bitte prüfe deine Internetverbindung und versuche es erneut.": [
+    "No connection. Please check your internet connection and try again.",
+    "Sin conexión. Comprueba tu conexión a internet e inténtalo de nuevo."
+  ],
+  "Aufnahme abgebrochen. Es wurde nichts gespeichert oder gesendet.": [
+    "Recording cancelled. Nothing was saved or sent.",
+    "Grabación cancelada. No se ha guardado ni enviado nada."
+  ],
+  "Aufnahme beendet, weil die App in den Hintergrund gewechselt ist. Es wurde nichts gesendet.": [
+    "Recording stopped because the app moved to the background. Nothing was sent.",
+    "La grabación se detuvo porque la app pasó a segundo plano. No se ha enviado nada."
+  ],
+  "Die Aufnahme wurde unterbrochen. Es wurde nichts gesendet.": [
+    "The recording was interrupted. Nothing was sent.",
+    "La grabación se interrumpió. No se ha enviado nada."
+  ],
+  "Verworfen. Es wurde nichts gespeichert.": [
+    "Discarded. Nothing was saved.",
+    "Descartado. No se ha guardado nada."
+  ],
+  "Zum Ernährungstagebuch hinzugefügt.": [
+    "Added to your food diary.",
+    "Añadido a tu diario de alimentación."
+  ],
+  "Mikrofon wird gestartet…": [
+    "Starting microphone…",
+    "Iniciando el micrófono…"
+  ],
+  "Aufnahmedauer": [
+    "Recording duration",
+    "Duración de la grabación"
+  ],
+  "Aufnahme abbrechen": [
+    "Cancel recording",
+    "Cancelar grabación"
+  ],
+  "Erkannte Mahlzeiten – bitte prüfen": [
+    "Recognized meals – please review",
+    "Comidas reconocidas: revísalas"
+  ],
+  "Verwerfen": [
+    "Discard",
+    "Descartar"
+  ],
+  "{ml} ml Getränke": [
+    "{ml} ml of drinks",
+    "{ml} ml de bebidas"
+  ],
+  "g Fett": [
+    "g fat",
+    "g de grasa"
+  ],
+  "Gerade sind zu viele Anfragen. Bitte versuche es gleich noch einmal.": [
+    "Too many requests right now. Please try again in a moment.",
+    "Hay demasiadas solicitudes en este momento. Inténtalo de nuevo en un momento."
+  ],
+  "Die KI-Funktion ist im Moment nicht verfügbar (Guthaben oder Freigabe fehlt).": [
+    "The AI feature is currently unavailable (credit or approval missing).",
+    "La función de IA no está disponible en este momento (falta saldo o autorización)."
+  ],
+  "Die KI konnte die Anfrage nicht verarbeiten.": [
+    "The AI could not process the request.",
+    "La IA no pudo procesar la solicitud."
+  ],
+  "KI ist nicht konfiguriert.": [
+    "AI is not configured.",
+    "La IA no está configurada."
   ]
 }

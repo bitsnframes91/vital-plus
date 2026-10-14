@@ -12,7 +12,8 @@ import { mealFromPhoto } from "@/lib/food-photo.functions";
 import { prepareFoodPhoto } from "@/lib/food-photo/image";
 import { currentLanguage } from "@/lib/language";
 import { Camera, LoaderCircle } from "lucide-react";
-import { blobToBase64, recordWav } from "@/lib/record-wav";
+import { blobToBase64 } from "@/lib/record-wav";
+import { VoiceMealEntry, type VoiceMeal } from "@/components/VoiceMealEntry";
 import { Button } from "@/components/ui/button";
 import { NutritionProfileFields } from "@/components/NutritionProfileFields";
 import { nutrientStatus, nutritionTargets, type NutritionProfile } from "@/lib/nutrition-targets";
@@ -20,7 +21,6 @@ import type { Meal } from "@/lib/data";
 import { micronutrientGaps, nutritionGaps } from "@/lib/nutrition-products";
 import { micronutrientSummary } from "@/lib/micronutrients";
 import { omegaSummary } from "@/lib/omega3";
-import voiceCardBg from "@/assets/voice-card-bg.png";
 
 export const Route = createFileRoute("/ernaehrung")({
   staticData: { sitemap: false },
@@ -106,9 +106,6 @@ function NutritionPage() {
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, photoBusy]);
-  const rec = useRef<{ stop: () => Promise<Blob> } | null>(null);
-  const [vs, setVs] = useState<"idle" | "rec" | "busy">("idle");
-  const [vmsg, setVmsg] = useState<string | null>(null);
 
   const today = todayISO();
   const todayMeals = s.meals.filter((m) => m.date === today);
@@ -136,31 +133,13 @@ function NutritionPage() {
   // Diary: group meals by day, newest first.
   const days = todayMeals.length ? [today] : [];
 
-  const toggleVoice = async () => {
-    setVmsg(null);
-    if (vs === "idle") {
-      try { rec.current = await recordWav(); setVs("rec"); }
-      catch { setVmsg("Mikrofon nicht verfügbar. Bitte Zugriff erlauben."); }
-      return;
-    }
-    if (vs !== "rec" || !rec.current) return;
-    setVs("busy");
-    try {
-      const blob = await rec.current.stop();
-      const r = await voice({ data: { base64: await blobToBase64(blob) } });
-      if (!r.ok) { setVmsg(r.error); return; }
-      const time = nowTime();
-      const drinkMl = r.meals.reduce((a, m) => a + (m.drinkMl ?? 0), 0);
-      const next: Partial<typeof s> = { meals: [...s.meals, ...r.meals.map((m) => ({ ...m, id: crypto.randomUUID(), time, date: today }))] };
-      if (drinkMl > 0) next.waterLog = { ...s.waterLog, [today]: Math.round(((s.waterLog?.[today] ?? 0) + drinkMl / 1000) * 100) / 100 };
-      set(next);
-      setVmsg(`„${r.transcript}“ – ${r.meals.length} Mahlzeit${r.meals.length > 1 ? "en" : ""} hinzugefügt.${drinkMl > 0 ? ` ${Math.round(drinkMl)} ml Getränke gezählt.` : ""}`);
-    } catch (e) {
-      setVmsg(e instanceof Error ? e.message : "Aufnahme fehlgeschlagen.");
-    } finally {
-      rec.current = null;
-      setVs("idle");
-    }
+  // Saves meals the user confirmed in the voice review; spoken drinks also count as water.
+  const saveVoiceMeals = (meals: VoiceMeal[]) => {
+    const time = nowTime();
+    const drinkMl = meals.reduce((a, m) => a + (m.drinkMl ?? 0), 0);
+    const next: Partial<typeof s> = { meals: [...s.meals, ...meals.map((m) => ({ ...m, id: crypto.randomUUID(), time, date: today }))] };
+    if (drinkMl > 0) next.waterLog = { ...s.waterLog, [today]: Math.round(((s.waterLog?.[today] ?? 0) + drinkMl / 1000) * 100) / 100 };
+    set(next);
   };
 
   const add = async (e: React.FormEvent) => {
@@ -220,23 +199,7 @@ function NutritionPage() {
         <NutritionMascot message={todayMeals.length === 0 ? "Bitte gib ein, was du gegessen hast." : undefined} />
       </header>
       <div className="space-y-4 px-4 pt-4">
-        <button onClick={() => void toggleVoice()} disabled={vs === "busy"}
-          className={`card-surface relative w-full overflow-hidden text-left disabled:opacity-60 ${vs === "rec" ? "ring-2 ring-fv" : ""}`}>
-          <span aria-hidden className="absolute inset-y-0 right-0 w-[48%]">
-            <img src={voiceCardBg} alt="" loading="lazy" width={1200} height={640} className="size-full object-cover object-[65%_center]" />
-            <span className="absolute inset-0 bg-gradient-to-r from-card via-card/70 to-card/20" />
-          </span>
-          <span className={`relative z-10 flex items-center gap-3 p-5`}>
-            <span className={`grid size-11 shrink-0 place-items-center rounded-full ${vs === "rec" ? "animate-pulse bg-fresh text-ink" : "bg-fresh text-ink"}`}>
-              <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3" /></svg>
-            </span>
-            <div className="min-w-0 flex-1">
-              <div className="text-[15px] font-medium"><Localized>{vs === "rec" ? "Ich höre zu… tippen zum Beenden" : vs === "busy" ? "Wird verarbeitet…" : "Erzähl mir, was du gegessen hast"}</Localized></div>
-              <div className="text-[12px] text-ink/45"><Localized>{"z. B. „Mittags hatte ich Nudeln mit Hähnchen und einen Apfel“"}</Localized></div>
-            </div>
-          </span>
-        </button>
-        {vmsg && <p className="rounded-xl bg-muted px-4 py-3 text-[13px] text-ink/70"><Localized>{vmsg}</Localized></p>}
+        <VoiceMealEntry transcribe={(base64) => voice({ data: { base64 } })} onConfirm={saveVoiceMeals} />
 
         <div className="space-y-4">
           <div className="eyebrow px-1"><Localized>{"Ernährungstagebuch"}</Localized></div>
