@@ -1,6 +1,6 @@
 # Phase 2B — Voice meal entry on iOS: handoff
 
-Branch: `feature/ios-native-enhancements` · Base: `5ab4f37` · Implementation commit: see [Git](#git)
+Branch: `feature/ios-native-enhancements` · Base: `5ab4f37` · Implementation commit: `948499f`
 
 **Physical iPhone status: NOT tested.** Everything below was built and verified on Windows with unit
 tests, the web build and `cap sync ios`. Microphone capture on a real iPhone still has to be checked
@@ -117,4 +117,4 @@ approval for the HealthKit capability, entitlements and a regenerated provisioni
 ## Git
 
 - Branch: `feature/ios-native-enhancements` (pushed to `origin` only)
-- Implementation commit: _filled in by the follow-up commit_
+- Implementation commit: `948499fa91b4437d42c5ba8dbf4111bcf99ae912` (`feat(ios): improve native voice meal recording reliability`)
