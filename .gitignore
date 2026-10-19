@@ -30,3 +30,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Capacitor mobile web bundle (vite.config.mobile.ts)
+dist-mobile
+src/mobile/routeTree.mobile.gen.ts

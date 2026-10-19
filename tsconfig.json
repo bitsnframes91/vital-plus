@@ -3,6 +3,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "vite.config.ts",
+    "vite.config.mobile.ts",
+    "capacitor.config.ts",
     "vitest.config.ts",
     "eslint.config.js"
   ],

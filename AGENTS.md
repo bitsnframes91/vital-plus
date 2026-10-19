@@ -23,7 +23,8 @@
 - Supplement suggestions (Plan and Heute) use measured out-of-range markers matched to catalog products in the product's own direction (`helpsWhen`, default low). Why: never suggest for normal values or the wrong direction.
 - Deficiency-specific routine tips live in `src/lib/deficiency-routines.ts` and share the supplement marker categories. Why: keep low-value advice relevant.
 - Brand colors/fonts are defined only as tokens in `src/styles.css` so the exact Fairvital CI can be swapped in.
-- App logo placements use the shared VivoBrand component backed by a CDN asset pointer, with proportionally padded raster browser and PWA icons; partner-shop references remain separate. Why: keep logo replacements consistent without changing shop ownership.
+- App logo placements use the shared VivoBrand component, with proportionally padded raster browser and PWA icons; partner-shop references remain separate. Why: keep logo replacements consistent without changing shop ownership.
+- Exception to CDN asset pointers: the VivoBrand logo is bundled locally (`src/assets/vital-plus-logo.webp`, trimmed to its visible bounds). Why: the iOS app must show the logo offline.
 - App accounts use Lovable Cloud auth; `src/lib/store.tsx` syncs health state as one JSON row per user in `user_data`. Why: shop accounts stay separate.
 - Restore account health state only after verifying identity, and clear it and pending saves on sign-out. Why: shared devices must not display a previous user's personal data.
 - AI lab, voice and food-photo features use server functions calling Lovable AI Gateway; food-photo helpers live in src/lib/food-photo. Why: keys and prompts stay server-side.

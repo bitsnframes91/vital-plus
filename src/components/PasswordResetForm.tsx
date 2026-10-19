@@ -2,6 +2,7 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { useState } from "react";
 import { requestPasswordReset } from "@/lib/account.functions";
+import { publicAppUrl } from "@/lib/native-app";
 import { Button } from "@/components/ui/button";
 
 export function PasswordResetForm({ initialEmail = "" }: { initialEmail?: string }) {
@@ -16,7 +17,7 @@ export function PasswordResetForm({ initialEmail = "" }: { initialEmail?: string
       if (busy) return;
       setBusy(true); setError("");
       try {
-        await requestPasswordReset({ data: { email: email.trim(), redirectTo: `${window.location.origin}/reset-password` } });
+        await requestPasswordReset({ data: { email: email.trim(), redirectTo: publicAppUrl("/reset-password") } });
         setSent(true);
       } catch {
         setError("Senden nicht möglich – bitte in einer Minute erneut versuchen.");
