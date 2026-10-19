@@ -34,8 +34,7 @@ const csrfMiddleware = createCsrfMiddleware({
   secFetchSite: (site, ctx) =>
     site === "same-origin" ||
     (site === "cross-site" && isNativeAppOrigin(ctx.request.headers.get("Origin"))),
-  origin: (origin, ctx) =>
-    origin === new URL(ctx.request.url).origin || isNativeAppOrigin(origin),
+  origin: (origin, ctx) => origin === new URL(ctx.request.url).origin || isNativeAppOrigin(origin),
 });
 
 export const startInstance = createStart(() => ({
