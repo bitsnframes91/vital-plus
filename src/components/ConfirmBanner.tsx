@@ -3,6 +3,7 @@ import { translateText, languageLocale } from "@/lib/language";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { publicAppUrl } from "@/lib/native-app";
 
 // Apple identity is confirmed by Apple; only Google keeps Vitalplus's additional link.
 export function needsConfirm(u: Pick<User, "email" | "app_metadata" | "user_metadata"> | null) {
@@ -13,7 +14,7 @@ export function needsConfirm(u: Pick<User, "email" | "app_metadata" | "user_meta
 }
 
 async function sendLink(email: string) {
-  return supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: window.location.origin + "/bestaetigt" } });
+  return supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: publicAppUrl("/bestaetigt") } });
 }
 
 export function ConfirmBanner() {

@@ -72,6 +72,11 @@
 }
 
 :root {
+  /* Top inset that full-bleed page headers add themselves. The native shell already pads
+     <body> by the inset (src/mobile/native.css) and resets this to 0 to avoid a double inset. */
+  --page-safe-top: env(safe-area-inset-top, 0px);
+  /* Height <body> already reserves above the page; non-zero only in the native shell. */
+  --shell-inset-top: 0px;
   --goal-low: oklch(0.61 0.21 27);
   --goal-partial: oklch(0.79 0.16 88);
   --goal-good: var(--fresh);
@@ -219,11 +224,11 @@
 /* Labor shares the shared speech bubble: when it shows, the header makes room
    above the mascot exactly like on Gesundheit. */
 .labor-mascot-header:has(.nutrition-mascot-says) {
-  padding-top: calc(84px + env(safe-area-inset-top));
-  min-height: calc(320px + env(safe-area-inset-top));
+  padding-top: calc(84px + var(--page-safe-top));
+  min-height: calc(320px + var(--page-safe-top));
 }
 .labor-mascot-header:has(.nutrition-mascot-says) .labor-mascot {
-  top: calc(76px + env(safe-area-inset-top));
+  top: calc(76px + var(--page-safe-top));
 }
 .nutrition-mascot-header { min-height: 256px; }
 .nutrition-mascot-copy { width: calc(100% - 132px); }
@@ -246,7 +251,7 @@
   filter: drop-shadow(0 8px 14px rgb(0 0 0 / 12%));
 }
 .nutrition-mascot-says {
-  position: absolute; top: calc(22px + env(safe-area-inset-top)); right: 14px;
+  position: absolute; top: calc(22px + var(--page-safe-top)); right: 14px;
   max-width: min(250px, calc(100% - 44px));
   background: var(--fresh-soft); border-radius: 9999px;
   padding: 10px 18px; font-size: 13px; font-weight: 500; line-height: 1.35; text-align: center;
@@ -254,11 +259,11 @@
 }
 .nutrition-mascot-says-tail path { fill: var(--fresh-soft); }
 .nutrition-mascot-header:has(.nutrition-mascot-says) {
-  padding-top: calc(84px + env(safe-area-inset-top));
-  min-height: calc(320px + env(safe-area-inset-top));
+  padding-top: calc(84px + var(--page-safe-top));
+  min-height: calc(320px + var(--page-safe-top));
 }
 .nutrition-mascot-header:has(.nutrition-mascot-says) .nutrition-mascot {
-  top: calc(76px + env(safe-area-inset-top));
+  top: calc(76px + var(--page-safe-top));
 }
 @keyframes nutrition-bubble-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .nutrition-mascot-says { animation: none; } }
@@ -273,11 +278,11 @@
 /* Gesundheit shares the Ernährung speech bubble: when it shows, the header
    makes room above the mascot exactly like there. */
 .health-mascot-header:has(.nutrition-mascot-says) {
-  padding-top: calc(84px + env(safe-area-inset-top));
-  min-height: calc(320px + env(safe-area-inset-top));
+  padding-top: calc(84px + var(--page-safe-top));
+  min-height: calc(320px + var(--page-safe-top));
 }
 .health-mascot-header:has(.nutrition-mascot-says) .health-mascot {
-  top: calc(76px + env(safe-area-inset-top));
+  top: calc(76px + var(--page-safe-top));
 }
 .plan-mascot-header { min-height: 256px; }
 .plan-mascot-copy { width: calc(100% - 140px); }
@@ -328,26 +333,45 @@
 .today-empty-bubble { background: var(--fresh-soft); }
 @media (prefers-reduced-motion: reduce) { .today-empty-mascot { animation: none; } }
 
-/* Uploaded produce artwork on a white, full-bleed introduction. */
-.home-entry { position: relative; isolation: isolate; min-height: 100svh; max-width: 1440px; margin-inline: auto; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+/* Uploaded produce artwork on a white, full-bleed introduction. Heights subtract the inset the
+   native shell already reserves on <body>, so the page fits without scrolling on normal iPhones;
+   short screens and an open keyboard may still scroll, nothing is clipped. vh lines are fallbacks. */
+.home-entry { position: relative; isolation: isolate; min-height: 100vh; min-height: calc(100svh - var(--shell-inset-top)); max-width: 1440px; margin-inline: auto; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
 .home-entry-header { padding: 32px 24px 0; }
-.home-produce { position: absolute; z-index: -1; width: 100%; height: calc(100svh - 190px); bottom: 0; object-fit: cover; object-position: center bottom; }
-.home-entry-controls { width: 100%; max-width: 440px; margin: auto auto 0; padding: 24px 24px max(24px, env(safe-area-inset-bottom)); }
+.home-entry-logo { display: block; width: min(230px, 60vw); height: auto; }
+.home-produce { position: absolute; z-index: -1; width: 100%; height: calc(100vh - 190px); height: calc(100svh - 190px - var(--shell-inset-top)); bottom: 0; object-fit: cover; object-position: center bottom; }
+.home-entry-controls { width: 100%; max-width: 440px; margin: auto auto 0; padding: 24px 24px max(24px, calc(env(safe-area-inset-bottom, 0px) + 12px)); }
 .home-entry-login .home-entry-controls { background: linear-gradient(0deg, var(--card) 75%, transparent); padding-top: 48px; }
+.home-entry-controls input { scroll-margin-bottom: 120px; }
 .swipe-track { box-shadow: 0 4px 22px var(--border); }
 .swipe-thumb { will-change: transform; }
+.swipe-track:not([data-state="dragging"]) .swipe-thumb { transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1); }
+.swipe-track:not([data-state="dragging"]) .swipe-fill { transition: width 320ms cubic-bezier(0.22, 1, 0.36, 1); }
+.swipe-track[data-state="done"] .swipe-thumb { box-shadow: 0 0 0 6px color-mix(in oklab, var(--fresh) 35%, transparent); }
+/* Idle hint: the thumb nudges right and the chevrons pulse, so the drag direction is obvious. */
+.swipe-track[data-hint] .swipe-thumb { animation: swipe-nudge 2.6s ease-in-out 1.2s infinite; }
+.swipe-track[data-hint] .swipe-hint-chevrons { animation: swipe-chevrons 1.3s ease-in-out infinite; }
+@keyframes swipe-nudge { 0%, 55%, 100% { translate: 0 0; } 15% { translate: 14px 0; } 30% { translate: 0 0; } 40% { translate: 6px 0; } }
+@keyframes swipe-chevrons { 0%, 100% { translate: 0 0; opacity: 0.45; } 50% { translate: 3px 0; opacity: 1; } }
+.swipe-track[data-motion="reduced"] .swipe-thumb, .swipe-track[data-motion="reduced"] .swipe-fill { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .swipe-track .swipe-thumb, .swipe-track .swipe-fill, .swipe-track .swipe-hint-chevrons { transition: none; animation: none; }
+}
 @media (min-width: 600px) {
   .home-entry-header { padding: 44px 48px 0; }
-  .home-produce { width: min(100%, 800px); height: calc(100svh - 200px); left: 50%; transform: translateX(-50%); object-fit: contain; }
+  .home-entry-logo { width: 280px; }
+  .home-produce { width: min(100%, 800px); height: calc(100vh - 200px); height: calc(100svh - 200px - var(--shell-inset-top)); left: 50%; transform: translateX(-50%); object-fit: contain; }
 }
 @media (min-width: 1024px) {
   .home-entry-header { padding: 64px 72px 0; }
-  .home-produce { width: 65%; height: 100svh; right: 0; left: auto; transform: none; }
+  .home-produce { width: 65%; height: 100vh; height: calc(100svh - var(--shell-inset-top)); right: 0; left: auto; transform: none; }
   .home-entry-controls { margin-left: 48px; margin-bottom: 48px; }
   .home-entry-login .home-entry-controls { background: none; }
 }
+/* iPhone SE and similar: tighter header so the controls stay reachable; login content may scroll. */
 @media (max-height: 700px) and (max-width: 599px) {
-  .home-entry-header { padding-top: 20px; }
-  .home-entry-header p { margin-top: 12px; font-size: 26px; }
-  .home-entry-login { min-height: 700px; }
+  .home-entry-header { padding-top: 16px; }
+  .home-entry-logo { width: min(180px, 50vw); }
+  .home-entry-header p { margin-top: 10px; font-size: 26px; }
+  .home-entry-login .home-entry-controls { padding-top: 32px; }
 }

@@ -14,7 +14,9 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { StoreProvider } from "../lib/store";
 import { registerAppServiceWorker } from "../lib/pwa-register";
+import { isNativeApp } from "../lib/native-app";
 import { AppSettingsProvider } from "../components/AppSettings";
+import { AppleHealthProvider } from "../components/AppleHealth";
 
 function NotFoundComponent() {
   return (
@@ -81,16 +83,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Vitalplus" },
+      {
+        name: "viewport",
+        content: isNativeApp
+          ? "width=device-width, initial-scale=1, viewport-fit=cover"
+          : "width=device-width, initial-scale=1",
+      },
+      { title: "Vital Plus" },
       { name: "description", content: "Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#9dce4c" },
-      { name: "application-name", content: "Vitalplus" },
+      { name: "application-name", content: "Vital Plus" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
-      { name: "apple-mobile-web-app-title", content: "Vitalplus" },
+      { name: "apple-mobile-web-app-title", content: "Vital Plus" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
     ],
     links: [
@@ -135,7 +142,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <StoreProvider>
-        <AppSettingsProvider><Outlet /></AppSettingsProvider>
+        <AppSettingsProvider><AppleHealthProvider><Outlet /></AppleHealthProvider></AppSettingsProvider>
       </StoreProvider>
     </QueryClientProvider>
   );

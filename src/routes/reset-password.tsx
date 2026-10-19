@@ -10,10 +10,10 @@ export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
       { name: "robots", content: "noindex" },
-      { title: "Neues Passwort — Vitalplus" },
-      { name: "description", content: "Lege ein neues Passwort für dein Vitalplus-Konto fest." },
-      { property: "og:title", content: "Neues Passwort — Vitalplus" },
-      { property: "og:description", content: "Passwort für dein Vitalplus-Konto zurücksetzen." },
+      { title: "Neues Passwort — Vital Plus" },
+      { name: "description", content: "Lege ein neues Passwort für dein Vital-Plus-Konto fest." },
+      { property: "og:title", content: "Neues Passwort — Vital Plus" },
+      { property: "og:description", content: "Passwort für dein Vital-Plus-Konto zurücksetzen." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -54,7 +54,7 @@ function ResetPassword() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText("Neues Passwort")} sub={translateText("Lege ein neues Passwort für dein Konto fest.")} />
+      <PageHeader eyebrow={translateText("Vital Plus Konto")} title={translateText("Neues Passwort")} sub={translateText("Lege ein neues Passwort für dein Konto fest.")} />
       <div className="card-surface mx-4 mt-4 space-y-3 p-5">
         <form onSubmit={submit} className="space-y-3">
           <input required type="password" autoComplete="new-password" minLength={8} placeholder={translateText("Neues Passwort")} value={pw} onChange={(e) => setPw(e.target.value)} className={field} />

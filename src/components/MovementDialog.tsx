@@ -73,7 +73,7 @@ export function MovementDialog({ open, onOpenChange }: { open: boolean; onOpenCh
           </section>
         </div>
 
-        <p className="mt-4 rounded-md bg-muted p-3 text-[12px] leading-relaxed text-muted-foreground"><Localized>{" Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt Vitalplus deine selbst eingetragenen Schritte. "}</Localized></p>
+        <p className="mt-4 rounded-md bg-muted p-3 text-[12px] leading-relaxed text-muted-foreground"><Localized>{" Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt Vital Plus deine selbst eingetragenen Schritte. "}</Localized></p>
         <Link to="/gesundheit" onClick={() => onOpenChange(false)} className="mt-3 block text-center text-[14px] font-semibold text-fv-deep"><Localized>{" Schritte in Gesundheit eintragen → "}</Localized></Link>
       </DialogContent>
     </Dialog>

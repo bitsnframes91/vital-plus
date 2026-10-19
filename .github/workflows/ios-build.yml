@@ -1,0 +1,122 @@
+# Unsigned iOS Simulator build of the Capacitor app. No Apple credentials, no uploads.
+# Produces a Simulator .app ΓÇö NOT an App Store / TestFlight IPA. See docs/ios/README.md.
+name: iOS build (Simulator, unsigned)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/ios-capacitor, feature/ios-native-enhancements]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ios-simulator:
+    # macos-26: GitHub-hosted arm64 image with Xcode 26.x, which Capacitor 8 requires.
+    runs-on: macos-26
+    timeout-minutes: 45
+    env:
+      # Same Node line as the local toolchain check; Node 25's built-in localStorage breaks jsdom tests.
+      NODE_VERSION: "22"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: "1.4.3"
+
+      - name: Install dependencies (frozen lockfile)
+        run: bun install --frozen-lockfile
+
+      - name: Validate build environment (names only, values never printed)
+        run: |
+          missing=0
+          for name in VITE_SUPABASE_URL VITE_SUPABASE_PUBLISHABLE_KEY; do
+            if ! grep -Eq "^${name}=.+" .env && [ -z "${!name:-}" ]; then
+              echo "::error::Missing required build variable ${name}"; missing=1
+            fi
+          done
+          exit $missing
+
+      - name: Typecheck
+        run: bunx tsc --noEmit
+
+      - name: Lint iOS-related files (strict)
+        run: >
+          bunx eslint src/mobile src/lib/native-app.ts src/start.ts src/test/native-app.test.ts
+          vite.config.mobile.ts capacitor.config.ts eslint.config.js
+
+      # The repository already has formatting errors on main (docs/ios/README.md#known-issues).
+      # Reported, not enforced, until they are fixed in their own change.
+      - name: Lint full repository (report only)
+        continue-on-error: true
+        run: bun run lint
+
+      - name: Unit tests
+        run: bun run test
+
+      - name: Web build (regression check for the hosted app)
+        run: bun run build
+
+      - name: Mobile web bundle + Capacitor sync
+        run: bun run ios:sync
+
+      - name: Select Xcode 26
+        run: |
+          xcode=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | grep -Ev 'beta|Release_Candidate' | sort -V | tail -1)
+          if [ -z "$xcode" ]; then echo "::error::No Xcode 26 installation found on runner"; ls -d /Applications/Xcode*.app; exit 1; fi
+          sudo xcode-select -s "$xcode/Contents/Developer"
+          xcodebuild -version
+
+      - name: Build for iOS Simulator (code signing disabled)
+        run: |
+          set -o pipefail
+          mkdir -p build
+          xcodebuild -project ios/App/App.xcodeproj -list
+          xcodebuild \
+            -project ios/App/App.xcodeproj \
+            -scheme App \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build 2>&1 | tee build/xcodebuild.log
+          app=build/DerivedData/Build/Products/Debug-iphonesimulator/App.app
+          test -d "$app" || { echo "::error::App.app was not produced"; exit 1; }
+          test -f "$app/public/index.html" || { echo "::error::Bundled web assets missing from App.app"; exit 1; }
+          ditto -c -k --keepParent "$app" build/VivoHealth-simulator.app.zip
+          echo "### iOS Simulator build succeeded" >> "$GITHUB_STEP_SUMMARY"
+          echo "Unsigned Debug build for Simulator ΓÇö not installable on devices, not for App Store." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Simulator app
+        if: success()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: VivoHealth-simulator-app
+          path: build/VivoHealth-simulator.app.zip
+          retention-days: 14
+
+      - name: Upload build logs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ios-build-logs
+          path: |
+            build/xcodebuild.log
+            ios/App/App.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+          if-no-files-found: ignore
+          retention-days: 14

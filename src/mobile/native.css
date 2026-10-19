@@ -1,0 +1,32 @@
+/* Native-shell only (src/mobile/client.tsx); the web build never loads this file. */
+html[data-native-app] {
+  /* <body> reserves the top inset below, so page headers must not add it again
+     (--page-safe-top) and full-height layouts subtract it (--shell-inset-top). See src/styles.css. */
+  --page-safe-top: 0px;
+  --shell-inset-top: env(safe-area-inset-top, 0px);
+}
+
+html[data-native-app] body {
+  /* viewport-fit=cover lets the web view reach the screen edges; keep content clear of the notch / Dynamic Island. */
+  padding-top: env(safe-area-inset-top);
+  background-color: var(--background);
+  -webkit-tap-highlight-color: transparent;
+}
+
+html[data-native-app] .min-h-screen {
+  min-height: calc(100vh - env(safe-area-inset-top));
+}
+
+.native-offline-notice {
+  position: fixed;
+  top: env(safe-area-inset-top);
+  left: 0;
+  right: 0;
+  z-index: 60;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  text-align: center;
+  color: var(--destructive-foreground, #fff);
+  background-color: var(--destructive);
+}
