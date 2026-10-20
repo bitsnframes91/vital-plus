@@ -49,7 +49,7 @@ function HealthTrends() {
   useLanguage();
   const { today } = useHealthReadings();
   const metrics = [
-    { name: "Bewegung", value: today?.activeEnergyKcal, minDigits: 0, maxDigits: 0, unit: "kcal/Tag", color: "text-trend-move", soft: "bg-trend-move-soft" },
+    { name: "Bewegung", value: today?.steps, minDigits: 0, maxDigits: 0, unit: "Schritte", color: "text-trend-move", soft: "bg-trend-move-soft" },
     { name: "Distanz", value: today?.distanceKm, minDigits: 1, maxDigits: 2, unit: "km", color: "text-trend-distance", soft: "bg-trend-distance-soft" },
     { name: "Gehtempo", value: today?.walkingSpeedKmh, minDigits: 1, maxDigits: 1, unit: "km/h", color: "text-trend-walk", soft: "bg-trend-walk-soft" },
     { name: "Lauftempo", value: today?.runningSpeedKmh, minDigits: 1, maxDigits: 1, unit: "km/h", color: "text-trend-run", soft: "bg-trend-run-soft" },
