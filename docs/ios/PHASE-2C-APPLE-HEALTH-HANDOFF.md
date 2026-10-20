@@ -73,6 +73,20 @@ Read (requested together after the user taps *Apple Health verbinden*):
 | Active energy | `HKQuantityTypeIdentifierActiveEnergyBurned` | kcal | daily sum |
 | Resting (basal) energy | `HKQuantityTypeIdentifierBasalEnergyBurned` | kcal | daily sum |
 | Water | `HKQuantityTypeIdentifierDietaryWater` | mL | daily sum |
+| Walking + running distance | `HKQuantityTypeIdentifierDistanceWalkingRunning` (iOS 8+) | km | daily `cumulativeSum` → `distanceKm` |
+| Walking speed | `HKQuantityTypeIdentifierWalkingSpeed` (iOS 14+) | km/h | daily `discreteAverage` of the day's samples → `walkingSpeedKmh` |
+| Running speed | `HKQuantityTypeIdentifierRunningSpeed` (**iOS 16+**) | km/h | daily `discreteAverage` of the day's samples → `runningSpeedKmh` |
+
+- **Speeds are sample averages**, never distance divided by time. The iPhone records walking speed
+  while walking; running speed needs iOS 16 and a device/workout that records it, so it is often
+  missing.
+- **iOS 15:** `runningSpeed` is skipped, not rejected — `requestAuthorization` leaves it out and
+  `readDailySummary` lists it in `unsupportedTypes` (`ImportedSummary.unsupportedTypes`).
+- **Existing connections:** accounts connected before these types existed keep their connection.
+  On the next user-initiated sync the provider calls `getRequestStatus`
+  (`HKHealthStore.getRequestStatusForAuthorization`, never shows UI); only if it returns
+  `shouldRequest` does it show the Health sheet, which lists just the undecided types. A failing
+  check or an older native build without the method syncs with the current permissions.
 
 - **Bounded:** today plus the previous 6 days (native clamps any request to 1–31 days). No history
   import, no background delivery, no observer queries.

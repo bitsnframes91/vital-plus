@@ -15,6 +15,7 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "isAvailable", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "requestAuthorization", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getRequestStatus", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getWriteStatus", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "readDailySummary", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "writeSamples", returnType: CAPPluginReturnPromise),
@@ -29,15 +30,24 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
         let name: String
     }
 
-    private static let quantityIdentifiers: [String: HKQuantityTypeIdentifier] = [
-        "stepCount": .stepCount,
-        "heartRate": .heartRate,
-        "bodyMass": .bodyMass,
-        "dietaryEnergyConsumed": .dietaryEnergyConsumed,
-        "activeEnergyBurned": .activeEnergyBurned,
-        "basalEnergyBurned": .basalEnergyBurned,
-        "dietaryWater": .dietaryWater
-    ]
+    /// Quantity types available on this iOS version. runningSpeed needs iOS 16; the app supports iOS 15.
+    private static let quantityIdentifiers: [String: HKQuantityTypeIdentifier] = {
+        var identifiers: [String: HKQuantityTypeIdentifier] = [
+            "stepCount": .stepCount,
+            "heartRate": .heartRate,
+            "bodyMass": .bodyMass,
+            "dietaryEnergyConsumed": .dietaryEnergyConsumed,
+            "activeEnergyBurned": .activeEnergyBurned,
+            "basalEnergyBurned": .basalEnergyBurned,
+            "dietaryWater": .dietaryWater,
+            "distanceWalkingRunning": .distanceWalkingRunning,
+            "walkingSpeed": .walkingSpeed
+        ]
+        if #available(iOS 16.0, *) {
+            identifiers["runningSpeed"] = .runningSpeed
+        }
+        return identifiers
+    }()
     private static let units: [String: UnitInfo] = [
         "stepCount": UnitInfo(unit: .count(), name: "count"),
         "heartRate": UnitInfo(unit: HKUnit.count().unitDivided(by: .minute()), name: "count/min"),
@@ -45,9 +55,20 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
         "dietaryEnergyConsumed": UnitInfo(unit: .kilocalorie(), name: "kcal"),
         "activeEnergyBurned": UnitInfo(unit: .kilocalorie(), name: "kcal"),
         "basalEnergyBurned": UnitInfo(unit: .kilocalorie(), name: "kcal"),
-        "dietaryWater": UnitInfo(unit: .literUnit(with: .milli), name: "mL")
+        "dietaryWater": UnitInfo(unit: .literUnit(with: .milli), name: "mL"),
+        "distanceWalkingRunning": UnitInfo(unit: .meterUnit(with: .kilo), name: "km"),
+        "walkingSpeed": UnitInfo(unit: HKUnit.meterUnit(with: .kilo).unitDivided(by: .hour()), name: "km/h"),
+        "runningSpeed": UnitInfo(unit: HKUnit.meterUnit(with: .kilo).unitDivided(by: .hour()), name: "km/h")
+    ]
+    /// Every type the app may ask for. Types missing on this iOS version (see quantityIdentifiers)
+    /// are skipped instead of rejected, so one app build works on all supported iOS versions.
+    private static let knownReadable: Set<String> = [
+        "stepCount", "heartRate", "bodyMass", "sleepAnalysis", "dietaryEnergyConsumed", "activeEnergyBurned",
+        "basalEnergyBurned", "dietaryWater", "distanceWalkingRunning", "walkingSpeed", "runningSpeed"
     ]
     private static let readable: Set<String> = Set(quantityIdentifiers.keys).union(["sleepAnalysis"])
+    /// Speeds are discrete samples: the daily value is the average of that day's samples.
+    private static let averaged: Set<String> = ["walkingSpeed", "runningSpeed"]
     // Basal energy, heart rate, steps and sleep are never written: they are device measurements.
     private static let writable: Set<String> = ["bodyMass", "dietaryWater", "dietaryEnergyConsumed", "activeEnergyBurned"]
     private static let plausible: [String: ClosedRange<Double>] = [
@@ -69,7 +90,7 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func requestAuthorization(_ call: CAPPluginCall) {
         guard HKHealthStore.isHealthDataAvailable() else { return call.reject("HealthKit unavailable", "UNAVAILABLE") }
-        guard let read = Self.objectTypes(call.getArray("read", String.self) ?? [], allowed: Self.readable),
+        guard let read = Self.readTypes(call.getArray("read", String.self) ?? []),
               let share = Self.quantityTypes(call.getArray("write", String.self) ?? [], allowed: Self.writable) else {
             return call.reject("Unsupported Health data type", "INVALID")
         }
@@ -79,6 +100,24 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
                 call.resolve(["requested": true])
             } else {
                 call.reject("Authorization request failed", "AUTH_FAILED", error)
+            }
+        }
+    }
+
+    /// Whether requestAuthorization would show the Health sheet for these types, e.g. because a
+    /// newer app version reads types the user has not been asked about yet. Never shows UI.
+    @objc func getRequestStatus(_ call: CAPPluginCall) {
+        guard HKHealthStore.isHealthDataAvailable() else { return call.reject("HealthKit unavailable", "UNAVAILABLE") }
+        guard let read = Self.readTypes(call.getArray("read", String.self) ?? []),
+              let share = Self.quantityTypes(call.getArray("write", String.self) ?? [], allowed: Self.writable) else {
+            return call.reject("Unsupported Health data type", "INVALID")
+        }
+        store.getRequestStatusForAuthorization(toShare: share, read: read) { status, error in
+            if let error = error { return call.reject("Request status failed", "AUTH_FAILED", error) }
+            switch status {
+            case .shouldRequest: call.resolve(["status": "shouldRequest"])
+            case .unnecessary: call.resolve(["status": "unnecessary"])
+            default: call.resolve(["status": "unknown"])
             }
         }
     }
@@ -102,8 +141,10 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc func readDailySummary(_ call: CAPPluginCall) {
         guard HKHealthStore.isHealthDataAvailable() else { return call.reject("HealthKit unavailable", "UNAVAILABLE") }
         let days = min(max(call.getInt("days") ?? 7, 1), 31)
-        let names = Set(call.getArray("types", String.self) ?? Array(Self.readable))
-        guard names.isSubset(of: Self.readable) else { return call.reject("Unsupported Health data type", "INVALID") }
+        let requested = Set(call.getArray("types", String.self) ?? Array(Self.readable))
+        guard requested.isSubset(of: Self.knownReadable) else { return call.reject("Unsupported Health data type", "INVALID") }
+        let names = requested.intersection(Self.readable)
+        let unsupported = requested.subtracting(Self.readable).sorted()
         let calendar = Calendar.current
         let now = Date()
         guard let start = calendar.date(byAdding: .day, value: -(days - 1), to: calendar.startOfDay(for: now)) else {
@@ -132,6 +173,8 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
                 readLatest(name, start: start, end: now, notOwn: notOwn, calendar: calendar, done: done)
             case "heartRate":
                 readDaily(name, options: [.discreteAverage, .discreteMin, .discreteMax], start: start, end: now, notOwn: notOwn, calendar: calendar, done: done)
+            case _ where Self.averaged.contains(name):
+                readDaily(name, options: .discreteAverage, start: start, end: now, notOwn: notOwn, calendar: calendar, done: done)
             default:
                 readDaily(name, options: .cumulativeSum, start: start, end: now, notOwn: notOwn, calendar: calendar, done: done)
             }
@@ -140,6 +183,7 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
             call.resolve([
                 "results": rows,
                 "failedTypes": failed,
+                "unsupportedTypes": unsupported,
                 "startDay": Self.dayKey(start, calendar),
                 "endDay": Self.dayKey(now, calendar)
             ])
@@ -384,6 +428,13 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
             }
         }
         return result
+    }
+
+    /// Read types for authorization: unknown names are invalid (nil); known names that this iOS
+    /// version lacks are skipped.
+    private static func readTypes(_ names: [String]) -> Set<HKObjectType>? {
+        guard Set(names).isSubset(of: knownReadable) else { return nil }
+        return objectTypes(names.filter { readable.contains($0) }, allowed: readable)
     }
 
     private static func quantityTypes(_ names: [String], allowed: Set<String>) -> Set<HKSampleType>? {

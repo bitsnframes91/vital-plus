@@ -255,6 +255,19 @@ export function AppleHealthController({
     setSyncing(true);
     setError(null);
     try {
+      // Accounts connected before newer read types existed (distance, walking/running speed) get the
+      // Health sheet once, on this user-initiated sync; HealthKit only lists undecided types. Any
+      // failure keeps the existing connection and syncs with the permissions already granted.
+      if (bridge.getRequestStatus) {
+        try {
+          const { status } = await bridge.getRequestStatus({ read: READ_TYPES, write: EXPORT_TYPES });
+          if (status === "shouldRequest" && generation.current === gen && !controller.signal.aborted)
+            await bridge.requestAuthorization({ read: READ_TYPES, write: EXPORT_TYPES });
+        } catch {
+          /* sync with the current permissions */
+        }
+        if (generation.current !== gen || controller.signal.aborted) return;
+      }
       const summary = await importSummary(bridge, { signal: controller.signal });
       if (generation.current !== gen || controller.signal.aborted) return;
       await persist((prev) => ({ ...prev, summary, lastSyncAt: new Date().toISOString() }));
@@ -422,7 +435,7 @@ export function AppleHealthIntro() {
           <DialogDescription className="text-[14px] leading-5">
             <Localized>
               {
-                "Vital Plus kann Schritte, Herzfrequenz, Gewicht, Schlaf, Energie und Wasser aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone."
+                "Vital Plus kann Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Gewicht, Schlaf, Energie und Wasser aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone."
               }
             </Localized>
           </DialogDescription>

@@ -159,6 +159,9 @@ describe("Apple Health onboarding", () => {
         "activeEnergyBurned",
         "basalEnergyBurned",
         "dietaryWater",
+        "distanceWalkingRunning",
+        "walkingSpeed",
+        "runningSpeed",
       ],
       write: ["bodyMass", "dietaryWater", "dietaryEnergyConsumed"],
     });
