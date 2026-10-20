@@ -17,10 +17,30 @@ html[data-native-app] .min-h-screen {
   min-height: calc(100vh - env(safe-area-inset-top));
 }
 
-/* iOS zooms into any focused field below 16px and stays zoomed after the keyboard closes. The
-   "Mahlzeit hinzufügen" inputs use text-sm (14px), so the app shell gives them 16px. Viewport and
-   accessibility zoom are untouched. Unlayered, so it wins over Tailwind's utility layer. */
-html[data-native-app] form[data-meal-form] input {
+/* iOS (WKWebView) zooms into any focused text field whose font is smaller than 16px and keeps that
+   zoom after the keyboard closes. Most fields use text-sm/text-xs/text-[13px], so in the app shell
+   every editable text control gets 16px. Covers inputs that take typed text, textareas, selects
+   and contenteditable, including fields in dialogs and portals. Fields already larger (text-lg and
+   up) keep their size. The viewport and accessibility zoom are untouched. Unlayered, so it wins
+   over Tailwind's utility layer. */
+html[data-native-app]
+  :is(
+    input:not(
+      [type="checkbox"],
+      [type="radio"],
+      [type="range"],
+      [type="file"],
+      [type="color"],
+      [type="button"],
+      [type="submit"],
+      [type="reset"],
+      [type="image"],
+      [type="hidden"]
+    ),
+    textarea,
+    select,
+    [contenteditable]:not([contenteditable="false"])
+  ):not([class~="text-lg"], [class~="text-xl"], [class~="text-2xl"], [class~="text-3xl"]) {
   font-size: 16px;
 }
 
