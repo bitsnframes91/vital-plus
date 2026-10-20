@@ -1,4 +1,6 @@
 # Apple Health integration
+- [ ] Synchronize verified distance/speed TypeScript contracts and additional-permission check from mobile commit 2ff6253 without merging branches.
+- [ ] Populate Gesundheit and seven-day Trends with distance and walking/running speed; add translations, tests and developer handoff.
 - [x] Obtain the existing mobile provider and TypeScript contracts; public access to both developer branches verified.
 - [x] Wire device-local Apple Health readings to Gesundheit, Heute and historical Trends using the verified provider; manual entries stay separate.
 - [x] Add translations and tests, verify browser fallbacks, and document controlled mobile synchronization; 26 tests passed and signed-in browser screens checked.
