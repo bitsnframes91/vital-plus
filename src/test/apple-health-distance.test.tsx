@@ -42,7 +42,7 @@ describe('verified distance and speed contract', () => {
     expect(summary.days[day]?.runningSpeedKmh).toBeUndefined();
   });
   it('rejects summed speed rather than inventing an average', () => {
-    const summary = normalizeSummary({ ...raw, results: [{ ...raw.results[1], aggregation: 'sum' }] });
+    const summary = normalizeSummary({ ...raw, results: [{ type: 'walkingSpeed', day, value: 1.25, unit: 'm/s', aggregation: 'sum' }] });
     expect(summary.days[day]?.walkingSpeedKmh).toBeUndefined();
   });
   it('imports seven days and requests all verified new types', async () => {
