@@ -56,7 +56,7 @@ function TrendsPage() {
             <p className="mt-1 text-xs text-muted-foreground">Apple Health</p>
             <dl className="mt-4 divide-y divide-border">{readings.history.map(([day, data]) => {
               const raw = metric.field === "heartRate" ? data.heartRate?.avg : data[metric.field];
-              return <div key={day} className="flex justify-between gap-3 py-2 text-sm"><dt>{new Date(`${day}T12:00:00`).toLocaleDateString(languageLocale(), { day: "2-digit", month: "short" })}</dt><dd className="font-semibold">{raw == null ? <Localized>{"Noch keine Daten"}</Localized> : <>{(raw / metric.divisor).toLocaleString(languageLocale(), { maximumFractionDigits: 1 })} <Localized>{metric.unit}</Localized></>}</dd></div>;
+              return <div key={day} className="flex justify-between gap-3 py-2 text-sm"><dt>{new Date(`${day}T12:00:00`).toLocaleDateString(languageLocale(), { day: "2-digit", month: "short" })}</dt><dd className="font-semibold">{raw == null ? <Localized>{"Noch keine Daten"}</Localized> : <>{(raw / metric.divisor).toLocaleString(languageLocale(), { maximumFractionDigits: metric.divisor === 60 ? 1 : 0 })} <Localized>{metric.unit}</Localized></>}</dd></div>;
             })}</dl>
           </article>)}
         </section>}

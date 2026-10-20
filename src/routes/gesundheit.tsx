@@ -78,7 +78,7 @@ function HealthTrends() {
             <div className="min-w-0">
               <h3 className="text-[15px] font-medium leading-tight text-ink"><Localized>{metric.name}</Localized></h3>
               <p aria-label={translateText(`${metric.name}: noch keine Daten`)} className={`mt-0.5 flex flex-wrap items-baseline gap-1 text-[19px] font-semibold leading-tight ${metric.color}`}>
-                <span>{metric.name === "Bewegung" && today?.activeEnergyKcal != null ? today.activeEnergyKcal.toLocaleString(languageLocale()) : "–/–"}</span>
+                <span>{metric.name === "Bewegung" && today?.activeEnergyKcal != null ? Math.round(today.activeEnergyKcal).toLocaleString(languageLocale()) : "–/–"}</span>
                 <span className="text-[13px] font-medium"><Localized>{metric.unit}</Localized></span>
               </p>
               {metric.name === "Bewegung" && today?.activeEnergyKcal != null && <p className="text-[11px] text-muted-foreground">Apple Health</p>}
@@ -205,7 +205,7 @@ function Health() {
         <HealthTrends />
         <div className="card-surface p-5">
           <h2 className="text-[18px] font-semibold"><Localized>{"Herzfrequenz (Durchschnitt)"}</Localized></h2>
-          <p className="mt-2 text-lg font-semibold">{readings.today?.heartRate?.avg == null ? <Localized>{"Noch keine Daten"}</Localized> : <>{readings.today.heartRate.avg.toLocaleString(languageLocale())} <Localized>{"Schläge/Min."}</Localized></>}</p>
+          <p className="mt-2 text-lg font-semibold">{readings.today?.heartRate?.avg == null ? <Localized>{"Noch keine Daten"}</Localized> : <>{Math.round(readings.today.heartRate.avg).toLocaleString(languageLocale())} <Localized>{"Schläge/Min."}</Localized></>}</p>
           {readings.today?.heartRate?.avg != null && <p className="mt-1 text-[11px] text-muted-foreground">Apple Health</p>}
         </div>
         <div className="md:col-span-2"><AppleHealthSection /></div>
