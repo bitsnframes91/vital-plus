@@ -427,12 +427,36 @@
     "Daily measurements from Apple Health",
     "Mediciones diarias de Apple Health"
   ],
-  "Apple-Health-Messwerte bleiben auf diesem iPhone. Distanz, Geh- und Lauftempo sind noch nicht verfügbar.": [
-    "Apple Health measurements stay on this iPhone. Distance, walking and running pace are not yet available.",
-    "Las mediciones de Apple Health permanecen en este iPhone. La distancia y los ritmos al caminar y correr aún no están disponibles."
-  ],
   "Google Health Connect und Wearables als automatische Datenquellen.": [
     "Google Health Connect and wearables as automatic data sources.",
     "Google Health Connect y dispositivos wearables como fuentes de datos automáticas."
+  ],
+  "Noch keine Daten": [
+    "No data yet",
+    "Aún no hay datos"
+  ],
+  "Deine durchschnittliche Gehgeschwindigkeit aus den aufgezeichneten Apple-Health-Messwerten.": [
+    "Your average walking speed from recorded Apple Health measurements.",
+    "Tu velocidad media al caminar según las mediciones registradas en Apple Health."
+  ],
+  "Deine durchschnittliche Laufgeschwindigkeit aus den aufgezeichneten Apple-Health-Messwerten. Erfordert iOS 16 und kompatible Messungen.": [
+    "Your average running speed from recorded Apple Health measurements. Requires iOS 16 and compatible measurements.",
+    "Tu velocidad media al correr según las mediciones registradas en Apple Health. Requiere iOS 16 y mediciones compatibles."
+  ],
+  "Apple-Health-Messwerte bleiben auf diesem iPhone. Fehlende Messwerte werden nicht durch manuelle Eingaben ersetzt. Laufgeschwindigkeit erfordert iOS 16 und kompatible Messungen.": [
+    "Apple Health measurements stay on this iPhone. Missing measurements are not replaced by manual entries. Running speed requires iOS 16 and compatible measurements.",
+    "Las mediciones de Apple Health permanecen en este iPhone. Las mediciones ausentes no se sustituyen por entradas manuales. La velocidad al correr requiere iOS 16 y mediciones compatibles."
+  ],
+  "Gehtempo": [
+    "Walking speed",
+    "Velocidad al caminar"
+  ],
+  "Lauftempo": [
+    "Running speed",
+    "Velocidad al correr"
+  ],
+  "km/h": [
+    "km/h",
+    "km/h"
   ]
 }

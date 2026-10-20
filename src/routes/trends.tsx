@@ -23,9 +23,9 @@ export const Route = createFileRoute("/trends")({
 
 const metrics = [
   { name: "Bewegung", unit: "kcal/Tag", color: "text-trend-move", soft: "bg-trend-move-soft", description: "Deine aktive Energie zeigt, wie viel Energie du durch Bewegung im Alltag und beim Sport verbrauchst." },
-  { name: "Distanz", unit: "km/Tag", color: "text-trend-distance", soft: "bg-trend-distance-soft", description: "Deine täglich zurückgelegte Strecke beim Gehen und Laufen. Regelmäßige Spaziergänge bringen Bewegung in deinen Alltag." },
-  { name: "Gehtempo", unit: "min/km", color: "text-trend-walk", soft: "bg-trend-walk-soft", description: "Zeigt, wie viele Minuten du bei aufgezeichneten Gehtrainings für einen Kilometer brauchst." },
-  { name: "Lauftempo", unit: "min/km", color: "text-trend-run", soft: "bg-trend-run-soft", description: "Zeigt, wie viele Minuten du bei aufgezeichneten Lauftrainings für einen Kilometer brauchst." },
+  { name: "Distanz", unit: "km", color: "text-trend-distance", soft: "bg-trend-distance-soft", description: "Deine täglich zurückgelegte Strecke beim Gehen und Laufen. Regelmäßige Spaziergänge bringen Bewegung in deinen Alltag." },
+  { name: "Gehtempo", unit: "km/h", color: "text-trend-walk", soft: "bg-trend-walk-soft", description: "Deine durchschnittliche Gehgeschwindigkeit aus den aufgezeichneten Apple-Health-Messwerten." },
+  { name: "Lauftempo", unit: "km/h", color: "text-trend-run", soft: "bg-trend-run-soft", description: "Deine durchschnittliche Laufgeschwindigkeit aus den aufgezeichneten Apple-Health-Messwerten. Erfordert iOS 16 und kompatible Messungen." },
 ];
 
 function TrendsPage() {
@@ -36,8 +36,11 @@ function TrendsPage() {
     { name: "Schlaf letzte Nacht", field: "sleepMinutes" as const, unit: "h", divisor: 60 },
     { name: "Aktive Energie", field: "activeEnergyKcal" as const, unit: "kcal", divisor: 1 },
     { name: "Herzfrequenz (Durchschnitt)", field: "heartRate" as const, unit: "Schläge/Min.", divisor: 1 },
+    { name: "Distanz", field: "distanceKm" as const, unit: "km", divisor: 1, minDigits: 1, maxDigits: 2 },
+    { name: "Gehtempo", field: "walkingSpeedKmh" as const, unit: "km/h", divisor: 1, minDigits: 1, maxDigits: 1 },
+    { name: "Lauftempo", field: "runningSpeedKmh" as const, unit: "km/h", divisor: 1, minDigits: 1, maxDigits: 1 },
   ];
-  const hasHistory = readings.history.some(([, d]) => d.steps != null || d.sleepMinutes != null || d.activeEnergyKcal != null || d.heartRate?.avg != null);
+  const hasHistory = readings.history.some(([, data]) => historyMetrics.some(metric => (metric.field === "heartRate" ? data.heartRate?.avg : data[metric.field]) != null));
   return (
     <AppShell>
       <div className="min-h-full bg-card px-5 pb-8 pt-6 text-foreground sm:px-6">
@@ -56,11 +59,11 @@ function TrendsPage() {
             <p className="mt-1 text-xs text-muted-foreground">Apple Health</p>
             <dl className="mt-4 divide-y divide-border">{readings.history.map(([day, data]) => {
               const raw = metric.field === "heartRate" ? data.heartRate?.avg : data[metric.field];
-              return <div key={day} className="flex justify-between gap-3 py-2 text-sm"><dt>{new Date(`${day}T12:00:00`).toLocaleDateString(languageLocale(), { day: "2-digit", month: "short" })}</dt><dd className="font-semibold">{raw == null ? <Localized>{"Noch keine Daten"}</Localized> : <>{(raw / metric.divisor).toLocaleString(languageLocale(), { maximumFractionDigits: 1 })} <Localized>{metric.unit}</Localized></>}</dd></div>;
+              return <div key={day} className="flex justify-between gap-3 py-2 text-sm"><dt>{new Date(`${day}T12:00:00`).toLocaleDateString(languageLocale(), { day: "2-digit", month: "short" })}</dt><dd className="font-semibold">{raw == null ? "–/–" : <>{(raw / metric.divisor).toLocaleString(languageLocale(), { minimumFractionDigits: metric.minDigits ?? 0, maximumFractionDigits: metric.maxDigits ?? (metric.divisor === 60 ? 1 : 0) })} <Localized>{metric.unit}</Localized></>}</dd></div>;
             })}</dl>
           </article>)}
         </section>}
-        <section aria-labelledby="trends-missing-title" className="mt-7">
+        {!hasHistory && <section aria-labelledby="trends-missing-title" className="mt-7">
           <h2 id="trends-missing-title" className="text-[19px] font-semibold"><Localized>{"Noch keine Messdaten"}</Localized></h2>
           <div className="mt-4 space-y-3">
             {metrics.filter(metric => !hasHistory || metric.name !== "Bewegung").map((metric) => (
@@ -78,11 +81,11 @@ function TrendsPage() {
               </article>
             ))}
           </div>
-        </section>
+        </section>}
 
         <section aria-labelledby="trends-source-title" className="mt-7 border-t border-border pt-5">
           <div className="flex items-center gap-2 text-fv-deep"><Info className="size-4" /><h2 id="trends-source-title" className="text-[15px] font-semibold"><Localized>{"Deine Datenbasis"}</Localized></h2></div>
-          <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground"><Localized>{hasHistory ? "Apple-Health-Messwerte bleiben auf diesem iPhone. Distanz, Geh- und Lauftempo sind noch nicht verfügbar." : "Apple Health und Google Health Connect sind noch nicht verbunden. Manuell eingegebene Schritte ersetzen keine gemessene Energie, Distanz oder Geschwindigkeit. Ohne Messdaten lässt sich noch kein Aufwärts- oder Abwärtstrend bestimmen."}</Localized></p>
+          <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground"><Localized>{"Apple-Health-Messwerte bleiben auf diesem iPhone. Fehlende Messwerte werden nicht durch manuelle Eingaben ersetzt. Laufgeschwindigkeit erfordert iOS 16 und kompatible Messungen."}</Localized></p>
         </section>
       </div>
     </AppShell>
