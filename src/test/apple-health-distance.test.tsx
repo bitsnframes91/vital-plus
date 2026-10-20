@@ -71,7 +71,11 @@ it.each(['shouldRequest', 'unnecessary', 'failure'] as const)('checks additional
   function Probe() { value = useAppleHealth(); return null; }
   render(<AppleHealthController userId="distance-test" onboarded records={{ meals: [], waterLog: {}, weightLog: {} }}><Probe /></AppleHealthController>);
   await waitFor(() => expect(value?.account?.connected).toBe(true));
-  expect(getRequestStatus).not.toHaveBeenCalled();
+  // Launch with a stale cache imports automatically: the status check is silent and never shows the sheet.
+  await waitFor(() => expect(order).toContain('read'));
+  await waitFor(() => expect(value?.syncing).toBe(false));
+  expect(requestAuthorization).not.toHaveBeenCalled();
+  order.length = 0;
   const loaded = value as AppleHealthContextValue | null;
   if (!loaded) throw new Error('provider missing');
   await act(() => loaded.sync());

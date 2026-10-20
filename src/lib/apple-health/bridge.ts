@@ -1,4 +1,4 @@
-import { registerPlugin } from "@capacitor/core";
+import { registerPlugin, type PluginListenerHandle } from "@capacitor/core";
 import { isNativeApp } from "@/lib/native-app";
 
 // Contract of ios/App/App/VitalHealthPlugin.swift. Apple Health exists only in the iPhone app;
@@ -60,6 +60,8 @@ export type WriteResult = {
   status: "saved" | "duplicate" | "unauthorized" | "invalid" | "failed";
 };
 export type DeleteItem = { recordId: string; type: WriteType };
+/** Emitted while the app is active when HealthKit reports new, changed or deleted samples. */
+export type HealthDataChangedEvent = { type: string };
 export type DeleteResult = {
   recordId: string;
   status: "deleted" | "notFound" | "unauthorized" | "invalid" | "failed";
@@ -88,6 +90,13 @@ export interface HealthBridge {
     accountTag: string;
     items: DeleteItem[];
   }): Promise<{ results: DeleteResult[] }>;
+  /** Foreground HKObserverQuery per type (no background delivery). Optional for test doubles. */
+  startObserving?(options: { types: readonly ReadType[] }): Promise<{ observing: number }>;
+  stopObserving?(): Promise<void>;
+  addListener?(
+    eventName: "healthDataChanged",
+    listener: (event: HealthDataChangedEvent) => void,
+  ): Promise<PluginListenerHandle>;
   loadState(options: { accountKey: string }): Promise<{ json: string | null }>;
   saveState(options: { accountKey: string; json: string }): Promise<void>;
   clearState(options: { accountKey: string }): Promise<void>;

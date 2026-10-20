@@ -199,7 +199,11 @@ describe("new read permissions for accounts connected earlier", () => {
         <Distance />
       </AppleHealthController>,
     );
+    // Launch imports automatically (stale cache) without showing the Health sheet.
+    await waitFor(() => expect(bridge.readDailySummary).toHaveBeenCalledTimes(1));
+    expect(bridge.requestAuthorization).not.toHaveBeenCalled();
     fireEvent.click(await screen.findByRole("button", { name: "Jetzt synchronisieren" }));
+    await waitFor(() => expect(bridge.readDailySummary).toHaveBeenCalledTimes(2));
     await waitFor(() => expect(screen.getByTestId("distance").textContent).toBe("5.1"));
     return { bridge, files, key };
   }
@@ -215,8 +219,9 @@ describe("new read permissions for accounts connected earlier", () => {
       read: READ_TYPES,
       write: ["bodyMass", "dietaryWater", "dietaryEnergyConsumed"],
     });
+    // The sheet comes before the user-initiated import (the second read).
     expect(bridge.requestAuthorization.mock.invocationCallOrder[0]).toBeLessThan(
-      bridge.readDailySummary.mock.invocationCallOrder[0]!,
+      bridge.readDailySummary.mock.invocationCallOrder[1]!,
     );
     expect(parseAccountState(files.get(key) ?? null)).toMatchObject({
       connected: true,

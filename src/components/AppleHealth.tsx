@@ -38,11 +38,20 @@ import {
 } from "@/lib/apple-health/device-state";
 import { applyResults, dayKey, planExports, type AppRecords } from "@/lib/apple-health/export-plan";
 import { importSummary, SyncCancelled } from "@/lib/apple-health/sync";
+import { METRIC_STATUS_TEXT, metricStates } from "@/lib/apple-health/metrics";
 
 // Apple Health on the iPhone. Imported values stay in this context and in the native per-account
 // file; they are never written to the synced store, sent to the server, or used for AI requests.
 
 type Phase = "unsupported" | "checking" | "unavailable" | "ready";
+
+/** Cached data older than this is re-imported on launch, return to the app or a screen visit. */
+export const AUTO_SYNC_STALE_MS = 5 * 60_000;
+/** HealthKit change notifications arrive in bursts; they are coalesced for this long. */
+export const CHANGE_DEBOUNCE_MS = 2_000;
+/** At most one change-triggered import per this interval (battery). */
+export const MIN_CHANGE_SYNC_GAP_MS = 30_000;
+type AutoReason = "launch" | "foreground" | "screen" | "change";
 
 export type AppleHealthContextValue = {
   phase: Phase;
@@ -58,6 +67,12 @@ export type AppleHealthContextValue = {
   disconnect: () => Promise<void>;
   skipIntro: () => Promise<void>;
   setExport: (type: ExportType, on: boolean) => Promise<void>;
+  /** Re-import if the cached data is stale; never shows UI. Called by screens that show readings. */
+  refreshIfStale: () => void;
+  /** HealthKit reports read types the user has not been asked about yet (getRequestStatus). */
+  permissionUpdateAvailable: boolean;
+  /** Shows the Health sheet for those types only (user action), then imports. */
+  requestPermissions: () => Promise<void>;
 };
 
 const AppleHealthContext = createContext<AppleHealthContextValue | null>(null);
@@ -106,6 +121,11 @@ export function AppleHealthController({
   const syncAbort = useRef<AbortController | null>(null);
   const exporting = useRef<Promise<void> | null>(null);
   const exportAgain = useRef(false);
+  // Automatic sync: last attempt (ms), pending change timer, and a trailing run requested while busy.
+  const lastAttempt = useRef(0);
+  const changeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const syncAgain = useRef(false);
+  const [permissionUpdateAvailable, setPermissionUpdateAvailable] = useState(false);
 
   useEffect(() => {
     if (!bridge) return;
@@ -134,6 +154,11 @@ export function AppleHealthController({
     setSyncing(false);
     setError(null);
     setWriteStatuses({});
+    setPermissionUpdateAvailable(false);
+    if (changeTimer.current) clearTimeout(changeTimer.current);
+    changeTimer.current = null;
+    syncAgain.current = false;
+    lastAttempt.current = 0;
     if (!bridge || phase !== "ready" || !userId) return;
     void (async () => {
       try {
@@ -246,48 +271,120 @@ export function AppleHealthController({
     }
   }, [bridge, persist, refreshStatuses]);
 
-  const sync = useCallback(async () => {
-    const gen = generation.current;
-    if (!bridge || !current.current?.connected) return;
-    syncAbort.current?.abort();
-    const controller = new AbortController();
-    syncAbort.current = controller;
-    setSyncing(true);
-    setError(null);
-    try {
-      // Accounts connected before newer read types existed (distance, walking/running speed) get the
-      // Health sheet once, on this user-initiated sync; HealthKit only lists undecided types. Any
-      // failure keeps the existing connection and syncs with the permissions already granted.
-      if (bridge.getRequestStatus) {
-        try {
-          const { status } = await bridge.getRequestStatus({ read: READ_TYPES, write: EXPORT_TYPES });
-          if (status === "shouldRequest" && generation.current === gen && !controller.signal.aborted)
-            await bridge.requestAuthorization({ read: READ_TYPES, write: EXPORT_TYPES });
-        } catch {
-          /* sync with the current permissions */
+  // One import path. Interactive (Connect, buttons) may show the Health sheet for undecided types and
+  // replaces a running import; automatic runs never show UI and never interrupt a running import:
+  // they queue one trailing run instead.
+  const runSyncRef = useRef<(interactive: boolean) => Promise<void>>(async () => {});
+  const runSync = useCallback(
+    async (interactive: boolean) => {
+      const gen = generation.current;
+      if (!bridge || !current.current?.connected) return;
+      if (!interactive && syncAbort.current) {
+        syncAgain.current = true;
+        return;
+      }
+      syncAbort.current?.abort();
+      const controller = new AbortController();
+      syncAbort.current = controller;
+      lastAttempt.current = Date.now();
+      // This import also covers any change notification that is still waiting.
+      if (changeTimer.current) clearTimeout(changeTimer.current);
+      changeTimer.current = null;
+      setSyncing(true);
+      if (interactive) setError(null);
+      try {
+        // getRequestStatus never shows UI. Accounts connected before newer read types existed get the
+        // Health sheet only on a user action; HealthKit lists just the undecided types. Failures keep
+        // the connection and import with the permissions already granted.
+        if (bridge.getRequestStatus) {
+          try {
+            const { status } = await bridge.getRequestStatus({ read: READ_TYPES, write: EXPORT_TYPES });
+            const undecided = status === "shouldRequest";
+            if (generation.current === gen) setPermissionUpdateAvailable(undecided);
+            if (interactive && undecided && generation.current === gen && !controller.signal.aborted) {
+              await bridge.requestAuthorization({ read: READ_TYPES, write: EXPORT_TYPES });
+              if (generation.current === gen) setPermissionUpdateAvailable(false);
+            }
+          } catch {
+            /* import with the current permissions */
+          }
+          if (generation.current !== gen || controller.signal.aborted) return;
         }
+        // The summary replaces the cached one, so deleted or corrected samples disappear too.
+        const summary = await importSummary(bridge, { signal: controller.signal });
         if (generation.current !== gen || controller.signal.aborted) return;
+        await persist((prev) => ({ ...prev, summary, lastSyncAt: new Date().toISOString() }));
+        setError(null);
+        void runExport();
+      } catch (failure) {
+        if (failure instanceof SyncCancelled || generation.current !== gen) return;
+        setError("Apple Health konnte nicht synchronisiert werden. Bitte versuche es erneut.");
+      } finally {
+        if (syncAbort.current === controller) {
+          syncAbort.current = null;
+          if (generation.current === gen) {
+            setSyncing(false);
+            if (syncAgain.current) {
+              syncAgain.current = false;
+              void runSyncRef.current(false);
+            }
+          }
+        }
       }
-      const summary = await importSummary(bridge, { signal: controller.signal });
-      if (generation.current !== gen || controller.signal.aborted) return;
-      await persist((prev) => ({ ...prev, summary, lastSyncAt: new Date().toISOString() }));
-      void runExport();
-    } catch (failure) {
-      if (failure instanceof SyncCancelled || generation.current !== gen) return;
-      setError("Apple Health konnte nicht synchronisiert werden. Bitte versuche es erneut.");
-    } finally {
-      if (syncAbort.current === controller) {
-        syncAbort.current = null;
-        if (generation.current === gen) setSyncing(false);
+    },
+    [bridge, persist, runExport],
+  );
+  runSyncRef.current = runSync;
+  const sync = useCallback(() => runSync(true), [runSync]);
+
+  // Automatic triggers. Launch, return to the app and screen visits only import stale data; HealthKit
+  // change notifications are coalesced and rate-limited. No polling.
+  const requestAutoSync = useCallback(
+    (reason: AutoReason) => {
+      const state = current.current;
+      if (!bridge || phase !== "ready" || !state?.connected) return;
+      const now = Date.now();
+      if (reason === "change") {
+        if (changeTimer.current) return;
+        const wait = Math.max(CHANGE_DEBOUNCE_MS, lastAttempt.current + MIN_CHANGE_SYNC_GAP_MS - now);
+        changeTimer.current = setTimeout(() => {
+          changeTimer.current = null;
+          void runSyncRef.current(false);
+        }, wait);
+        return;
       }
-    }
-  }, [bridge, persist, runExport]);
+      const lastSync = state.lastSyncAt ? Date.parse(state.lastSyncAt) || 0 : 0;
+      if (now - Math.max(lastAttempt.current, lastSync) < AUTO_SYNC_STALE_MS) return;
+      void runSync(false);
+    },
+    [bridge, phase, runSync],
+  );
+  const requestAutoSyncRef = useRef(requestAutoSync);
+  requestAutoSyncRef.current = requestAutoSync;
+  const refreshIfStale = useCallback(() => requestAutoSyncRef.current("screen"), []);
 
   const cancelSync = useCallback(() => {
     syncAbort.current?.abort();
     syncAbort.current = null;
+    syncAgain.current = false;
+    if (changeTimer.current) clearTimeout(changeTimer.current);
+    changeTimer.current = null;
     setSyncing(false);
   }, []);
+
+  // The Health sheet for read types added in a newer app version, only after the user taps the action.
+  const requestPermissions = useCallback(async () => {
+    const gen = generation.current;
+    if (!bridge || !current.current?.connected) return;
+    try {
+      await bridge.requestAuthorization({ read: READ_TYPES, write: EXPORT_TYPES });
+    } catch {
+      /* the import below uses whatever is allowed */
+    }
+    if (generation.current !== gen) return;
+    setPermissionUpdateAvailable(false);
+    await runSync(true);
+  }, [bridge, runSync]);
 
   // Permissions are requested only here, after the user tapped "connect".
   const connect = useCallback(async () => {
@@ -360,9 +457,51 @@ export function AppleHealthController({
     return () => clearTimeout(timer);
   }, [records, connected, exportSettings, runExport]);
 
+  // Launch (or sign-in) with an existing connection: import if the cached data is stale.
+  useEffect(() => {
+    if (phase === "ready" && connected) requestAutoSyncRef.current("launch");
+  }, [phase, connected, userId]);
+
+  // Return to the app: WKWebView reports it as a visibility change.
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === "visible") requestAutoSyncRef.current("foreground");
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+  }, []);
+
+  // While the app is active, HealthKit observer queries report new, changed or deleted samples.
+  useEffect(() => {
+    if (!bridge || phase !== "ready" || !connected || !bridge.startObserving) return;
+    let stopped = false;
+    let handle: { remove: () => Promise<void> } | null = null;
+    void (async () => {
+      try {
+        const listener = await bridge.addListener?.("healthDataChanged", () =>
+          requestAutoSyncRef.current("change"),
+        );
+        if (stopped) {
+          void listener?.remove();
+          return;
+        }
+        handle = listener ?? null;
+        await bridge.startObserving?.({ types: READ_TYPES });
+      } catch {
+        /* launch, foreground and screen refreshes still apply */
+      }
+    })();
+    return () => {
+      stopped = true;
+      void handle?.remove();
+      void bridge.stopObserving?.().catch(() => {});
+    };
+  }, [bridge, phase, connected, userId]);
+
   useEffect(
     () => () => {
       syncAbort.current?.abort();
+      if (changeTimer.current) clearTimeout(changeTimer.current);
     },
     [],
   );
@@ -381,6 +520,9 @@ export function AppleHealthController({
       disconnect,
       skipIntro,
       setExport,
+      refreshIfStale,
+      permissionUpdateAvailable,
+      requestPermissions,
     }),
     [
       phase,
@@ -395,6 +537,9 @@ export function AppleHealthController({
       disconnect,
       skipIntro,
       setExport,
+      refreshIfStale,
+      permissionUpdateAvailable,
+      requestPermissions,
     ],
   );
   return <AppleHealthContext.Provider value={value}>{children}</AppleHealthContext.Provider>;
@@ -653,6 +798,75 @@ export function AppleHealthSection() {
           )}
         </div>
       </div>
+
+      {account.connected && health.permissionUpdateAvailable && (
+        <div className="rounded-lg bg-card p-4">
+          <p className="text-[13px] leading-5 text-foreground">
+            <Localized>
+              {
+                "Vital Plus kann weitere Daten aus Apple Health lesen. Apple Health fragt nur nach Datenarten, über die du noch nicht entschieden hast."
+              }
+            </Localized>
+          </p>
+          <Button
+            className="mt-3 w-full"
+            onClick={() => void run(health.requestPermissions)}
+            disabled={busy}
+          >
+            <Localized>{"Zugriff anfragen"}</Localized>
+          </Button>
+        </div>
+      )}
+
+      {account.connected && (
+        <div className="rounded-lg bg-card p-4">
+          <h3 className="text-[14px] font-semibold text-foreground">
+            <Localized>{"Datenarten"}</Localized>
+          </h3>
+          <ul className="mt-2 divide-y divide-border" aria-label={translateText("Datenarten")}>
+            {metricStates(account.summary).map((metric) => (
+              <li
+                key={metric.type}
+                className="flex items-baseline justify-between gap-3 py-2"
+                data-metric={metric.type}
+                data-status={metric.status}
+              >
+                <span className="text-[13px] text-foreground">
+                  <Localized>{metric.label}</Localized>
+                </span>
+                <span
+                  className={`text-right text-[12px] ${metric.status === "available" ? "text-foreground" : "text-muted-foreground"}`}
+                >
+                  <Localized>{METRIC_STATUS_TEXT[metric.status]}</Localized>
+                  {metric.lastDay && (
+                    <>
+                      {" · "}
+                      {new Date(`${metric.lastDay}T12:00:00`).toLocaleDateString(languageLocale(), {
+                        day: "2-digit",
+                        month: "short",
+                      })}
+                    </>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-2 text-[12px] leading-4 text-muted-foreground">
+            <Localized>
+              {
+                "„Keine Messwerte“ heißt: Apple Health hat für die letzten 7 Tage nichts geliefert. Entweder zeichnet kein Gerät diese Daten auf, oder das Lesen ist nicht erlaubt. Prüfe den Zugriff unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus."
+              }
+            </Localized>
+          </p>
+          <p className="mt-2 text-[12px] leading-4 text-muted-foreground">
+            <Localized>
+              {
+                "Vital Plus aktualisiert die Daten beim Öffnen, beim Zurückkehren in die App und wenn Apple Health neue Werte meldet, solange die App geöffnet ist."
+              }
+            </Localized>
+          </p>
+        </div>
+      )}
 
       {account.connected && (
         <div className="rounded-lg bg-card p-4">

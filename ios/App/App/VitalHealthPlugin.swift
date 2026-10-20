@@ -18,6 +18,8 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "getRequestStatus", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getWriteStatus", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "readDailySummary", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "startObserving", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "stopObserving", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "writeSamples", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "deleteSamples", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "loadState", returnType: CAPPluginReturnPromise),
@@ -81,6 +83,12 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
     private static let maxStateBytes = 512 * 1024
 
     private lazy var store = HKHealthStore()
+    /// Foreground change observers (HKObserverQuery). Only touched on the main queue.
+    private var observers: [HKObserverQuery] = []
+
+    deinit {
+        observers.forEach { store.stop($0) }
+    }
 
     // MARK: - Availability and authorization
 
@@ -134,6 +142,46 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
             }
         }
         call.resolve(["statuses": statuses])
+    }
+
+    // MARK: - Change notifications (foreground only)
+
+    /// Starts one HKObserverQuery per readable type. While the app runs, HealthKit calls them when
+    /// samples from other sources are added, changed or deleted; the plugin then emits
+    /// "healthDataChanged" with the type name and JS re-imports the bounded daily summary.
+    /// No background delivery: that needs the healthkit.background-delivery entitlement.
+    @objc func startObserving(_ call: CAPPluginCall) {
+        guard HKHealthStore.isHealthDataAvailable() else { return call.reject("HealthKit unavailable", "UNAVAILABLE") }
+        let requested = call.getArray("types", String.self) ?? Array(Self.readable)
+        guard Set(requested).isSubset(of: Self.knownReadable) else { return call.reject("Unsupported Health data type", "INVALID") }
+        let notOwn = NSCompoundPredicate(notPredicateWithSubpredicate: HKQuery.predicateForObjects(from: HKSource.default()))
+        DispatchQueue.main.async {
+            self.stopAllObservers()
+            for name in Set(requested) where Self.readable.contains(name) {
+                guard let type = Self.sampleType(name) else { continue }
+                let query = HKObserverQuery(sampleType: type, predicate: notOwn) { [weak self] _, completion, error in
+                    completion()
+                    // Errors (e.g. no read access) are not reported: they reveal nothing reliable.
+                    guard error == nil else { return }
+                    self?.notifyListeners("healthDataChanged", data: ["type": name])
+                }
+                self.store.execute(query)
+                self.observers.append(query)
+            }
+            call.resolve(["observing": self.observers.count])
+        }
+    }
+
+    @objc func stopObserving(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            self.stopAllObservers()
+            call.resolve()
+        }
+    }
+
+    private func stopAllObservers() {
+        observers.forEach { store.stop($0) }
+        observers.removeAll()
     }
 
     // MARK: - Reading (bounded, other sources only)
@@ -409,6 +457,11 @@ public class VitalHealthPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     // MARK: - Helpers
+
+    private static func sampleType(_ name: String) -> HKSampleType? {
+        if name == "sleepAnalysis" { return HKObjectType.categoryType(forIdentifier: .sleepAnalysis) }
+        return quantityType(name)
+    }
 
     private static func quantityType(_ name: String) -> HKQuantityType? {
         guard let identifier = quantityIdentifiers[name] else { return nil }

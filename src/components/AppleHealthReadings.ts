@@ -7,5 +7,8 @@ export function useHealthReadings() {
   const { s } = useStore();
   const [day, setDay] = useState(todayDateKey);
   useEffect(() => { const timer = setInterval(() => setDay(todayDateKey()), 30000); return () => clearInterval(timer); }, []);
+  // Gesundheit, Heute and Trends use this hook: visiting them re-imports stale Apple Health data.
+  const refreshIfStale = health?.refreshIfStale;
+  useEffect(() => { refreshIfStale?.(); }, [refreshIfStale]);
   return healthReadings(health?.account, day, { steps: dailyValue(s.body.steps, s.body.stepsDate), sleepHours: dailyValue(s.body.sleepHours, s.body.sleepDate) });
 }

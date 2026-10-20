@@ -52,3 +52,14 @@ Added `@capacitor/core` for the shared bridge import. Keep the mobile branch's e
 `DaySummary` gained `distanceKm`, `walkingSpeedKmh` and `runningSpeedKmh` (optional numbers; missing = no data), and `healthReadings()` / `useHealthReadings()` return today's `distanceKm`, `walkingSpeedKmh` and `runningSpeedKmh` as `number | null` (never a manual value or 0). Speeds are averages of HealthKit speed samples. `runningSpeed` needs iOS 16; on iOS 15 it stays `null` and appears in `summary.unsupportedTypes`. Connected accounts are asked for the new read types once, on their next "Jetzt synchronisieren". Files changed: `bridge.ts`, `summary.ts`, `readings.ts`, `AppleHealth.tsx` (sync permission check and intro text), `apple-health-translations.json`, `VitalHealthPlugin.swift`, `Info.plist`.
 - Missing measurements can also reflect unavailable read access; HealthKit does not reveal read authorization status. Existing per-type read failures remain in `failedTypes`.
 - Existing optional export behavior was retained. An already-issued native operation cannot be canceled by the React layer; native cancellation guarantees are not asserted.
+
+## Automatic sync and per-metric status (mobile branch)
+
+Apple Health now refreshes automatically: on launch and on returning to the app when the cache is older than
+5 minutes, when Gesundheit, Heute or Trends render (`useHealthReadings()` calls the provider's new
+`refreshIfStale()`), and when HealthKit reports changes while the app is open (native observer queries,
+coalesced, at most one import per 30 s). No polling and no background delivery. Automatic imports never show
+the Health sheet; `permissionUpdateAvailable` + `requestPermissions()` drive a *Zugriff anfragen* action, and
+`metricStates()` (`src/lib/apple-health/metrics.ts`) feeds the *Datenarten* list in `AppleHealthSection`.
+Changed shared files: `bridge.ts` (optional `startObserving`, `stopObserving`, `addListener`), `metrics.ts`
+(new), `AppleHealth.tsx`, `AppleHealthReadings.ts`, `apple-health-translations.json`. Screens need no changes.

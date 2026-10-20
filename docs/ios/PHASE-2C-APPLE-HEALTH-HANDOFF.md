@@ -268,3 +268,30 @@ bunx tsc --noEmit && bun run test -- --run   # use Node 22
 bun run ios:sync
 bun run ios:open   # Signing & Capabilities: check HealthKit, then run on a physical iPhone
 ```
+
+## Automatic sync and per-metric status
+
+Imports run automatically while the app is used; the manual *Jetzt synchronisieren* button stays.
+
+| Trigger | Rule |
+|---|---|
+| Launch / sign-in with a connection | import if the cached data is older than 5 minutes (`AUTO_SYNC_STALE_MS`) |
+| Return to the app (`visibilitychange` → visible) | same 5-minute staleness rule |
+| Gesundheit, Heute, Trends (`useHealthReadings()` mount) | same rule via `refreshIfStale()` |
+| HealthKit change while the app is active | native `HKObserverQuery` per type (other sources only) emits `healthDataChanged`; coalesced for 2 s, at most one import per 30 s |
+
+- **No polling, no background delivery.** Observers only fire while the app runs. Background delivery would
+  need the `com.apple.developer.healthkit.background-delivery` entitlement, a regenerated provisioning
+  profile, and native-side importing (the WebView does not run in the background); not enabled.
+- **No races:** automatic imports never interrupt a running import; requests during one queue a single
+  trailing run. Account switch/sign-out stops the observers, removes the listener and drops pending timers.
+- **Deleted or corrected samples:** every import replaces the cached 7-day summary, so removed values disappear.
+- **Permissions:** automatic imports call `getRequestStatus` (never shows UI) and never show the Health sheet.
+  If HealthKit reports undecided read types, the section offers *Zugriff anfragen*, which shows the sheet once.
+- **Per-metric list (*Datenarten*):** each of the 11 metrics shows *Daten vorhanden* (with the latest day),
+  *Keine Messwerte in den letzten 7 Tagen*, *Erfordert iOS 16 oder neuer* (from `unsupportedTypes`),
+  *Konnte nicht gelesen werden* (from `failedTypes`) or *Noch nicht synchronisiert*. HealthKit never reveals
+  denied read access, so no metric is ever labelled as denied; the help text points to
+  Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus.
+- Files: `VitalHealthPlugin.swift` (`startObserving`, `stopObserving`), `bridge.ts`, `metrics.ts` (new),
+  `AppleHealth.tsx`, `AppleHealthReadings.ts`, `apple-health-translations.json`, `apple-health-autosync.test.tsx`.

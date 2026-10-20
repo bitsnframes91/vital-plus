@@ -458,5 +458,57 @@
   "km/h": [
     "km/h",
     "km/h"
+  ],
+  "Datenarten": [
+    "Data types",
+    "Tipos de datos"
+  ],
+  "Herzfrequenz": [
+    "Heart rate",
+    "Frecuencia cardiaca"
+  ],
+  "Strecke (Gehen und Laufen)": [
+    "Distance (walking and running)",
+    "Distancia (caminar y correr)"
+  ],
+  "Gehgeschwindigkeit": [
+    "Walking speed",
+    "Velocidad al caminar"
+  ],
+  "Laufgeschwindigkeit": [
+    "Running speed",
+    "Velocidad al correr"
+  ],
+  "Daten vorhanden": [
+    "Data available",
+    "Datos disponibles"
+  ],
+  "Keine Messwerte in den letzten 7 Tagen": [
+    "No measurements in the last 7 days",
+    "Sin mediciones en los últimos 7 días"
+  ],
+  "Erfordert iOS 16 oder neuer": [
+    "Requires iOS 16 or later",
+    "Requiere iOS 16 o posterior"
+  ],
+  "Konnte nicht gelesen werden": [
+    "Could not be read",
+    "No se pudo leer"
+  ],
+  "Zugriff anfragen": [
+    "Request access",
+    "Solicitar acceso"
+  ],
+  "Vital Plus kann weitere Daten aus Apple Health lesen. Apple Health fragt nur nach Datenarten, über die du noch nicht entschieden hast.": [
+    "Vital Plus can read more data from Apple Health. Apple Health only asks about data types you have not decided on yet.",
+    "Vital Plus puede leer más datos de Apple Health. Apple Health solo pregunta por los tipos de datos sobre los que aún no has decidido."
+  ],
+  "„Keine Messwerte“ heißt: Apple Health hat für die letzten 7 Tage nichts geliefert. Entweder zeichnet kein Gerät diese Daten auf, oder das Lesen ist nicht erlaubt. Prüfe den Zugriff unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus.": [
+    "“No measurements” means Apple Health returned nothing for the last 7 days. Either no device records this data, or reading it is not allowed. Check access under Settings › Privacy & Security › Health › Vital Plus.",
+    "«Sin mediciones» significa que Apple Health no ha devuelto nada en los últimos 7 días. O ningún dispositivo registra estos datos, o la lectura no está permitida. Comprueba el acceso en Ajustes › Privacidad y seguridad › Salud › Vital Plus."
+  ],
+  "Vital Plus aktualisiert die Daten beim Öffnen, beim Zurückkehren in die App und wenn Apple Health neue Werte meldet, solange die App geöffnet ist.": [
+    "Vital Plus updates the data when you open the app, when you return to it, and when Apple Health reports new values while the app is open.",
+    "Vital Plus actualiza los datos al abrir la app, al volver a ella y cuando Apple Health informa de nuevos valores mientras la app está abierta."
   ]
 }
