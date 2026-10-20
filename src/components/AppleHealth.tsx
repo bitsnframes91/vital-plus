@@ -422,7 +422,7 @@ export function AppleHealthIntro() {
           <DialogDescription className="text-[14px] leading-5">
             <Localized>
               {
-                "Vital Plus kann Schritte, Herzfrequenz, Gewicht, Schlaf, Energie und Wasser aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone."
+                "Vitalplus kann Schritte, Herzfrequenz, Gewicht, Schlaf, Energie und Wasser aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone."
               }
             </Localized>
           </DialogDescription>
@@ -430,7 +430,7 @@ export function AppleHealthIntro() {
         <p className="text-[13px] leading-5 text-muted-foreground">
           <Localized>
             {
-              "Du entscheidest in Apple Health, welche Daten Vital Plus lesen darf. Du kannst die Verbindung jederzeit unter Profil › Gesundheitsprofil bearbeiten ändern."
+              "Du entscheidest in Apple Health, welche Daten Vitalplus lesen darf. Du kannst die Verbindung jederzeit unter Gesundheit ändern."
             }
           </Localized>
         </p>
@@ -530,7 +530,7 @@ export function AppleHealthSection() {
           className="rounded-lg bg-card p-4 text-[13px] leading-5 text-muted-foreground"
         >
           <Localized>
-            {"Apple Health ist in der Vital Plus App auf dem iPhone verfügbar."}
+            {"Apple Health ist in der Vitalplus App auf dem iPhone verfügbar."}
           </Localized>
         </p>
       </section>
@@ -561,7 +561,6 @@ export function AppleHealthSection() {
       </section>
     );
 
-  const today = account.summary?.days[account.summary.endDay];
   const lastSync = account.lastSyncAt
     ? new Date(account.lastSyncAt).toLocaleString(languageLocale(), {
         dateStyle: "medium",
@@ -569,7 +568,6 @@ export function AppleHealthSection() {
       })
     : null;
   const status = (type: ExportType) => health.writeStatuses[type];
-  const sleep = today?.sleepMinutes;
 
   return (
     <section className="space-y-3" aria-label={translateText("Apple Health")}>
@@ -600,7 +598,7 @@ export function AppleHealthSection() {
                   <Localized>{"Noch nicht synchronisiert"}</Localized>
                 )
               ) : (
-                <Localized>{"Vital Plus liest keine Daten aus Apple Health."}</Localized>
+                <Localized>{"Vitalplus liest keine Daten aus Apple Health."}</Localized>
               )}
             </p>
           </div>
@@ -646,58 +644,12 @@ export function AppleHealthSection() {
       {account.connected && (
         <div className="rounded-lg bg-card p-4">
           <h3 className="text-[14px] font-semibold text-foreground">
-            <Localized>{"Heute aus Apple Health"}</Localized>
-          </h3>
-          <p className="mt-1 text-[12px] leading-4 text-muted-foreground">
-            <Localized>
-              {
-                "„Keine Daten“ heißt: Apple Health hat keine Werte geliefert. Das kann auch bedeuten, dass der Lesezugriff nicht erlaubt ist."
-              }
-            </Localized>
-          </p>
-          <dl className="mt-2 divide-y divide-border">
-            <SummaryRow label="Schritte" value={today?.steps} />
-            <SummaryRow
-              label="Herzfrequenz (Durchschnitt)"
-              value={today?.heartRate?.avg}
-              unit="Schläge/Min."
-            />
-            <SummaryRow
-              label="Schlaf (letzte Nacht)"
-              value={sleep === undefined ? undefined : sleep / 60}
-              unit="Std."
-              digits={1}
-            />
-            <SummaryRow label="Aktive Energie" value={today?.activeEnergyKcal} unit="kcal" />
-            <SummaryRow label="Ruheenergie" value={today?.basalEnergyKcal} unit="kcal" />
-            <SummaryRow label="Nahrungsenergie" value={today?.dietaryEnergyKcal} unit="kcal" />
-            <SummaryRow label="Wasser" value={today?.waterMl} unit="ml" />
-            <SummaryRow
-              label="Gewicht (letzter Wert)"
-              value={account.summary?.latestBodyMass?.kg}
-              unit="kg"
-              digits={1}
-            />
-          </dl>
-          <p className="mt-2 text-[12px] leading-4 text-muted-foreground">
-            <Localized>
-              {
-                "Aktive Energie ist Energie aus Bewegung, Ruheenergie der Grundumsatz, Nahrungsenergie die gegessene Energie. Werte aus Apple Health ändern dein Vital Plus Profil nicht."
-              }
-            </Localized>
-          </p>
-        </div>
-      )}
-
-      {account.connected && (
-        <div className="rounded-lg bg-card p-4">
-          <h3 className="text-[14px] font-semibold text-foreground">
             <Localized>{"In Apple Health speichern"}</Localized>
           </h3>
           <p className="mt-1 text-[12px] leading-4 text-muted-foreground">
             <Localized>
               {
-                "Nur Einträge, die du in Vital Plus machst, ab dem Tag des Einschaltens. Werte aus Apple Health werden nie zurückgeschrieben."
+                "Nur Einträge, die du in Vitalplus machst, ab dem Tag des Einschaltens. Werte aus Apple Health werden nie zurückgeschrieben."
               }
             </Localized>
           </p>
@@ -719,7 +671,7 @@ export function AppleHealthSection() {
                   <p className="mt-1 text-[12px] leading-4 text-destructive">
                     <Localized>
                       {
-                        "Schreiben ist in Apple Health nicht erlaubt. Erlaube es unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus."
+                        "Schreiben ist in Apple Health nicht erlaubt. Erlaube es unter Einstellungen › Datenschutz & Sicherheit › Health › Vitalplus."
                       }
                     </Localized>
                   </p>
@@ -736,7 +688,7 @@ export function AppleHealthSection() {
               <p className="mt-1 text-[12px] leading-4 text-muted-foreground">
                 <Localized>
                   {
-                    "Nicht verfügbar: Vital Plus zeichnet noch keine Trainings auf. Aktive Energie wird nie aus Mahlzeiten geschätzt."
+                    "Nicht verfügbar: Vitalplus zeichnet noch keine Trainings auf. Aktive Energie wird nie aus Mahlzeiten geschätzt."
                   }
                 </Localized>
               </p>
@@ -749,14 +701,14 @@ export function AppleHealthSection() {
         <p>
           <Localized>
             {
-              "Daten aus Apple Health bleiben auf diesem iPhone. Sie werden nicht in deinem Vital Plus Konto gespeichert und nicht an KI-Dienste oder Dritte gesendet."
+              "Daten aus Apple Health bleiben auf diesem iPhone. Sie werden nicht in deinem Vitalplus Konto gespeichert und nicht an KI-Dienste oder Dritte gesendet."
             }
           </Localized>
         </p>
         <p className="mt-2">
           <Localized>
             {
-              "Die Freigabe für Apple Health gilt für dieses iPhone. Lese- und Schreibrechte änderst oder widerrufst du unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus."
+              "Die Freigabe für Apple Health gilt für dieses iPhone. Lese- und Schreibrechte änderst oder widerrufst du unter Einstellungen › Datenschutz & Sicherheit › Health › Vitalplus."
             }
           </Localized>
         </p>
@@ -771,7 +723,7 @@ export function AppleHealthSection() {
             <DialogDescription className="text-[13px] leading-5">
               <Localized>
                 {
-                  "Vital Plus löscht die auf diesem iPhone gespeicherten Apple-Health-Daten und speichert nichts mehr in Apple Health. Bereits gespeicherte Einträge bleiben in Apple Health. Die Berechtigungen widerrufst du in den iPhone-Einstellungen."
+                  "Vitalplus löscht die auf diesem iPhone gespeicherten Apple-Health-Daten und speichert nichts mehr in Apple Health. Bereits gespeicherte Einträge bleiben in Apple Health. Die Berechtigungen widerrufst du in den iPhone-Einstellungen."
                 }
               </Localized>
             </DialogDescription>
