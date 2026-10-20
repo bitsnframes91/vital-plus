@@ -13,6 +13,10 @@ export const READ_TYPES = [
   "activeEnergyBurned",
   "basalEnergyBurned",
   "dietaryWater",
+  "distanceWalkingRunning",
+  "walkingSpeed",
+  // iOS 16+. On iOS 15 the plugin skips it and lists it in RawSummary.unsupportedTypes.
+  "runningSpeed",
 ] as const;
 export type ReadType = (typeof READ_TYPES)[number];
 
@@ -24,6 +28,8 @@ export const WRITE_TYPES = [
 ] as const;
 export type WriteType = (typeof WRITE_TYPES)[number];
 export type WriteStatus = "authorized" | "denied" | "notDetermined";
+/** HKAuthorizationRequestStatus: "shouldRequest" means the Health sheet has types to ask about. */
+export type RequestStatus = "shouldRequest" | "unnecessary" | "unknown";
 
 export type RawSummaryRow = {
   type: string;
@@ -35,6 +41,8 @@ export type RawSummaryRow = {
 export type RawSummary = {
   results: RawSummaryRow[];
   failedTypes: string[];
+  /** Requested types this iOS version does not support (absent from older native builds). */
+  unsupportedTypes?: string[];
   startDay: string;
   endDay: string;
 };
@@ -63,6 +71,11 @@ export interface HealthBridge {
     read: readonly ReadType[];
     write: readonly WriteType[];
   }): Promise<{ requested: boolean }>;
+  /** Optional so test doubles and older native builds without it still satisfy the contract. */
+  getRequestStatus?(options: {
+    read: readonly ReadType[];
+    write: readonly WriteType[];
+  }): Promise<{ status: RequestStatus }>;
   getWriteStatus(options: {
     types: readonly WriteType[];
   }): Promise<{ statuses: Partial<Record<WriteType, WriteStatus>> }>;
