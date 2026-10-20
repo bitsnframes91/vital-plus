@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { StoreProvider } from "../lib/store";
 import { registerAppServiceWorker } from "../lib/pwa-register";
 import { AppSettingsProvider } from "../components/AppSettings";
+import { AppleHealthProvider, AppleHealthIntro } from "../components/AppleHealth";
 
 function NotFoundComponent() {
   return (
@@ -135,7 +136,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <StoreProvider>
-        <AppSettingsProvider><Outlet /></AppSettingsProvider>
+        <AppSettingsProvider><AppleHealthProvider><AppleHealthIntro /><Outlet /></AppleHealthProvider></AppSettingsProvider>
       </StoreProvider>
     </QueryClientProvider>
   );

@@ -1,7 +1,8 @@
 # Apple Health integration
-- [ ] Obtain the existing mobile provider and TypeScript contracts; blocked by unavailable GitHub branch access and missing files in this checkout.
-- [ ] Wire device-local Apple Health readings to Gesundheit, Heute and historical Trends using the verified provider; requires those contracts.
-- [ ] Add translations and tests, verify browser fallbacks, and document controlled mobile synchronization; requires those contracts.
+- [x] Obtain the existing mobile provider and TypeScript contracts; public access to both developer branches verified.
+- [x] Wire device-local Apple Health readings to Gesundheit, Heute and historical Trends using the verified provider; manual entries stay separate.
+- [x] Add translations and tests, verify browser fallbacks, and document controlled mobile synchronization; 26 tests passed and signed-in browser screens checked.
+- [ ] Developer synchronizes the web changes into the mobile branch and verifies on a physical iPhone; blocked on the developer's iOS build/device access.
 
 # Vivo redesign
 - [x] Replace Heute tip/progress with five daily-goal circles and remove Schnellzugriff; 29 tests pass, signed-in water updates/persistence and phone/desktop appearance verified. Steps/sleep remain explicitly unavailable until a measured Health feed exists; existing 2 L hydration and EU micronutrient references are labeled, not presented as personalized targets.
