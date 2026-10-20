@@ -10,6 +10,10 @@ export function healthReadings(account: AccountHealthState | null | undefined, d
     stepsSource: today?.steps != null ? "Apple Health" : manual.steps != null ? "Manuell erfasst" : null,
     sleepSource: today?.sleepMinutes != null ? "Apple Health" : manual.sleepHours != null ? "Manuell erfasst" : null,
     weight: summary?.latestBodyMass,
+    // Measured only (no manual equivalent); null = no samples today or no read access, never 0.
+    distanceKm: today?.distanceKm ?? null,
+    walkingSpeedKmh: today?.walkingSpeedKmh ?? null,
+    runningSpeedKmh: today?.runningSpeedKmh ?? null,
     history: Object.entries(summary?.days ?? {}).filter(([date]) => date <= day).sort(([a], [b]) => a.localeCompare(b)),
   };
 }
