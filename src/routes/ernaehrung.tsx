@@ -230,7 +230,7 @@ function NutritionPage() {
           })}
         </div>
 
-        <form onSubmit={(e) => void add(e)} className="card-surface space-y-3 p-5">
+        <form onSubmit={(e) => void add(e)} data-meal-form className="card-surface space-y-3 p-5">
           <div className="flex items-center justify-between gap-3">
             <div className="eyebrow"><Localized>{"Mahlzeit hinzufügen"}</Localized></div>
             <Button type="button" size="icon" variant="secondary" className="size-9 shrink-0 rounded-full bg-fresh text-ink" disabled={photoBusy || estBusy}

@@ -17,6 +17,13 @@ html[data-native-app] .min-h-screen {
   min-height: calc(100vh - env(safe-area-inset-top));
 }
 
+/* iOS zooms into any focused field below 16px and stays zoomed after the keyboard closes. The
+   "Mahlzeit hinzufügen" inputs use text-sm (14px), so the app shell gives them 16px. Viewport and
+   accessibility zoom are untouched. Unlayered, so it wins over Tailwind's utility layer. */
+html[data-native-app] form[data-meal-form] input {
+  font-size: 16px;
+}
+
 .native-offline-notice {
   position: fixed;
   top: env(safe-area-inset-top);
