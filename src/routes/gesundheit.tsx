@@ -49,10 +49,10 @@ function HealthTrends() {
   useLanguage();
   const { today } = useHealthReadings();
   const metrics = [
-    { name: "Bewegung", unit: "kcal/Tag", color: "text-trend-move", soft: "bg-trend-move-soft" },
-    { name: "Distanz", unit: "km/Tag", color: "text-trend-distance", soft: "bg-trend-distance-soft" },
-    { name: "Gehtempo", unit: "min/km", color: "text-trend-walk", soft: "bg-trend-walk-soft" },
-    { name: "Lauftempo", unit: "min/km", color: "text-trend-run", soft: "bg-trend-run-soft" },
+    { name: "Bewegung", value: today?.activeEnergyKcal, minDigits: 0, maxDigits: 0, unit: "kcal/Tag", color: "text-trend-move", soft: "bg-trend-move-soft" },
+    { name: "Distanz", value: today?.distanceKm, minDigits: 1, maxDigits: 2, unit: "km", color: "text-trend-distance", soft: "bg-trend-distance-soft" },
+    { name: "Gehtempo", value: today?.walkingSpeedKmh, minDigits: 1, maxDigits: 1, unit: "km/h", color: "text-trend-walk", soft: "bg-trend-walk-soft" },
+    { name: "Lauftempo", value: today?.runningSpeedKmh, minDigits: 1, maxDigits: 1, unit: "km/h", color: "text-trend-run", soft: "bg-trend-run-soft" },
   ];
   return (
     <section aria-labelledby="health-trends-title" className="card-surface p-5">
@@ -77,11 +77,11 @@ function HealthTrends() {
             </span>
             <div className="min-w-0">
               <h3 className="text-[15px] font-medium leading-tight text-ink"><Localized>{metric.name}</Localized></h3>
-              <p aria-label={translateText(`${metric.name}: noch keine Daten`)} className={`mt-0.5 flex flex-wrap items-baseline gap-1 text-[19px] font-semibold leading-tight ${metric.color}`}>
-                <span>{metric.name === "Bewegung" && today?.activeEnergyKcal != null ? Math.round(today.activeEnergyKcal).toLocaleString(languageLocale()) : "–/–"}</span>
+              <p className={`mt-0.5 flex flex-wrap items-baseline gap-1 text-[19px] font-semibold leading-tight ${metric.color}`}>
+                <span>{metric.value == null ? "–/–" : metric.value.toLocaleString(languageLocale(), { minimumFractionDigits: metric.minDigits, maximumFractionDigits: metric.maxDigits })}</span>
                 <span className="text-[13px] font-medium"><Localized>{metric.unit}</Localized></span>
               </p>
-              {metric.name === "Bewegung" && today?.activeEnergyKcal != null && <p className="text-[11px] text-muted-foreground">Apple Health</p>}
+              {metric.value != null && <p className="text-[11px] text-muted-foreground">Apple Health</p>}
             </div>
           </div>
         ))}
