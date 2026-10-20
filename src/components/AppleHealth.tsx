@@ -430,7 +430,7 @@ export function AppleHealthIntro() {
         <p className="text-[13px] leading-5 text-muted-foreground">
           <Localized>
             {
-              "Du entscheidest in Apple Health, welche Daten Vital Plus lesen darf. Du kannst die Verbindung jederzeit unter Profil › Gesundheitsprofil bearbeiten ändern."
+              "Du entscheidest in Apple Health, welche Daten Vital Plus lesen darf. Du kannst die Verbindung jederzeit unter Gesundheit ändern."
             }
           </Localized>
         </p>
@@ -501,7 +501,7 @@ function SummaryRow({
   );
 }
 
-/** Apple Health controls inside "Gesundheitsprofil bearbeiten" (/profil/personal). */
+/** Apple Health connection and export controls, shown on Gesundheit (/gesundheit). */
 export function AppleHealthSection() {
   useLanguage();
   const health = useAppleHealth();
@@ -561,7 +561,6 @@ export function AppleHealthSection() {
       </section>
     );
 
-  const today = account.summary?.days[account.summary.endDay];
   const lastSync = account.lastSyncAt
     ? new Date(account.lastSyncAt).toLocaleString(languageLocale(), {
         dateStyle: "medium",
@@ -569,7 +568,6 @@ export function AppleHealthSection() {
       })
     : null;
   const status = (type: ExportType) => health.writeStatuses[type];
-  const sleep = today?.sleepMinutes;
 
   return (
     <section className="space-y-3" aria-label={translateText("Apple Health")}>
@@ -642,52 +640,6 @@ export function AppleHealthSection() {
           )}
         </div>
       </div>
-
-      {account.connected && (
-        <div className="rounded-lg bg-card p-4">
-          <h3 className="text-[14px] font-semibold text-foreground">
-            <Localized>{"Heute aus Apple Health"}</Localized>
-          </h3>
-          <p className="mt-1 text-[12px] leading-4 text-muted-foreground">
-            <Localized>
-              {
-                "„Keine Daten“ heißt: Apple Health hat keine Werte geliefert. Das kann auch bedeuten, dass der Lesezugriff nicht erlaubt ist."
-              }
-            </Localized>
-          </p>
-          <dl className="mt-2 divide-y divide-border">
-            <SummaryRow label="Schritte" value={today?.steps} />
-            <SummaryRow
-              label="Herzfrequenz (Durchschnitt)"
-              value={today?.heartRate?.avg}
-              unit="Schläge/Min."
-            />
-            <SummaryRow
-              label="Schlaf (letzte Nacht)"
-              value={sleep === undefined ? undefined : sleep / 60}
-              unit="Std."
-              digits={1}
-            />
-            <SummaryRow label="Aktive Energie" value={today?.activeEnergyKcal} unit="kcal" />
-            <SummaryRow label="Ruheenergie" value={today?.basalEnergyKcal} unit="kcal" />
-            <SummaryRow label="Nahrungsenergie" value={today?.dietaryEnergyKcal} unit="kcal" />
-            <SummaryRow label="Wasser" value={today?.waterMl} unit="ml" />
-            <SummaryRow
-              label="Gewicht (letzter Wert)"
-              value={account.summary?.latestBodyMass?.kg}
-              unit="kg"
-              digits={1}
-            />
-          </dl>
-          <p className="mt-2 text-[12px] leading-4 text-muted-foreground">
-            <Localized>
-              {
-                "Aktive Energie ist Energie aus Bewegung, Ruheenergie der Grundumsatz, Nahrungsenergie die gegessene Energie. Werte aus Apple Health ändern dein Vital Plus Profil nicht."
-              }
-            </Localized>
-          </p>
-        </div>
-      )}
 
       {account.connected && (
         <div className="rounded-lg bg-card p-4">

@@ -1,7 +1,8 @@
 import i18next from "i18next";
 import baseCatalogue from "./translations.json";
 import labCatalogue from "./lab-information-translations.json";
-const catalogue = { ...baseCatalogue, ...labCatalogue };
+import healthCatalogue from "./apple-health-translations.json";
+const catalogue = { ...baseCatalogue, ...labCatalogue, ...healthCatalogue };
 
 export type Language = "de" | "en" | "es";
 export const languages = [{ value: "en", label: "English" }, { value: "de", label: "Deutsch" }, { value: "es", label: "Spanish" }] as const;

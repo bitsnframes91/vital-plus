@@ -1,3 +1,4 @@
+import { useHealthReadings } from "@/components/AppleHealthReadings";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -29,6 +30,14 @@ const metrics = [
 
 function TrendsPage() {
   useLanguage();
+  const readings = useHealthReadings();
+  const historyMetrics = [
+    { name: "Schritte", field: "steps" as const, unit: "Schritte", divisor: 1 },
+    { name: "Schlaf letzte Nacht", field: "sleepMinutes" as const, unit: "h", divisor: 60 },
+    { name: "Aktive Energie", field: "activeEnergyKcal" as const, unit: "kcal", divisor: 1 },
+    { name: "Herzfrequenz (Durchschnitt)", field: "heartRate" as const, unit: "Schläge/Min.", divisor: 1 },
+  ];
+  const hasHistory = readings.history.some(([, d]) => d.steps != null || d.sleepMinutes != null || d.activeEnergyKcal != null || d.heartRate?.avg != null);
   return (
     <AppShell>
       <div className="min-h-full bg-card px-5 pb-8 pt-6 text-foreground sm:px-6">
@@ -38,13 +47,23 @@ function TrendsPage() {
           </Button>
           <p className="eyebrow mt-6 text-fv-deep"><Localized>{"Gesundheit"}</Localized></p>
           <h1 className="mt-2 text-[32px] font-bold leading-tight"><Localized>{"Trends"}</Localized></h1>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground"><Localized>{"Deine Aktivität im Überblick. Für persönliche Trends fehlen noch aufgezeichnete Gesundheitsdaten."}</Localized></p>
+          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground"><Localized>{hasHistory ? "Tägliche Messwerte aus Apple Health" : "Deine Aktivität im Überblick. Für persönliche Trends fehlen noch aufgezeichnete Gesundheitsdaten."}</Localized></p>
         </header>
 
+        {hasHistory && <section className="mt-7 grid gap-4 sm:grid-cols-2" aria-label={translateText("Tägliche Messwerte aus Apple Health")}>
+          {historyMetrics.map(metric => <article className="card-surface p-5" key={metric.field}>
+            <h2 className="text-[19px] font-semibold"><Localized>{metric.name}</Localized></h2>
+            <p className="mt-1 text-xs text-muted-foreground">Apple Health</p>
+            <dl className="mt-4 divide-y divide-border">{readings.history.map(([day, data]) => {
+              const raw = metric.field === "heartRate" ? data.heartRate?.avg : data[metric.field];
+              return <div key={day} className="flex justify-between gap-3 py-2 text-sm"><dt>{new Date(`${day}T12:00:00`).toLocaleDateString(languageLocale(), { day: "2-digit", month: "short" })}</dt><dd className="font-semibold">{raw == null ? <Localized>{"Noch keine Daten"}</Localized> : <>{(raw / metric.divisor).toLocaleString(languageLocale(), { maximumFractionDigits: 1 })} <Localized>{metric.unit}</Localized></>}</dd></div>;
+            })}</dl>
+          </article>)}
+        </section>}
         <section aria-labelledby="trends-missing-title" className="mt-7">
           <h2 id="trends-missing-title" className="text-[19px] font-semibold"><Localized>{"Noch keine Messdaten"}</Localized></h2>
           <div className="mt-4 space-y-3">
-            {metrics.map((metric) => (
+            {metrics.filter(metric => !hasHistory || metric.name !== "Bewegung").map((metric) => (
               <article key={metric.name} className="card-surface p-5">
                 <div className="flex items-start gap-3.5">
                   <span aria-hidden="true" className={`grid size-11 shrink-0 place-items-center rounded-full ${metric.soft} ${metric.color}`}><Minus className="size-6" strokeWidth={3.5} /></span>
@@ -63,7 +82,7 @@ function TrendsPage() {
 
         <section aria-labelledby="trends-source-title" className="mt-7 border-t border-border pt-5">
           <div className="flex items-center gap-2 text-fv-deep"><Info className="size-4" /><h2 id="trends-source-title" className="text-[15px] font-semibold"><Localized>{"Deine Datenbasis"}</Localized></h2></div>
-          <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground"><Localized>{"Apple Health und Google Health Connect sind noch nicht verbunden. Manuell eingegebene Schritte ersetzen keine gemessene Energie, Distanz oder Geschwindigkeit. Ohne Messdaten lässt sich noch kein Aufwärts- oder Abwärtstrend bestimmen."}</Localized></p>
+          <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground"><Localized>{hasHistory ? "Apple-Health-Messwerte bleiben auf diesem iPhone. Distanz, Geh- und Lauftempo sind noch nicht verfügbar." : "Apple Health und Google Health Connect sind noch nicht verbunden. Manuell eingegebene Schritte ersetzen keine gemessene Energie, Distanz oder Geschwindigkeit. Ohne Messdaten lässt sich noch kein Aufwärts- oder Abwärtstrend bestimmen."}</Localized></p>
         </section>
       </div>
     </AppShell>

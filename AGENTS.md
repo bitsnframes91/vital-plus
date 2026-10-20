@@ -30,6 +30,7 @@
 - AI lab, voice and food-photo features use server functions calling Lovable AI Gateway; food-photo helpers live in src/lib/food-photo. Why: keys and prompts stay server-side.
 - `/` uses shared SwipeAction; questionnaire drafts stay in sessionStorage until signup metadata binds them to that account; initialize missing user_data only after verified identity. Sign-in goes to `/heute`. Why: questionnaire-first signup must not inherit cached account data.
 - The Gesundheit activity summary renders unavailable measurements as empty states, independently of manually entered steps. Why: step totals cannot establish measured activity energy, distance, or pace.
+- Apple Health uses VitalHealth contracts, AppleHealthProvider and VITE_NATIVE_APP; its controls live on Gesundheit and screens read measurements via useHealthReadings. Why: readings stay device-local, separate from manual/cloud data and mobile branches.
 - Activity details use `/trends` from Gesundheit. Why: explanations need a full page with a return path, not a popup.
 
 - Nutrition targets are computed centrally from saved adult body and activity data using maintenance estimates, never BMI-based calorie restriction. Why: targets must update with profile changes without implying a medical limit.

@@ -6,7 +6,9 @@ import {
   AppleHealthIntro,
   AppleHealthProvider,
   AppleHealthSection,
+  useAppleHealth,
 } from "@/components/AppleHealth";
+import { healthReadings } from "@/lib/apple-health/readings";
 import {
   setHealthBridgeForTests,
   type HealthBridge,
@@ -78,6 +80,22 @@ function fakeBridge(steps = 11111) {
 }
 
 const noRecords: AppRecords = { meals: [], waterLog: {}, weightLog: {} };
+
+// Imported values as the screens read them (Gesundheit, Heute, Trends use healthReadings), without
+// manual fallbacks, so these tests see exactly what came from Apple Health.
+function ImportedValues() {
+  const health = useAppleHealth();
+  const { today, steps } = healthReadings(health?.account, TODAY, { steps: null, sleepHours: null });
+  const show = (value: number | null | undefined) => (value == null ? "Keine Daten" : value.toLocaleString("de-DE"));
+  return (
+    <dl>
+      <dt>Importierte Schritte</dt>
+      <dd data-testid="imported-steps">{show(steps)}</dd>
+      <dt>Importierte aktive Energie</dt>
+      <dd data-testid="imported-active-energy">{show(today?.activeEnergyKcal)}</dd>
+    </dl>
+  );
+}
 function ui(
   userId: string | null,
   { onboarded = true, records = noRecords }: { onboarded?: boolean; records?: AppRecords } = {},
@@ -86,6 +104,7 @@ function ui(
     <AppleHealthController userId={userId} onboarded={onboarded} records={records}>
       <AppleHealthIntro />
       <AppleHealthSection />
+      <ImportedValues />
     </AppleHealthController>
   );
 }
@@ -217,11 +236,9 @@ describe("Apple Health sync", () => {
 
   it("shows missing values as no data, not zero", async () => {
     await connected();
-    expect(screen.getByText("Schritte").nextSibling?.textContent).toBe("11.111");
-    expect(screen.getByText("Aktive Energie", { selector: "dt" }).nextSibling?.textContent).toBe(
-      "Keine Daten",
-    );
-    expect(screen.getAllByText("Keine Daten")).toHaveLength(7);
+    expect(await screen.findByText("11.111")).toBeInTheDocument();
+    expect(screen.getByTestId("imported-steps").textContent).toBe("11.111");
+    expect(screen.getByTestId("imported-active-energy").textContent).toBe("Keine Daten");
     expect(screen.queryByText(/^0$/)).not.toBeInTheDocument();
   });
 
@@ -356,6 +373,7 @@ describe("Apple Health privacy", () => {
         <AppleHealthProvider>
           <AppleHealthIntro />
           <AppleHealthSection />
+          <ImportedValues />
           <Probe />
         </AppleHealthProvider>
       </StoreProvider>,

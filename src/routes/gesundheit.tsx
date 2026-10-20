@@ -1,3 +1,5 @@
+import { AppleHealthSection } from "@/components/AppleHealth";
+import { useHealthReadings } from "@/components/AppleHealthReadings";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
@@ -45,6 +47,7 @@ function EditIcon({ label, children }: { label: string; children: React.ReactNod
 
 function HealthTrends() {
   useLanguage();
+  const { today } = useHealthReadings();
   const metrics = [
     { name: "Bewegung", unit: "kcal/Tag", color: "text-trend-move", soft: "bg-trend-move-soft" },
     { name: "Distanz", unit: "km/Tag", color: "text-trend-distance", soft: "bg-trend-distance-soft" },
@@ -75,9 +78,10 @@ function HealthTrends() {
             <div className="min-w-0">
               <h3 className="text-[15px] font-medium leading-tight text-ink"><Localized>{metric.name}</Localized></h3>
               <p aria-label={translateText(`${metric.name}: noch keine Daten`)} className={`mt-0.5 flex flex-wrap items-baseline gap-1 text-[19px] font-semibold leading-tight ${metric.color}`}>
-                <span><Localized>{"–/–"}</Localized></span>
+                <span>{metric.name === "Bewegung" && today?.activeEnergyKcal != null ? today.activeEnergyKcal.toLocaleString(languageLocale()) : "–/–"}</span>
                 <span className="text-[13px] font-medium"><Localized>{metric.unit}</Localized></span>
               </p>
+              {metric.name === "Bewegung" && today?.activeEnergyKcal != null && <p className="text-[11px] text-muted-foreground">Apple Health</p>}
             </div>
           </div>
         ))}
@@ -140,8 +144,9 @@ function Health() {
   const cat = bmi != null ? bmiCategory(bmi) : null;
   const goal = stepGoalFor(bmi);
   // Daily counters reset at midnight: only values entered today count.
-  const todaySteps = dailyValue(b.steps, b.stepsDate);
-  const todaySleep = dailyValue(b.sleepHours, b.sleepDate);
+  const readings = useHealthReadings();
+  const todaySteps = readings.steps;
+  const todaySleep = readings.sleepHours;
   // The doctor asks for whatever is still missing, in page order: Körperdaten, Schritte, Schlaf.
   const missingMessage = !b.weightKg || !b.heightCm
     ? "Gib deine Körperdaten ein."
@@ -164,6 +169,7 @@ function Health() {
           <div className="mt-2 text-[18px] font-semibold"><Localized>{"Körperdaten"}</Localized></div>
           <p className="mt-1 text-[14px] text-ink/55"><Localized>{b.weightKg ? `Gewicht: ${b.weightKg} kg` : "Gewicht noch nicht erfasst"}</Localized></p>
           <p className="mt-1 text-[14px] text-ink/55"><Localized>{b.heightCm ? `Größe: ${b.heightCm} cm` : "Größe noch nicht erfasst"}</Localized></p>
+          {readings.weight && <p className="mt-2 text-sm text-muted-foreground">Apple Health · <Localized>{"Gewicht (letzter Wert)"}</Localized>{": "}{readings.weight.kg.toLocaleString(languageLocale())} kg · {readings.weight.day}</p>}
           {bmi != null && cat && (
             <p className={`mt-1 text-[15px] font-semibold ${cat.className}`}><Localized>{"BMI "}</Localized><Localized>{bmi.toFixed(1).replace(".", ",")}</Localized><Localized>{" · "}</Localized><Localized>{cat.label}</Localized></p>
           )}
@@ -177,25 +183,35 @@ function Health() {
             <div className="text-[18px] font-semibold"><Localized>{"Schlaf letzte Nacht"}</Localized></div>
           </div>
           <p className="mt-1 text-[14px] text-ink/55">
-            <Localized>{todaySleep ? `Erfasst: ${todaySleep} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}</Localized>
+            <Localized>{todaySleep != null ? `Erfasst: ${todaySleep.toLocaleString(languageLocale(), { maximumFractionDigits: 1 })} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}</Localized>
           </p>
-          <NumInput value={todaySleep} onSave={(v) => setBody({ sleepHours: v, sleepDate: todayDateKey() })} placeholder={translateText("Stunden, z. B. 7,5 (empfohlen: 8 h)")} unit="h" />
+          <p className="mt-1 text-[11px] text-muted-foreground"><Localized>{readings.sleepSource}</Localized></p>
+          <p className="mt-3 text-[11px] text-muted-foreground"><Localized>{"Manuell erfasst"}</Localized></p>
+          <NumInput value={dailyValue(b.sleepHours, b.sleepDate)} onSave={(v) => setBody({ sleepHours: v, sleepDate: todayDateKey() })} placeholder={translateText("Stunden, z. B. 7,5 (empfohlen: 8 h)")} unit="h" />
         </div>
 
         <div className="card-surface p-5">
           <EditIcon label={translateText("Alltag und Aktivität")}><StepsIcon /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold"><Localized>{"Schritte heute"}</Localized></div>
           <p className="mt-1 text-[14px] text-ink/55">
-            <Localized>{todaySteps ? `Heute: ${todaySteps.toLocaleString(languageLocale())} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}</Localized>
+            <Localized>{todaySteps != null ? `Heute: ${todaySteps.toLocaleString(languageLocale())} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}</Localized>
           </p>
-          {(goal ?? b.stepGoal) ? <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Dein Tagesziel: "}</Localized><Localized>{(goal ?? b.stepGoal)!.toLocaleString(languageLocale())}</Localized><Localized>{" Schritte (aus deinem BMI)"}</Localized></p> : null}
-          <NumInput value={todaySteps ?? 0} onSave={(v) => setBody({ steps: v, stepsDate: todayDateKey() })} placeholder={translateText("z. B. 8000")} unit="Speichern" />
+          {(goal ?? b.stepGoal) ? <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Dein Tagesziel: "}</Localized><Localized>{(goal ?? b.stepGoal)?.toLocaleString(languageLocale())}</Localized><Localized>{" Schritte (aus deinem BMI)"}</Localized></p> : null}
+          <p className="mt-1 text-[11px] text-muted-foreground"><Localized>{readings.stepsSource}</Localized></p>
+          <p className="mt-3 text-[11px] text-muted-foreground"><Localized>{"Manuell erfasst"}</Localized></p>
+          <NumInput value={dailyValue(b.steps, b.stepsDate)} onSave={(v) => setBody({ steps: v, stepsDate: todayDateKey() })} placeholder={translateText("z. B. 8000")} unit="Speichern" />
         </div>
 
         <HealthTrends />
+        <div className="card-surface p-5">
+          <h2 className="text-[18px] font-semibold"><Localized>{"Herzfrequenz (Durchschnitt)"}</Localized></h2>
+          <p className="mt-2 text-lg font-semibold">{readings.today?.heartRate?.avg == null ? <Localized>{"Noch keine Daten"}</Localized> : <>{readings.today.heartRate.avg.toLocaleString(languageLocale())} <Localized>{"Schläge/Min."}</Localized></>}</p>
+          {readings.today?.heartRate?.avg != null && <p className="mt-1 text-[11px] text-muted-foreground">Apple Health</p>}
+        </div>
+        <div className="md:col-span-2"><AppleHealthSection /></div>
 
         <div className="rounded-[20px] border border-dashed p-5 text-[13px] text-ink/50">
-          <div className="eyebrow mb-1"><Localized>{"Bald verfügbar"}</Localized></div><Localized>{" Apple Health, Google Health Connect und Wearables als automatische Datenquellen. "}</Localized></div>
+          <div className="eyebrow mb-1"><Localized>{"Bald verfügbar"}</Localized></div><Localized>{"Google Health Connect und Wearables als automatische Datenquellen."}</Localized></div>
       </div>
     </AppShell>
   );

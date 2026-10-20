@@ -1,7 +1,11 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import catalogue from "@/lib/translations.json";
+import baseCatalogue from "@/lib/translations.json";
+import healthCatalogue from "@/lib/apple-health-translations.json";
+
+// Same merge as src/lib/language.ts: Apple Health copy may live in either catalogue.
+const catalogue = { ...baseCatalogue, ...healthCatalogue };
 
 // Static checks for the native HealthKit setup and the privacy boundary. Xcode compilation and
 // on-device behaviour are verified separately (CI Simulator build, physical iPhone checklist).

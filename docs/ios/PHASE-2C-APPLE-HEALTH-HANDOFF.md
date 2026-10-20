@@ -122,10 +122,13 @@ writing; a blocked type is skipped and the UI shows where to allow it.
   on signed-in app pages (tab bar visible) once the questionnaire is done, for new **and** existing
   users (no saved choice yet). Closing it counts as *Jetzt nicht*; it is never shown again for that
   account on that iPhone. No permission prompt at launch — only after the tap.
-- **Profil › Gesundheitsprofil bearbeiten** (`/profil/personal`): status, connect, *Jetzt
-  synchronisieren* (becomes *Synchronisierung abbrechen* while running, *Erneut versuchen* after an
-  error), last successful sync, today's imported values, export switches (active energy shown as
+- **Gesundheit** (`/gesundheit`, moved from *Gesundheitsprofil bearbeiten* by the Lovable UI sync):
+  status, connect, *Jetzt synchronisieren* (becomes *Synchronisierung abbrechen* while running,
+  *Erneut versuchen* after an error), last successful sync, export switches (active energy shown as
   unavailable), data explanation, permission guidance, disconnect with confirmation.
+- **Imported values** appear on Gesundheit, Heute (steps and sleep tiles) and Trends (7-day history)
+  via `useHealthReadings()` (`src/components/AppleHealthReadings.ts`); manual entries stay separate.
+  See `docs/apple-health-handoff.md`.
 - On the web the section says Apple Health is available in the iPhone app; on devices without
   HealthKit it says it is not available.
 - Accessibility: labelled switches, `role="status"`/`aria-live` for sync state, `role="alert"` for
