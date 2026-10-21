@@ -153,12 +153,9 @@ describe("Apple Health onboarding", () => {
       read: [
         "stepCount",
         "heartRate",
-        "bodyMass",
         "sleepAnalysis",
-        "dietaryEnergyConsumed",
         "activeEnergyBurned",
         "basalEnergyBurned",
-        "dietaryWater",
         "distanceWalkingRunning",
         "walkingSpeed",
         "runningSpeed",

@@ -359,9 +359,9 @@
     "Connected",
     "Conectado"
   ],
-  "Vital Plus kann Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Gewicht, Schlaf, Energie und Wasser aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone.": [
-    "Vital Plus can show steps, distance, walking and running speed, heart rate, weight, sleep, energy and water from Apple Health. This data stays on your iPhone.",
-    "Vital Plus puede mostrar pasos, distancia, velocidad al caminar y al correr, frecuencia cardiaca, peso, sueño, energía y agua de Apple Health. Estos datos permanecen en tu iPhone."
+  "Vital Plus kann Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Schlaf sowie aktive und Ruheenergie aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone.": [
+    "Vital Plus can show steps, distance, walking and running speed, heart rate, sleep, and active and resting energy from Apple Health. This data stays on your iPhone.",
+    "Vital Plus puede mostrar pasos, distancia, velocidad al caminar y al correr, frecuencia cardiaca, sueño y energía activa y en reposo de Apple Health. Estos datos permanecen en tu iPhone."
   ],
   "Vital Plus liest keine Daten aus Apple Health.": [
     "Vital Plus does not read any data from Apple Health.",
@@ -510,5 +510,9 @@
   "Vital Plus aktualisiert die Daten beim Öffnen, beim Zurückkehren in die App und wenn Apple Health neue Werte meldet, solange die App geöffnet ist.": [
     "Vital Plus updates the data when you open the app, when you return to it, and when Apple Health reports new values while the app is open.",
     "Vital Plus actualiza los datos al abrir la app, al volver a ella y cuando Apple Health informa de nuevos valores mientras la app está abierta."
+  ],
+  "Noch keine Schritte für heute.": [
+    "No steps today yet.",
+    "Aún no hay pasos para hoy."
   ]
 }

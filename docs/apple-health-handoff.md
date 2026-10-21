@@ -63,3 +63,12 @@ the Health sheet; `permissionUpdateAvailable` + `requestPermissions()` drive a *
 `metricStates()` (`src/lib/apple-health/metrics.ts`) feeds the *Datenarten* list in `AppleHealthSection`.
 Changed shared files: `bridge.ts` (optional `startObserving`, `stopObserving`, `addListener`), `metrics.ts`
 (new), `AppleHealth.tsx`, `AppleHealthReadings.ts`, `apple-health-translations.json`. Screens need no changes.
+
+## One-way data flow (mobile branch)
+
+`READ_TYPES` now contains only incoming measurements (steps, sleep, heart rate, distance, walking/running speed,
+active and basal energy). Weight, water and dietary energy are write-only (opt-in export, unchanged) and no longer
+appear in reads, imports, observers or *Datenarten*; `normalizeSummary` ignores them. Gesundheit's *Schritte heute*
+shows Apple Health steps only, without manual entry or "(aus deinem BMI)", and the standalone heart-rate card and the
+imported-weight line are removed. Changed shared files: `bridge.ts`, `summary.ts`, `metrics.ts`, `AppleHealth.tsx`
+(intro text), `apple-health-translations.json`; page: `gesundheit.tsx`.

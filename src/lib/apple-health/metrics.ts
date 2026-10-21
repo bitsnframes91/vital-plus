@@ -22,7 +22,6 @@ export const HEALTH_METRICS: readonly HealthMetric[] = [
     label: "Herzfrequenz",
     has: (d) => d.heartRate?.avg != null || d.heartRate?.min != null || d.heartRate?.max != null,
   },
-  { type: "bodyMass", label: "Gewicht", has: () => false },
   {
     type: "distanceWalkingRunning",
     label: "Strecke (Gehen und Laufen)",
@@ -30,14 +29,8 @@ export const HEALTH_METRICS: readonly HealthMetric[] = [
   },
   { type: "walkingSpeed", label: "Gehgeschwindigkeit", has: (d) => d.walkingSpeedKmh != null },
   { type: "runningSpeed", label: "Laufgeschwindigkeit", has: (d) => d.runningSpeedKmh != null },
-  {
-    type: "dietaryEnergyConsumed",
-    label: "Nahrungsenergie",
-    has: (d) => d.dietaryEnergyKcal != null,
-  },
   { type: "activeEnergyBurned", label: "Aktive Energie", has: (d) => d.activeEnergyKcal != null },
   { type: "basalEnergyBurned", label: "Ruheenergie", has: (d) => d.basalEnergyKcal != null },
-  { type: "dietaryWater", label: "Wasser", has: (d) => d.waterMl != null },
 ];
 
 export type MetricState = {
@@ -54,10 +47,8 @@ export function metricStates(summary: ImportedSummary | null | undefined): Metri
     if (summary.unsupportedTypes?.includes(type))
       return { type, label, status: "unsupported", lastDay: null };
     let lastDay: string | null = null;
-    if (type === "bodyMass") lastDay = summary.latestBodyMass?.day ?? null;
-    else
-      for (const [day, values] of Object.entries(summary.days ?? {}))
-        if (has(values) && (!lastDay || day > lastDay)) lastDay = day;
+    for (const [day, values] of Object.entries(summary.days ?? {}))
+      if (has(values) && (!lastDay || day > lastDay)) lastDay = day;
     if (lastDay) return { type, label, status: "available", lastDay };
     return {
       type,

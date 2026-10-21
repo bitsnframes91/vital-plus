@@ -42,7 +42,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Vital Plus nutzt das Mikrofon nur, wenn du eine Mahlzeit per Sprache erfasst.</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>Vital Plus zeigt Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Gewicht, Schlaf, Energie und Wasser aus Apple Health an. Diese Daten bleiben auf deinem iPhone und werden nicht an dein Konto oder an KI-Dienste gesendet.</string>
+	<string>Vital Plus zeigt Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Schlaf sowie aktive und Ruheenergie aus Apple Health an. Diese Daten bleiben auf deinem iPhone und werden nicht an dein Konto oder an KI-Dienste gesendet.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Vital Plus speichert nur Werte, die du selbst in der App einträgst – Gewicht, Wasser und Nahrungsenergie –, und nur, wenn du das einschaltest.</string>
 	<key>UIApplicationSceneManifest</key>

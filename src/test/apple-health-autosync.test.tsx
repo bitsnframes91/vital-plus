@@ -336,7 +336,9 @@ describe("per-metric permission and availability", () => {
       ),
     );
     const items = document.querySelectorAll("[data-metric]");
-    expect(items).toHaveLength(11);
+    expect(items).toHaveLength(8);
+    for (const outgoing of ["bodyMass", "dietaryWater", "dietaryEnergyConsumed"])
+      expect(document.querySelector(`[data-metric="${outgoing}"]`)).toBeNull();
     expect(document.querySelector('[data-metric="heartRate"]')?.getAttribute("data-status")).toBe(
       "noData",
     );
@@ -347,7 +349,6 @@ describe("per-metric permission and availability", () => {
     expect(metricStates(null).every((m) => m.status === "notSynced")).toBe(true);
     const states = metricStates({
       days: { [TODAY]: { steps: 10, walkingSpeedKmh: 4.5 }, "2000-01-01": { steps: 5 } },
-      latestBodyMass: { kg: 70, day: "2000-01-01" },
       startDay: TODAY,
       endDay: TODAY,
       failedTypes: ["sleepAnalysis"],
@@ -355,7 +356,6 @@ describe("per-metric permission and availability", () => {
     });
     const of = (type: string) => states.find((s) => s.type === type)!;
     expect(of("stepCount")).toMatchObject({ status: "available", lastDay: TODAY });
-    expect(of("bodyMass")).toMatchObject({ status: "available", lastDay: "2000-01-01" });
     expect(of("runningSpeed").status).toBe("unsupported");
     expect(of("sleepAnalysis").status).toBe("failed");
     expect(of("heartRate").status).toBe("noData");

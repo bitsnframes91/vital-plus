@@ -580,7 +580,7 @@ export function AppleHealthIntro() {
           <DialogDescription className="text-[14px] leading-5">
             <Localized>
               {
-                "Vital Plus kann Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Gewicht, Schlaf, Energie und Wasser aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone."
+                "Vital Plus kann Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Schlaf sowie aktive und Ruheenergie aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone."
               }
             </Localized>
           </DialogDescription>

@@ -145,12 +145,13 @@ function Health() {
   const goal = stepGoalFor(bmi);
   // Daily counters reset at midnight: only values entered today count.
   const readings = useHealthReadings();
-  const todaySteps = readings.steps;
+  // Steps come only from Apple Health; there is no manual step entry.
+  const todaySteps = readings.today?.steps ?? null;
   const todaySleep = readings.sleepHours;
   // The doctor asks for whatever is still missing, in page order: Körperdaten, Schritte, Schlaf.
   const missingMessage = !b.weightKg || !b.heightCm
     ? "Gib deine Körperdaten ein."
-    : !todaySteps ? "Gib deine Schritte ein." : !todaySleep ? "Gib deine Schlafstunden ein." : undefined;
+    : !todaySleep ? "Gib deine Schlafstunden ein." : undefined;
 
   return (
     <AppShell>
@@ -169,7 +170,6 @@ function Health() {
           <div className="mt-2 text-[18px] font-semibold"><Localized>{"Körperdaten"}</Localized></div>
           <p className="mt-1 text-[14px] text-ink/55"><Localized>{b.weightKg ? `Gewicht: ${b.weightKg} kg` : "Gewicht noch nicht erfasst"}</Localized></p>
           <p className="mt-1 text-[14px] text-ink/55"><Localized>{b.heightCm ? `Größe: ${b.heightCm} cm` : "Größe noch nicht erfasst"}</Localized></p>
-          {readings.weight && <p className="mt-2 text-sm text-muted-foreground">Apple Health · <Localized>{"Gewicht (letzter Wert)"}</Localized>{": "}{readings.weight.kg.toLocaleString(languageLocale())} kg · {readings.weight.day}</p>}
           {bmi != null && cat && (
             <p className={`mt-1 text-[15px] font-semibold ${cat.className}`}><Localized>{"BMI "}</Localized><Localized>{bmi.toFixed(1).replace(".", ",")}</Localized><Localized>{" · "}</Localized><Localized>{cat.label}</Localized></p>
           )}
@@ -193,20 +193,13 @@ function Health() {
           <EditIcon label={translateText("Alltag und Aktivität")}><StepsIcon /></EditIcon>
           <div className="mt-2 text-[18px] font-semibold"><Localized>{"Schritte heute"}</Localized></div>
           <p className="mt-1 text-[14px] text-ink/55">
-            <Localized>{todaySteps != null ? `Heute: ${todaySteps.toLocaleString(languageLocale())} Schritte` : "Noch keine Schritte für heute. Manuelle Eingabe ist jederzeit möglich."}</Localized>
+            <Localized>{todaySteps != null ? `Heute: ${todaySteps.toLocaleString(languageLocale())} Schritte` : "Noch keine Schritte für heute."}</Localized>
           </p>
-          {(goal ?? b.stepGoal) ? <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Dein Tagesziel: "}</Localized><Localized>{(goal ?? b.stepGoal)?.toLocaleString(languageLocale())}</Localized><Localized>{" Schritte (aus deinem BMI)"}</Localized></p> : null}
-          <p className="mt-1 text-[11px] text-muted-foreground"><Localized>{readings.stepsSource}</Localized></p>
-          <p className="mt-3 text-[11px] text-muted-foreground"><Localized>{"Manuell erfasst"}</Localized></p>
-          <NumInput value={dailyValue(b.steps, b.stepsDate)} onSave={(v) => setBody({ steps: v, stepsDate: todayDateKey() })} placeholder={translateText("z. B. 8000")} unit="Speichern" />
+          {(goal ?? b.stepGoal) ? <p className="mt-1 text-[14px] text-ink/55"><Localized>{"Dein Tagesziel: "}</Localized><Localized>{(goal ?? b.stepGoal)?.toLocaleString(languageLocale())}</Localized><Localized>{" Schritte"}</Localized></p> : null}
+          {todaySteps != null && <p className="mt-1 text-[11px] text-muted-foreground">Apple Health</p>}
         </div>
 
         <HealthTrends />
-        <div className="card-surface p-5">
-          <h2 className="text-[18px] font-semibold"><Localized>{"Herzfrequenz (Durchschnitt)"}</Localized></h2>
-          <p className="mt-2 text-lg font-semibold">{readings.today?.heartRate?.avg == null ? <Localized>{"Noch keine Daten"}</Localized> : <>{Math.round(readings.today.heartRate.avg).toLocaleString(languageLocale())} <Localized>{"Schläge/Min."}</Localized></>}</p>
-          {readings.today?.heartRate?.avg != null && <p className="mt-1 text-[11px] text-muted-foreground">Apple Health</p>}
-        </div>
         <div className="md:col-span-2"><AppleHealthSection /></div>
 
         <div className="rounded-[20px] border border-dashed p-5 text-[13px] text-ink/50">

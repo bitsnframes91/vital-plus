@@ -6,9 +6,11 @@ export type DaySummary = {
   steps?: number;
   heartRate?: { avg?: number; min?: number; max?: number };
   sleepMinutes?: number;
+  /** Not imported any more (dietary energy is only written to Apple Health); may exist in old caches. */
   dietaryEnergyKcal?: number;
   activeEnergyKcal?: number;
   basalEnergyKcal?: number;
+  /** Not imported any more (water is only written to Apple Health); may exist in old caches. */
   waterMl?: number;
   /** Walking + running distance, daily total. */
   distanceKm?: number;
@@ -19,6 +21,7 @@ export type DaySummary = {
 };
 export type ImportedSummary = {
   days: Record<string, DaySummary>;
+  /** Not imported any more (weight is only written to Apple Health); may exist in old caches. */
   latestBodyMass?: { kg: number; day: string };
   startDay: string;
   endDay: string;
@@ -32,8 +35,6 @@ const DAY = /^\d{4}-\d{2}-\d{2}$/;
 
 // Factors to the canonical unit of each dimension. Unknown units are dropped, not guessed.
 const ENERGY: Record<string, number> = { kcal: 1, Cal: 1, kJ: 1 / 4.184 };
-const VOLUME: Record<string, number> = { mL: 1, L: 1000, fl_oz_us: 29.5735295625 };
-const MASS: Record<string, number> = { kg: 1, g: 0.001, lb: 0.45359237 };
 const RATE: Record<string, number> = { "count/min": 1, "count/s": 60 };
 const DURATION: Record<string, number> = { min: 1, h: 60, s: 1 / 60 };
 const COUNT: Record<string, number> = { count: 1 };
@@ -43,12 +44,9 @@ const SPEED: Record<string, number> = { "km/h": 1, "m/s": 3.6, "mi/h": 1.609344 
 const SPEC: Record<ReadType, { units: Record<string, number>; max: number; min?: number }> = {
   stepCount: { units: COUNT, max: 200_000 },
   heartRate: { units: RATE, min: 20, max: 250 },
-  bodyMass: { units: MASS, min: 20, max: 400 },
   sleepAnalysis: { units: DURATION, max: 24 * 60 },
-  dietaryEnergyConsumed: { units: ENERGY, max: 20_000 },
   activeEnergyBurned: { units: ENERGY, max: 20_000 },
   basalEnergyBurned: { units: ENERGY, max: 20_000 },
-  dietaryWater: { units: VOLUME, max: 20_000 },
   distanceWalkingRunning: { units: DISTANCE, max: 300 },
   walkingSpeed: { units: SPEED, max: 15 },
   runningSpeed: { units: SPEED, max: 45 },
@@ -70,17 +68,11 @@ const isReadType = (type: string): type is ReadType =>
 
 export function normalizeSummary(raw: RawSummary): ImportedSummary {
   const days: Record<string, DaySummary> = {};
-  let latestBodyMass: ImportedSummary["latestBodyMass"];
   for (const row of Array.isArray(raw?.results) ? raw.results : []) {
     if (!row || !isReadType(row.type) || typeof row.day !== "string" || !DAY.test(row.day))
       continue;
     const value = toCanonical(row.type, row.value, row.unit);
     if (value === null) continue;
-    if (row.type === "bodyMass") {
-      if (row.aggregation === "latest" && (!latestBodyMass || row.day > latestBodyMass.day))
-        latestBodyMass = { kg: value, day: row.day };
-      continue;
-    }
     const day = (days[row.day] ??= {});
     if (row.type === "heartRate") {
       if (row.aggregation === "avg" || row.aggregation === "min" || row.aggregation === "max")
@@ -97,10 +89,8 @@ export function normalizeSummary(raw: RawSummary): ImportedSummary {
       {
         stepCount: "steps",
         sleepAnalysis: "sleepMinutes",
-        dietaryEnergyConsumed: "dietaryEnergyKcal",
         activeEnergyBurned: "activeEnergyKcal",
         basalEnergyBurned: "basalEnergyKcal",
-        dietaryWater: "waterMl",
         distanceWalkingRunning: "distanceKm",
       } as const
     )[row.type];
@@ -112,7 +102,6 @@ export function normalizeSummary(raw: RawSummary): ImportedSummary {
   ).filter(isReadType);
   return {
     days,
-    ...(latestBodyMass ? { latestBodyMass } : {}),
     startDay: typeof raw?.startDay === "string" && DAY.test(raw.startDay) ? raw.startDay : "",
     endDay: typeof raw?.endDay === "string" && DAY.test(raw.endDay) ? raw.endDay : "",
     failedTypes,

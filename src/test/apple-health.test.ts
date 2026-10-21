@@ -47,20 +47,16 @@ describe("unsupported devices", () => {
 describe("unit conversion", () => {
   it("converts to canonical units", () => {
     expect(toCanonical("activeEnergyBurned", 4184, "kJ")).toBeCloseTo(1000);
-    expect(toCanonical("dietaryEnergyConsumed", 500, "kcal")).toBe(500);
-    expect(toCanonical("dietaryWater", 1.5, "L")).toBe(1500);
-    expect(toCanonical("dietaryWater", 8, "fl_oz_us")).toBeCloseTo(236.6, 1);
-    expect(toCanonical("bodyMass", 176, "lb")).toBeCloseTo(79.83, 2);
-    expect(toCanonical("bodyMass", 80000, "g")).toBe(80);
+    expect(toCanonical("basalEnergyBurned", 1600, "kcal")).toBe(1600);
     expect(toCanonical("heartRate", 1.2, "count/s")).toBeCloseTo(72);
     expect(toCanonical("sleepAnalysis", 7.5, "h")).toBe(450);
   });
   it("drops unknown units and implausible values instead of guessing", () => {
-    expect(toCanonical("bodyMass", 80, "stone")).toBeNull();
+    expect(toCanonical("sleepAnalysis", 7, "days")).toBeNull();
     expect(toCanonical("heartRate", 400, "count/min")).toBeNull();
     expect(toCanonical("stepCount", -5, "count")).toBeNull();
     expect(toCanonical("stepCount", Number.NaN, "count")).toBeNull();
-    expect(toCanonical("bodyMass", 5, "kg")).toBeNull();
+    expect(toCanonical("heartRate", 10, "count/min")).toBeNull();
   });
 });
 
@@ -84,7 +80,7 @@ describe("imported summaries", () => {
     expect(normalizeSummary(raw([])).days).toEqual({});
   });
 
-  it("separates active, basal and dietary energy", () => {
+  it("separates active and basal energy and never imports dietary energy (export only)", () => {
     const summary = normalizeSummary(
       raw([
         { type: "activeEnergyBurned", day: TODAY, aggregation: "sum", value: 420, unit: "kcal" },
@@ -95,11 +91,10 @@ describe("imported summaries", () => {
     expect(summary.days[TODAY]).toEqual({
       activeEnergyKcal: 420,
       basalEnergyKcal: 1600,
-      dietaryEnergyKcal: 2000,
     });
   });
 
-  it("reads heart-rate statistics, sleep and the newest body mass", () => {
+  it("reads heart-rate statistics and sleep, never weight or water (export only)", () => {
     const summary = normalizeSummary(
       raw([
         { type: "heartRate", day: TODAY, aggregation: "avg", value: 68, unit: "count/min" },
@@ -113,9 +108,9 @@ describe("imported summaries", () => {
     expect(summary.days[TODAY]).toEqual({
       heartRate: { avg: 68, max: 141 },
       sleepMinutes: 432,
-      waterMl: 1250,
     });
-    expect(summary.latestBodyMass).toEqual({ kg: 80.4, day: "2026-10-12" });
+    expect(summary).not.toHaveProperty("latestBodyMass");
+    expect(summary.days).not.toHaveProperty("2026-10-12");
   });
 
   it("ignores malformed rows and reports failed types", () => {

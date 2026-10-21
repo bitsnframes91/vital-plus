@@ -80,3 +80,41 @@ describe("Gesundheit Trends card: Bewegung", () => {
     expect(movement.queryByText("Apple Health")).not.toBeInTheDocument();
   });
 });
+
+describe("Gesundheit: Schritte heute and heart rate", () => {
+  const stepsCard = () => within(screen.getByText("Schritte heute").parentElement!);
+  const page = () =>
+    render(
+      <StoreProvider>
+        <Health />
+      </StoreProvider>,
+    );
+
+  it("shows only Apple Health steps, without manual entry or the BMI note", () => {
+    readings.today = { steps: 6543 };
+    page();
+    const steps = stepsCard();
+    expect(steps.getByText("Heute: 6.543 Schritte")).toBeInTheDocument();
+    expect(steps.getByText("Apple Health")).toBeInTheDocument();
+    expect(steps.queryByText("Manuell erfasst")).not.toBeInTheDocument();
+    expect(steps.queryByRole("textbox")).not.toBeInTheDocument();
+    expect(steps.queryByRole("button", { name: /Speichern/ })).not.toBeInTheDocument();
+    expect(screen.queryByText(/aus deinem BMI/)).not.toBeInTheDocument();
+  });
+
+  it("keeps the missing-data placeholder and ignores manual steps", () => {
+    readings.today = { activeEnergyKcal: 512 };
+    page();
+    const steps = stepsCard();
+    expect(steps.getByText("Noch keine Schritte für heute.")).toBeInTheDocument();
+    expect(steps.queryByText(/1\.234/)).not.toBeInTheDocument();
+    expect(steps.queryByText("Apple Health")).not.toBeInTheDocument();
+  });
+
+  it("has no standalone heart-rate card", () => {
+    readings.today = { steps: 100, heartRate: { avg: 64 } };
+    page();
+    expect(screen.queryByText("Herzfrequenz (Durchschnitt)")).not.toBeInTheDocument();
+    expect(screen.queryByText("Schläge/Min.")).not.toBeInTheDocument();
+  });
+});

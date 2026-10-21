@@ -295,3 +295,20 @@ Imports run automatically while the app is used; the manual *Jetzt synchronisier
   Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus.
 - Files: `VitalHealthPlugin.swift` (`startObserving`, `stopObserving`), `bridge.ts`, `metrics.ts` (new),
   `AppleHealth.tsx`, `AppleHealthReadings.ts`, `apple-health-translations.json`, `apple-health-autosync.test.tsx`.
+
+## One-way data flow (supersedes the read table above for weight, water and dietary energy)
+
+| Direction | Types |
+|---|---|
+| **Read** from Apple Health (`READ_TYPES`: read authorization, import, observers, *Datenarten*) | steps, sleep, heart rate, walking + running distance, walking speed, running speed, active energy, basal energy |
+| **Write** to Apple Health (`EXPORT_TYPES`, opt-in per type) | body weight, water, dietary energy |
+
+- Weight, water and dietary energy are no longer requested for reading, imported, observed or listed under
+  *Datenarten*. Their opt-in export, account tag and duplicate protection (ledger + sync identifiers) are unchanged;
+  exports stay off until the user turns one on. Users who granted read access earlier can turn it off under
+  Settings › Privacy & Security › Health › Vital Plus (HealthKit cannot revoke it from the app).
+- `NSHealthShareUsageDescription` and the intro text list only the imported measurements.
+- The native plugin is unchanged; the read set is chosen by `READ_TYPES` in `bridge.ts`.
+- Gesundheit: *Schritte heute* shows Apple Health steps only (no manual entry, no "(aus deinem BMI)"), the
+  standalone heart-rate card is removed (heart rate is still read and shown in Trends), and the Körperdaten card no
+  longer shows an imported weight.

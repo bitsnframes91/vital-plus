@@ -4,15 +4,15 @@ import { isNativeApp } from "@/lib/native-app";
 // Contract of ios/App/App/VitalHealthPlugin.swift. Apple Health exists only in the iPhone app;
 // on the web and in the hosted app there is no bridge at all.
 
+// One-way data flow. READ: measurements imported from Apple Health (read authorization, sync,
+// observers). WRITE: entries made in Vital Plus (weight, water, dietary energy), exported only when
+// the user turns an export on. Read and write permissions are independent in HealthKit.
 export const READ_TYPES = [
   "stepCount",
   "heartRate",
-  "bodyMass",
   "sleepAnalysis",
-  "dietaryEnergyConsumed",
   "activeEnergyBurned",
   "basalEnergyBurned",
-  "dietaryWater",
   "distanceWalkingRunning",
   "walkingSpeed",
   // iOS 16+. On iOS 15 the plugin skips it and lists it in RawSummary.unsupportedTypes.
