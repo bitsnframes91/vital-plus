@@ -144,7 +144,7 @@ function Today() {
             <a href={featuredProduct.url} target="_blank" rel="noopener noreferrer" className="mt-4 flex items-center gap-3 rounded-2xl border bg-background p-3">
               <img src={featuredProduct.image} alt={translateText(featuredProduct.name)} className="size-14 shrink-0 rounded-xl object-contain" loading="lazy" />
               <div className="min-w-0 flex-1">
-                <div className="eyebrow"><Localized>{"Fairvital Ergänzung"}</Localized></div>
+                <div className="eyebrow"><Localized>{"Shop-Empfehlung"}</Localized></div>
                 <div className="truncate text-[14px] font-semibold text-ink"><Localized>{featuredProduct.name}</Localized></div>
                 <div className="text-[12px] text-ink/50"><Localized>{featuredProduct.short}</Localized></div>
               </div>
