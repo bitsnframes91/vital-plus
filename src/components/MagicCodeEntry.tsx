@@ -17,13 +17,15 @@ export function MagicCodeEntry({ email, type = "email" }: { email: string; type?
   const [error, setError] = useState<string | null>(null);
   const [wait, setWait] = useState(RESEND_SECONDS);
   const [resent, setResent] = useState(false);
+  const [until, setUntil] = useState(() => Date.now() + RESEND_SECONDS * 1000);
 
   // The first code left with the previous screen, so its waiting time starts right away.
   useEffect(() => {
-    if (wait <= 0) return;
-    const timer = setTimeout(() => setWait(wait - 1), 1000);
-    return () => clearTimeout(timer);
-  }, [wait]);
+    const tick = () => setWait(Math.max(0, Math.ceil((until - Date.now()) / 1000)));
+    tick();
+    const timer = setInterval(tick, 1000);
+    return () => clearInterval(timer);
+  }, [until]);
 
   const verify = async () => {
     const token = code.replace(/\D/g, "");
@@ -48,6 +50,7 @@ export function MagicCodeEntry({ email, type = "email" }: { email: string; type?
     setBusy(false);
     if (err) return setError("Senden nicht möglich – bitte in einer Minute erneut versuchen.");
     setResent(true);
+    setUntil(Date.now() + RESEND_SECONDS * 1000);
     setWait(RESEND_SECONDS);
   };
 
