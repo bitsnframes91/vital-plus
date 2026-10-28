@@ -12,7 +12,6 @@ async function open(path: string) {
     history: createMemoryHistory({ initialEntries: [path] }),
   });
   render(<RouterProvider router={router} />);
-  await router.state.isLoadingPromise;
   return router;
 }
 
