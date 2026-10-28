@@ -1,8 +1,9 @@
 import { expect, it } from "vitest";
 import { defaultSettings, parseSettings, reminderDue } from "../lib/app-settings";
-it("ignores a saved Dunkel choice and keeps both enabled switches", () => {
-  expect(parseSettings('{"theme":"dark","notifications":true,"reminders":true,"reminderTime":"12:00"}')).toEqual({ language: "de", notifications: true, reminders: true, reminderTime: "12:00" });
+it("restores a saved Dunkel choice and keeps both enabled switches", () => {
+  expect(parseSettings('{"theme":"dark","notifications":true,"reminders":true,"reminderTime":"12:00"}')).toEqual({ language: "de", theme: "dark", notifications: true, reminders: true, reminderTime: "12:00" });
 });
+it("rejects an unknown theme and falls back to Hell", () => { expect(parseSettings('{"theme":"blue"}').theme).toBe("light"); });
 it("defaults to Hell and opt-in off", () => { expect(parseSettings(null)).toEqual(defaultSettings); });
 it.each(["de", "en", "es"])("restores the selected language %s", language => { expect(parseSettings(JSON.stringify({ language })).language).toBe(language); });
 it("falls back to German for unsupported languages", () => { expect(parseSettings('{"language":"fr"}').language).toBe("de"); });
