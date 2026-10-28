@@ -121,10 +121,13 @@ function Onboarding() {
     {
       t: "Deine Daten, deine Entscheidung.",
       body: (
-        <label className="flex items-start gap-3 rounded-2xl bg-card p-4 text-sm ring-1 ring-border">
-          <input type="checkbox" checked={ok} onChange={(e) => setOk(e.target.checked)} className="mt-1 accent-[var(--fv-deep)]" />
-          <span className="text-ink/70"><Localized>{"Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. Vitalplus ersetzt keine ärztliche Beratung."}</Localized></span>
-        </label>
+        <div className="space-y-3">
+          <label className="flex items-start gap-3 rounded-2xl bg-card p-4 text-sm ring-1 ring-border">
+            <input type="checkbox" checked={ok} onChange={(e) => setOk(e.target.checked)} className="mt-1 size-5 shrink-0 accent-[var(--fv-deep)]" />
+            <span className="text-ink/70"><Localized>{"Ich willige ausdrücklich ein, dass Vitalplus meine Gesundheitsdaten (z. B. Körperdaten, Mahlzeiten, Laborwerte und – falls freigegeben – Apple-Health-Werte) zur Darstellung und Auswertung in der App verarbeitet (Art. 9 Abs. 2 lit. a DSGVO). Apple-Health-Werte bleiben auf meinem Gerät. Ich kann die Einwilligung jederzeit widerrufen. Vitalplus ersetzt keine ärztliche Beratung."}</Localized></span>
+          </label>
+          <LegalLinks prefix="Mehr dazu in unseren" />
+        </div>
       ),
       valid: ok,
     },

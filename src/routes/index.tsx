@@ -12,6 +12,7 @@ import { useStore } from "@/lib/store";
 import { clearQuestionnaire } from "@/lib/questionnaire-draft";
 import { accountExists } from "@/lib/account.functions";
 import { VivoBrand } from "@/components/VivoBrand";
+import { LegalLinks } from "@/components/LegalLinks";
 
 export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
@@ -106,6 +107,7 @@ function Home() {
           ))}
           {error && <p role="alert" className="mb-3 text-sm text-destructive"><Localized>{error}</Localized></p>}
           {!magicSent && <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : magic ? "Login-Code senden" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : magic ? sendMagicLink : signIn} />}
+          {mode === "new" && <LegalLinks className="mt-3" prefix="Mit dem Start akzeptierst du die" />}
         </>}
       </div>
     </main>

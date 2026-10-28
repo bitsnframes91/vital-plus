@@ -7,6 +7,7 @@ import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
 import { MagicCodeEntry } from "@/components/MagicCodeEntry";
+import { LegalLinks } from "@/components/LegalLinks";
 import { readQuestionnaire, clearQuestionnaire } from "@/lib/questionnaire-draft";
 
 export const Route = createFileRoute("/login")({
@@ -127,6 +128,7 @@ function Login() {
               <Localized>{magic ? "Stattdessen mit Passwort anmelden" : "Ohne Passwort anmelden (Login-Code per E-Mail)"}</Localized>
             </button>
           )}
+          {mode === "register" && <LegalLinks />}
         </form>
         )}
         {mode === "login" && !magic && !magicSent && (
