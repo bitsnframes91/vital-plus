@@ -40,6 +40,9 @@ function Home() {
   const [magicSent, setMagicSent] = useState(false);
   const sendMagicLink = async () => {
     if (!email.trim()) { setError("Bitte gib zuerst deine E-Mail-Adresse ein."); return; }
+    const last = Number(localStorage.getItem("vitalplus-magic-at") || 0);
+    if (Date.now() - last < 60_000) { setError("Bitte warte eine Minute, bevor du einen neuen Login-Link anforderst."); return; }
+    localStorage.setItem("vitalplus-magic-at", String(Date.now()));
     setBusy(true); setError(null);
     try {
       const { error: otpError } = await supabase.auth.signInWithOtp({ email: email.trim(), options: { shouldCreateUser: false, emailRedirectTo: window.location.origin + "/heute" } });
