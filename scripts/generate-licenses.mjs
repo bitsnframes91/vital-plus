@@ -25,7 +25,13 @@ function visit(name, from, direct = false) {
     return;
   }
   const dir = path.dirname(file);
-  const noticeFiles = fs.readdirSync(dir).filter(f => /^(licen[cs]e|copying|copyright|notice)([._-].*)?$/i.test(f) && fs.statSync(path.join(dir, f)).isFile());
+  function findNotices(folder, prefix = '') {
+    return fs.readdirSync(folder, { withFileTypes: true }).flatMap(entry => {
+      if (entry.isDirectory() && !['node_modules', '.git'].includes(entry.name)) return findNotices(path.join(folder, entry.name), `${prefix}${entry.name}/`);
+      return entry.isFile() && /^(licen[cs]e|copying|copyright|notice)([._-].*)?$/i.test(entry.name) ? [`${prefix}${entry.name}`] : [];
+    });
+  }
+  const noticeFiles = findNotices(dir);
   const notices = noticeFiles.map(f => ({ file: f, text: fs.readFileSync(path.join(dir, f), 'utf8') }));
   const license = typeof pkg.license === 'string' ? pkg.license : pkg.license?.type ?? 'Not specified';
   entries.set(key, { name: pkg.name, version: pkg.version, license, direct, notices });
