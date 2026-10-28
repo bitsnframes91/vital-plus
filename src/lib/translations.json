@@ -3051,9 +3051,9 @@
     "Back to sign in",
     "Volver a iniciar sesión"
   ],
-  "Mit Magischem Link anmelden": [
-    "Sign in with magic link",
-    "Iniciar sesión con enlace mágico"
+  "Mit Login-Code anmelden": [
+    "Sign in with a login code",
+    "Iniciar sesión con un código de acceso"
   ],
   "Mit Passwort anmelden": [
     "Sign in with password",
