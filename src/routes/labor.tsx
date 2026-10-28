@@ -194,7 +194,7 @@ function Labs() {
                     <StatusFace mood={toneMood[st.tone]} className="size-4" />
                     <Localized>{st.label}</Localized>
                   </span>
-                  <Button type="button" variant="ghost" size="icon" onClick={() => setInfoMarkerId(m.id)} aria-label={translateText(`Information zu ${m.name}`)} title={translateText(`Information zu ${m.name}`)} className="size-8 rounded-full text-fv-deep hover:bg-fv/10">
+                  <Button type="button" variant="ghost" size="icon" onClick={() => setInfoMarkerId(m.id)} aria-label={translateText(`Information zu ${translateText(m.name)}`)} title={translateText(`Information zu ${translateText(m.name)}`)} className="size-8 rounded-full text-fv-deep hover:bg-fv/10">
                     <Info size={16} strokeWidth={2} aria-hidden="true" />
                   </Button>
                 </div>

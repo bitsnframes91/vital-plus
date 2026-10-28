@@ -7,7 +7,7 @@ import { todayKey } from "@/lib/daily-goals";
 import { progressTone, wellnessProgress } from "@/lib/wellness-progress";
 import { StepsIcon } from "./StepsIcon";
 import { Localized, useLanguage } from "./Localized";
-import { translateText } from "@/lib/language";
+import { languageLocale, translateText } from "@/lib/language";
 import goalsGfx from "@/assets/goals-bold.png.asset.json";
 
 function ProgressRing({ percent, large = false, label, toneOverride }: { percent: number | null; large?: boolean; label: string; toneOverride?: ReturnType<typeof progressTone> | undefined }) {
@@ -53,17 +53,17 @@ export function TodayWellnessGoals() {
   const result = wellnessProgress(meals, s.body, s.waterLog[day], { steps: todaySteps, stepGoal: STEP_GOAL, sleepHours: todaySleep, sleepGoal: 8 });
   const stepsLeft = Math.max(0, STEP_GOAL - (todaySteps ?? 0));
   const [nutrition, steps, sleep, micro, water] = result.values;
-  const number = (value: number) => value.toLocaleString("de-DE", { maximumFractionDigits: 1 });
+  const number = (value: number) => value.toLocaleString(languageLocale(), { maximumFractionDigits: 1 });
   const tiles = [
     { key: "nutrition", title: "Ernährung", icon: Salad, percent: nutrition ?? null, to: "/ernaehrung" as const, detail: result.targets ? `${number(result.protein)} / ${number(result.targets.protein)} g Protein` : "Persönlicher Richtwert fehlt", sub: result.targets ? `${number(result.fiber)} / ${result.targets.fiber} g Ballaststoffe` : "Körperdaten ergänzen" },
-    { key: "steps", title: "Schritte noch zu gehen", icon: StepsTileIcon, percent: steps ?? null, to: "/gesundheit" as const, detail: stepsLeft ? `${stepsLeft.toLocaleString("de-DE")} Schritte` : "Tagesziel erreicht", sub: todaySteps == null ? "Noch keine Daten" : `${todaySteps.toLocaleString("de-DE")} / 10.000 gegangen · ${readings.stepsSource}`, tone: stepsTone(steps ?? null) },
+    { key: "steps", title: "Schritte noch zu gehen", icon: StepsTileIcon, percent: steps ?? null, to: "/gesundheit" as const, detail: stepsLeft ? `${stepsLeft.toLocaleString(languageLocale())} Schritte` : "Tagesziel erreicht", sub: todaySteps == null ? "Noch keine Daten" : `${todaySteps.toLocaleString(languageLocale())} / 10.000 gegangen · ${readings.stepsSource}`, tone: stepsTone(steps ?? null) },
     { key: "sleep", title: "Schlaf", icon: Moon, percent: sleep ?? null, to: "/gesundheit" as const, detail: `${number(todaySleep ?? 0)} / 8 h`, sub: readings.sleepSource ? `Schlaf letzte Nacht · ${readings.sleepSource}` : "Schlaf letzte Nacht" },
     { key: "micro", title: "Vitamine & Mineralstoffe", icon: Sprout, percent: micro ?? null, to: "/ernaehrung/vitamine" as const, detail: `${result.microKnown} / ${result.microTotal} Nährstoffe erfasst`, sub: "Geschätzt · EU-Erwachsenenreferenz" },
     { key: "water", title: "Wasser", icon: Droplets, percent: water ?? null, to: "/ernaehrung" as const, detail: `${number(s.waterLog[day] ?? 0)} / 2,0 Liter`, sub: "Genug getrunken?" },
   ];
   const tone = progressTone(result.overall.percent);
   const surface = { low: "goal-surface-low", partial: "goal-surface-partial", good: "goal-surface-good", missing: "goal-surface-missing" }[tone];
-  return <section className="bg-card px-4 pb-6 pt-2" aria-label="Deine erreichten Tagesziele" data-wellness-dashboard>
+  return <section className="bg-card px-4 pb-6 pt-2" aria-label={translateText("Deine erreichten Tagesziele")} data-wellness-dashboard>
     <div className="flex min-w-0 items-center gap-2 px-1"><img src={goalsGfx.url} alt="" className="size-7 shrink-0 object-contain" /><h2 className="min-w-0 text-[20px] font-bold leading-snug sm:text-[21px]"><Localized>{"Deine erreichten Tagesziele"}</Localized></h2></div>
     <div className={`goal-surface ${surface} goal-tile mx-1 mb-4 flex items-center gap-4 px-4 py-5 min-[420px]:gap-6`}>
       <ProgressRing percent={result.overall.percent} label="Deine erreichten Tagesziele" large />
