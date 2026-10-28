@@ -3062,5 +3062,13 @@
   "ODER": [
     "OR",
     "O"
+  ],
+  "Bitte warte eine Minute, bevor du einen neuen Login-Link anforderst.": [
+    "Please wait a minute before requesting a new login link.",
+    "Espera un minuto antes de solicitar un nuevo enlace de acceso."
+  ],
+  "Bitte warte eine Minute, bevor du erneut Feedback sendest.": [
+    "Please wait a minute before sending feedback again.",
+    "Espera un minuto antes de volver a enviar comentarios."
   ]
 }

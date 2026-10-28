@@ -43,7 +43,12 @@ function FeedbackPage() {
   const toggle = (label: string) =>
     setSelected(s => (s.includes(label) ? s.filter(x => x !== label) : [...s, label]));
 
+  const [trap, setTrap] = useState("");
   const submit = async () => {
+    // Bots fill the hidden field; pretend success without storing anything.
+    if (trap) { setDone(true); return; }
+    const last = Number(localStorage.getItem("vitalplus-feedback-at") || 0);
+    if (Date.now() - last < 60_000) { setErr("Bitte warte eine Minute, bevor du erneut Feedback sendest."); return; }
     setBusy(true);
     setErr("");
     const client = supabase.from("app_feedback" as Parameters<typeof supabase.from>[0]) as unknown as {
@@ -59,6 +64,7 @@ function FeedbackPage() {
       setErr("Feedback konnte nicht gesendet werden. Bitte später erneut versuchen.");
       return;
     }
+    localStorage.setItem("vitalplus-feedback-at", String(Date.now()));
     setDone(true);
   };
 
@@ -125,6 +131,7 @@ function FeedbackPage() {
           <span className="pointer-events-none absolute right-3 bottom-3 text-[13px] text-muted-foreground"><Localized>{message.length}</Localized><Localized>{"/500"}</Localized></span>
         </div>
       </section>
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" value={trap} onChange={e => setTrap(e.target.value)} className="absolute -left-[9999px] h-0 w-0 opacity-0" />
       {err && <p className="px-1 text-sm text-destructive"><Localized>{err}</Localized></p>}
       <Button disabled={busy || rating === 0} onClick={submit} className="h-12 w-full rounded-full bg-fresh text-[15px] font-medium text-ink hover:bg-fresh/90 disabled:opacity-50">
         <Localized>{busy ? "Wird gesendet…" : "Feedback senden"}</Localized>
