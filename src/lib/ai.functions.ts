@@ -123,6 +123,7 @@ Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,
   });
 
 export const mealNutrition = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ name: z.string().trim().min(2).max(200) }).parse(d))
   .handler(async ({ data }) => {
     const r = await askJson([
