@@ -41,7 +41,7 @@ async function askJson(content: unknown[]): Promise<{ ok: true; data: any } | { 
 }
 
 export type LabReading = { id: string | null; name: string; unit: string; value: number; targetLow: number | null; targetHigh: number | null };
-export type PlanItem = { title: string; detail: string };
+export type PlanItem = { title: string; detail: string; en?: { title: string; detail: string }; es?: { title: string; detail: string } };
 
 export const analyzeLabPdf = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -51,10 +51,10 @@ export const analyzeLabPdf = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const prompt = `Du liest einen deutschen Laborbefund (Blutwerte). Extrahiere alle Messwerte.
 Bekannte Marker-IDs der App: ${data.knownIds.join(", ")} (vitd = Vitamin D 25-OH, ferritin = Ferritin, b12 = Holo-TC/Vitamin B12, omega = Omega-3-Index). Setze "id" auf die passende ID oder null.
-Erstelle außerdem 3–6 alltagstaugliche Empfehlungen (Ernährung, Lebensstil, Nachkontrolle) auf Deutsch, du-Form, ohne Diagnose, ohne Medikamente.
+Erstelle außerdem 3–6 alltagstaugliche Empfehlungen (Ernährung, Lebensstil, Nachkontrolle) auf Deutsch, du-Form, ohne Diagnose, ohne Medikamente. Liefere zu jeder Empfehlung zusätzlich eine inhaltsgleiche englische ("en") und spanische ("es", tú-Form) Fassung.
 ${mealPlanContext(data.meals)}
 Antworte NUR mit JSON in dieser Form:
-{"date":"YYYY-MM-DD oder null","markers":[{"id":string|null,"name":string,"unit":string,"value":number,"targetLow":number|null,"targetHigh":number|null}],"plan":[{"title":string,"detail":string}]}`;
+{"date":"YYYY-MM-DD oder null","markers":[{"id":string|null,"name":string,"unit":string,"value":number,"targetLow":number|null,"targetHigh":number|null}],"plan":[{"title":string,"detail":string,"en":{"title":string,"detail":string},"es":{"title":string,"detail":string}}]}`;
     const r = await askJson([
       { type: "input_text", text: prompt },
       data.mimeType === "application/pdf"
