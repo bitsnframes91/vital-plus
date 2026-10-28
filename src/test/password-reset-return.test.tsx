@@ -1,0 +1,40 @@
+import { render, screen } from "@testing-library/react";
+import { createMemoryHistory, createRouter, RouterProvider } from "@tanstack/react-router";
+import { afterEach, describe, expect, it } from "vitest";
+
+import { routeTree } from "@/routeTree.gen";
+
+async function open(path: string) {
+  const router = createRouter({
+    routeTree,
+    context: { queryClient: undefined as never },
+    history: createMemoryHistory({ initialEntries: [path] }),
+  });
+  render(<RouterProvider router={router} />);
+  await router.state.isLoadingPromise;
+  return router;
+}
+
+afterEach(() => {
+  // keep the DOM clean between cases
+  document.body.innerHTML = "";
+});
+
+describe("Password reset return path", () => {
+  it("sends 'Zurück zur Anmeldung' to the start page login form", async () => {
+    await open("/login?mode=reset");
+    const back = await screen.findByRole("link", { name: "Zurück zur Anmeldung" });
+    expect(back.getAttribute("href")).toBe("/?mode=login");
+  });
+
+  it("opens the start page on the login tab when asked for it", async () => {
+    const router = await open("/?mode=login");
+    expect(router.state.location.pathname).toBe("/");
+    expect(screen.getByRole("button", { name: "Einloggen" })).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("keeps the start page on the new-visitor tab by default", async () => {
+    await open("/");
+    expect(screen.getByRole("button", { name: "Neu hier" })).toHaveAttribute("aria-pressed", "true");
+  });
+});
