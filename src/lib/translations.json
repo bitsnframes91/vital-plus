@@ -1523,9 +1523,21 @@
     "Your daily check-in",
     "Tu registro diario"
   ],
-  "Zeit für deine Mahlzeiten und Tagesziele.": [
-    "Time for your meals and daily goals.",
-    "Es hora de tus comidas y objetivos diarios."
+  "Zeit, deine Mahlzeiten einzutragen und etwas Wasser zu trinken.": [
+    "Time to log your meals and drink some water.",
+    "Es hora de registrar tus comidas y beber algo de agua."
+  ],
+  "Dunkler Modus": [
+    "Dark mode",
+    "Modo oscuro"
+  ],
+  "Dunkel": [
+    "Dark",
+    "Oscuro"
+  ],
+  "Hell": [
+    "Light",
+    "Claro"
   ],
   "Alles klar": [
     "Got it",
