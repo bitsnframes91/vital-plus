@@ -43,7 +43,7 @@ function Login() {
   const sendMagicLink = async () => {
     if (!email) return setMsg("Bitte gib zuerst deine E-Mail-Adresse ein.");
     const last = Number(localStorage.getItem("vitalplus-magic-at") || 0);
-    if (Date.now() - last < 60_000) return setMsg("Bitte warte eine Minute, bevor du einen neuen Login-Link anforderst.");
+    if (Date.now() - last < 60_000) return setMsg("Bitte warte eine Minute, bevor du einen neuen Login-Code anforderst.");
     localStorage.setItem("vitalplus-magic-at", String(Date.now()));
     setBusy(true);
     setMsg(null);
@@ -106,7 +106,7 @@ function Login() {
       <div className="card-surface mx-4 mt-4 space-y-3 p-5">
         {mode === "login" && magicSent ? (
           <div className="space-y-2 text-sm">
-            <p><Localized>{"Wir haben dir einen Login-Link geschickt an:"}</Localized> <b>{email}</b></p>
+            <p><Localized>{"Wir haben dir einen Login-Code geschickt an:"}</Localized> <b>{email}</b></p>
             <p className="text-ink/70"><Localized>{"Bitte prüfe auch deinen Spam-Ordner."}</Localized></p>
             <MagicCodeEntry email={email} />
             <button type="button" onClick={() => { setMagicSent(false); setMsg(null); }} className="w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4"><Localized>{"Zurück zur Anmeldung"}</Localized></button>
@@ -120,11 +120,11 @@ function Login() {
           )}
           {msg && <p className="rounded-xl bg-warn/15 px-3 py-2 text-[13px]"><Localized>{msg}</Localized></p>}
           <button disabled={busy} className="w-full rounded-full bg-fresh py-2.5 text-sm font-medium text-ink disabled:opacity-50">
-            <Localized>{busy ? "Bitte warten…" : mode === "login" ? (magic ? "Login-Link senden" : "Anmelden") : "Konto anlegen"}</Localized>
+            <Localized>{busy ? "Bitte warten…" : mode === "login" ? (magic ? "Login-Code senden" : "Anmelden") : "Konto anlegen"}</Localized>
           </button>
           {mode === "login" && (
             <button type="button" onClick={() => { setMagic(!magic); setMsg(null); }} className="w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4">
-              <Localized>{magic ? "Stattdessen mit Passwort anmelden" : "Ohne Passwort anmelden (Login-Link per E-Mail)"}</Localized>
+              <Localized>{magic ? "Stattdessen mit Passwort anmelden" : "Ohne Passwort anmelden (Login-Code per E-Mail)"}</Localized>
             </button>
           )}
         </form>

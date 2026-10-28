@@ -45,7 +45,7 @@ function Home() {
   const sendMagicLink = async () => {
     if (!email.trim()) { setError("Bitte gib zuerst deine E-Mail-Adresse ein."); return; }
     const last = Number(localStorage.getItem("vitalplus-magic-at") || 0);
-    if (Date.now() - last < 60_000) { setError("Bitte warte eine Minute, bevor du einen neuen Login-Link anforderst."); return; }
+    if (Date.now() - last < 60_000) { setError("Bitte warte eine Minute, bevor du einen neuen Login-Code anforderst."); return; }
     localStorage.setItem("vitalplus-magic-at", String(Date.now()));
     setBusy(true); setError(null);
     try {
@@ -87,7 +87,7 @@ function Home() {
           </div>
           {mode === "login" && (magicSent ? (
             <div className="mb-4 space-y-2 rounded-lg bg-card p-4 text-sm">
-              <p><Localized>{"Wir haben dir einen Login-Link geschickt an:"}</Localized> <b>{email}</b></p>
+              <p><Localized>{"Wir haben dir einen Login-Code geschickt an:"}</Localized> <b>{email}</b></p>
               <p className="text-muted-foreground"><Localized>{"Bitte prüfe auch deinen Spam-Ordner."}</Localized></p>
             <MagicCodeEntry email={email} />
               <button type="button" onClick={() => { setMagicSent(false); setError(null); }} className="text-xs font-semibold text-muted-foreground underline"><Localized>{"Zurück zur Anmeldung"}</Localized></button>
@@ -105,7 +105,7 @@ function Home() {
           </form>
           ))}
           {error && <p role="alert" className="mb-3 text-sm text-destructive"><Localized>{error}</Localized></p>}
-          {!magicSent && <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : magic ? "Login-Link senden" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : magic ? sendMagicLink : signIn} />}
+          {!magicSent && <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : magic ? "Login-Code senden" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : magic ? sendMagicLink : signIn} />}
         </>}
       </div>
     </main>

@@ -3027,21 +3027,21 @@
     "If a confirmed account with this email exists, you'll receive a password reset link.",
     "Si existe una cuenta confirmada con este correo, recibirás un enlace para restablecer tu contraseña."
   ],
-  "Ohne Passwort anmelden (Login-Link per E-Mail)": [
-    "Sign in without a password (login link by email)",
-    "Iniciar sesión sin contraseña (enlace por correo)"
+  "Ohne Passwort anmelden (Login-Code per E-Mail)": [
+    "Sign in without a password (login code by email)",
+    "Iniciar sesión sin contraseña (código por correo)"
   ],
   "Stattdessen mit Passwort anmelden": [
     "Sign in with password instead",
     "Iniciar sesión con contraseña"
   ],
-  "Login-Link senden": [
-    "Send login link",
-    "Enviar enlace de acceso"
+  "Login-Code senden": [
+    "Send login code",
+    "Enviar código de acceso"
   ],
-  "Wir haben dir einen Login-Link geschickt an:": [
-    "We've sent you a login link to:",
-    "Te hemos enviado un enlace de acceso a:"
+  "Wir haben dir einen Login-Code geschickt an:": [
+    "We've sent you a login code to:",
+    "Te hemos enviado un código de acceso a:"
   ],
   "Klicke auf den Link in deinem Postfach, um dich ohne Passwort anzumelden. Bitte prüfe auch deinen Spam-Ordner.": [
     "Click the link in your inbox to sign in without a password. Please also check your spam folder.",
@@ -3063,9 +3063,9 @@
     "OR",
     "O"
   ],
-  "Bitte warte eine Minute, bevor du einen neuen Login-Link anforderst.": [
-    "Please wait a minute before requesting a new login link.",
-    "Espera un minuto antes de solicitar un nuevo enlace de acceso."
+  "Bitte warte eine Minute, bevor du einen neuen Login-Code anforderst.": [
+    "Please wait a minute before requesting a new login code.",
+    "Espera un minuto antes de solicitar un nuevo código de acceso."
   ],
   "Bitte warte eine Minute, bevor du erneut Feedback sendest.": [
     "Please wait a minute before sending feedback again.",
