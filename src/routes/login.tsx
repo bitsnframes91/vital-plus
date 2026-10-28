@@ -95,8 +95,10 @@ function Login() {
     <AppShell>
       <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText("Bestätige deine E-Mail")} sub={translateText("Fast geschafft!")} />
       <div className="card-surface mx-4 mt-4 space-y-2 p-5 text-sm">
-        <p><Localized>{"Wir haben dir einen Bestätigungslink geschickt an:"}</Localized> <b>{email}</b></p>
-        <p className="text-ink/70"><Localized>{"Erst nach dem Klick auf den Link in deinem Postfach ist dein Konto aktiv. Danach gelangst du direkt zu Heute."}</Localized></p>
+        <p><Localized>{"Wir haben dir einen Bestätigungscode geschickt an:"}</Localized> <b>{email}</b></p>
+        <p className="text-ink/70"><Localized>{"Gib den Code hier ein. Danach ist dein Konto aktiv und du gelangst direkt zu Heute."}</Localized></p>
+        <p className="text-ink/70"><Localized>{"Bitte prüfe auch deinen Spam-Ordner."}</Localized></p>
+        <MagicCodeEntry email={email} type="signup" />
       </div>
     </AppShell>
   );
