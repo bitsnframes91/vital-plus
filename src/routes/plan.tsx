@@ -113,6 +113,7 @@ function Plan() {
                 <a key={product.shopwareId} href={product.url} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-4">
                   <img src={product.image} alt={translateText(product.name)} className="size-16 shrink-0 rounded-xl bg-white object-contain p-1 ring-1 ring-border" loading="lazy" />
                   <span className="min-w-0">
+                    <span className="block text-[10px] font-semibold uppercase tracking-wide text-fv-deep"><Localized>{"Shop-Empfehlung"}</Localized></span>
                     <span className="block text-[11px] font-medium uppercase tracking-wide text-ink/45"><Localized>{goals.join(" · ")}</Localized></span>
                     <span className="block text-[15px] font-semibold text-fv-deep underline underline-offset-4"><Localized>{product.name}</Localized></span>
                     <span className="mt-0.5 block text-[12px] text-ink/55"><Localized>{product.short}</Localized></span>
