@@ -30,11 +30,11 @@ describe("Password reset return path", () => {
   it("opens the start page on the login tab when asked for it", async () => {
     const router = await open("/?mode=login");
     expect(router.state.location.pathname).toBe("/");
-    expect(screen.getByRole("button", { name: "Einloggen" })).toHaveAttribute("aria-pressed", "true");
+    expect(await screen.findByRole("button", { name: "Einloggen" })).toHaveAttribute("aria-pressed", "true");
   });
 
   it("keeps the start page on the new-visitor tab by default", async () => {
     await open("/");
-    expect(screen.getByRole("button", { name: "Neu hier" })).toHaveAttribute("aria-pressed", "true");
+    expect(await screen.findByRole("button", { name: "Neu hier" })).toHaveAttribute("aria-pressed", "true");
   });
 });
