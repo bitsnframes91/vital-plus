@@ -1,4 +1,5 @@
-import { accountExists, requestPasswordReset } from "@/lib/account.functions";
+import { accountExists } from "@/lib/account.functions";
+import { PasswordResetForm } from "@/components/PasswordResetForm";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -29,7 +30,7 @@ function Login() {
   useLanguage();
   const { mode: initialMode } = Route.useSearch();
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"login" | "register">(initialMode);
+  const [mode, setMode] = useState<"login" | "register">(initialMode === "register" ? "register" : "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
