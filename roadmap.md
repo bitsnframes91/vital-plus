@@ -39,3 +39,5 @@
 - [x] Include logged meals when preparing the plan, reinforcing balanced choices and suggesting improvements.
 - [x] Ask age, sex and activity in onboarding and calculate daily maintenance estimates.
 - [x] Show consumed / recommended amounts on all five nutrition cards, with green smiling, orange neutral from 80%, and red angry over-limit indicators; verified food saves and account persistence.
+# Signup confirmation
+- [x] Offer a resend-code option on the confirmation screen after a 30-second wait; verified disabled countdown, timer reset and new-code request in German, English and Spanish in the live app with tests.
