@@ -1,6 +1,6 @@
-/** Verbatim legal text from https://fairvital.com/Impressum. */
+/** Verbatim legal text from https://fairvital.com/Impressum. The leading heading names this app and is localized. */
 export const imprintSections = [
-  { title: "Fairvital Online Shop", text: `Fairvital B.V.
+  { title: "Vitalplus von Fairvital", text: `Fairvital B.V.
 
 Eurode Park 1-39, NL-6461 KB Kerkrade
 
