@@ -1,4 +1,4 @@
-import { KeyRound, Link2 } from "lucide-react";
+import { KeyRound, Mail } from "lucide-react";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText } from "@/lib/language";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
@@ -99,8 +99,8 @@ function Home() {
             {!magic && <div className="flex justify-end text-xs"><Link to="/login" search={{ mode: "reset" }} className="text-muted-foreground underline"><Localized>{"Passwort vergessen?"}</Localized></Link></div>}
             <p className="pt-1 text-center text-xs font-medium uppercase tracking-wide text-muted-foreground"><Localized>{"ODER"}</Localized></p>
             <button type="button" onClick={() => { setMagic(!magic); setError(null); }} className="flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-border bg-card text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted">
-              {magic ? <KeyRound className="h-4 w-4" aria-hidden /> : <Link2 className="h-4 w-4" aria-hidden />}
-              <Localized>{magic ? "Mit Passwort anmelden" : "Mit Magischem Link anmelden"}</Localized>
+              {magic ? <KeyRound className="h-4 w-4" aria-hidden /> : <Mail className="h-4 w-4" aria-hidden />}
+              <Localized>{magic ? "Mit Passwort anmelden" : "Mit Login-Code anmelden"}</Localized>
             </button>
           </form>
           ))}
