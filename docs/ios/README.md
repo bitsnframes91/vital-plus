@@ -187,3 +187,17 @@ git push origin ios-native-testflight-v1.0.0-<label>
 2. Port `SecureSessionStoragePlugin` to the Android Keystore (EncryptedSharedPreferences).
 3. Add `https://localhost` to `NATIVE_APP_ORIGINS` in `src/start.ts`.
 4. Add Android to the ESLint/Prettier ignores, which are already listed.
+
+## iPad
+
+- The app targets iPhone and iPad (`TARGETED_DEVICE_FAMILY = "1,2"`). iPhone stays portrait-only; iPad supports
+  all four orientations (`UISupportedInterfaceOrientations~ipad`) and therefore Split View / Slide Over.
+- In the iOS app, `AppShell` uses the full screen with a full-width tab bar (no desktop "phone card"). Content width:
+  dashboards (`width="wide"`, default) up to 680 px from 640 px and up to 1040 px with their md grids from 768 px;
+  forms and lists (`width="narrow"`: login, password reset, confirmation, Labor, Profil and its sections, feedback)
+  up to 600 px. Onboarding is a centred 600 px column. Dialogs stay within the screen and scroll (`native.css`).
+  The web app keeps its existing layout.
+- Layout check in headless Chrome: `bun run build:mobile && node scripts/ios-layout-check.mjs` renders the main
+  screens at iPhone SE, iPhone 15 Pro, iPad mini, iPad, iPad Pro 13" (portrait and landscape) and iPad Split View,
+  and fails on horizontal overflow, the phone frame or a cut-off dialog. It does not replace testing on a real iPad.
+- App Store: with iPad support, an App Store submission needs iPad screenshots (13" iPad). TestFlight does not.

@@ -131,7 +131,7 @@ describe("one-way Apple Health data flow", () => {
     render(app());
     fireEvent.click(await screen.findByRole("button", { name: "Apple Health verbinden" }));
     await waitFor(() =>
-      expect(document.querySelectorAll("[data-metric]")).toHaveLength(INCOMING.length),
+      expect(document.querySelectorAll("[data-metric]")).toHaveLength(INCOMING.length - 1), // no heart rate
     );
     for (const type of OUTGOING)
       expect(document.querySelector(`[data-metric="${type}"]`)).toBeNull();

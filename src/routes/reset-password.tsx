@@ -53,7 +53,7 @@ function ResetPassword() {
   };
 
   return (
-    <AppShell>
+    <AppShell width="narrow">
       <PageHeader eyebrow={translateText("Vital Plus Konto")} title={translateText("Neues Passwort")} sub={translateText("Lege ein neues Passwort für dein Konto fest.")} />
       <div className="card-surface mx-4 mt-4 space-y-3 p-5">
         <form onSubmit={submit} className="space-y-3">

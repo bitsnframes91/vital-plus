@@ -62,7 +62,7 @@ function FeedbackPage() {
     setDone(true);
   };
 
-  return <AppShell>
+  return <AppShell width="narrow">
     <header className="flex min-h-20 items-center gap-2 px-3 py-5">
       <Button variant="ghost" size="icon" asChild className="shrink-0"><Link to="/profil/$section" params={{ section: "help" }} aria-label={translateText("Zurück zum Kundenservice")}><ArrowLeft className="size-5!" /></Link></Button>
       <h1 className="flex-1 text-center text-[17px] font-bold leading-6"><Localized>{"Feedback geben"}</Localized></h1><span className="w-9" aria-hidden="true" />

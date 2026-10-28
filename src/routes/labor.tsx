@@ -122,7 +122,7 @@ function Labs() {
   };
 
   return (
-    <AppShell>
+    <AppShell width="narrow">
       <header className="labor-mascot-header relative overflow-hidden bg-card px-6 pb-8 pt-9">
         <div className="labor-mascot-copy relative">
           <span className="font-data text-[12px] uppercase text-fv-deep"><Localized>Labor</Localized></span>

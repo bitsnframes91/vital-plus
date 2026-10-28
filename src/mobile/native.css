@@ -44,6 +44,14 @@ html[data-native-app]
   font-size: 16px;
 }
 
+/* Dialogs (Radix) stay inside the visible screen, e.g. iPad landscape or with the keyboard open,
+   and scroll instead of being cut off. Width is unchanged (max-w-lg). */
+html[data-native-app] [role="dialog"],
+html[data-native-app] [role="alertdialog"] {
+  max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 2rem);
+  overflow-y: auto;
+}
+
 .native-offline-notice {
   position: fixed;
   top: env(safe-area-inset-top);

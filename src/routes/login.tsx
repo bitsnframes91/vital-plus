@@ -78,7 +78,7 @@ function Login() {
   };
 
   if (sent) return (
-    <AppShell>
+    <AppShell width="narrow">
       <PageHeader eyebrow={translateText("Vital Plus Konto")} title={translateText("Bestätige deine E-Mail")} sub={translateText("Fast geschafft!")} />
       <div className="card-surface mx-4 mt-4 space-y-2 p-5 text-sm">
         <p><Localized>{"Wir haben dir einen Bestätigungslink geschickt an:"}</Localized> <b>{email}</b></p>
@@ -88,7 +88,7 @@ function Login() {
   );
 
   return (
-    <AppShell>
+    <AppShell width="narrow">
       <PageHeader eyebrow={translateText("Vital Plus Konto")} title={translateText(mode === "login" ? "Anmelden" : "Konto anlegen")} sub={translateText("Deine Werte sicher gespeichert – auf allen Geräten.")} />
       <div className="card-surface mx-4 mt-4 space-y-3 p-5">
         {mode === "login" && magicSent ? (

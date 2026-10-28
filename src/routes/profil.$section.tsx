@@ -132,7 +132,7 @@ function ProfileSubmenu() {
   const password = () => setDetail({ title: "Passwort ändern", password: true });
   const privacy = () => { setDoc("privacy"); setDetail({ title: "Datenschutzerklärung", terms: true }); };
   const value = (n: number | null | undefined, unit: string) => n == null ? "Nicht angegeben" : `${n} ${unit}`;
-  return <AppShell>
+  return <AppShell width="narrow">
     <header className="flex min-h-20 items-center gap-2 px-3 py-5">
       <Button variant="ghost" size="icon" asChild className="shrink-0"><Link to="/profil" aria-label={translateText("Zurück zum Profil")}><ArrowLeft className="size-5!" /></Link></Button>
       <h1 className="flex-1 text-center text-[17px] font-bold leading-6"><Localized>{titles[section] ?? "Profil"}</Localized></h1><span className="w-9" aria-hidden="true" />

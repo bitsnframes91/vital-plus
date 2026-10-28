@@ -83,7 +83,7 @@ function Profile() {
   };
   if (pathname !== "/profil") return <Outlet />;
   return (
-    <AppShell>
+    <AppShell width="narrow">
       <header className="profile-mascot-header relative overflow-hidden bg-header px-5 pb-5 pt-6">
         <div className="profile-mascot-copy relative"><h1 className="text-[29px] font-bold leading-tight"><Localized>{"Profil"}</Localized></h1><p className="mt-1 text-sm text-muted-foreground"><Localized>{"Deine Daten gehören dir."}</Localized></p></div>
         <ProfileMascot />

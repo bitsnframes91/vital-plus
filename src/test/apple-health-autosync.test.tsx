@@ -336,10 +336,11 @@ describe("per-metric permission and availability", () => {
       ),
     );
     const items = document.querySelectorAll("[data-metric]");
-    expect(items).toHaveLength(8);
+    expect(items).toHaveLength(7);
     for (const outgoing of ["bodyMass", "dietaryWater", "dietaryEnergyConsumed"])
       expect(document.querySelector(`[data-metric="${outgoing}"]`)).toBeNull();
-    expect(document.querySelector('[data-metric="heartRate"]')?.getAttribute("data-status")).toBe(
+    expect(document.querySelector('[data-metric="heartRate"]')).toBeNull();
+    expect(document.querySelector('[data-metric="walkingSpeed"]')?.getAttribute("data-status")).toBe(
       "noData",
     );
     expect(screen.queryByText(/verweigert|abgelehnt|denied/i)).not.toBeInTheDocument();
@@ -358,8 +359,9 @@ describe("per-metric permission and availability", () => {
     expect(of("stepCount")).toMatchObject({ status: "available", lastDay: TODAY });
     expect(of("runningSpeed").status).toBe("unsupported");
     expect(of("sleepAnalysis").status).toBe("failed");
-    expect(of("heartRate").status).toBe("noData");
-    expect(states.map((s) => s.type)).toEqual(expect.arrayContaining([...READ_TYPES]));
+    expect(of("distanceWalkingRunning").status).toBe("noData");
+    // Every read type is listed except heart rate (read for Trends, not shown in Datenarten).
+    expect(states.map((s) => s.type).sort()).toEqual(READ_TYPES.filter((t) => t !== "heartRate").sort());
     expect(Object.values(METRIC_STATUS_TEXT).join(" ")).not.toMatch(
       /verweigert|abgelehnt|nicht erlaubt/i,
     );

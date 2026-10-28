@@ -17,11 +17,7 @@ export type HealthMetric = {
 export const HEALTH_METRICS: readonly HealthMetric[] = [
   { type: "stepCount", label: "Schritte", has: (d) => d.steps != null },
   { type: "sleepAnalysis", label: "Schlaf", has: (d) => d.sleepMinutes != null },
-  {
-    type: "heartRate",
-    label: "Herzfrequenz",
-    has: (d) => d.heartRate?.avg != null || d.heartRate?.min != null || d.heartRate?.max != null,
-  },
+  // Heart rate is read and shown in Trends but intentionally not listed here.
   {
     type: "distanceWalkingRunning",
     label: "Strecke (Gehen und Laufen)",

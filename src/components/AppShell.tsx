@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Home, Salad, HeartPulse, FlaskConical, ClipboardList, UserRound } from "lucide-react";
 import { ConfirmBanner } from "./ConfirmBanner";
 import { AppleHealthIntro } from "./AppleHealth";
+import { isNativeApp } from "@/lib/native-app";
 
 const tabs = [
   { to: "/heute", label: "Heute", d: "M3 11l9-8 9 8M5 10v10h14V10" },
@@ -32,7 +33,24 @@ export const isProtectedPath = (p: string) => PROTECTED.some((t) => p === t || p
 // round-trip and offline use keeps working for already-confirmed users.
 let confirmedUserId: string | null = null;
 
-export function AppShell({ children }: { children: ReactNode }) {
+/**
+ * In the iOS app (iPhone and iPad) the page scrolls as a whole and the tab bar spans the screen; the
+ * framed "phone card" below md is only for desktop browsers. `width` sets the content width from
+ * tablet size on: "wide" for dashboards with md grids, "narrow" for forms and lists.
+ */
+const nativeLayout = {
+  outer: "min-h-screen w-full bg-background",
+  inner: "relative flex min-h-screen w-full flex-col bg-background",
+  main: "flex-1 pb-28",
+  content: {
+    wide: "mx-auto w-full sm:max-w-[680px] md:max-w-[1040px]",
+    narrow: "mx-auto w-full sm:max-w-[600px]",
+  },
+  nav: "fixed inset-x-0 bottom-0 z-30 border-t border-border bg-card/95 px-2 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md",
+  navGrid: "mx-auto grid grid-cols-6 sm:max-w-[680px] md:max-w-[1040px]",
+};
+
+export function AppShell({ children, width = "wide" }: { children: ReactNode; width?: "wide" | "narrow" }) {
   useLanguage();
   const navIcons = [Home, Salad, HeartPulse, FlaskConical, ClipboardList, UserRound];
   const pathname = useLocation({ select: (s) => s.pathname });
@@ -79,12 +97,12 @@ export function AppShell({ children }: { children: ReactNode }) {
   // Pages like the signup confirmation screen show no tab bar, so it cannot be used to skip ahead.
   const showNav = guarded;
   return (
-    <div className="min-h-screen w-full bg-mist sm:grid sm:place-items-start sm:p-4 md:block md:p-0">
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col overflow-hidden bg-background sm:h-[calc(100dvh-2rem)] sm:min-h-0 sm:rounded-[28px] sm:ring-1 sm:ring-border md:h-dvh md:max-w-none md:rounded-none md:ring-0">
-        <main className="flex-1 pb-28 sm:min-h-0 sm:overflow-y-auto md:pb-24"><div className="md:mx-auto md:w-full md:max-w-[1040px]"><ConfirmBanner /><Localized>{children}</Localized></div></main>
+    <div className={isNativeApp ? nativeLayout.outer : "min-h-screen w-full bg-mist sm:grid sm:place-items-start sm:p-4 md:block md:p-0"}>
+      <div className={isNativeApp ? nativeLayout.inner : "relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col overflow-hidden bg-background sm:h-[calc(100dvh-2rem)] sm:min-h-0 sm:rounded-[28px] sm:ring-1 sm:ring-border md:h-dvh md:max-w-none md:rounded-none md:ring-0"}>
+        <main className={isNativeApp ? nativeLayout.main : "flex-1 pb-28 sm:min-h-0 sm:overflow-y-auto md:pb-24"}><div className={isNativeApp ? nativeLayout.content[width] : "md:mx-auto md:w-full md:max-w-[1040px]"}><ConfirmBanner /><Localized>{children}</Localized></div></main>
         {showNav && (
-        <nav aria-label={translateText("Hauptnavigation")} className="fixed bottom-0 left-1/2 z-30 w-full max-w-[440px] -translate-x-1/2 border-t border-border bg-card/95 px-2 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md sm:absolute md:max-w-none">
-          <div className="grid grid-cols-6 md:mx-auto md:max-w-[1040px]">
+        <nav aria-label={translateText("Hauptnavigation")} className={isNativeApp ? nativeLayout.nav : "fixed bottom-0 left-1/2 z-30 w-full max-w-[440px] -translate-x-1/2 border-t border-border bg-card/95 px-2 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md sm:absolute md:max-w-none"}>
+          <div className={isNativeApp ? nativeLayout.navGrid : "grid grid-cols-6 md:mx-auto md:max-w-[1040px]"}>
             {tabs.map((t, i) => {
               const NavIcon = navIcons[i];
               const active = pathname === t.to || pathname.startsWith(`${t.to}/`);
