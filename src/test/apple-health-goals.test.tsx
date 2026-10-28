@@ -21,13 +21,16 @@ it('the Heute screen reads synchronized steps and sleep without saving them into
   isAvailable: async () => ({ available: true }),
   loadState: async () => ({ json: JSON.stringify({ ...emptyAccountState(), connected: true, summary }) }),
   requestAuthorization: async () => ({ requested: true }), getWriteStatus: async () => ({ statuses: {} }),
-  readDailySummary: async () => ({ results: [], failedTypes: [], startDay: day, endDay: day }),
+  // The provider syncs on launch: it must read the same measurements, or that sync replaces them.
+  readDailySummary: async () => ({ results: [{ type: 'stepCount', day, aggregation: 'sum', value: 830, unit: 'count' }, { type: 'sleepAnalysis', day, aggregation: 'sum', value: 450, unit: 'min' }], failedTypes: [], startDay: day, endDay: day }),
   saveState: async () => {}, clearState: async () => {}, writeSamples: async () => ({ results: [] }), deleteSamples: async () => ({ results: [] }),
  };
  setHealthBridgeForTests(bridge);
  render(<AppleHealthController userId="user-a" onboarded records={{ meals: [], waterLog: {}, weightLog: {} }}><TodayWellnessGoals /></AppleHealthController>);
- await waitFor(() => expect(screen.getByRole('progressbar', { name: 'Schritte noch zu gehen' })).toHaveAttribute('aria-valuenow', '8'));
- expect(screen.getByRole('progressbar', { name: 'Schlaf' })).toHaveAttribute('aria-valuenow', '94');
+ await waitFor(() => {
+  expect(screen.getByRole('progressbar', { name: 'Schritte noch zu gehen' })).toHaveAttribute('aria-valuenow', '8');
+  expect(screen.getByRole('progressbar', { name: 'Schlaf' })).toHaveAttribute('aria-valuenow', '94');
+ });
  expect(screen.getByText('9.170 Schritte')).toBeInTheDocument();
  expect(screen.getByText('7,5 / 8 h')).toBeInTheDocument();
  expect(state.set).not.toHaveBeenCalled();
