@@ -177,7 +177,7 @@ function ProfileSubmenu() {
       {detail?.licenses && <OpenSourceLicenses />}
       {detail?.imprint && <article lang="de" className="space-y-5 break-words text-sm leading-6">
         {imprintSections.map((block, index) => <section key={index}>
-          {"title" in block && <h2 className="mb-2 font-semibold text-foreground">{block.title}</h2>}
+          {"title" in block && <h2 className="mb-2 font-semibold text-foreground"><Localized>{block.title}</Localized></h2>}
           <p className="whitespace-pre-line text-muted-foreground">{block.text}{"links" in block && block.links?.map(link => <span key={link.href}>{"prefix" in link ? link.prefix : ""}<a className="text-primary underline underline-offset-4" href={link.href} target={link.href.startsWith("mailto:") ? undefined : "_blank"} rel="noopener noreferrer">{link.label}</a></span>)}</p>
         </section>)}
       </article>}
