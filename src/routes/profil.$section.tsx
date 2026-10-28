@@ -16,6 +16,7 @@ const sexOptions = [["female", "Weiblich"], ["male", "Männlich"], ["diverse", "
 const numFields = { age: { label: "Alter in Jahren", key: "age", min: 18, max: 110, step: "1" }, height: { label: "Größe in cm", key: "heightCm", min: 120, max: 230, step: "1" }, weight: { label: "Gewicht in kg", key: "weightKg", min: 30, max: 300, step: "0.1" } } as const;
 import { PasswordResetForm } from "@/components/PasswordResetForm";
 import { AppSettingsControls } from "@/components/AppSettings";
+import { OpenSourceLicenses } from "@/components/OpenSourceLicenses";
 
 const titles: Record<string, string> = { personal: "Gesundheitsprofil bearbeiten", security: "Konto & Sicherheit", settings: "App-Einstellungen", privacy: "Meine Daten", help: "Kundenservice kontaktieren", legal: "Rechtliches", account: "Konto verwalten" };
 
@@ -94,7 +95,7 @@ function ProfileSubmenu() {
   const { section } = Route.useParams();
   const navigate = Route.useNavigate();
   const { s, set } = useStore();
-  const [detail, setDetail] = useState<{ title: string; text?: string; name?: boolean; data?: boolean; faq?: boolean; password?: boolean; target?: boolean; terms?: boolean; imprint?: boolean } | null>(null);
+  const [detail, setDetail] = useState<{ title: string; text?: string; name?: boolean; data?: boolean; faq?: boolean; password?: boolean; target?: boolean; terms?: boolean; imprint?: boolean; licenses?: boolean } | null>(null);
   const [name, setName] = useState(s.name);
   const [targetWeight, setTargetWeight] = useState("");
   const [field, setField] = useState<Field | null>(null);
@@ -168,11 +169,12 @@ function ProfileSubmenu() {
         <Row title={translateText("Allgemeine Geschäftsbedingungen (AGB)")} icon={FileText} onClick={() => { setDoc("terms"); setDetail({ title: "Allgemeine Geschäftsbedingungen (AGB)", terms: true }); }} />
         <Row title={translateText("Datenschutzerklärung")} icon={Shield} onClick={privacy} />
         <Row title={translateText("Impressum")} icon={FileText} onClick={() => setDetail({ title: "Impressum", imprint: true })} />
-        <Row title={translateText("Lizenzen")} sub={translateText("Open Source Lizenzen")} icon={FileText} onClick={() => notice("Lizenzen", "Vitalplus verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.")} />
+        <Row title={translateText("Lizenzen")} sub={translateText("Open Source Lizenzen")} icon={FileText} onClick={() => setDetail({ title: "Lizenzen", licenses: true })} />
       </div>}
       {!titles[section] && <p className="text-sm text-muted-foreground"><Localized>{"Dieser Profilbereich ist nicht verfügbar."}</Localized></p>}
     </div>
-    <Dialog open={detail !== null} onOpenChange={open => { if (!open) { setDetail(null); setField(null); } }}><DialogContent className={`max-h-[85dvh] overflow-y-auto rounded-2xl ${detail?.terms || detail?.imprint ? "max-w-2xl" : "max-w-sm"}`}><DialogHeader><DialogTitle><Localized>{detail?.title}</Localized></DialogTitle></DialogHeader>
+    <Dialog open={detail !== null} onOpenChange={open => { if (!open) { setDetail(null); setField(null); } }}><DialogContent className={`max-h-[85dvh] overflow-y-auto rounded-2xl ${detail?.terms || detail?.imprint || detail?.licenses ? "max-w-2xl" : "max-w-sm"}`}><DialogHeader><DialogTitle><Localized>{detail?.title}</Localized></DialogTitle></DialogHeader>
+      {detail?.licenses && <OpenSourceLicenses />}
       {detail?.imprint && <article lang="de" className="space-y-5 break-words text-sm leading-6">
         {imprintSections.map((block, index) => <section key={index}>
           {"title" in block && <h2 className="mb-2 font-semibold text-foreground">{block.title}</h2>}
