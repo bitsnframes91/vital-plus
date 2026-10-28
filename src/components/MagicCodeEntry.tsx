@@ -26,7 +26,7 @@ export function MagicCodeEntry({ email }: { email: string }) {
 
   return (
     <div className="space-y-2 pt-2">
-      <p className="text-muted-foreground"><Localized>{"Oder gib den 6-stelligen Code aus der E-Mail hier ein, damit du in der App bleibst:"}</Localized></p>
+      <p className="text-muted-foreground"><Localized>{"Gib den 6-stelligen Code aus der E-Mail hier ein:"}</Localized></p>
       <input
         inputMode="numeric"
         autoComplete="one-time-code"
