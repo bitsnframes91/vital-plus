@@ -81,19 +81,19 @@ describe("app shell in the iOS app", () => {
     expect(nav.className).toContain("inset-x-0");
     expect(nav.className).not.toMatch(/max-w-\[440px\]|sm:absolute/);
     expect(classes()).not.toMatch(/rounded-\[28px\]|max-w-\[440px\]|h-dvh|overflow-y-auto/);
-    expect(screen.getByText("content").closest("div")?.className).toBe(
-      "mx-auto w-full sm:max-w-[680px] md:max-w-[1040px]",
-    );
+    const content = screen.getByText("content").closest("div");
+    expect(content?.className).toBe("w-full");
+    expect(content).toHaveAttribute("data-native-width", "wide");
     expect(nav.querySelectorAll("a")).toHaveLength(6);
   });
 
-  it("gives forms and lists the narrow content width", async () => {
+  it("marks forms and lists for the readable column, still spanning the window", async () => {
     flags.path = "/login";
     render(<AppShell width="narrow">form</AppShell>);
     await waitFor(() => expect(screen.getByText("form")).toBeInTheDocument());
-    expect(screen.getByText("form").closest("div")?.className).toBe(
-      "mx-auto w-full sm:max-w-[600px]",
-    );
+    const content = screen.getByText("form").closest("div");
+    expect(content?.className).toBe("w-full");
+    expect(content).toHaveAttribute("data-native-width", "narrow");
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
   });
 
@@ -103,9 +103,9 @@ describe("app shell in the iOS app", () => {
     const nav = await screen.findByRole("navigation");
     expect(nav.className).toContain("max-w-[440px]");
     expect(classes()).toContain("sm:rounded-[28px]");
-    expect(screen.getByText("content").closest("div")?.className).toBe(
-      "md:mx-auto md:w-full md:max-w-[1040px]",
-    );
+    const content = screen.getByText("content").closest("div");
+    expect(content?.className).toBe("md:mx-auto md:w-full md:max-w-[1040px]");
+    expect(content).not.toHaveAttribute("data-native-width");
   });
 
   it("uses the narrow width on form and list pages and the wide one on dashboards", () => {
@@ -123,10 +123,24 @@ describe("app shell in the iOS app", () => {
       expect(read(`src/routes/${page}.tsx`), page).not.toContain('width="narrow"');
   });
 
-  it("shows onboarding as a centred column without the phone frame in the app", () => {
+  it("shows onboarding across the window without the phone frame in the app", () => {
     const onboarding = read("src/routes/onboarding.tsx");
-    expect(onboarding).toContain(
-      'isNativeApp ? "mx-auto flex min-h-screen w-full flex-col bg-background sm:max-w-[600px]"',
+    expect(onboarding).toContain('data-native-width={isNativeApp ? "narrow" : undefined}');
+    expect(onboarding).toContain('isNativeApp ? "flex min-h-screen w-full flex-col bg-background"');
+  });
+
+  it("lets header bands span the window while narrow content keeps a centred column", () => {
+    const css = read("src/mobile/native.css").replace(/\s+/g, " ");
+    // Nothing changes on iPhone: the column and artwork rules start at tablet width.
+    expect(css).toContain(
+      '@media (min-width: 640px) { html[data-native-app] [data-native-width="narrow"] { --native-gutter: max(0px, calc((100vw - 720px) / 2)); padding-inline: var(--native-gutter); }',
+    );
+    expect(css).toContain(
+      'html[data-native-app] [data-native-width="narrow"] > :is(header, .bg-header) { margin-inline: calc(-1 * var(--native-gutter)); border-inline: var(--native-gutter) solid transparent; }',
+    );
+    // The start artwork's off-white ground no longer shows as a pale panel on iPad.
+    expect(css).toContain(
+      "@media (min-width: 600px) { html[data-native-app] .home-produce { filter: brightness(1.02); } }",
     );
   });
 

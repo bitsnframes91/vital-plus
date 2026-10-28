@@ -151,7 +151,7 @@ function Onboarding() {
 
   return (
     <div className={isNativeApp ? "min-h-screen w-full bg-background" : "min-h-screen w-full bg-mist sm:grid sm:place-items-center sm:p-4"}>
-      <div className={isNativeApp ? "mx-auto flex min-h-screen w-full flex-col bg-background sm:max-w-[600px]" : "mx-auto flex min-h-screen w-full max-w-[440px] flex-col bg-background sm:min-h-[860px] sm:overflow-hidden sm:rounded-[28px] sm:ring-1 sm:ring-border"}>
+      <div data-native-width={isNativeApp ? "narrow" : undefined} className={isNativeApp ? "flex min-h-screen w-full flex-col bg-background" : "mx-auto flex min-h-screen w-full max-w-[440px] flex-col bg-background sm:min-h-[860px] sm:overflow-hidden sm:rounded-[28px] sm:ring-1 sm:ring-border"}>
         <div className="relative overflow-hidden bg-header px-6 pb-10 pt-10">
           <div className="relative">
             <div className="font-data text-[12px] uppercase tracking-normal text-on-ink/40"><Localized>{"Vital Plus · Schritt "}</Localized><Localized>{step + 1}</Localized><Localized>{"/"}</Localized><Localized>{steps.length}</Localized></div>

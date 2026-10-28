@@ -186,6 +186,15 @@ function Health() {
             <Localized>{todaySleep != null ? `Erfasst: ${todaySleep.toLocaleString(languageLocale(), { maximumFractionDigits: 1 })} h` : "Noch keine Schlafdaten vorhanden. Du kannst Schlaf manuell erfassen oder eine Datenquelle vorbereiten."}</Localized>
           </p>
           {readings.sleepSource === "Apple Health" && <p className="mt-1 text-[11px] text-muted-foreground">Apple Health</p>}
+          {readings.sleepSource === "Manuell korrigiert" && readings.sleepMeasuredHours != null && (
+            <p className="mt-1 text-[11px] text-muted-foreground" data-testid="sleep-correction">
+              <Localized>{`Manuell korrigiert · Apple Health: ${readings.sleepMeasuredHours.toLocaleString(languageLocale(), { maximumFractionDigits: 1 })} h`}</Localized>
+              <br />
+              <Localized>
+                {"Feld leeren, um wieder den Wert aus Apple Health zu verwenden."}
+              </Localized>
+            </p>
+          )}
           <NumInput value={dailyValue(b.sleepHours, b.sleepDate)} onSave={(v) => setBody({ sleepHours: v, sleepDate: todayDateKey() })} placeholder={translateText("Stunden, z. B. 7,5 (empfohlen: 8 h)")} unit="h" />
         </div>
 

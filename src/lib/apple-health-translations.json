@@ -423,6 +423,14 @@
     "Entered manually",
     "Introducido manualmente"
   ],
+  "Manuell korrigiert": [
+    "Corrected manually",
+    "Corregido manualmente"
+  ],
+  "Feld leeren, um wieder den Wert aus Apple Health zu verwenden.": [
+    "Clear the field to use the Apple Health value again.",
+    "Vacía el campo para volver a usar el valor de Apple Health."
+  ],
   "Tägliche Messwerte aus Apple Health": [
     "Daily measurements from Apple Health",
     "Mediciones diarias de Apple Health"

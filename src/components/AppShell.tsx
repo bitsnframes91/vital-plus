@@ -35,17 +35,16 @@ let confirmedUserId: string | null = null;
 
 /**
  * In the iOS app (iPhone and iPad) the page scrolls as a whole and the tab bar spans the screen; the
- * framed "phone card" below md is only for desktop browsers. `width` sets the content width from
- * tablet size on: "wide" for dashboards with md grids, "narrow" for forms and lists.
+ * framed "phone card" below md is only for desktop browsers. Pages fill the whole window: "wide"
+ * dashboards use their md grids at full width; on "narrow" form and list pages the header band
+ * still spans the window while the content keeps a readable column (data-native-width in
+ * src/mobile/native.css).
  */
 const nativeLayout = {
   outer: "min-h-screen w-full bg-background",
   inner: "relative flex min-h-screen w-full flex-col bg-background",
   main: "flex-1 pb-28",
-  content: {
-    wide: "mx-auto w-full sm:max-w-[680px] md:max-w-[1040px]",
-    narrow: "mx-auto w-full sm:max-w-[600px]",
-  },
+  content: "w-full",
   nav: "fixed inset-x-0 bottom-0 z-30 border-t border-border bg-card/95 px-2 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md",
   navGrid: "mx-auto grid grid-cols-6 sm:max-w-[680px] md:max-w-[1040px]",
 };
@@ -99,7 +98,7 @@ export function AppShell({ children, width = "wide" }: { children: ReactNode; wi
   return (
     <div className={isNativeApp ? nativeLayout.outer : "min-h-screen w-full bg-mist sm:grid sm:place-items-start sm:p-4 md:block md:p-0"}>
       <div className={isNativeApp ? nativeLayout.inner : "relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col overflow-hidden bg-background sm:h-[calc(100dvh-2rem)] sm:min-h-0 sm:rounded-[28px] sm:ring-1 sm:ring-border md:h-dvh md:max-w-none md:rounded-none md:ring-0"}>
-        <main className={isNativeApp ? nativeLayout.main : "flex-1 pb-28 sm:min-h-0 sm:overflow-y-auto md:pb-24"}><div className={isNativeApp ? nativeLayout.content[width] : "md:mx-auto md:w-full md:max-w-[1040px]"}><ConfirmBanner /><Localized>{children}</Localized></div></main>
+        <main className={isNativeApp ? nativeLayout.main : "flex-1 pb-28 sm:min-h-0 sm:overflow-y-auto md:pb-24"}><div className={isNativeApp ? nativeLayout.content : "md:mx-auto md:w-full md:max-w-[1040px]"} data-native-width={isNativeApp ? width : undefined}><ConfirmBanner /><Localized>{children}</Localized></div></main>
         {showNav && (
         <nav aria-label={translateText("Hauptnavigation")} className={isNativeApp ? nativeLayout.nav : "fixed bottom-0 left-1/2 z-30 w-full max-w-[440px] -translate-x-1/2 border-t border-border bg-card/95 px-2 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-md sm:absolute md:max-w-none"}>
           <div className={isNativeApp ? nativeLayout.navGrid : "grid grid-cols-6 md:mx-auto md:max-w-[1040px]"}>

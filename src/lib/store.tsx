@@ -75,20 +75,45 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [s, setS] = useState<State>(initial);
   const userRef = useRef<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pending = useRef<(() => void) | null>(null);
+
+  const cancelPending = () => {
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = null;
+    pending.current = null;
+  };
 
   const push = (next: State) => {
     const uid = userRef.current;
     if (!uid) return;
     if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
+    const send = () => {
+      cancelPending();
       const { account: _a, ...state } = next;
       // Query builders are lazy: the request is only sent once the promise is consumed.
       supabase
         .from("user_data")
         .upsert({ user_id: uid, state: state as any, updated_at: new Date().toISOString() })
         .then(({ error }) => { if (error) console.error("Vitalplus: saving account data failed", error.message); });
-    }, 800);
+    };
+    pending.current = send;
+    timer.current = setTimeout(send, 800);
   };
+
+  // iOS suspends timers once the app is hidden: send a pending save right away, so a value entered
+  // just before leaving or quitting the app is in the account copy that the next launch restores.
+  useEffect(() => {
+    const flush = () => pending.current?.();
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") flush();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pagehide", flush);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pagehide", flush);
+    };
+  }, []);
 
   useEffect(() => {
     const raw = localStorage.getItem(KEY);
@@ -103,7 +128,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const onUser = async (user: { id: string; email?: string; user_metadata?: Record<string, unknown> } | null, signedOut = false) => {
       if (!user) {
         userRef.current = null;
-        if (timer.current) clearTimeout(timer.current);
+        cancelPending();
         setS((p) => {
           if (signedOut || p.account || hadAccountCache) {
             localStorage.removeItem(KEY);
@@ -114,7 +139,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         return;
       }
       if (userRef.current === user.id) return;
-      if (timer.current) clearTimeout(timer.current);
+      cancelPending();
       userRef.current = user.id;
       const account = { email: user.email ?? "", userId: user.id };
       const { data, error } = await supabase.from("user_data").select("state").eq("user_id", user.id).maybeSingle();
@@ -138,7 +163,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     });
     return () => {
       sub.subscription.unsubscribe();
-      if (timer.current) clearTimeout(timer.current);
+      cancelPending();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

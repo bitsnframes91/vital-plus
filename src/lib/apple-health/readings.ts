@@ -3,12 +3,16 @@ import type { AccountHealthState } from "./device-state";
 export function healthReadings(account: AccountHealthState | null | undefined, day: string, manual: { steps: number | null; sleepHours: number | null }) {
   const summary = account?.connected ? account.summary : null;
   const today = summary?.days[day];
+  const measuredSleep = today?.sleepMinutes == null ? null : today.sleepMinutes / 60;
   return {
     today,
     steps: today?.steps ?? manual.steps,
-    sleepHours: today?.sleepMinutes == null ? manual.sleepHours : today.sleepMinutes / 60,
+    // Sleep entered today is the user's own value: it corrects the Apple Health measurement (which
+    // stays available as sleepMeasuredHours) until the entry is cleared. Syncs never change it.
+    sleepHours: manual.sleepHours ?? measuredSleep,
+    sleepMeasuredHours: measuredSleep,
     stepsSource: today?.steps != null ? "Apple Health" : manual.steps != null ? "Manuell erfasst" : null,
-    sleepSource: today?.sleepMinutes != null ? "Apple Health" : manual.sleepHours != null ? "Manuell erfasst" : null,
+    sleepSource: manual.sleepHours != null ? (measuredSleep != null ? "Manuell korrigiert" : "Manuell erfasst") : measuredSleep != null ? "Apple Health" : null,
     weight: summary?.latestBodyMass,
     // Measured only (no manual equivalent); null = no samples today or no read access, never 0.
     distanceKm: today?.distanceKm ?? null,

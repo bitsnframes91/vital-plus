@@ -192,11 +192,18 @@ git push origin ios-native-testflight-v1.0.0-<label>
 
 - The app targets iPhone and iPad (`TARGETED_DEVICE_FAMILY = "1,2"`). iPhone stays portrait-only; iPad supports
   all four orientations (`UISupportedInterfaceOrientations~ipad`) and therefore Split View / Slide Over.
-- In the iOS app, `AppShell` uses the full screen with a full-width tab bar (no desktop "phone card"). Content width:
-  dashboards (`width="wide"`, default) up to 680 px from 640 px and up to 1040 px with their md grids from 768 px;
-  forms and lists (`width="narrow"`: login, password reset, confirmation, Labor, Profil and its sections, feedback)
-  up to 600 px. Onboarding is a centred 600 px column. Dialogs stay within the screen and scroll (`native.css`).
-  The web app keeps its existing layout.
+- No setting is needed for full screen: the scene manifest, launch storyboard, device family and orientations
+  allow full-screen and resizable windows, and `UIRequiresFullScreen` is deliberately absent (deprecated in
+  iPadOS 26, see Apple TN3192). In iPadOS 26 "Windowed Apps" mode the system picks and remembers each app's window
+  size; no API lets an app request full screen at launch. In "Full Screen Apps" mode, or after maximising the
+  window once, the app opens full screen.
+- In the iOS app, `AppShell` fills the whole window with a full-width tab bar (no desktop "phone card").
+  Dashboards (`width="wide"`, default) use their md grids at full width. Forms and lists (`width="narrow"`: login,
+  password reset, confirmation, Labor, Profil and its sections, feedback) and onboarding keep a readable 720 px
+  column from 640 px on, while their header band spans the window (`data-native-width` in `native.css`). On iPad,
+  the start artwork's off-white ground is lifted to white so it does not show as a pale panel. Dialogs stay within
+  the screen and scroll. Below 640 px (iPhone, narrow Split View) the layout is unchanged; the web app keeps its
+  existing layout.
 - Layout check in headless Chrome: `bun run build:mobile && node scripts/ios-layout-check.mjs` renders the main
   screens at iPhone SE, iPhone 15 Pro, iPad mini, iPad, iPad Pro 13" (portrait and landscape) and iPad Split View,
   and fails on horizontal overflow, the phone frame or a cut-off dialog. It does not replace testing on a real iPad.

@@ -26,7 +26,7 @@ Added `@capacitor/core` for the shared bridge import. Keep the mobile branch's e
 - `src/components/AppleHealthReadings.ts` exposes that selection from the existing provider and checks local date rollover.
 - `src/routes/__root.tsx` mounts one `AppleHealthProvider` inside the store/settings providers. Do not mount a second mobile provider.
 - `src/routes/gesundheit.tsx` displays today's steps and sleep, active energy under Bewegung, average heart rate, and the latest dated weight. Manual inputs remain separate; Apple Health never overwrites profile weight or BMI inputs.
-- `src/components/TodayWellnessGoals.tsx` prefers available measured steps/sleep independently, falls back to today's manual values, and labels each source. Targets remain 10,000 steps and 8 hours. A measured zero is retained; missing data is not zero.
+- `src/components/TodayWellnessGoals.tsx` prefers available measured steps independently and falls back to today's manual values; sleep entered today corrects the measurement (see "Manual sleep correction"). Each source is labelled. Targets remain 10,000 steps and 8 hours. A measured zero is retained; missing data is not zero.
 - `src/routes/trends.tsx` displays available daily steps, sleep, active energy and average heart rate, without filling missing days or inventing readings. Distance and pace remain unavailable. Weight is a latest measurement, not a fabricated daily series.
 - `src/lib/apple-health-translations.json` provides German-source English/Spanish strings and is loaded by `src/lib/language.ts`.
 
@@ -72,3 +72,14 @@ appear in reads, imports, observers or *Datenarten*; `normalizeSummary` ignores 
 shows Apple Health steps only, without manual entry or "(aus deinem BMI)", and the standalone heart-rate card and the
 imported-weight line are removed. Changed shared files: `bridge.ts`, `summary.ts`, `metrics.ts`, `AppleHealth.tsx`
 (intro text), `apple-health-translations.json`; page: `gesundheit.tsx`.
+
+## Manual sleep correction (mobile branch)
+
+Sleep entered on Gesundheit for today now corrects the Apple Health measurement instead of being hidden by it:
+`healthReadings` returns the manual value as `sleepHours` with source *Manuell korrigiert* and keeps the measurement
+as `sleepMeasuredHours` (shown as "Apple Health: x h"). Clearing the field shows the measurement again. Steps keep
+measured-first, and Trends keeps showing measured sleep only. Syncs never touch the correction, which stays in the
+account state (`body.sleepHours`/`sleepDate`) and is never written to Apple Health. The store now sends a pending
+account save when the app is hidden, so a value entered just before leaving the app is restored after a restart;
+pending saves are still dropped on sign-out. Changed shared files: `readings.ts`, `store.tsx`,
+`apple-health-translations.json`; page: `gesundheit.tsx`.

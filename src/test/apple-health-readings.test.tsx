@@ -12,14 +12,15 @@ afterEach(() => { cleanup(); setHealthBridgeForTests(undefined); });
 
 describe('device-local screen readings', () => {
   it('uses measured steps and sleep without modifying manual entries', () => {
-    const manual = { steps: 2000, sleepHours: 6 };
+    // No sleep entered today: the measurement is shown (a manual entry would correct it).
+    const manual = { steps: 2000, sleepHours: null };
     const result = healthReadings(account, day, manual);
     expect(result.steps).toBe(830);
     expect(result.sleepHours).toBe(7.5);
     expect(completion(result.steps, 10000)).toBe(8.3);
     expect(10000 - (result.steps ?? 0)).toBe(9170);
     expect(completion(result.sleepHours, 8)).toBe(93.75);
-    expect(manual).toEqual({ steps: 2000, sleepHours: 6 });
+    expect(manual).toEqual({ steps: 2000, sleepHours: null });
   });
   it('falls back independently for missing measurements, not to zero', () => {
     const missingSleep = { ...account, summary: { ...account.summary, days: { [day]: { steps: 830 } } } };

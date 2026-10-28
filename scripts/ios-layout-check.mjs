@@ -108,7 +108,11 @@ const session = {
     created_at: "2026-01-01T00:00:00Z",
   },
 };
-const seed = `try{localStorage.setItem(${JSON.stringify(`sb-${projectId}-auth-token`)}, ${JSON.stringify(JSON.stringify(session))});}catch(e){}`;
+// The Capacitor shell marks <html data-native-app="ios"> (src/mobile/native-shell.ts); headless Chrome
+// is not a native platform, so the mark is set here to apply the same native.css rules as the app.
+const seed = `try{localStorage.setItem(${JSON.stringify(`sb-${projectId}-auth-token`)}, ${JSON.stringify(JSON.stringify(session))});}catch(e){}
+const markNative = () => document.documentElement && document.documentElement.setAttribute("data-native-app", "ios");
+markNative(); document.addEventListener("readystatechange", markNative);`;
 
 const viewports = [
   { name: "iphone-se", width: 375, height: 667 },

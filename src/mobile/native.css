@@ -44,6 +44,30 @@ html[data-native-app]
   font-size: 16px;
 }
 
+/* iPad and other wide windows: form and list pages (data-native-width="narrow", set by AppShell and
+   onboarding) keep a readable 720px column, while their header band still spans the whole window.
+   The band's transparent side borders (the background paints under them) cancel the gutter, so the
+   header copy, mascot and speech bubble stay aligned with the column. Below 640px nothing changes. */
+@media (min-width: 640px) {
+  html[data-native-app] [data-native-width="narrow"] {
+    --native-gutter: max(0px, calc((100vw - 720px) / 2));
+    padding-inline: var(--native-gutter);
+  }
+  html[data-native-app] [data-native-width="narrow"] > :is(header, .bg-header) {
+    margin-inline: calc(-1 * var(--native-gutter));
+    border-inline: var(--native-gutter) solid transparent;
+  }
+}
+
+/* The start artwork is an opaque image on an off-white (252-254) ground. Where it does not fill the
+   width (iPad, from 600px) that ground showed as a pale, phone-shaped panel on the white page;
+   lifting near-white to white lets it blend in without resizing or cropping the artwork. */
+@media (min-width: 600px) {
+  html[data-native-app] .home-produce {
+    filter: brightness(1.02);
+  }
+}
+
 /* Dialogs (Radix) stay inside the visible screen, e.g. iPad landscape or with the keyboard open,
    and scroll instead of being cut off. Width is unchanged (max-w-lg). */
 html[data-native-app] [role="dialog"],
