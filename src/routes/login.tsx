@@ -2,7 +2,7 @@ import { accountExists } from "@/lib/account.functions";
 import { PasswordResetForm } from "@/components/PasswordResetForm";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
@@ -84,7 +84,7 @@ function Login() {
       <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText("Passwort vergessen?")} sub={translateText("Deine Werte sicher gespeichert – auf allen Geräten.")} />
       <div className="card-surface mx-4 mt-4 space-y-4 p-5">
         <PasswordResetForm />
-        <button type="button" onClick={() => navigate({ to: "/login", search: { mode: "login" } })} className="w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4"><Localized>{"Zurück zur Anmeldung"}</Localized></button>
+        <Link to="/" search={{ mode: "login" }} className="w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4"><Localized>{"Zurück zur Anmeldung"}</Localized></Link>
       </div>
     </AppShell>
   );

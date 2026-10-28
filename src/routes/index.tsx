@@ -14,6 +14,8 @@ import { VivoBrand } from "@/components/VivoBrand";
 
 export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
+  validateSearch: (search: Record<string, unknown>): { mode?: "login" } =>
+    search["mode"] === "login" ? { mode: "login" } : {},
   head: () => ({
     meta: [
       { title: "Vitalplus — Gesünder leben. Glücklicher sein." },
@@ -31,7 +33,8 @@ function Home() {
   useLanguage();
   const navigate = useNavigate();
   const { s } = useStore();
-  const [mode, setMode] = useState<"new" | "login">("new");
+  const { mode: initialMode } = Route.useSearch();
+  const [mode, setMode] = useState<"new" | "login">(initialMode === "login" ? "login" : "new");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
