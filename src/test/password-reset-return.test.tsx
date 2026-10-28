@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { QueryClient } from "@tanstack/react-query";
 import { createMemoryHistory, createRouter, RouterProvider } from "@tanstack/react-router";
 import { afterEach, describe, expect, it } from "vitest";
 
@@ -7,7 +8,7 @@ import { routeTree } from "@/routeTree.gen";
 async function open(path: string) {
   const router = createRouter({
     routeTree,
-    context: { queryClient: undefined as never },
+    context: { queryClient: new QueryClient() },
     history: createMemoryHistory({ initialEntries: [path] }),
   });
   render(<RouterProvider router={router} />);
