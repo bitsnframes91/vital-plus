@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { QueryClient } from "@tanstack/react-query";
 import { createMemoryHistory, createRouter, RouterProvider } from "@tanstack/react-router";
 import { afterEach, describe, expect, it } from "vitest";
@@ -17,8 +17,7 @@ async function open(path: string) {
 }
 
 afterEach(() => {
-  // keep the DOM clean between cases
-  document.body.innerHTML = "";
+  cleanup();
 });
 
 describe("Password reset return path", () => {
