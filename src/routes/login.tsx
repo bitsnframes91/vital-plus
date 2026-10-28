@@ -1,4 +1,5 @@
-import { accountExists, requestPasswordReset } from "@/lib/account.functions";
+import { accountExists } from "@/lib/account.functions";
+import { PasswordResetForm } from "@/components/PasswordResetForm";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -9,7 +10,7 @@ import { readQuestionnaire, clearQuestionnaire } from "@/lib/questionnaire-draft
 
 export const Route = createFileRoute("/login")({
   staticData: { sitemap: true },
-  validateSearch: (search: Record<string, unknown>) => ({ mode: search["mode"] === "register" ? ("register" as const) : ("login" as const) }),
+  validateSearch: (search: Record<string, unknown>) => ({ mode: search["mode"] === "register" ? ("register" as const) : search["mode"] === "reset" ? ("reset" as const) : ("login" as const) }),
   head: () => ({
     meta: [
       { title: "Anmelden — Vitalplus" },
@@ -29,7 +30,7 @@ function Login() {
   useLanguage();
   const { mode: initialMode } = Route.useSearch();
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"login" | "register">(initialMode);
+  const [mode, setMode] = useState<"login" | "register">(initialMode === "register" ? "register" : "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
@@ -78,6 +79,16 @@ function Login() {
     }
   };
 
+  if (initialMode === "reset") return (
+    <AppShell>
+      <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText("Passwort vergessen?")} sub={translateText("Deine Werte sicher gespeichert – auf allen Geräten.")} />
+      <div className="card-surface mx-4 mt-4 space-y-4 p-5">
+        <PasswordResetForm />
+        <button type="button" onClick={() => navigate({ to: "/login", search: { mode: "login" } })} className="w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4"><Localized>{"Zurück zur Anmeldung"}</Localized></button>
+      </div>
+    </AppShell>
+  );
+
   if (sent) return (
     <AppShell>
       <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText("Bestätige deine E-Mail")} sub={translateText("Fast geschafft!")} />
@@ -119,15 +130,9 @@ function Login() {
         {mode === "login" && !magic && !magicSent && (
           <button
             type="button"
-            onClick={async () => {
-              if (!email) return setMsg("Bitte gib zuerst deine E-Mail-Adresse ein.");
-              setBusy(true);
-              const error = await requestPasswordReset({ data: { email, redirectTo: window.location.origin + "/reset-password" } }).then(() => null, (e) => e);
-              setBusy(false);
-              setMsg(error ? "Senden nicht möglich – bitte in einer Minute erneut versuchen." : "Wenn ein bestätigtes Konto mit dieser E-Mail-Adresse existiert, erhältst du einen Link zum Zurücksetzen deines Passworts.");
-            }}
+            onClick={() => navigate({ to: "/login", search: { mode: "reset" } })}
             className="w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4"
-          ><Localized>{" Passwort vergessen? "}</Localized></button>
+          ><Localized>{"Passwort vergessen?"}</Localized></button>
         )}
       </div>
     </AppShell>

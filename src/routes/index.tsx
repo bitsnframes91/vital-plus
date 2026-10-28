@@ -91,7 +91,7 @@ function Home() {
           <form onSubmit={e => { e.preventDefault(); void (magic ? sendMagicLink() : signIn()); }} className="mb-4 space-y-3">
             <input aria-label={translateText("E-Mail")} type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder={translateText("E-Mail")} className="h-12 w-full rounded-lg border border-input bg-card px-4 text-base outline-none focus:ring-2 focus:ring-ring" />
             {!magic && <input aria-label={translateText("Passwort")} type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} placeholder={translateText("Passwort")} className="h-12 w-full rounded-lg border border-input bg-card px-4 text-base outline-none focus:ring-2 focus:ring-ring" />}
-            {!magic && <div className="flex justify-end text-xs"><Link to="/login" search={{ mode: "login" }} className="text-muted-foreground underline"><Localized>{"Passwort vergessen?"}</Localized></Link></div>}
+            {!magic && <div className="flex justify-end text-xs"><Link to="/login" search={{ mode: "reset" }} className="text-muted-foreground underline"><Localized>{"Passwort vergessen?"}</Localized></Link></div>}
             <p className="pt-1 text-center text-xs font-medium uppercase tracking-wide text-muted-foreground"><Localized>{"ODER"}</Localized></p>
             <button type="button" onClick={() => { setMagic(!magic); setError(null); }} className="flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-border bg-card text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted">
               {magic ? <KeyRound className="h-4 w-4" aria-hidden /> : <Link2 className="h-4 w-4" aria-hidden />}
