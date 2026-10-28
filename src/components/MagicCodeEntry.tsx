@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 /** Lets users finish a magic-link sign-in inside the app by typing the emailed code,
  * so tapping the link (which opens the phone's browser) is not required. */
-export function MagicCodeEntry({ email }: { email: string }) {
+export function MagicCodeEntry({ email, type = "email" }: { email: string; type?: "email" | "signup" }) {
   const navigate = useNavigate();
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
@@ -18,7 +18,7 @@ export function MagicCodeEntry({ email }: { email: string }) {
     if (token.length < 6) return setError("Code ungültig oder abgelaufen.");
     setBusy(true);
     setError(null);
-    const { error: err } = await supabase.auth.verifyOtp({ email: email.trim(), token, type: "email" });
+    const { error: err } = await supabase.auth.verifyOtp({ email: email.trim(), token, type });
     setBusy(false);
     if (err) return setError("Code ungültig oder abgelaufen.");
     navigate({ to: "/heute" });

@@ -3282,5 +3282,13 @@
   "und": [
     "and",
     "y la"
+  ],
+  "Wir haben dir einen Bestätigungscode geschickt an:": [
+    "We sent a confirmation code to:",
+    "Te hemos enviado un código de confirmación a:"
+  ],
+  "Gib den Code hier ein. Danach ist dein Konto aktiv und du gelangst direkt zu Heute.": [
+    "Enter the code here. Your account is then active and you go straight to Today.",
+    "Introduce el código aquí. Tu cuenta quedará activa y pasarás directamente a Hoy."
   ]
 }
