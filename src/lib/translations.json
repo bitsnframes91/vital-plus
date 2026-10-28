@@ -3238,5 +3238,21 @@
   "Mittlere korpuskuläre Hämoglobinkonzentration (MCHC)": [
     "Mean corpuscular haemoglobin concentration (MCHC)",
     "Concentración de hemoglobina corpuscular media (MCHC)"
+  ],
+  "Bedienung": [
+    "Ease of use",
+    "Facilidad de uso"
+  ],
+  "Funktionen": [
+    "Features",
+    "Funciones"
+  ],
+  "Geschwindigkeit": [
+    "Speed",
+    "Velocidad"
+  ],
+  "Andere": [
+    "Other",
+    "Otros"
   ]
 }
