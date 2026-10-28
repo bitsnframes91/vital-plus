@@ -3110,5 +3110,133 @@
   "Produktempfehlungen passend zu deinen Zielen im Fragebogen.": [
     "Product recommendations matching your questionnaire goals.",
     "Recomendaciones de productos según tus objetivos del cuestionario."
+  ],
+  "Schritte noch zu gehen": [
+    "Steps left to walk",
+    "Pasos por caminar"
+  ],
+  "{n} Schritte": [
+    "{n} steps",
+    "{n} pasos"
+  ],
+  "{a} / 10.000 gegangen": [
+    "{a} / 10,000 walked",
+    "{a} / 10.000 caminados"
+  ],
+  "{a} / {b} Nährstoffe erfasst": [
+    "{a} / {b} nutrients logged",
+    "{a} / {b} nutrientes registrados"
+  ],
+  "{a} / {b} g Protein": [
+    "{a} / {b} g protein",
+    "{a} / {b} g de proteína"
+  ],
+  "{a} / {b} g Ballaststoffe": [
+    "{a} / {b} g fiber",
+    "{a} / {b} g de fibra"
+  ],
+  "{a} / 2,0 Liter": [
+    "{a} / 2.0 liters",
+    "{a} / 2,0 litros"
+  ],
+  "{a} / 8 h": [
+    "{a} / 8 h",
+    "{a} / 8 h"
+  ],
+  "Vitamine & Mineralstoffe": [
+    "Vitamins & minerals",
+    "Vitaminas y minerales"
+  ],
+  "Persönlicher Richtwert fehlt": [
+    "Personal target missing",
+    "Falta tu valor de referencia personal"
+  ],
+  "Körperdaten ergänzen": [
+    "Add body data",
+    "Añade tus datos corporales"
+  ],
+  "Geschätzt · EU-Erwachsenenreferenz": [
+    "Estimated · EU adult reference",
+    "Estimado · referencia de adultos de la UE"
+  ],
+  "EU-Erwachsenenreferenz": [
+    "EU adult reference",
+    "referencia de adultos de la UE"
+  ],
+  "Geschätzt": [
+    "Estimated",
+    "Estimado"
+  ],
+  "Tägliche Zielerfüllung, keine medizinische Bewertung. Jede Kategorie zählt zu 20 %. Nicht erfasste Kategorien bleiben offen.": [
+    "Daily goal progress, not a medical assessment. Each category counts for 20 %. Categories without data stay open.",
+    "Progreso de objetivos diarios, no es una valoración médica. Cada categoría cuenta un 20 %. Las categorías sin datos quedan abiertas."
+  ],
+  "{label} im Gesundheitsprofil ändern (doppelt tippen)": [
+    "Edit {label} in health profile (double tap)",
+    "Editar {label} en el perfil de salud (doble toque)"
+  ],
+  "Mahlzeit": [
+    "Meal",
+    "Comida"
+  ],
+  "Folsäure": [
+    "Folate",
+    "Ácido fólico"
+  ],
+  "Pantothensäure": [
+    "Pantothenic acid",
+    "Ácido pantoténico"
+  ],
+  "Molybdän": [
+    "Molybdenum",
+    "Molibdeno"
+  ],
+  "Geschätzte Mengen aus den heute erfassten Mahlzeiten, verglichen mit EU-Referenzmengen für Erwachsene. Keine Laborwerte oder persönlichen Bedarfswerte.": [
+    "Estimated amounts from today's logged meals, compared with EU reference intakes for adults. Not lab values or personal requirements.",
+    "Cantidades estimadas de las comidas registradas hoy, comparadas con las referencias de la UE para adultos. No son valores de laboratorio ni necesidades personales."
+  ],
+  "Noch keine Nährstoffdaten für heute. Erfasse eine Mahlzeit, um Werte zu sehen.": [
+    "No nutrient data for today yet. Log a meal to see values.",
+    "Aún no hay datos de nutrientes para hoy. Registra una comida para ver valores."
+  ],
+  "Zurück zur Ernährung": [
+    "Back to nutrition",
+    "Volver a nutrición"
+  ],
+  "Bitte gebe ein, was du heute gegessen hast.": [
+    "Please enter what you ate today.",
+    "Introduce lo que has comido hoy."
+  ],
+  "Befund vom {date} + deine Ziele": [
+    "Report from {date} + your goals",
+    "Informe del {date} + tus objetivos"
+  ],
+  "Vitali mit frischem Obst und Gemüse": [
+    "Vitali with fresh fruit and vegetables",
+    "Vitali con fruta y verdura frescas"
+  ],
+  "Nüchternblutzucker (FBS)": [
+    "Fasting blood sugar (FBS)",
+    "Glucosa en ayunas (FBS)"
+  ],
+  "Triglycerid/HDL-Verhältnis": [
+    "Triglyceride/HDL ratio",
+    "Relación triglicéridos/HDL"
+  ],
+  "Hämoglobin (HB)": [
+    "Haemoglobin (HB)",
+    "Hemoglobina (HB)"
+  ],
+  "Hämatokrit (HCT/PCV)": [
+    "Haematocrit (HCT/PCV)",
+    "Hematocrito (HCT/PCV)"
+  ],
+  "Mittleres korpuskuläres Hämoglobin (MCH)": [
+    "Mean corpuscular haemoglobin (MCH)",
+    "Hemoglobina corpuscular media (MCH)"
+  ],
+  "Mittlere korpuskuläre Hämoglobinkonzentration (MCHC)": [
+    "Mean corpuscular haemoglobin concentration (MCHC)",
+    "Concentración de hemoglobina corpuscular media (MCHC)"
   ]
 }
