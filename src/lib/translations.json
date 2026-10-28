@@ -1067,6 +1067,14 @@
     "Resend code",
     "Reenviar código"
   ],
+  "Code erneut senden in {seconds}s": [
+    "Resend code in {seconds}s",
+    "Reenviar código en {seconds}s"
+  ],
+  "Neuer Code geschickt – prüfe dein Postfach.": [
+    "A new code is on its way – check your inbox.",
+    "Te hemos enviado un nuevo código; revisa tu correo."
+  ],
   "Alter": [
     "Age",
     "Edad"
