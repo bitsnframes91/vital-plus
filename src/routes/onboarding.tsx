@@ -9,6 +9,7 @@ import type { NutritionProfile } from "@/lib/nutrition-targets";
 import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
 import { questionnaireReturn } from "@/lib/questionnaire-return";
 import { saveQuestionnaire } from "@/lib/questionnaire-draft";
+import { LegalLinks } from "@/components/LegalLinks";
 
 export const Route = createFileRoute("/onboarding")({
   staticData: { sitemap: true },
@@ -143,11 +144,11 @@ function Onboarding() {
     if (step < steps.length - 1) return setStep(step + 1);
     if (!s.account) {
       if (!profile.age || !profile.sex || !profile.activity) return;
-      saveQuestionnaire({ name: name.trim(), goals, diet, body: { age: profile.age, sex: profile.sex, activity: profile.activity, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) ?? 8000 } });
+      saveQuestionnaire({ name: name.trim(), goals, diet, body: { age: profile.age, sex: profile.sex, activity: profile.activity, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) ?? 8000 }, healthConsentAt: new Date().toISOString() });
       nav({ to: "/login", search: { mode: "register" } });
       return;
     }
-    set({ name, goals, onboarded: true, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? 0 } });
+    set({ name, goals, onboarded: true, consent: { ...s.consent, healthDataAt: s.consent.healthDataAt ?? new Date().toISOString() }, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? 0 } });
     nav({ to: "/heute" });
   };
 
