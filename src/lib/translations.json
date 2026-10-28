@@ -3070,5 +3070,21 @@
   "Bitte warte eine Minute, bevor du erneut Feedback sendest.": [
     "Please wait a minute before sending feedback again.",
     "Espera un minuto antes de volver a enviar comentarios."
+  ],
+  "Oder gib den 6-stelligen Code aus der E-Mail hier ein, damit du in der App bleibst:": [
+    "Or enter the 6-digit code from the email here to stay in the app:",
+    "O introduce aquí el código de 6 dígitos del correo para quedarte en la app:"
+  ],
+  "Code bestätigen": [
+    "Confirm code",
+    "Confirmar código"
+  ],
+  "Code ungültig oder abgelaufen.": [
+    "Code invalid or expired.",
+    "Código no válido o caducado."
+  ],
+  "Dein Anmeldecode:": [
+    "Your sign-in code:",
+    "Tu código de acceso:"
   ]
 }

@@ -7,6 +7,7 @@ import startseiteProduce from "@/assets/startseite-produce.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { SwipeAction } from "@/components/SwipeAction";
 import { supabase } from "@/integrations/supabase/client";
+import { MagicCodeEntry } from "@/components/MagicCodeEntry";
 import { useStore } from "@/lib/store";
 import { clearQuestionnaire } from "@/lib/questionnaire-draft";
 import { accountExists } from "@/lib/account.functions";
@@ -88,6 +89,7 @@ function Home() {
             <div className="mb-4 space-y-2 rounded-lg bg-card p-4 text-sm">
               <p><Localized>{"Wir haben dir einen Login-Link geschickt an:"}</Localized> <b>{email}</b></p>
               <p className="text-muted-foreground"><Localized>{"Klicke auf den Link in deinem Postfach, um dich ohne Passwort anzumelden. Bitte prüfe auch deinen Spam-Ordner."}</Localized></p>
+            <MagicCodeEntry email={email} />
               <button type="button" onClick={() => { setMagicSent(false); setError(null); }} className="text-xs font-semibold text-muted-foreground underline"><Localized>{"Zurück zur Anmeldung"}</Localized></button>
             </div>
           ) : (

@@ -14,11 +14,13 @@ import {
 interface MagicLinkEmailProps {
   siteName: string
   confirmationUrl: string
+  token?: string
 }
 
 export const MagicLinkEmail = ({
   siteName,
   confirmationUrl,
+  token,
 }: MagicLinkEmailProps) => (
   <Html lang="de" dir="ltr">
     <Head>
@@ -35,6 +37,11 @@ export const MagicLinkEmail = ({
         <Button className="dm-btn" style={button} href={confirmationUrl}>
           Anmelden
         </Button>
+        {token ? (
+          <Text style={text}>
+            Oder gib diesen Code in der App ein: <b style={{ fontSize: '22px', letterSpacing: '4px', color: '#000000' }}>{token}</b>
+          </Text>
+        ) : null}
         <Text style={footer}>
           Falls du diesen Link nicht angefordert hast, kannst du diese E-Mail einfach ignorieren.
         </Text>
