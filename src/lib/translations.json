@@ -3086,5 +3086,13 @@
   "Dein Anmeldecode:": [
     "Your sign-in code:",
     "Tu código de acceso:"
+  ],
+  "Gib den 6-stelligen Code aus der E-Mail hier ein:": [
+    "Enter the 6-digit code from the email here:",
+    "Introduce aquí el código de 6 dígitos del correo:"
+  ],
+  "Bitte prüfe auch deinen Spam-Ordner.": [
+    "Please also check your spam folder.",
+    "Revisa también tu carpeta de spam."
   ]
 }

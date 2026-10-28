@@ -107,7 +107,7 @@ function Login() {
         {mode === "login" && magicSent ? (
           <div className="space-y-2 text-sm">
             <p><Localized>{"Wir haben dir einen Login-Link geschickt an:"}</Localized> <b>{email}</b></p>
-            <p className="text-ink/70"><Localized>{"Klicke auf den Link in deinem Postfach, um dich ohne Passwort anzumelden. Bitte prüfe auch deinen Spam-Ordner."}</Localized></p>
+            <p className="text-ink/70"><Localized>{"Bitte prüfe auch deinen Spam-Ordner."}</Localized></p>
             <MagicCodeEntry email={email} />
             <button type="button" onClick={() => { setMagicSent(false); setMsg(null); }} className="w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4"><Localized>{"Zurück zur Anmeldung"}</Localized></button>
           </div>
