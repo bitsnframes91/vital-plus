@@ -1003,11 +1003,11 @@
     "Terms and conditions, legal notice",
     "Condiciones generales, aviso legal"
   ],
-    "Vitalplus von Fairvital": [
+  "Vitalplus von Fairvital": [
     "Vitalplus from Fairvital",
     "Vitalplus de Fairvital"
   ],
-"Vitalplus Konto": [
+  "Vitalplus Konto": [
     "Vitalplus account",
     "Cuenta Vitalplus"
   ],
@@ -3258,5 +3258,29 @@
   "Andere": [
     "Other",
     "Otros"
+  ],
+  "Ich willige ausdrücklich ein, dass Vitalplus meine Gesundheitsdaten (z. B. Körperdaten, Mahlzeiten, Laborwerte und – falls freigegeben – Apple-Health-Werte) zur Darstellung und Auswertung in der App verarbeitet (Art. 9 Abs. 2 lit. a DSGVO). Apple-Health-Werte bleiben auf meinem Gerät. Ich kann die Einwilligung jederzeit widerrufen. Vitalplus ersetzt keine ärztliche Beratung.": [
+    "I explicitly consent to Vitalplus processing my health data (e.g. body data, meals, lab values and – if shared – Apple Health readings) to display and analyse it in the app (Art. 9(2)(a) GDPR). Apple Health readings stay on my device. I can withdraw this consent at any time. Vitalplus does not replace medical advice.",
+    "Doy mi consentimiento expreso para que Vitalplus trate mis datos de salud (p. ej., datos corporales, comidas, valores de laboratorio y, si los comparto, datos de Apple Health) para mostrarlos y analizarlos en la app (art. 9.2.a RGPD). Los datos de Apple Health permanecen en mi dispositivo. Puedo retirar este consentimiento en cualquier momento. Vitalplus no sustituye el consejo médico."
+  ],
+  "Mit der Registrierung akzeptierst du die": [
+    "By signing up you accept the",
+    "Al registrarte aceptas los"
+  ],
+  "Mit dem Start akzeptierst du die": [
+    "By continuing you accept the",
+    "Al continuar aceptas los"
+  ],
+  "Mehr dazu in unseren": [
+    "Learn more in our",
+    "Más información en nuestros"
+  ],
+  "AGB": [
+    "Terms",
+    "Términos"
+  ],
+  "und": [
+    "and",
+    "y la"
   ]
 }

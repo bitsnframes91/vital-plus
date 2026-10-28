@@ -9,6 +9,7 @@ import type { NutritionProfile } from "@/lib/nutrition-targets";
 import { calcBmi, bmiCategory, stepGoalFor } from "@/lib/bmi";
 import { questionnaireReturn } from "@/lib/questionnaire-return";
 import { saveQuestionnaire } from "@/lib/questionnaire-draft";
+import { LegalLinks } from "@/components/LegalLinks";
 
 export const Route = createFileRoute("/onboarding")({
   staticData: { sitemap: true },
@@ -121,10 +122,13 @@ function Onboarding() {
     {
       t: "Deine Daten, deine Entscheidung.",
       body: (
-        <label className="flex items-start gap-3 rounded-2xl bg-card p-4 text-sm ring-1 ring-border">
-          <input type="checkbox" checked={ok} onChange={(e) => setOk(e.target.checked)} className="mt-1 accent-[var(--fv-deep)]" />
-          <span className="text-ink/70"><Localized>{"Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. Vitalplus ersetzt keine ärztliche Beratung."}</Localized></span>
-        </label>
+        <div className="space-y-3">
+          <label className="flex items-start gap-3 rounded-2xl bg-card p-4 text-sm ring-1 ring-border">
+            <input type="checkbox" checked={ok} onChange={(e) => setOk(e.target.checked)} className="mt-1 size-5 shrink-0 accent-[var(--fv-deep)]" />
+            <span className="text-ink/70"><Localized>{"Ich willige ausdrücklich ein, dass Vitalplus meine Gesundheitsdaten (z. B. Körperdaten, Mahlzeiten, Laborwerte und – falls freigegeben – Apple-Health-Werte) zur Darstellung und Auswertung in der App verarbeitet (Art. 9 Abs. 2 lit. a DSGVO). Apple-Health-Werte bleiben auf meinem Gerät. Ich kann die Einwilligung jederzeit widerrufen. Vitalplus ersetzt keine ärztliche Beratung."}</Localized></span>
+          </label>
+          <LegalLinks prefix="Mehr dazu in unseren" />
+        </div>
       ),
       valid: ok,
     },
@@ -140,11 +144,11 @@ function Onboarding() {
     if (step < steps.length - 1) return setStep(step + 1);
     if (!s.account) {
       if (!profile.age || !profile.sex || !profile.activity) return;
-      saveQuestionnaire({ name: name.trim(), goals, diet, body: { age: profile.age, sex: profile.sex, activity: profile.activity, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) ?? 8000 } });
+      saveQuestionnaire({ name: name.trim(), goals, diet, body: { age: profile.age, sex: profile.sex, activity: profile.activity, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) ?? 8000 }, healthConsentAt: new Date().toISOString() });
       nav({ to: "/login", search: { mode: "register" } });
       return;
     }
-    set({ name, goals, onboarded: true, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? 0 } });
+    set({ name, goals, onboarded: true, consent: { ...s.consent, healthDataAt: s.consent.healthDataAt ?? new Date().toISOString() }, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? 0 } });
     nav({ to: "/heute" });
   };
 
