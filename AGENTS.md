@@ -42,3 +42,5 @@
 - Lab info uses bundled definitions and range-based causes. Why: avoid diagnosis.
 - Capacitor origins (native-origins.ts) get CORS/CSRF; native-fetch uses the live URL. Why: iOS shells are cross-origin.
 - The start page opens its sign-in form via an optional `?mode=login` search param (annotated `{ mode?: "login" }`), and the password-reset screen returns there. Why: a required param would force every plain link to `/` to pass `search`, and users must land back where they started signing in.
+- Health-data consent is versioned server-side (health_consents + consent RPCs, HEALTH_CONSENT_VERSION in src/lib/consent-policy.ts); ConsentGate blocks health screens but never /profil, and every AI server function calls enforceAiQuota (DB-atomic consent + per-user limits). Why: consent and AI cost limits must hold against direct API calls.
+- Sign-in/signup never reveal whether an email is registered (no account-existence endpoint). Why: prevent account enumeration.
