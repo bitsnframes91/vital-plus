@@ -6,7 +6,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { UserRound, LockKeyhole, Settings, Shield, MessageSquare, FileText, Mail, ChevronRight, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { deleteAccount } from "@/lib/account.functions";
+import { deleteAccount, requestAccountDeletionCode } from "@/lib/account.functions";
 import { AppShell } from "@/components/AppShell";
 import { ProfileMascot } from "@/components/ProfileMascot";
 import { useStore } from "@/lib/store";
@@ -55,29 +55,38 @@ function Profile() {
   useEffect(() => { if (action === "delete" && pathname === "/profil") setStep("confirm"); }, [action, pathname]);
   const openMenu = (section: string) => navigate({ to: "/profil/$section", params: { section } });
   const del = useServerFn(deleteAccount);
+  const requestCode = useServerFn(requestAccountDeletionCode);
+  const [resume, setResume] = useState(false);
   const close = () => { setStep(null); setCode(""); setErr(""); if (action) void navigate({ to: "/profil", search: {}, replace: true }); };
   const sendCode = async () => {
     setBusy(true); setErr("");
-    const { error } = await supabase.auth.reauthenticate();
-    setBusy(false);
-    if (error) {
-      const m = error.message.toLowerCase();
-      const secs = m.match(/after (\d+) seconds?/)?.[1];
-      if (secs) { setStep("code"); return setErr(`Ein Code wurde gerade erst gesendet. Bitte warte ${secs} Sekunden und versuche es dann erneut – oder nutze den letzten Code aus deinem Postfach.`); }
-      if (error.status === 429 || m.includes("rate limit")) { setStep("code"); return setErr("Es wurden in kurzer Zeit zu viele E-Mails gesendet. Bitte versuche es in etwa einer Stunde erneut – oder nutze den letzten Code aus deinem Postfach."); }
+    try {
+      const res = await requestCode();
+      setBusy(false);
+      if (res.ok) return setStep("code");
+      if (res.reason === "cooldown") { setStep("code"); return setErr("Ein Code wurde gerade erst gesendet. Bitte warte 60 Sekunden und versuche es dann erneut – oder nutze den letzten Code aus deinem Postfach."); }
+      if (res.reason === "limited") { setStep("code"); return setErr("Es wurden in kurzer Zeit zu viele E-Mails gesendet. Bitte versuche es in etwa einer Stunde erneut – oder nutze den letzten Code aus deinem Postfach."); }
       return setErr("Code konnte nicht gesendet werden. Bitte später erneut versuchen.");
+    } catch {
+      setBusy(false);
+      setErr("Code konnte nicht gesendet werden. Bitte später erneut versuchen.");
     }
-    setStep("code");
   };
   const confirmDelete = async () => {
     setBusy(true); setErr("");
     try {
-      await del({ data: { code } });
+      const res = await del({ data: { code: resume ? null : code } });
+      if (!res.ok) {
+        setBusy(false);
+        if (res.reason === "cleanup_failed") { setResume(true); return setErr("Das Löschen wurde bestätigt, aber noch nicht abgeschlossen. Bitte tippe erneut auf „Endgültig löschen“."); }
+        if (res.reason === "locked") return setErr("Zu viele falsche Versuche. Bitte fordere einen neuen Code an.");
+        return setErr("Der Code ist ungültig oder abgelaufen.");
+      }
       localStorage.removeItem("fv-health-v1");
       await supabase.auth.signOut();
       location.href = "/";
     } catch {
-      setErr("Der Code ist ungültig oder abgelaufen.");
+      setErr("Löschen nicht möglich. Bitte versuche es erneut.");
       setBusy(false);
     }
   };
