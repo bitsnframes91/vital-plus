@@ -42,6 +42,9 @@ vi.mock("@/integrations/supabase/client", () => ({
   },
 }));
 
+// Consent gating has its own tests; the layout is checked with consent given.
+vi.mock("@/components/ConsentGate", () => ({ ConsentGate: ({ children }: { children: ReactNode }) => <>{children}</> }));
+
 const { AppShell } = await import("@/components/AppShell");
 afterEach(() => {
   cleanup();

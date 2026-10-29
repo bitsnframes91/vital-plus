@@ -11,6 +11,8 @@ import { AppShell } from "@/components/AppShell";
 import { ProfileMascot } from "@/components/ProfileMascot";
 import { useStore } from "@/lib/store";
 import { supabase } from "@/integrations/supabase/client";
+import { useAppleHealth } from "@/components/AppleHealth";
+import { clearQuestionnaire } from "@/lib/questionnaire-draft";
 
 export const Route = createFileRoute("/profil")({
   staticData: { sitemap: false },
@@ -45,7 +47,8 @@ function MenuRow({ category, title, sub, icon: Icon, onClick }: { category: stri
 function Profile() {
   useLanguage();
   const navigate = useNavigate();
-  const { s, set } = useStore();
+  const { s, forgetAccount } = useStore();
+  const health = useAppleHealth();
   const { action } = Route.useSearch();
   const pathname = useLocation({ select: location => location.pathname });
   const [step, setStep] = useState<null | "confirm" | "code">(action === "delete" ? "confirm" : null);
@@ -73,13 +76,24 @@ function Profile() {
     setBusy(true); setErr("");
     try {
       await del({ data: { code } });
-      localStorage.removeItem("fv-health-v1");
-      await supabase.auth.signOut();
-      location.href = "/";
-    } catch {
-      setErr("Der Code ist ungültig oder abgelaufen.");
+    } catch (e) {
+      // The server reports a partial cleanup separately; a retry with a new code completes it.
+      const message = e instanceof Error ? e.message : "";
+      setErr(message.startsWith("Konto konnte nicht") ? message : "Der Code ist ungültig oder abgelaufen.");
       setBusy(false);
+      return;
     }
+    await forgetDeviceData();
+    location.href = "/";
+  };
+  // The account no longer exists: remove what this device kept for it. Samples in Apple Health stay there.
+  const forgetDeviceData = async () => {
+    await health?.forgetDevice().catch(() => {});
+    forgetAccount();
+    clearQuestionnaire();
+    localStorage.removeItem("vitalplus-feedback-at");
+    // Local sign-out needs no server round trip for the deleted user and always clears the Keychain session.
+    await supabase.auth.signOut({ scope: "local" }).catch(() => {});
   };
   if (pathname !== "/profil") return <Outlet />;
   return (

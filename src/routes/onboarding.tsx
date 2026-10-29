@@ -1,5 +1,4 @@
 import { HEALTH_CONSENT_VERSION } from "@/lib/consent-policy";
-import { supabase } from "@/integrations/supabase/client";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -38,7 +37,7 @@ const dietOptions = ["Mischkost", "Vegetarisch", "Vegan", "Pescetarisch"];
 
 function Onboarding() {
   useLanguage();
-  const { s, set } = useStore();
+  const { s, set, grantConsent } = useStore();
   const nav = useNavigate();
   const { step: editStep, from } = Route.useSearch();
   const returnToOrigin = () => from === "profile"
@@ -151,8 +150,9 @@ function Onboarding() {
       nav({ to: "/login", search: { mode: "register" } });
       return;
     }
-    set({ name, goals, onboarded: true, consent: { ...s.consent, healthDataAt: new Date().toISOString(), healthVersion: HEALTH_CONSENT_VERSION }, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? 0 } });
-    void supabase.rpc("give_health_consent", { _version: HEALTH_CONSENT_VERSION });
+    // Saved once the server has recorded the consent (the store holds the change until then).
+    set({ name, goals, onboarded: true, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? 0 } });
+    void grantConsent();
     nav({ to: "/heute" });
   };
 

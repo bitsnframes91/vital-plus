@@ -1,66 +1,38 @@
-import { useEffect, useState, type ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
+import { useState, type ReactNode } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useStore } from "@/lib/store";
 import { Localized, useLanguage } from "@/components/Localized";
 import { LegalLinks } from "@/components/LegalLinks";
 import { Button } from "@/components/ui/button";
-import { HEALTH_CONSENT_VERSION, canRecordLocalConsent, needsConsentPrompt, type ConsentStatus } from "@/lib/consent-policy";
+import { useAppleHealth } from "@/components/AppleHealth";
 
 export const CONSENT_TEXT = "Ich willige ausdrücklich ein, dass Vitalplus meine Gesundheitsdaten (z. B. Körperdaten, Mahlzeiten, Laborwerte und – falls freigegeben – Apple-Health-Werte) zur Darstellung und Auswertung in der App verarbeitet (Art. 9 Abs. 2 lit. a DSGVO). Apple-Health-Werte bleiben auf meinem Gerät. Ich kann die Einwilligung jederzeit widerrufen. Vitalplus ersetzt keine ärztliche Beratung.";
 
 // Account screens (profile, data export, deletion) never depend on health-data consent.
 const exempt = (p: string) => p === "/profil" || p.startsWith("/profil/");
 
-let cached: { userId: string; status: ConsentStatus } | null = null;
-export function setCachedConsent(userId: string, status: ConsentStatus) { cached = { userId, status }; }
-
 /** Shows health screens only once the signed-in user has an active consent record for the current policy. */
 export function ConsentGate({ pathname, children }: { pathname: string; children: ReactNode }) {
   useLanguage();
-  const { s, set } = useStore();
-  const userId = s.account?.userId ?? null;
-  const [status, setStatus] = useState<ConsentStatus | null>(cached && cached.userId === userId ? cached.status : null);
+  const { s, consent, grantConsent } = useStore();
   const [ok, setOk] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
 
-  useEffect(() => {
-    if (!userId) return;
-    let alive = true;
-    void (async () => {
-      const { data, error } = await supabase.rpc("health_consent_status", { _version: HEALTH_CONSENT_VERSION });
-      if (!alive || error) return;
-      let next = data as ConsentStatus;
-      // Consent ticked in the questionnaire before the account existed is recorded once identity is verified.
-      if (needsConsentPrompt(next) && canRecordLocalConsent(s.consent)) {
-        const { error: recErr } = await supabase.rpc("give_health_consent", { _version: HEALTH_CONSENT_VERSION });
-        if (!recErr) next = "active";
-      }
-      if (!alive) return;
-      setCachedConsent(userId, next);
-      setStatus(next);
-    })();
-    return () => { alive = false; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
-
-  if (exempt(pathname) || !userId || status === null || status === "active") return <>{children}</>;
+  // Unknown consent (loading, offline) shows the screens; the server still refuses writes and AI calls without it.
+  if (exempt(pathname) || !s.account || consent === null || consent === "active") return <>{children}</>;
 
   const agree = async () => {
     setBusy(true); setErr("");
-    const { error } = await supabase.rpc("give_health_consent", { _version: HEALTH_CONSENT_VERSION });
+    const done = await grantConsent();
     setBusy(false);
-    if (error) return setErr("Speichern nicht möglich. Bitte versuche es erneut.");
-    set({ consent: { ...s.consent, healthDataAt: new Date().toISOString(), healthVersion: HEALTH_CONSENT_VERSION } });
-    setCachedConsent(userId, "active");
-    setStatus("active");
+    if (!done) setErr("Speichern nicht möglich. Bitte versuche es erneut.");
   };
 
   return (
     <div className="mx-4 mt-6 space-y-4 rounded-2xl bg-card p-5 ring-1 ring-border" role="region" aria-labelledby="consent-title">
-      <h1 id="consent-title" className="text-xl font-semibold"><Localized>{status === "withdrawn" ? "Einwilligung widerrufen" : "Deine Einwilligung ist nötig"}</Localized></h1>
-      <p className="text-sm text-muted-foreground"><Localized>{status === "withdrawn" ? "Du hast die Verarbeitung deiner Gesundheitsdaten widerrufen. Diese Bereiche sind pausiert, bis du erneut einwilligst." : "Um Gesundheitsfunktionen zu nutzen, brauchen wir deine ausdrückliche Einwilligung zur aktuellen Datenschutzerklärung."}</Localized></p>
+      <h1 id="consent-title" className="text-xl font-semibold"><Localized>{consent === "withdrawn" ? "Einwilligung widerrufen" : "Deine Einwilligung ist nötig"}</Localized></h1>
+      <p className="text-sm text-muted-foreground"><Localized>{consent === "withdrawn" ? "Du hast die Verarbeitung deiner Gesundheitsdaten widerrufen. Diese Bereiche sind pausiert, bis du erneut einwilligst." : "Um Gesundheitsfunktionen zu nutzen, brauchen wir deine ausdrückliche Einwilligung zur aktuellen Datenschutzerklärung."}</Localized></p>
       <label className="flex items-start gap-3 rounded-2xl bg-background p-4 text-sm ring-1 ring-border">
         <input type="checkbox" checked={ok} onChange={(e) => setOk(e.target.checked)} className="mt-1 size-5 shrink-0 accent-[var(--fv-deep)]" />
         <span className="text-foreground/80"><Localized>{CONSENT_TEXT}</Localized></span>
@@ -76,19 +48,21 @@ export function ConsentGate({ pathname, children }: { pathname: string; children
 /** Withdraws health-data consent without deleting the account; the user chooses whether stored health data is kept or erased. */
 export function WithdrawConsent() {
   useLanguage();
-  const { s } = useStore();
+  const { s, withdrawConsent } = useStore();
+  const health = useAppleHealth();
+  const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
   if (!s.account) return null;
   const withdraw = async (deleteData: boolean) => {
     if (!window.confirm(deleteData ? "Einwilligung widerrufen und gespeicherte Gesundheitsdaten löschen?" : "Einwilligung widerrufen? Deine gespeicherten Daten bleiben erhalten, werden aber nicht mehr verarbeitet.")) return;
     setBusy(true); setMsg("");
-    const { error } = await supabase.rpc("withdraw_health_consent", { _delete_data: deleteData });
+    const done = await withdrawConsent(deleteData);
+    // Erased data includes Apple Health values imported to this device; Apple Health itself is not changed.
+    if (done && deleteData) await health?.forgetDevice().catch(() => {});
     setBusy(false);
-    if (error) return setMsg("Widerruf nicht möglich. Bitte versuche es erneut.");
-    setCachedConsent(s.account!.userId, "withdrawn");
-    if (deleteData) localStorage.removeItem("fv-health-v1");
-    location.href = "/profil";
+    if (!done) return setMsg("Widerruf nicht möglich. Bitte versuche es erneut.");
+    void navigate({ to: "/profil" });
   };
   return (
     <div className="space-y-2 border-t border-border pt-4">

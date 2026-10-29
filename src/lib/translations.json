@@ -3710,5 +3710,13 @@
   "Konto konnte nicht vollständig gelöscht werden. Bitte versuche es erneut.": [
     "Account could not be fully deleted. Please try again.",
     "No se pudo eliminar la cuenta por completo. Inténtalo de nuevo."
+  ],
+  "Konto konnte nicht gelöscht werden. Bitte versuche es erneut.": [
+    "Your account could not be deleted. Please try again.",
+    "No se ha podido eliminar tu cuenta. Inténtalo de nuevo."
+  ],
+  "Die KI-Funktion ist gerade nicht verfügbar.": [
+    "The AI feature is currently unavailable.",
+    "La función de IA no está disponible en este momento."
   ]
 }
