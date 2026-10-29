@@ -13,11 +13,12 @@
 - Header mascots use transparent CDN videos, still fallbacks and reduced-motion support. Why: blend with either theme without obstructing controls.
 - Interface localization uses bundled German-source translation catalogues and React-rendered Localized text, with the applied language saved by AppSettingsProvider; never translate persisted goal identifiers or send health data for translation. Why: all screens switch safely without changing profile data or depending on online translation.
 - Step and walking-category icons use the shared StepsIcon component. Why: uploaded artwork and reduced-motion-aware animation stay consistent across views.
-- Device presentation preferences use AppSettingsProvider and light-only semantic tokens; notification permission is requested only on opt-in, and reminders run only while the app is open. Why: browser-only scheduling must not promise background push delivery.
+- Device presentation preferences use AppSettingsProvider; theme is a light/dark setting that toggles the `.dark` token block in src/styles.css, so all colors must stay semantic tokens (never hardcoded) for dark mode to work. Notification permission is requested only on opt-in, and reminders run only while the app is open. Why: browser-only scheduling must not promise background push delivery.
 - There is no in-app lock screen or device biometric gate; the app opens straight to its content after sign-in. Why: the user removed App Lock from the profile, and a hidden gate would lock people out with no way to turn it off.
 - Questionnaire edits carry a validated origin so Save and Cancel return Profile users to their personal submenu and Gesundheit users to Gesundheit. Why: editing must preserve the user's navigation context.
 - Profile submenus use /profil/$section with AppShell; editors/notices use dialogs; deletion reuses the verified flow. Why: preserve navigation and verified services.
 - Impressum uses a bundled data module without translation. Why: preserve verbatim legal wording.
+- Open-source licenses use a bundled inventory and downloadable notices generated with `node scripts/generate-licenses.mjs` after production dependency changes; surrounding copy is localized but original notices remain verbatim. Why: make package versions and license evidence accessible offline without inventing notices.
 
 - Shopware (fairvital.com) owns products, prices, cart and checkout; the companion app only links out. Lookups use `src/lib/shopware.ts`. Why: preserve shop ownership and allow later Store API integration.
 - Supplement suggestions (Plan and Heute) use measured out-of-range markers matched to catalog products in the product's own direction (`helpsWhen`, default low). Why: never suggest for normal values or the wrong direction.
@@ -40,4 +41,6 @@
 
 - Heute uses wellness-progress.ts and TodayWellnessGoals for live completion; missing Health measurements stay unassessed. Nutrition alerts mirror Ernährung via nutrition-alerts.ts. Neither writes plan history. Why: distinguish goals from clinical status and completed tasks.
 
-- Lab information uses bundled definitions and range-based possible causes. Why: explain readings without diagnosis.
+- Lab info uses bundled definitions and range-based causes. Why: avoid diagnosis.
+- Capacitor origins (native-origins.ts) get CORS/CSRF; native-fetch uses the live URL. Why: iOS shells are cross-origin.
+- The start page opens its sign-in form via an optional `?mode=login` search param (annotated `{ mode?: "login" }`), and the password-reset screen returns there. Why: a required param would force every plain link to `/` to pass `search`, and users must land back where they started signing in.

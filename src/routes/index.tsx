@@ -1,4 +1,4 @@
-import { KeyRound, Link2 } from "lucide-react";
+import { KeyRound, Mail } from "lucide-react";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText } from "@/lib/language";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
@@ -7,13 +7,18 @@ import startseiteProduce from "@/assets/startseite-produce.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { SwipeAction } from "@/components/SwipeAction";
 import { supabase } from "@/integrations/supabase/client";
+import { MagicCodeEntry } from "@/components/MagicCodeEntry";
 import { useStore } from "@/lib/store";
 import { clearQuestionnaire } from "@/lib/questionnaire-draft";
 import { accountExists } from "@/lib/account.functions";
 import { VivoBrand } from "@/components/VivoBrand";
+import { LegalLinks } from "@/components/LegalLinks";
+import { publicAppUrl } from "@/lib/native-app";
 
 export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
+  validateSearch: (search: Record<string, unknown>): { mode?: "login" } =>
+    search["mode"] === "login" ? { mode: "login" } : {},
   head: () => ({
     meta: [
       { title: "Vital Plus — Gesünder leben. Glücklicher sein." },
@@ -31,7 +36,8 @@ function Home() {
   useLanguage();
   const navigate = useNavigate();
   const { s } = useStore();
-  const [mode, setMode] = useState<"new" | "login">("new");
+  const { mode: initialMode } = Route.useSearch();
+  const [mode, setMode] = useState<"new" | "login">(initialMode === "login" ? "login" : "new");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -40,9 +46,12 @@ function Home() {
   const [magicSent, setMagicSent] = useState(false);
   const sendMagicLink = async () => {
     if (!email.trim()) { setError("Bitte gib zuerst deine E-Mail-Adresse ein."); return; }
+    const last = Number(localStorage.getItem("vitalplus-magic-at") || 0);
+    if (Date.now() - last < 60_000) { setError("Bitte warte eine Minute, bevor du einen neuen Login-Code anforderst."); return; }
+    localStorage.setItem("vitalplus-magic-at", String(Date.now()));
     setBusy(true); setError(null);
     try {
-      const { error: otpError } = await supabase.auth.signInWithOtp({ email: email.trim(), options: { shouldCreateUser: false, emailRedirectTo: window.location.origin + "/heute" } });
+      const { error: otpError } = await supabase.auth.signInWithOtp({ email: email.trim(), options: { shouldCreateUser: false, emailRedirectTo: publicAppUrl("/heute") } });
       if (otpError) { setError("Senden nicht möglich – bitte in einer Minute erneut versuchen."); return; }
       setMagicSent(true);
     } catch { setError("Senden nicht möglich – bitte in einer Minute erneut versuchen."); }
@@ -80,24 +89,26 @@ function Home() {
           </div>
           {mode === "login" && (magicSent ? (
             <div className="mb-4 space-y-2 rounded-lg bg-card p-4 text-sm">
-              <p><Localized>{"Wir haben dir einen Login-Link geschickt an:"}</Localized> <b>{email}</b></p>
-              <p className="text-muted-foreground"><Localized>{"Klicke auf den Link in deinem Postfach, um dich ohne Passwort anzumelden. Bitte prüfe auch deinen Spam-Ordner."}</Localized></p>
+              <p><Localized>{"Wir haben dir einen Login-Code geschickt an:"}</Localized> <b>{email}</b></p>
+              <p className="text-muted-foreground"><Localized>{"Bitte prüfe auch deinen Spam-Ordner."}</Localized></p>
+            <MagicCodeEntry email={email} />
               <button type="button" onClick={() => { setMagicSent(false); setError(null); }} className="text-xs font-semibold text-muted-foreground underline"><Localized>{"Zurück zur Anmeldung"}</Localized></button>
             </div>
           ) : (
           <form onSubmit={e => { e.preventDefault(); void (magic ? sendMagicLink() : signIn()); }} className="mb-4 space-y-3">
             <input aria-label={translateText("E-Mail")} type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder={translateText("E-Mail")} className="h-12 w-full rounded-lg border border-input bg-card px-4 text-base outline-none focus:ring-2 focus:ring-ring" />
             {!magic && <input aria-label={translateText("Passwort")} type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} placeholder={translateText("Passwort")} className="h-12 w-full rounded-lg border border-input bg-card px-4 text-base outline-none focus:ring-2 focus:ring-ring" />}
-            {!magic && <div className="flex justify-end text-xs"><Link to="/login" search={{ mode: "login" }} className="text-muted-foreground underline"><Localized>{"Passwort vergessen?"}</Localized></Link></div>}
+            {!magic && <div className="flex justify-end text-xs"><Link to="/login" search={{ mode: "reset" }} className="text-muted-foreground underline"><Localized>{"Passwort vergessen?"}</Localized></Link></div>}
             <p className="pt-1 text-center text-xs font-medium uppercase tracking-wide text-muted-foreground"><Localized>{"ODER"}</Localized></p>
             <button type="button" onClick={() => { setMagic(!magic); setError(null); }} className="flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-border bg-card text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted">
-              {magic ? <KeyRound className="h-4 w-4" aria-hidden /> : <Link2 className="h-4 w-4" aria-hidden />}
-              <Localized>{magic ? "Mit Passwort anmelden" : "Mit Magischem Link anmelden"}</Localized>
+              {magic ? <KeyRound className="h-4 w-4" aria-hidden /> : <Mail className="h-4 w-4" aria-hidden />}
+              <Localized>{magic ? "Mit Passwort anmelden" : "Mit Login-Code anmelden"}</Localized>
             </button>
           </form>
           ))}
           {error && <p role="alert" className="mb-3 text-sm text-destructive"><Localized>{error}</Localized></p>}
-          {!magicSent && <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : magic ? "Login-Link senden" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : magic ? sendMagicLink : signIn} />}
+          {!magicSent && <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : magic ? "Login-Code senden" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : magic ? sendMagicLink : signIn} />}
+          {mode === "new" && <LegalLinks className="mt-3" prefix="Mit dem Start akzeptierst du die" />}
         </>}
       </div>
     </main>

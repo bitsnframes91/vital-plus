@@ -1,3 +1,11 @@
+# Apple Health integration
+- [x] Synchronize verified distance/speed TypeScript contracts and additional-permission check from mobile commit 2ff6253 without merging branches.
+- [x] Populate Gesundheit and seven-day Trends with distance and walking/running speed; add translations, 37 passing tests and developer handoff. Browser fallback/navigation checked; measured iPhone rendering awaits the developer.
+- [x] Obtain the existing mobile provider and TypeScript contracts; public access to both developer branches verified.
+- [x] Wire device-local Apple Health readings to Gesundheit, Heute and historical Trends using the verified provider; manual entries stay separate.
+- [x] Add translations and tests, verify browser fallbacks, and document controlled mobile synchronization; 26 tests passed and signed-in browser screens checked.
+- [ ] Developer synchronizes the web changes into the mobile branch and verifies on a physical iPhone; blocked on the developer's iOS build/device access.
+
 # Vivo redesign
 - [x] Replace Heute tip/progress with five daily-goal circles and remove Schnellzugriff; 29 tests pass, signed-in water updates/persistence and phone/desktop appearance verified. Steps/sleep remain explicitly unavailable until a measured Health feed exists; existing 2 L hydration and EU micronutrient references are labeled, not presented as personalized targets.
 - [x] Redesign white Startseite with supplied produce mascot, top-left logo and swipe actions.
@@ -31,3 +39,5 @@
 - [x] Include logged meals when preparing the plan, reinforcing balanced choices and suggesting improvements.
 - [x] Ask age, sex and activity in onboarding and calculate daily maintenance estimates.
 - [x] Show consumed / recommended amounts on all five nutrition cards, with green smiling, orange neutral from 80%, and red angry over-limit indicators; verified food saves and account persistence.
+# Signup confirmation
+- [x] Offer a resend-code option on the confirmation screen after a 30-second wait; verified disabled countdown, timer reset and new-code request in German, English and Spanish in the live app with tests.

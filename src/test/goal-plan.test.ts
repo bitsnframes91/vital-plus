@@ -27,3 +27,13 @@ describe("goal plan", () => {
     expect(goals.map((g) => g.id)).toEqual(["goal-sleep-rhythm"]);
   });
 });
+
+import { setLanguage } from "@/lib/language";
+describe("lab plan language", () => {
+  const plan = { date: "2026-02-04", items: [{ title: "Befund prüfen", detail: "de", en: { title: "Review report", detail: "en" }, es: { title: "Revisar informe", detail: "es" } }] };
+  it("shows English and Spanish versions, German otherwise", () => {
+    setLanguage("en"); expect(combinedPlan(plan, [])[0]!.title).toBe("Review report");
+    setLanguage("es"); expect(combinedPlan(plan, [])[0]!.title).toBe("Revisar informe");
+    setLanguage("de"); expect(combinedPlan(plan, [])[0]!.title).toBe("Befund prüfen");
+  });
+});

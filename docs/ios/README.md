@@ -208,3 +208,25 @@ git push origin ios-native-testflight-v1.0.0-<label>
   screens at iPhone SE, iPhone 15 Pro, iPad mini, iPad, iPad Pro 13" (portrait and landscape) and iPad Split View,
   and fails on horizontal overflow, the phone frame or a cut-off dialog. It does not replace testing on a real iPad.
 - App Store: with iPad support, an App Store submission needs iPad screenshots (13" iPad). TestFlight does not.
+
+## Syncing Lovable releases
+
+Merge `origin/vital-plus` into a temporary branch from `feature/ios-native-enhancements` and resolve by
+hand; never overwrite mobile files wholesale. Rules that a merge does not enforce on its own:
+
+- Apple Health files (`src/lib/apple-health/*`, `AppleHealth*.tsx`, their tests and translations) are
+  newer on the mobile branch. Take Lovable's edits only if `git diff <last synced vital-plus commit>
+  origin/vital-plus` shows any; a clean merge can also bring back code the mobile branch removed
+  (e.g. the imported-weight line on Gesundheit).
+- Every link that goes into an email (`emailRedirectTo`, `redirectTo`) uses `publicAppUrl(...)`; inside
+  the app `window.location.origin` is `capacitor://localhost`, which no mail client can open.
+- Lovable's `src/lib/native-fetch.ts` (imported by `src/start.ts`) rewrites relative `fetch` URLs to the
+  hosted app. The mobile bundle already sends server functions there through `src/mobile/start.ts` and
+  `serverFetch` with absolute URLs, so the patch passes them through unchanged.
+- The theme can be dark: `syncStatusBar` in `src/mobile/native-shell.ts` follows the `.dark` class.
+- Keep the Capacitor packages pinned exactly (`@capacitor/core` must match `@capacitor/ios`), regenerate
+  `bun.lock` with bun 1.4.3 and check `bun install --frozen-lockfile`.
+- The open-source license inventory must list the Capacitor packages the app ships. Lovable generates it
+  on Linux; add missing packages instead of regenerating on another OS, which swaps platform packages.
+- Server changes (CORS for `capacitor://localhost`, email templates) take effect only when Lovable
+  publishes; check production before releasing a build that depends on them.

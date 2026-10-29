@@ -1,4 +1,5 @@
 import { products, type Product } from "./data";
+import { currentLanguage } from "./language";
 
 // Plan steps and Fairvital products derived from the onboarding goals ("Was ist dir wichtig?").
 type GoalStep = { id: string; title: string; detail: string };
@@ -107,11 +108,19 @@ export const goalPlans: Record<string, GoalPlan> = {
 
 export type PlanStep = { key: string; title: string; detail: string; daily: boolean; source: "labor" | "goal"; goals: string[] };
 
-type LabPlan = { date: string; items: { title: string; detail: string; daily?: boolean }[] } | null;
+type LabText = { title: string; detail: string };
+type LabPlan = { date: string; items: { title: string; detail: string; daily?: boolean; en?: LabText; es?: LabText }[] } | null;
+
+/** Lab-report steps carry AI-written translations; fall back to the German original. */
+function labText(it: { title: string; detail: string; en?: LabText; es?: LabText }): LabText {
+  const lang = currentLanguage();
+  const t = lang === "de" ? undefined : it[lang];
+  return t?.title ? { title: t.title, detail: t.detail || it.detail } : { title: it.title, detail: it.detail };
+}
 
 /** Combines lab-report steps with onboarding-goal steps; goal steps are deduplicated across goals. */
 export function combinedPlan(labPlan: LabPlan, goals: string[], goalOff: Record<string, boolean> = {}): PlanStep[] {
-  const lab: PlanStep[] = (labPlan?.items ?? []).map((it, i) => ({ key: `plan-${i}`, title: it.title, detail: it.detail, daily: it.daily !== false, source: "labor", goals: [] }));
+  const lab: PlanStep[] = (labPlan?.items ?? []).map((it, i) => ({ key: `plan-${i}`, ...labText(it), daily: it.daily !== false, source: "labor", goals: [] }));
   const goalSteps = new Map<string, PlanStep>();
   for (const goal of goals) {
     for (const step of goalPlans[goal]?.steps ?? []) {

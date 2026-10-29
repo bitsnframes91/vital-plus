@@ -41,7 +41,7 @@ async function askJson(content: unknown[]): Promise<{ ok: true; data: any } | { 
 }
 
 export type LabReading = { id: string | null; name: string; unit: string; value: number; targetLow: number | null; targetHigh: number | null };
-export type PlanItem = { title: string; detail: string };
+export type PlanItem = { title: string; detail: string; en?: { title: string; detail: string }; es?: { title: string; detail: string } };
 
 export const analyzeLabPdf = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -51,10 +51,10 @@ export const analyzeLabPdf = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const prompt = `Du liest einen deutschen Laborbefund (Blutwerte). Extrahiere alle Messwerte.
 Bekannte Marker-IDs der App: ${data.knownIds.join(", ")} (vitd = Vitamin D 25-OH, ferritin = Ferritin, b12 = Holo-TC/Vitamin B12, omega = Omega-3-Index). Setze "id" auf die passende ID oder null.
-Erstelle außerdem 3–6 alltagstaugliche Empfehlungen (Ernährung, Lebensstil, Nachkontrolle) auf Deutsch, du-Form, ohne Diagnose, ohne Medikamente.
+Erstelle außerdem 3–6 alltagstaugliche Empfehlungen (Ernährung, Lebensstil, Nachkontrolle) auf Deutsch, du-Form, ohne Diagnose, ohne Medikamente. Liefere zu jeder Empfehlung zusätzlich eine inhaltsgleiche englische ("en") und spanische ("es", tú-Form) Fassung.
 ${mealPlanContext(data.meals)}
 Antworte NUR mit JSON in dieser Form:
-{"date":"YYYY-MM-DD oder null","markers":[{"id":string|null,"name":string,"unit":string,"value":number,"targetLow":number|null,"targetHigh":number|null}],"plan":[{"title":string,"detail":string}]}`;
+{"date":"YYYY-MM-DD oder null","markers":[{"id":string|null,"name":string,"unit":string,"value":number,"targetLow":number|null,"targetHigh":number|null}],"plan":[{"title":string,"detail":string,"en":{"title":string,"detail":string},"es":{"title":string,"detail":string}}]}`;
     const r = await askJson([
       { type: "input_text", text: prompt },
       data.mimeType === "application/pdf"
@@ -73,21 +73,35 @@ Antworte NUR mit JSON in dieser Form:
 
 export const mealFromVoice = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d) => z.object({ base64: z.string().min(1000).max(14_000_000) }).parse(d))
+  .inputValidator((d) => {
+    const base64 = (d as { base64?: unknown } | null)?.base64;
+    return { base64: typeof base64 === "string" ? base64 : "" };
+  })
   .handler(async ({ data }) => {
     const key = process.env["LOVABLE_API_KEY"];
     if (!key) return { ok: false as const, error: "KI ist nicht konfiguriert." };
-    const form = new FormData();
-    form.append("model", "google/gemini-3.5-transcribe");
-    form.append("file", new File([Buffer.from(data.base64, "base64")], "meal.wav", { type: "audio/wav" }));
-    form.append("response_format", "json");
-    form.append("language", "de");
-    const tr = await fetch(`${GATEWAY}/audio/transcriptions`, { method: "POST", headers: { Authorization: `Bearer ${key}` }, body: form });
-    if (!tr.ok) {
-      console.error("STT error", tr.status, await tr.text().catch(() => ""));
-      return { ok: false as const, error: friendly(tr.status) };
+    if (data.base64.length < 1000) return { ok: false as const, error: "Aufnahme war leer – bitte noch einmal." };
+    if (data.base64.length > 14_000_000) return { ok: false as const, error: "Die Aufnahme ist zu lang. Bitte fasse dich kürzer." };
+    let transcript = "";
+    try {
+      const bin = atob(data.base64);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      const form = new FormData();
+      form.append("model", "google/gemini-3.5-transcribe");
+      form.append("file", new Blob([bytes], { type: "audio/wav" }), "meal.wav");
+      form.append("response_format", "json");
+      form.append("language", "de");
+      const tr = await fetch(`${GATEWAY}/audio/transcriptions`, { method: "POST", headers: { Authorization: `Bearer ${key}` }, body: form });
+      if (!tr.ok) {
+        console.error("STT error", tr.status, await tr.text().catch(() => ""));
+        return { ok: false as const, error: friendly(tr.status) };
+      }
+      transcript = String(((await tr.json()) as any).text ?? "").trim();
+    } catch (error) {
+      console.error("STT failure", error instanceof Error ? error.message : String(error));
+      return { ok: false as const, error: "Die Sprachaufnahme konnte nicht verarbeitet werden. Bitte versuche es erneut." };
     }
-    const transcript = String(((await tr.json()) as any).text ?? "").trim();
     if (!transcript) return { ok: false as const, error: "Ich habe nichts verstanden. Bitte noch einmal sprechen." };
     const r = await askJson([
       {
@@ -109,6 +123,7 @@ Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,
   });
 
 export const mealNutrition = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ name: z.string().trim().min(2).max(200) }).parse(d))
   .handler(async ({ data }) => {
     const r = await askJson([

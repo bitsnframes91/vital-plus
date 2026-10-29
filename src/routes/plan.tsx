@@ -107,12 +107,13 @@ function Plan() {
         {goalSuggestions.length > 0 && (
           <section className="pt-5" aria-label={translateText("Fairvital Empfehlungen zu deinen Zielen")}>
             <h2 className="px-1 text-[18px] font-semibold"><Localized>{"Passend zu deinen Zielen"}</Localized></h2>
-            <p className="mb-3 px-1 text-[13px] text-ink/55"><Localized>{"Fairvital Ergänzungen zu dem, was dir im Fragebogen wichtig war."}</Localized></p>
+            <p className="mb-3 px-1 text-[13px] text-ink/55"><Localized>{"Produktempfehlungen passend zu deinen Zielen im Fragebogen."}</Localized></p>
             <div className="space-y-3 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
               {goalSuggestions.map(({ product, goals }) => (
                 <a key={product.shopwareId} href={product.url} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-4">
                   <img src={product.image} alt={translateText(product.name)} className="size-16 shrink-0 rounded-xl bg-white object-contain p-1 ring-1 ring-border" loading="lazy" />
                   <span className="min-w-0">
+                    <span className="block text-[10px] font-semibold uppercase tracking-wide text-fv-deep"><Localized>{"Shop-Empfehlung"}</Localized></span>
                     <span className="block text-[11px] font-medium uppercase tracking-wide text-ink/45"><Localized>{goals.join(" · ")}</Localized></span>
                     <span className="block text-[15px] font-semibold text-fv-deep underline underline-offset-4"><Localized>{product.name}</Localized></span>
                     <span className="mt-0.5 block text-[12px] text-ink/55"><Localized>{product.short}</Localized></span>
@@ -139,7 +140,7 @@ function Plan() {
                   </div>
                   <p className="mt-1 text-[13px] text-ink/55"><Localized>{"Zuletzt gemessen: "}</Localized><Localized>{marker.history[marker.history.length - 1]?.value}</Localized> <Localized>{marker.unit}</Localized></p>
                   <div className="mt-5 border-t border-border pt-4">
-                    <div className="eyebrow"><Localized>{"Fairvital Ergänzung"}</Localized></div>
+                    <div className="eyebrow"><Localized>{"Shop-Empfehlung"}</Localized></div>
                     {product ? <a href={product.url} target="_blank" rel="noopener noreferrer" className="mt-3 flex items-center gap-3">
                       <img src={product.image} alt={translateText(product.name)} className="size-16 shrink-0 rounded-xl bg-white object-contain p-1 ring-1 ring-border" loading="lazy" />
                       <span className="min-w-0">

@@ -29,13 +29,12 @@ export const Route = createFileRoute("/lovable/email/auth/webhook")({
           sendUrl: process.env['LOVABLE_SEND_URL'],
           emails: {
             signup: {
-              subject: 'E-Mail-Adresse bestätigen',
+              subject: 'Dein Bestätigungscode',
               render: (data) =>
                 React.createElement(SignupEmail, {
                   siteName: SITE_NAME,
-                  siteUrl: SITE_URL,
                   recipient: data.email,
-                  confirmationUrl: data.url,
+                  token: data.token ?? '',
                 }),
             },
             invite: {
@@ -48,11 +47,12 @@ export const Route = createFileRoute("/lovable/email/auth/webhook")({
                 }),
             },
             magiclink: {
-              subject: 'Dein Login-Link',
+              subject: 'Dein Login-Code',
               render: (data) =>
                 React.createElement(MagicLinkEmail, {
                   siteName: SITE_NAME,
                   confirmationUrl: data.url,
+                  token: data.token ?? '',
                 }),
             },
             recovery: {

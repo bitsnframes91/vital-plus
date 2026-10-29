@@ -2,7 +2,6 @@ import * as React from 'react'
 
 import {
   Body,
-  Button,
   Container,
   Head,
   Heading,
@@ -13,30 +12,28 @@ import {
 
 interface MagicLinkEmailProps {
   siteName: string
-  confirmationUrl: string
+  confirmationUrl?: string
+  token?: string
 }
 
 export const MagicLinkEmail = ({
   siteName,
-  confirmationUrl,
+  token,
 }: MagicLinkEmailProps) => (
   <Html lang="de" dir="ltr">
     <Head>
       <style>{darkModeCss}</style>
     </Head>
-    <Preview>Dein Login-Link für {siteName}</Preview>
+    <Preview>Dein Login-Code für {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Dein Login-Link</Heading>
+        <Heading style={h1}>Dein Login-Code</Heading>
         <Text style={text}>
-          Klicke auf die Schaltfläche unten, um dich bei {siteName} anzumelden.
-          Dieser Link läuft in Kürze ab.
+          Gib diesen Code in der {siteName} App ein, um dich anzumelden. Der Code läuft in Kürze ab.
         </Text>
-        <Button className="dm-btn" style={button} href={confirmationUrl}>
-          Anmelden
-        </Button>
+        <Text style={codeStyle}>{token}</Text>
         <Text style={footer}>
-          Falls du diesen Link nicht angefordert hast, kannst du diese E-Mail einfach ignorieren.
+          Falls du diesen Code nicht angefordert hast, kannst du diese E-Mail einfach ignorieren.
         </Text>
       </Container>
     </Body>
@@ -68,6 +65,7 @@ const button = {
   padding: '12px 20px',
   textDecoration: 'none',
 }
+const codeStyle = { fontSize: '32px', fontWeight: 'bold' as const, letterSpacing: '8px', color: '#000000', margin: '0 0 25px' }
 const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
 // Rendered as a text child, which React may HTML-escape: keep this CSS free of >, &, and quotes.
 const darkModeCss = `

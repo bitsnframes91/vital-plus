@@ -15,7 +15,11 @@ vi.mock("@/lib/account.functions", () => ({ accountExists: vi.fn(async () => ({ 
 const Home = HomeRoute.options.component!;
 
 describe("Welcome screen", () => {
-  beforeEach(() => { mocks.navigate.mockReset().mockResolvedValue(undefined); mocks.signInWithPassword.mockReset(); mocks.account = null; sessionStorage.clear(); });
+  beforeEach(() => {
+    mocks.navigate.mockReset().mockResolvedValue(undefined); mocks.signInWithPassword.mockReset(); mocks.account = null; sessionStorage.clear();
+    // The start page reads an optional ?mode=login; rendered without a router there is none.
+    vi.spyOn(HomeRoute, "useSearch").mockReturnValue({} as never);
+  });
 
   it("shows the bundled Vital Plus logo", () => {
     render(<Home />);

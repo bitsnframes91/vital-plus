@@ -28,7 +28,7 @@ export function RangeBar({ marker: m }: { marker: LabMarker }) {
         <span><Localized>{Math.round(max)}</Localized></span>
       </div>
       <div className="mt-1 font-data text-[12px] text-ink/55"><Localized>{" Dein Wert: "}</Localized><span className={inRange ? "text-fv-deep" : "text-warn"}><Localized>{value}</Localized> <Localized>{m.unit}</Localized></span>
-        {inRange ? " – im Zielbereich" : value < lo ? " – unter dem Zielbereich" : " – über dem Zielbereich"}
+        <Localized>{inRange ? " – im Zielbereich" : value < lo ? " – unter dem Zielbereich" : " – über dem Zielbereich"}</Localized>
       </div>
     </div>
   );

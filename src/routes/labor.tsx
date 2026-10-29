@@ -153,7 +153,7 @@ function Labs() {
         <a href="https://www.cerascreen.de/" target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-5">
           <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv text-ink"><TestTube size={20} strokeWidth={2.2} aria-hidden="true" /></span>
           <div className="min-w-0 flex-1">
-            <div className="text-[15px] font-medium"><Localized>{"Lass dich testen"}</Localized></div>
+            <div className="flex flex-wrap items-center gap-2"><span className="text-[15px] font-medium"><Localized>{"Lass dich testen"}</Localized></span><span className="rounded-full bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground"><Localized>{"Partner: cerascreen.de"}</Localized></span></div>
             <div className="text-[12px] text-ink/45"><Localized>{"Test-Set für zu Hause – bequem bestellen und das Ergebnis digital erhalten."}</Localized></div>
           </div>
           <ExternalLink size={16} strokeWidth={2} className="shrink-0 text-ink/35" aria-hidden="true" />
@@ -194,7 +194,7 @@ function Labs() {
                     <StatusFace mood={toneMood[st.tone]} className="size-4" />
                     <Localized>{st.label}</Localized>
                   </span>
-                  <Button type="button" variant="ghost" size="icon" onClick={() => setInfoMarkerId(m.id)} aria-label={translateText(`Information zu ${m.name}`)} title={translateText(`Information zu ${m.name}`)} className="size-8 rounded-full text-fv-deep hover:bg-fv/10">
+                  <Button type="button" variant="ghost" size="icon" onClick={() => setInfoMarkerId(m.id)} aria-label={translateText(`Information zu ${translateText(m.name)}`)} title={translateText(`Information zu ${translateText(m.name)}`)} className="size-8 rounded-full text-fv-deep hover:bg-fv/10">
                     <Info size={16} strokeWidth={2} aria-hidden="true" />
                   </Button>
                 </div>

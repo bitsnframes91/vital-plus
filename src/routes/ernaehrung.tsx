@@ -11,7 +11,7 @@ import { mealFromVoice, mealNutrition } from "@/lib/ai.functions";
 import { mealFromPhoto } from "@/lib/food-photo.functions";
 import { prepareFoodPhoto } from "@/lib/food-photo/image";
 import { currentLanguage } from "@/lib/language";
-import { Camera, LoaderCircle } from "lucide-react";
+import { Camera, LoaderCircle, Minus, Plus } from "lucide-react";
 import { blobToBase64 } from "@/lib/record-wav";
 import { VoiceMealEntry, type VoiceMeal } from "@/components/VoiceMealEntry";
 import { serverFetch } from "@/lib/server-fetch";
@@ -276,9 +276,12 @@ function NutritionPage() {
               <span className="text-[13px]"><Localized>{"/ "}</Localized><Localized>{liters(waterGoal)}</Localized><Localized>{" Liter"}</Localized></span>
             </div>
             <div className="mt-2 text-[11px] text-muted-foreground"><Localized>{"Heute / Tagesziel"}</Localized></div>
-            <div className="mt-2.5 flex items-center gap-1.5">
-              <button type="button" onClick={() => addWater(-0.25)} aria-label={translateText("250 ml weniger")} className="rounded-full bg-muted px-2.5 py-1 text-[12px] font-semibold text-ink/70">−250 ml</button>
-              <button type="button" onClick={() => addWater(0.25)} aria-label={translateText("250 ml Wasser hinzufügen")} className="rounded-full bg-fresh px-2.5 py-1 text-[12px] font-semibold text-ink">+250 ml</button>
+            <div className="mt-2.5 flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <button type="button" onClick={() => addWater(-0.25)} aria-label={translateText("250 ml weniger")} className="grid size-8 place-items-center rounded-full bg-muted text-ink/70 transition active:scale-95"><Minus className="size-4" aria-hidden="true" /></button>
+                <button type="button" onClick={() => addWater(0.25)} aria-label={translateText("250 ml Wasser hinzufügen")} className="grid size-8 place-items-center rounded-full bg-fresh text-ink transition active:scale-95"><Plus className="size-4" aria-hidden="true" /></button>
+              </div>
+              <span className="text-[12px] font-semibold text-muted-foreground">250 ml</span>
             </div>
           </div>
           <Link to="/ernaehrung/omega-fette" data-nutrition="omega" className="card-surface block min-w-0 p-4">
@@ -300,10 +303,11 @@ function NutritionPage() {
         </div>
         <p className="text-[11px] leading-relaxed text-muted-foreground"><Localized>{"Vitamine und Mineralien: geschätzte Mengen aus erfassten Mahlzeiten, verglichen mit EU-Referenzmengen für Erwachsene. Keine Laborwerte oder persönlichen Bedarfswerte."}</Localized></p>
         {(gaps.length > 0 || microGaps.length > 0) && <section className="space-y-3 md:grid md:grid-cols-2 md:gap-3 md:space-y-0" data-nutrition-gaps>
-          <h2 className="text-[17px] font-semibold md:col-span-2"><Localized>{"Das fehlt dir noch für heute:"}</Localized></h2>
+          <h2 className="text-[17px] font-semibold md:col-span-2"><Localized>{"Noch nicht erfasst für heute:"}</Localized></h2>
           {gaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
             <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
             <div className="min-w-0 flex-1">
+              <div className="mb-0.5 text-[10px] font-semibold uppercase tracking-wide text-fv-deep"><Localized>{"Shop-Empfehlung"}</Localized></div>
               <div className="eyebrow"><Localized>{g.key === "protein" ? "Protein" : "Ballaststoffe"}</Localized><Localized>{" · noch ca. "}</Localized><Localized>{format(Math.max(g.missing, 0))}</Localized><Localized>{" g"}</Localized></div>
               <div className="mt-1 text-[15px] font-semibold"><Localized>{g.product.name}</Localized></div>
               <div className="text-xs text-muted-foreground"><Localized>{g.reason}</Localized></div>
@@ -313,6 +317,7 @@ function NutritionPage() {
           {microGaps.map((g) => <a key={g.key} href={g.href} target="_blank" rel="noopener noreferrer" className="card-surface flex items-center gap-3 p-3">
             <img src={g.product.image} alt={translateText(g.product.name)} width={72} height={72} loading="lazy" className="size-[72px] shrink-0 rounded-md bg-card object-contain" />
             <div className="min-w-0 flex-1">
+              <div className="mb-0.5 text-[10px] font-semibold uppercase tracking-wide text-fv-deep"><Localized>{"Shop-Empfehlung"}</Localized></div>
               <div className="eyebrow"><Localized>{g.name}</Localized><Localized>{" · noch ca. "}</Localized><Localized>{format(Math.max(g.missing, 0))}</Localized>{" "}{g.unit}</div>
               <div className="mt-1 text-[15px] font-semibold"><Localized>{g.product.name}</Localized></div>
               <div className="text-xs text-muted-foreground"><Localized>{g.reason}</Localized></div>
