@@ -72,3 +72,31 @@ export function ConsentGate({ pathname, children }: { pathname: string; children
     </div>
   );
 }
+
+/** Withdraws health-data consent without deleting the account; the user chooses whether stored health data is kept or erased. */
+export function WithdrawConsent() {
+  useLanguage();
+  const { s } = useStore();
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState("");
+  if (!s.account) return null;
+  const withdraw = async (deleteData: boolean) => {
+    if (!window.confirm(deleteData ? "Einwilligung widerrufen und gespeicherte Gesundheitsdaten löschen?" : "Einwilligung widerrufen? Deine gespeicherten Daten bleiben erhalten, werden aber nicht mehr verarbeitet.")) return;
+    setBusy(true); setMsg("");
+    const { error } = await supabase.rpc("withdraw_health_consent", { _delete_data: deleteData });
+    setBusy(false);
+    if (error) return setMsg("Widerruf nicht möglich. Bitte versuche es erneut.");
+    setCachedConsent(s.account!.userId, "withdrawn");
+    if (deleteData) localStorage.removeItem("fv-health-v1");
+    location.href = "/profil";
+  };
+  return (
+    <div className="space-y-2 border-t border-border pt-4">
+      <p className="text-sm font-semibold"><Localized>{"Einwilligung zu Gesundheitsdaten"}</Localized></p>
+      <p className="text-xs text-muted-foreground"><Localized>{"Ein Widerruf löscht dein Konto nicht. KI-Auswertungen und das Speichern von Gesundheitsdaten werden gestoppt."}</Localized></p>
+      <Button variant="outline" disabled={busy} onClick={() => withdraw(false)} className="w-full"><Localized>{"Widerrufen, Daten behalten"}</Localized></Button>
+      <Button variant="outline" disabled={busy} onClick={() => withdraw(true)} className="w-full text-destructive"><Localized>{"Widerrufen und Gesundheitsdaten löschen"}</Localized></Button>
+      {msg && <p role="alert" className="text-sm text-destructive"><Localized>{msg}</Localized></p>}
+    </div>
+  );
+}
