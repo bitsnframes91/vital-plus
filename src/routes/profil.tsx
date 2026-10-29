@@ -98,6 +98,13 @@ function Profile() {
         <ProfileMascot />
       </header>
       <div className="space-y-4 px-4 pt-4">
+        {s.account && syncPaused && (
+          <div role="status" className="rounded-2xl border border-destructive/40 bg-card p-4 text-[13px]">
+            <p className="font-semibold text-foreground"><Localized>{"Deine Gesundheitsdaten werden gerade nicht gespeichert"}</Localized></p>
+            <p className="mt-1 text-muted-foreground"><Localized>{"Ohne deine Einwilligung zur Verarbeitung von Gesundheitsdaten sichern wir Änderungen nur auf diesem Gerät. Sobald du einwilligst, werden sie automatisch in deinem Konto gespeichert."}</Localized></p>
+            <Link to="/heute" className="mt-2 inline-block font-semibold text-fv-deep underline underline-offset-4"><Localized>{"Einwilligung erteilen →"}</Localized></Link>
+          </div>
+        )}
         <MenuRow category={translateText("Persönlich")} title={translateText("Gesundheitsprofil bearbeiten")} sub={translateText("Name, Größe, Gewicht, Ziele und mehr")} icon={UserRound} onClick={() => openMenu("personal")} />
         <MenuRow category={translateText("Konto")} title={translateText("Konto & Sicherheit")} sub={translateText("E-Mail-Adresse, Passwort, Konto löschen")} icon={LockKeyhole} onClick={() => s.account ? openMenu("security") : navigate({ to: "/login", search: { mode: "login" } })} />
         <MenuRow category={translateText("Einstellungen")} title={translateText("App-Einstellungen")} sub={translateText("Benachrichtigungen, Sprache, Design")} icon={Settings} onClick={() => openMenu("settings")} />
@@ -152,13 +159,13 @@ function Profile() {
               <DialogHeader><DialogTitle><Localized>{"Code eingeben"}</Localized></DialogTitle></DialogHeader>
               <p className="text-sm text-ink/60"><Localized>{"Wir haben einen Code an "}</Localized><Localized>{s.account?.email}</Localized><Localized>{" gesendet."}</Localized></p>
               <input
-                inputMode="numeric" maxLength={10} value={code} autoFocus
-                onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+                inputMode="numeric" maxLength={6} value={code} autoFocus
+                onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 className="w-full rounded-xl bg-muted px-3 py-3 text-center text-lg tracking-[0.4em] outline-none"
                 aria-label={translateText("Bestätigungscode")}
               />
               {err && <p className="text-sm text-destructive"><Localized>{err}</Localized></p>}
-              <Button disabled={busy || code.length < 6} onClick={confirmDelete} className="w-full rounded-full bg-destructive py-2.5 text-sm font-medium text-destructive-foreground disabled:opacity-50">
+              <Button disabled={busy || (!resume && code.length !== 6)} onClick={confirmDelete} className="w-full rounded-full bg-destructive py-2.5 text-sm font-medium text-destructive-foreground disabled:opacity-50">
                 <Localized>{busy ? "Wird gelöscht…" : "Konto endgültig löschen"}</Localized>
               </Button>
               <Button disabled={busy} onClick={sendCode} className="text-[13px] font-medium"><Localized>{"Code erneut senden"}</Localized></Button>
