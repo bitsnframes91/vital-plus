@@ -124,6 +124,8 @@ describe("account deletion in Profile", () => {
     expect(
       screen.getByText("Deine Gesundheitsdaten werden gerade nicht gespeichert"),
     ).toBeInTheDocument();
+    // Held changes live only in this device's cache, which sign-out clears.
+    expect(screen.getByText(/Wenn du dich vorher abmeldest/)).toBeInTheDocument();
     cleanup();
     m.syncPaused = false;
     render(<Profile />);

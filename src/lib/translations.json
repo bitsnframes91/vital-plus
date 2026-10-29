@@ -3754,5 +3754,9 @@
   "Löschen nicht möglich. Bitte versuche es erneut.": [
     "Deletion not possible. Please try again.",
     "No se puede eliminar. Inténtalo de nuevo."
+  ],
+  "Wenn du dich vorher abmeldest, gehen diese nur hier gespeicherten Änderungen verloren.": [
+    "If you sign out before then, these changes stored only on this device will be lost.",
+    "Si cierras sesión antes, se perderán estos cambios guardados solo en este dispositivo."
   ]
 }

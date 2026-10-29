@@ -114,6 +114,7 @@ function Profile() {
           <div role="status" className="rounded-2xl border border-destructive/40 bg-card p-4 text-[13px]">
             <p className="font-semibold text-foreground"><Localized>{"Deine Gesundheitsdaten werden gerade nicht gespeichert"}</Localized></p>
             <p className="mt-1 text-muted-foreground"><Localized>{"Ohne deine Einwilligung zur Verarbeitung von Gesundheitsdaten sichern wir Änderungen nur auf diesem Gerät. Sobald du einwilligst, werden sie automatisch in deinem Konto gespeichert."}</Localized></p>
+            <p className="mt-1 text-muted-foreground"><Localized>{"Wenn du dich vorher abmeldest, gehen diese nur hier gespeicherten Änderungen verloren."}</Localized></p>
             <Link to="/heute" className="mt-2 inline-block font-semibold text-fv-deep underline underline-offset-4"><Localized>{"Einwilligung erteilen →"}</Localized></Link>
           </div>
         )}
