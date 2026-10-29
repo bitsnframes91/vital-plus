@@ -78,7 +78,7 @@ function Profile() {
       const res = await del({ data: { code: resume ? null : code } });
       if (!res.ok) {
         setBusy(false);
-        if (res.reason === "cleanup_failed") { setResume(true); return setErr("Das Löschen wurde bestätigt, aber noch nicht abgeschlossen. Bitte tippe erneut auf „Endgültig löschen“."); }
+        if (res.reason === "cleanup_failed") { setResume(true); return setErr("Das Löschen wurde bestätigt, aber noch nicht abgeschlossen. Bitte tippe erneut auf „Konto endgültig löschen“."); }
         if (res.reason === "locked") return setErr("Zu viele falsche Versuche. Bitte fordere einen neuen Code an.");
         return setErr("Der Code ist ungültig oder abgelaufen.");
       }
