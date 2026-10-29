@@ -7,10 +7,10 @@ export type IssueResult = "ok" | "cooldown" | "limited";
 export type ConsumeResult = "ok" | "invalid" | "expired" | "locked";
 
 /** Uniform 6-digit code from a CSPRNG (rejection sampling avoids modulo bias). */
-export function generateCode(rand: (buf: Uint32Array) => Uint32Array = (b) => crypto.getRandomValues(b)): string {
+export function generateCode(): string {
   const limit = Math.floor(0x1_0000_0000 / 1_000_000) * 1_000_000;
   for (;;) {
-    const n = rand(new Uint32Array(1))[0]!;
+    const n = crypto.getRandomValues(new Uint32Array(1))[0]!;
     if (n < limit) return String(n % 1_000_000).padStart(6, "0");
   }
 }
