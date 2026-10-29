@@ -154,6 +154,7 @@ git push origin ios-native-testflight-v1.0.0-<label>
 10. **Airplane mode.** The offline notice appears; it disappears when back online.
 11. **Deep link.** `xcrun simctl openurl booted vivohealth://ernaehrung` opens Ernährung.
 12. **Account deletion** (after the server change is published). The code email arrives, the account is deleted, and the app returns to `/`.
+13. **Data export** (Profil → Meine Daten → Meine Daten herunterladen). On iPhone the share sheet opens; on iPad it opens as a centred popover. "In Dateien sichern" saves `vitalplus-meine-daten-<date>.json`, and the app then reports "Deine Daten wurden exportiert." Closing the sheet without choosing an action reports "Export abgebrochen …". In airplane mode the app says the account data could not be loaded, and no sheet opens. After withdrawing consent, the export still works.
 
 ## Troubleshooting
 
@@ -180,6 +181,7 @@ git push origin ios-native-testflight-v1.0.0-<label>
 - Sessions live in the Keychain (this device only, after first unlock), are excluded from backups, and are cleared on reinstall.
 - Deep links accept only `vivohealth://` and the hosted origin, and only plain in-app paths (`deepLinkPath`, unit-tested).
 - No new third-party SDKs: the native plugins are the official `@capacitor/app` and `@capacitor/status-bar`.
+- The data export (`FileSharePlugin`) writes the JSON file to a protected temporary folder (`NSFileProtectionComplete`, not backed up). It deletes the file as soon as the share sheet closes, and deletes any leftover files before the next export.
 
 ## Android later
 

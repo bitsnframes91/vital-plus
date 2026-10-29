@@ -6,5 +6,6 @@ class MainViewController: CAPBridgeViewController {
     override open func capacitorDidLoad() {
         bridge?.registerPluginInstance(SecureSessionStoragePlugin())
         bridge?.registerPluginInstance(VitalHealthPlugin())
+        bridge?.registerPluginInstance(FileSharePlugin())
     }
 }

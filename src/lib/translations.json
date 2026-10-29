@@ -1851,6 +1851,42 @@
     "Download a copy of your data",
     "Descargar una copia de tus datos"
   ],
+  "Deine Daten werden vorbereitet …": [
+    "Preparing your data …",
+    "Preparando tus datos …"
+  ],
+  "Bitte melde dich an, um deine Daten zu exportieren.": [
+    "Please sign in to export your data.",
+    "Inicia sesión para exportar tus datos."
+  ],
+  "Deine Anmeldung hat sich geändert. Bitte melde dich erneut an und versuche es noch einmal. Es wurde keine Datei erstellt.": [
+    "Your sign-in has changed. Please sign in again and try once more. No file was created.",
+    "Tu sesión ha cambiado. Vuelve a iniciar sesión e inténtalo de nuevo. No se ha creado ningún archivo."
+  ],
+  "Deine Kontodaten konnten nicht geladen werden. Bitte prüfe deine Internetverbindung und versuche es erneut. Es wurde keine Datei erstellt.": [
+    "Your account data could not be loaded. Please check your internet connection and try again. No file was created.",
+    "No se han podido cargar los datos de tu cuenta. Comprueba tu conexión a internet e inténtalo de nuevo. No se ha creado ningún archivo."
+  ],
+  "Für dein Konto sind noch keine Daten gespeichert. Es wurde keine Datei erstellt.": [
+    "No data has been stored for your account yet. No file was created.",
+    "Todavía no hay datos guardados en tu cuenta. No se ha creado ningún archivo."
+  ],
+  "Der Export ist fehlgeschlagen. Es wurde keine Datei gespeichert oder geteilt. Bitte versuche es erneut.": [
+    "The export failed. No file was saved or shared. Please try again.",
+    "La exportación ha fallado. No se ha guardado ni compartido ningún archivo. Inténtalo de nuevo."
+  ],
+  "Export abgebrochen. Es wurde keine Datei gespeichert oder geteilt.": [
+    "Export cancelled. No file was saved or shared.",
+    "Exportación cancelada. No se ha guardado ni compartido ningún archivo."
+  ],
+  "Deine Daten wurden exportiert.": [
+    "Your data has been exported.",
+    "Tus datos se han exportado."
+  ],
+  "Der Download deiner Daten wurde gestartet. Du findest die JSON-Datei in deinem Download-Ordner.": [
+    "The download of your data has started. You will find the JSON file in your downloads folder.",
+    "Se ha iniciado la descarga de tus datos. Encontrarás el archivo JSON en tu carpeta de descargas."
+  ],
   "Alle Daten und dein Konto dauerhaft löschen": [
     "Permanently delete all data and your account",
     "Eliminar permanentemente todos los datos y tu cuenta"

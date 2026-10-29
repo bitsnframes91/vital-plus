@@ -20,6 +20,7 @@
 		A1C0DE000000000000000004 /* SecureSessionStoragePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C0DE000000000000000003 /* SecureSessionStoragePlugin.swift */; };
 		A1C0DE000000000000000006 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1C0DE000000000000000005 /* PrivacyInfo.xcprivacy */; };
 		A1C0DE000000000000000008 /* VitalHealthPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C0DE000000000000000007 /* VitalHealthPlugin.swift */; };
+		A1C0DE00000000000000000B /* FileSharePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C0DE00000000000000000A /* FileSharePlugin.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		A1C0DE000000000000000003 /* SecureSessionStoragePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureSessionStoragePlugin.swift; sourceTree = "<group>"; };
 		A1C0DE000000000000000005 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A1C0DE000000000000000007 /* VitalHealthPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitalHealthPlugin.swift; sourceTree = "<group>"; };
+		A1C0DE00000000000000000A /* FileSharePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSharePlugin.swift; sourceTree = "<group>"; };
 		A1C0DE000000000000000009 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		958DCC722DB07C7200EA8C5F /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = ../debug.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -77,6 +79,7 @@
 				A1C0DE000000000000000001 /* MainViewController.swift */,
 				A1C0DE000000000000000003 /* SecureSessionStoragePlugin.swift */,
 				A1C0DE000000000000000007 /* VitalHealthPlugin.swift */,
+				A1C0DE00000000000000000A /* FileSharePlugin.swift */,
 				A1C0DE000000000000000009 /* App.entitlements */,
 				50379B222058CBB4000EE86E /* capacitor.config.json */,
 				504EC3071FED79650016851F /* AppDelegate.swift */,
@@ -178,6 +181,7 @@
 				A1C0DE000000000000000002 /* MainViewController.swift in Sources */,
 				A1C0DE000000000000000004 /* SecureSessionStoragePlugin.swift in Sources */,
 				A1C0DE000000000000000008 /* VitalHealthPlugin.swift in Sources */,
+				A1C0DE00000000000000000B /* FileSharePlugin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

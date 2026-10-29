@@ -18,6 +18,10 @@ const numFields = { age: { label: "Alter in Jahren", key: "age", min: 18, max: 1
 import { PasswordResetForm } from "@/components/PasswordResetForm";
 import { AppSettingsControls } from "@/components/AppSettings";
 import { OpenSourceLicenses } from "@/components/OpenSourceLicenses";
+import { useAppleHealth } from "@/components/AppleHealth";
+import { buildDataExport, exportFileName, ExportIdentityError, isEmptyExport, loadServerCopy } from "@/lib/data-export";
+import { saveTextFile, type FileResult } from "@/lib/file-share";
+import { parseSettings, SETTINGS_KEY } from "@/lib/app-settings";
 
 const titles: Record<string, string> = { personal: "Gesundheitsprofil bearbeiten", security: "Konto & Sicherheit", settings: "App-Einstellungen", privacy: "Meine Daten", help: "Kundenservice kontaktieren", legal: "Rechtliches", account: "Konto verwalten" };
 
@@ -35,9 +39,21 @@ export const Route = createFileRoute("/profil/$section")({
   component: ProfileSubmenu,
 });
 
-function Row({ title, sub, icon: Icon, onClick, danger = false, green = false }: { title: string; sub?: string; icon: LucideIcon; onClick: () => void; danger?: boolean; green?: boolean }) {
+const EXPORT_TITLE = "Meine Daten herunterladen";
+const exportMessages = {
+  signedOut: "Bitte melde dich an, um deine Daten zu exportieren.",
+  identity: "Deine Anmeldung hat sich geändert. Bitte melde dich erneut an und versuche es noch einmal. Es wurde keine Datei erstellt.",
+  loadFailed: "Deine Kontodaten konnten nicht geladen werden. Bitte prüfe deine Internetverbindung und versuche es erneut. Es wurde keine Datei erstellt.",
+  empty: "Für dein Konto sind noch keine Daten gespeichert. Es wurde keine Datei erstellt.",
+  failed: "Der Export ist fehlgeschlagen. Es wurde keine Datei gespeichert oder geteilt. Bitte versuche es erneut.",
+  cancelled: "Export abgebrochen. Es wurde keine Datei gespeichert oder geteilt.",
+  shared: "Deine Daten wurden exportiert.",
+  downloaded: "Der Download deiner Daten wurde gestartet. Du findest die JSON-Datei in deinem Download-Ordner.",
+} satisfies Record<string, string> & Record<FileResult, string>;
+
+function Row({ title, sub, icon: Icon, onClick, danger = false, green = false, disabled = false }: { title: string; sub?: string; icon: LucideIcon; onClick: () => void; danger?: boolean; green?: boolean; disabled?: boolean }) {
   useLanguage();
-  return <Button variant="ghost" onClick={onClick} className={`h-auto min-h-16 w-full justify-start gap-3 whitespace-normal px-3 py-3 text-left ${green ? "min-h-20 rounded-2xl bg-card" : "rounded-lg bg-card"} ${danger ? "text-destructive" : "text-foreground"}`}>
+  return <Button variant="ghost" onClick={onClick} disabled={disabled} aria-busy={disabled || undefined} className={`h-auto min-h-16 w-full justify-start gap-3 whitespace-normal px-3 py-3 text-left ${green ? "min-h-20 rounded-2xl bg-card" : "rounded-lg bg-card"} ${danger ? "text-destructive" : "text-foreground"}`}>
     <span className={`grid shrink-0 place-items-center rounded-full ${green ? "size-12 bg-fresh text-ink" : "size-9"}`}><Icon className={`${green ? "size-6!" : "size-5!"}`} strokeWidth={1.6} /></span>
     <span className="min-w-0 flex-1"><span className="block text-[13px] font-semibold leading-5"><Localized>{title}</Localized></span>{sub && <span className={`block break-words text-[12px] font-normal leading-4 ${danger ? "text-destructive" : "text-muted-foreground"}`}><Localized>{sub}</Localized></span>}</span><ChevronRight className="size-4! shrink-0 text-muted-foreground" />
   </Button>;
@@ -49,7 +65,9 @@ function ProfileSubmenu() {
   const terms = doc === "privacy" ? privacyCopy[language] : termsCopy[language];
   const { section } = Route.useParams();
   const navigate = Route.useNavigate();
-  const { s, set } = useStore();
+  const { s, set, consent } = useStore();
+  const appleHealth = useAppleHealth();
+  const [exporting, setExporting] = useState(false);
   const [detail, setDetail] = useState<{ title: string; text?: string; name?: boolean; data?: boolean; faq?: boolean; password?: boolean; target?: boolean; terms?: boolean; imprint?: boolean; licenses?: boolean } | null>(null);
   const [name, setName] = useState(s.name);
   const [targetWeight, setTargetWeight] = useState("");
@@ -79,11 +97,25 @@ function ProfileSubmenu() {
   };
   const notice = (title: string, text: string) => setDetail({ title, text });
   const deletion = () => navigate({ to: "/profil", search: { action: "delete" } });
-  const download = () => {
-    const { account: _account, ...health } = s;
-    const url = URL.createObjectURL(new Blob([JSON.stringify(health, null, 2)], { type: "application/json" }));
-    const a = document.createElement("a"); a.href = url; a.download = "vivo-meine-daten.json"; a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  // Exports the account's server copy plus device-only data; every outcome is reported, never a silent success.
+  const download = async () => {
+    if (exporting) return;
+    const account = s.account;
+    if (!account) return notice(EXPORT_TITLE, exportMessages.signedOut);
+    setExporting(true);
+    try {
+      let server;
+      try { server = await loadServerCopy(account.userId); }
+      catch (error) { return notice(EXPORT_TITLE, error instanceof ExportIdentityError ? exportMessages.identity : exportMessages.loadFailed); }
+      let settings;
+      try { settings = parseSettings(localStorage.getItem(SETTINGS_KEY)); } catch { settings = parseSettings(null); }
+      const data = buildDataExport({ account, server, consentStatus: consent, device: { state: s, settings, appleHealth: appleHealth?.account ?? null } });
+      if (isEmptyExport(data)) return notice(EXPORT_TITLE, exportMessages.empty);
+      let result: FileResult;
+      try { result = await saveTextFile({ filename: exportFileName(), content: JSON.stringify(data, null, 2) }); }
+      catch { return notice(EXPORT_TITLE, exportMessages.failed); }
+      notice(EXPORT_TITLE, exportMessages[result]);
+    } finally { setExporting(false); }
   };
   const password = () => setDetail({ title: "Passwort ändern", password: true });
   const privacy = () => { setDoc("privacy"); setDetail({ title: "Datenschutzerklärung", terms: true }); };
@@ -112,7 +144,7 @@ function ProfileSubmenu() {
       </>}
       {section === "settings" && <AppSettingsControls />}
       {section === "privacy" && <><div className="space-y-2">
-        <Row title={translateText("Meine Daten herunterladen")} sub={translateText("Eine Kopie deiner Daten herunterladen")} icon={Download} green onClick={download} />
+        <Row title={translateText("Meine Daten herunterladen")} sub={translateText(exporting ? "Deine Daten werden vorbereitet …" : "Eine Kopie deiner Daten herunterladen")} icon={Download} green disabled={exporting} onClick={() => void download()} />
       </div><Row title={translateText("Konto löschen")} sub={translateText("Alle Daten und dein Konto dauerhaft löschen")} icon={Trash2} danger onClick={deletion} /></>}
       {section === "help" && <><p className="text-sm leading-5 text-muted-foreground"><Localized>{"Wir sind für dich da. Wähle eine Option, um uns zu kontaktieren."}</Localized></p><div className="space-y-2">
         <Row title={translateText("Anrufen")} sub={translateText("+49 2234 2190482")} icon={Phone} green onClick={() => { window.location.href = "tel:+4922342190482"; }} />
@@ -153,7 +185,7 @@ function ProfileSubmenu() {
       {detail?.name && <form className="space-y-4" onSubmit={e => { e.preventDefault(); set({ name: name.trim() }); setDetail(null); }}><label className="block text-sm"><Localized>{"Name"}</Localized><input className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={name} onChange={e => setName(e.target.value)} /></label><Button type="submit" className="w-full bg-fresh text-ink hover:bg-fresh/90"><Localized>{"Speichern"}</Localized></Button></form>}
       {detail?.target && <form className="space-y-4" onSubmit={e => { e.preventDefault(); const n = Number(targetWeight.replace(",", ".")); if (targetWeight.trim() && !isNaN(n) && n >= 30 && n <= 300) { set({ body: { ...s.body, targetWeightKg: Math.round(n * 10) / 10 } }); setDetail(null); } }}><label className="block text-sm"><Localized>{"Zielgewicht in kg"}</Localized><input type="text" inputMode="decimal" className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={targetWeight} onChange={e => setTargetWeight(e.target.value)} placeholder={translateText("z. B. 78")} /></label><Button type="submit" className="w-full bg-fresh text-ink hover:bg-fresh/90"><Localized>{"Speichern"}</Localized></Button>{s.body.targetWeightKg != null && <Button type="button" variant="ghost" className="w-full" onClick={() => { set({ body: { ...s.body, targetWeightKg: null } }); setDetail(null); }}><Localized>{"Zielgewicht entfernen"}</Localized></Button>}</form>}
 
-      {detail?.data && <div className="space-y-4"><p className="text-sm text-muted-foreground"><Localized>{"Deine Werte, Mahlzeiten und Ziele sind deinem Konto zugeordnet."}</Localized></p><div className="flex items-center justify-between gap-3"><label htmlFor="profile-analytics" className="text-sm"><Localized>{"Anonyme Nutzungsstatistik"}</Localized></label><Switch id="profile-analytics" checked={s.consent.analytics} onCheckedChange={analytics => set({ consent: { ...s.consent, analytics } })} /></div><Button onClick={download} className="w-full bg-fresh text-ink hover:bg-fresh/90"><Download /><Localized>{" Daten herunterladen"}</Localized></Button><WithdrawConsent /></div>}
+      {detail?.data && <div className="space-y-4"><p className="text-sm text-muted-foreground"><Localized>{"Deine Werte, Mahlzeiten und Ziele sind deinem Konto zugeordnet."}</Localized></p><div className="flex items-center justify-between gap-3"><label htmlFor="profile-analytics" className="text-sm"><Localized>{"Anonyme Nutzungsstatistik"}</Localized></label><Switch id="profile-analytics" checked={s.consent.analytics} onCheckedChange={analytics => set({ consent: { ...s.consent, analytics } })} /></div><Button onClick={() => void download()} disabled={exporting} className="w-full bg-fresh text-ink hover:bg-fresh/90"><Download /><Localized>{" Daten herunterladen"}</Localized></Button><WithdrawConsent /></div>}
       {detail?.faq && <div className="space-y-4 text-sm"><details><summary className="cursor-pointer font-semibold"><Localized>{"Wie ändere ich Werte und Ziele?"}</Localized></summary><p className="mt-2 text-muted-foreground"><Localized>{"Unter Profil → Gesundheitsprofil bearbeiten öffnest du die passende Frage im Fragebogen."}</Localized></p></details><details><summary className="cursor-pointer font-semibold"><Localized>{"Wie lade ich einen neuen Befund hoch?"}</Localized></summary><p className="mt-2 text-muted-foreground"><Localized>{"Unter Labor kannst du alte Werte löschen und einen PDF-Befund oder ein Foto hochladen."}</Localized></p></details><details><summary className="cursor-pointer font-semibold"><Localized>{"Ich habe mein Passwort vergessen."}</Localized></summary><p className="mt-2 text-muted-foreground"><Localized>{"Auf der Anmeldeseite kannst du über „Passwort vergessen?“ einen neuen Link anfordern."}</Localized></p></details></div>}
     </DialogContent></Dialog>
   </AppShell>;
