@@ -5,6 +5,8 @@ export type QuestionnaireDraft = {
   body: { weightKg: number; heightCm: number; age: number; sex: "female" | "male" | "diverse" | "unspecified"; activity: string; stepGoal: number };
   /** ISO timestamp of explicit GDPR Art. 9 health-data consent given in the questionnaire. */
   healthConsentAt?: string;
+  /** Consent policy version the user ticked. */
+  healthConsentVersion?: string;
 };
 const KEY = "vitalplus-questionnaire-draft";
 export function validQuestionnaire(value: unknown): value is QuestionnaireDraft {

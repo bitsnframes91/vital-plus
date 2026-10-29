@@ -1,3 +1,5 @@
+import { HEALTH_CONSENT_VERSION } from "@/lib/consent-policy";
+import { supabase } from "@/integrations/supabase/client";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -144,11 +146,12 @@ function Onboarding() {
     if (step < steps.length - 1) return setStep(step + 1);
     if (!s.account) {
       if (!profile.age || !profile.sex || !profile.activity) return;
-      saveQuestionnaire({ name: name.trim(), goals, diet, body: { age: profile.age, sex: profile.sex, activity: profile.activity, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) ?? 8000 }, healthConsentAt: new Date().toISOString() });
+      saveQuestionnaire({ name: name.trim(), goals, diet, body: { age: profile.age, sex: profile.sex, activity: profile.activity, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) ?? 8000 }, healthConsentAt: new Date().toISOString(), healthConsentVersion: HEALTH_CONSENT_VERSION });
       nav({ to: "/login", search: { mode: "register" } });
       return;
     }
-    set({ name, goals, onboarded: true, consent: { ...s.consent, healthDataAt: s.consent.healthDataAt ?? new Date().toISOString() }, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? 0 } });
+    set({ name, goals, onboarded: true, consent: { ...s.consent, healthDataAt: new Date().toISOString(), healthVersion: HEALTH_CONSENT_VERSION }, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? 0 } });
+    void supabase.rpc("give_health_consent", { _version: HEALTH_CONSENT_VERSION });
     nav({ to: "/heute" });
   };
 
