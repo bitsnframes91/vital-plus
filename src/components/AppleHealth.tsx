@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import { useStore } from "@/lib/store";
+import { canRecordLocalConsent } from "@/lib/consent-policy";
 import {
   healthBridge,
   READ_TYPES,
@@ -73,20 +74,30 @@ export type AppleHealthContextValue = {
   permissionUpdateAvailable: boolean;
   /** Shows the Health sheet for those types only (user action), then imports. */
   requestPermissions: () => Promise<void>;
+  /**
+   * Deletes this account's Apple Health cache on this device (imported summary, export settings, write
+   * ledger) after account deletion or erased health data. Samples saved in Apple Health are not touched.
+   */
+  forgetDevice: () => Promise<void>;
 };
 
 const AppleHealthContext = createContext<AppleHealthContextValue | null>(null);
 export const useAppleHealth = () => useContext(AppleHealthContext);
 
 export function AppleHealthProvider({ children }: { children: ReactNode }) {
-  const { s } = useStore();
+  const { s, consent } = useStore();
   const records = useMemo<AppRecords>(
     () => ({ meals: s.meals, waterLog: s.waterLog, weightLog: s.weightLog }),
     [s.meals, s.waterLog, s.weightLog],
   );
+  const userId = s.account?.userId ?? null;
+  // Apple Health values are health data: import, export and observers pause without active consent. While
+  // consent cannot be checked (offline), a current-policy consent recorded for this account still applies.
+  const allowed = consent === "active" || (consent === null && canRecordLocalConsent(s.consent));
   return (
     <AppleHealthController
-      userId={s.account?.userId ?? null}
+      userId={allowed ? userId : null}
+      accountId={userId}
       onboarded={s.onboarded}
       records={records}
     >
@@ -97,11 +108,15 @@ export function AppleHealthProvider({ children }: { children: ReactNode }) {
 
 export function AppleHealthController({
   userId,
+  accountId = userId,
   onboarded,
   records,
   children,
 }: {
+  /** Account whose Apple Health data may be processed now; null when signed out or without consent. */
   userId: string | null;
+  /** Signed-in account, also while processing is paused, so its device cache can still be deleted. */
+  accountId?: string | null;
   onboarded: boolean;
   records: AppRecords;
   children: ReactNode;
@@ -408,6 +423,22 @@ export function AppleHealthController({
     await sync();
   }, [bridge, persist, refreshStatuses, sync]);
 
+  const forgetDevice = useCallback(async () => {
+    cancelSync();
+    generation.current++; // discards any import or export still in flight
+    const k = keys.current;
+    keys.current = null;
+    current.current = null;
+    setAccount(null);
+    setWriteStatuses({});
+    setError(null);
+    await exporting.current?.catch(() => {});
+    if (!bridge) return;
+    const key = k?.key ?? (accountId ? (await accountKeys(accountId)).key : null);
+    // Plugin calls run in order, so a save sent before this cannot recreate the file afterwards.
+    if (key) await bridge.clearState({ accountKey: key });
+  }, [bridge, accountId, cancelSync]);
+
   const skipIntro = useCallback(
     () =>
       persist((prev) => ({ ...prev, intro: prev.intro === "pending" ? "skipped" : prev.intro })),
@@ -523,6 +554,7 @@ export function AppleHealthController({
       refreshIfStale,
       permissionUpdateAvailable,
       requestPermissions,
+      forgetDevice,
     }),
     [
       phase,
@@ -540,6 +572,7 @@ export function AppleHealthController({
       refreshIfStale,
       permissionUpdateAvailable,
       requestPermissions,
+      forgetDevice,
     ],
   );
   return <AppleHealthContext.Provider value={value}>{children}</AppleHealthContext.Provider>;

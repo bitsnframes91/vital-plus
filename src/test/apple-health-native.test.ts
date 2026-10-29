@@ -73,7 +73,7 @@ describe("Apple Health privacy boundary", () => {
 
   it("only reads the synced store, never writes to it", () => {
     const component = read("src/components/AppleHealth.tsx");
-    expect(component).toMatch(/const \{ s \} = useStore\(\);/);
+    expect(component).toMatch(/const \{ s, consent \} = useStore\(\);/);
     expect(component).not.toMatch(/\bset\(\{|useStore\(\)\.set/);
   });
 

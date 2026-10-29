@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 // questionnaire cannot finish without it, and the time of consent is stored.
 const store = vi.hoisted(() => ({
   set: vi.fn(),
+  grantConsent: vi.fn(async () => true),
   s: {
     name: "",
     goals: [] as string[],
@@ -59,6 +60,7 @@ function fillQuestionnaire() {
 beforeEach(() => {
   vi.spyOn(Route, "useSearch").mockReturnValue({} as never);
   store.set.mockClear();
+  store.grantConsent.mockClear();
   navigate.mockClear();
   store.s.account = null;
   sessionStorage.clear();
@@ -96,18 +98,17 @@ describe("health data consent in the questionnaire", () => {
     expect(Date.parse(readQuestionnaire()!.healthConsentAt!)).not.toBeNaN();
   });
 
-  it("stores the time of consent in the signed-in account", () => {
+  it("records the consent on the server for the signed-in account", () => {
     store.s.account = { email: "anna@example.com", userId: "user-a" };
     render(<Onboarding />);
     fillQuestionnaire();
     fireEvent.click(screen.getByRole("checkbox"));
     fireEvent.click(finish());
-    const saved = store.set.mock.calls.at(-1)![0] as {
-      onboarded: boolean;
-      consent: { healthDataAt: string };
-    };
+    const saved = store.set.mock.calls.at(-1)![0] as { onboarded: boolean; consent?: unknown };
     expect(saved.onboarded).toBe(true);
-    expect(Date.parse(saved.consent.healthDataAt)).not.toBeNaN();
+    // The consent date is stored by grantConsent, only after the server recorded the consent.
+    expect(saved.consent).toBeUndefined();
+    expect(store.grantConsent).toHaveBeenCalledOnce();
     expect(navigate).toHaveBeenCalledWith({ to: "/heute" });
   });
 });

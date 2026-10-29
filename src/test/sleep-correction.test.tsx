@@ -27,6 +27,8 @@ vi.mock("@/integrations/supabase/client", () => ({
         return { data: { subscription: { unsubscribe: vi.fn() } } };
       },
     },
+    // Health-data consent is active, so saves are not held back (see store push).
+    rpc: async () => ({ data: "active", error: null }),
     from: () => ({
       select: () => ({
         eq: () => ({

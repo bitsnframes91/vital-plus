@@ -4,6 +4,7 @@ import { initialMeals, initialSupplements, labMarkers as seedLabs, type Meal, ty
 import { supabase } from "@/integrations/supabase/client";
 import { questionnaireForAccount } from "./questionnaire-draft";
 import { todayKey } from "./daily-goals";
+import { HEALTH_CONSENT_VERSION, canRecordLocalConsent, needsConsentPrompt, type ConsentStatus } from "./consent-policy";
 
 // Health state: kept in the browser and synced to the signed-in user's Lovable Cloud account.
 type State = {
@@ -15,7 +16,7 @@ type State = {
   supplements: Supplement[];
   labs: LabMarker[];
   actionsDone: Record<string, boolean>;
-  consent: { practitioner: boolean; analytics: boolean; healthDataAt?: string | null };
+  consent: { practitioner: boolean; analytics: boolean; healthDataAt?: string | null; healthVersion?: string | null };
   account: { email: string; userId: string } | null;
   aiPlan: { date: string; items: { title: string; detail: string; daily?: boolean; en?: { title: string; detail: string }; es?: { title: string; detail: string } }[] } | null;
   body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null; stepsDate?: string | null; sleepDate?: string | null; heightCm?: number | null; age?: number | null; sex?: "female" | "male" | "diverse" | "unspecified" | null; activity?: string | null; stepGoal?: number | null; targetWeightKg?: number | null };
@@ -44,7 +45,20 @@ const initial: State = {
   waterLog: {},
 };
 
-type CtxValue = { s: State; set: (p: Partial<State>) => void } | null;
+type CtxValue = {
+  s: State;
+  set: (p: Partial<State>) => void;
+  /** Server-confirmed health-data consent of the signed-in user; null while unknown (signed out, loading, offline). */
+  consent: ConsentStatus | null;
+  grantConsent: () => Promise<boolean>;
+  withdrawConsent: (deleteData: boolean) => Promise<boolean>;
+  /** Drops the account's state and unsent saves from this device (after the account was deleted). */
+  forgetAccount: () => void;
+  /** Signed in, and the server confirmed there is no active consent: changes stay on this device only. */
+  syncPaused: boolean;
+  /** Checks consent again and sends held changes if it is now active. */
+  resumeSync: () => void;
+} | null;
 const g = globalThis as unknown as { __fvStoreCtx?: React.Context<CtxValue> };
 const Ctx = g.__fvStoreCtx ?? (g.__fvStoreCtx = createContext<CtxValue>(null));
 const KEY = "fv-health-v1";
@@ -75,7 +89,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [s, setS] = useState<State>(initial);
   const userRef = useRef<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pending = useRef<(() => void) | null>(null);
+  const pending = useRef<(() => Promise<void>) | null>(null);
+  const [consent, setConsentState] = useState<ConsentStatus | null>(null);
+  const consentRef = useRef<ConsentStatus | null>(null);
+  // Newest state, and whether it changed while saving was not allowed yet.
+  const latest = useRef<State>(initial);
+  const held = useRef(false);
 
   const cancelPending = () => {
     if (timer.current) clearTimeout(timer.current);
@@ -86,32 +105,106 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const push = (next: State) => {
     const uid = userRef.current;
     if (!uid) return;
+    // The server rejects health-data writes without active consent (RLS + trigger, error 42501). Until consent
+    // is confirmed the newest state stays on this device and is sent once consent becomes active.
+    if (consentRef.current !== "active") { held.current = true; return; }
     if (timer.current) clearTimeout(timer.current);
-    const send = () => {
+    const send = async () => {
       cancelPending();
       const { account: _a, ...state } = next;
       // Query builders are lazy: the request is only sent once the promise is consumed.
-      supabase
+      const { error } = await supabase
         .from("user_data")
-        .upsert({ user_id: uid, state: state as any, updated_at: new Date().toISOString() })
-        .then(({ error }) => { if (error) console.error("Vitalplus: saving account data failed", error.message); });
+        .upsert({ user_id: uid, state: state as any, updated_at: new Date().toISOString() });
+      if (!error) return;
+      console.error("Vitalplus: saving account data failed", error.message);
+      // Consent was withdrawn elsewhere (or a new policy applies): keep the change and check consent again.
+      if (error.code === "42501" && userRef.current === uid) { held.current = true; void loadConsent(uid); }
     };
     pending.current = send;
     timer.current = setTimeout(send, 800);
   };
 
+  const setConsent = (status: ConsentStatus | null) => {
+    const was = consentRef.current;
+    consentRef.current = status;
+    setConsentState(status);
+    if (status !== "active") { if (pending.current) held.current = true; cancelPending(); }
+    else if (was !== "active" && held.current) { held.current = false; push(latest.current); }
+  };
+
+  const loadConsent = async (uid: string) => {
+    try {
+      const { data, error } = await supabase.rpc("health_consent_status", { _version: HEALTH_CONSENT_VERSION });
+      if (userRef.current !== uid || error) return;
+      let status = data as ConsentStatus;
+      // Consent ticked in the questionnaire before the account existed is recorded once identity is verified.
+      if (needsConsentPrompt(status) && canRecordLocalConsent(latest.current.consent)) {
+        const { error: recErr } = await supabase.rpc("give_health_consent", { _version: HEALTH_CONSENT_VERSION });
+        if (userRef.current !== uid) return;
+        if (!recErr) status = "active";
+      }
+      setConsent(status);
+    } catch { /* offline: stays unknown and is checked again when the app returns or goes online */ }
+  };
+
+  const grantConsent = async () => {
+    const uid = userRef.current;
+    if (!uid) return false;
+    const { error } = await supabase.rpc("give_health_consent", { _version: HEALTH_CONSENT_VERSION });
+    if (error || userRef.current !== uid) return false;
+    setConsent("active");
+    set({ consent: { ...latest.current.consent, healthDataAt: new Date().toISOString(), healthVersion: HEALTH_CONSENT_VERSION } });
+    return true;
+  };
+
+  const withdrawConsent = async (deleteData: boolean) => {
+    const uid = userRef.current;
+    if (!uid) return false;
+    // Kept data includes a change made just before withdrawing; data about to be erased is not sent.
+    if (deleteData) cancelPending(); else await pending.current?.();
+    const { error } = await supabase.rpc("withdraw_health_consent", { _delete_data: deleteData });
+    if (error || userRef.current !== uid) return false;
+    held.current = false;
+    setConsent("withdrawn");
+    const prev = latest.current;
+    const next: State = deleteData
+      ? { ...initial, meals: [], labs: [], actionsDone: {}, account: prev.account }
+      : { ...prev, consent: { ...prev.consent, healthDataAt: null, healthVersion: null } };
+    latest.current = next;
+    localStorage.setItem(KEY, JSON.stringify(next));
+    setS(next);
+    return true;
+  };
+
+  const forgetAccount = () => {
+    cancelPending();
+    held.current = false;
+    userRef.current = null;
+    consentRef.current = null;
+    setConsentState(null);
+    localStorage.removeItem(KEY);
+    latest.current = initial;
+    setS({ ...initial });
+  };
+
   // iOS suspends timers once the app is hidden: send a pending save right away, so a value entered
   // just before leaving or quitting the app is in the account copy that the next launch restores.
   useEffect(() => {
-    const flush = () => pending.current?.();
+    const flush = () => void pending.current?.();
+    // Consent that could not be checked (offline) is checked again once the app is back.
+    const recheck = () => { if (userRef.current && consentRef.current === null) void loadConsent(userRef.current); };
     const onVisibility = () => {
       if (document.visibilityState === "hidden") flush();
+      else recheck();
     };
     document.addEventListener("visibilitychange", onVisibility);
     window.addEventListener("pagehide", flush);
+    window.addEventListener("online", recheck);
     return () => {
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("pagehide", flush);
+      window.removeEventListener("online", recheck);
     };
   }, []);
 
@@ -129,31 +222,39 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (!user) {
         userRef.current = null;
         cancelPending();
+        held.current = false;
+        consentRef.current = null;
+        setConsentState(null);
         setS((p) => {
           if (signedOut || p.account || hadAccountCache) {
             localStorage.removeItem(KEY);
+            latest.current = initial;
             return { ...initial };
           }
-          return { ...p, account: null };
+          return (latest.current = { ...p, account: null });
         });
         return;
       }
       if (userRef.current === user.id) return;
       cancelPending();
+      held.current = false;
+      consentRef.current = null;
+      setConsentState(null);
       userRef.current = user.id;
       const account = { email: user.email ?? "", userId: user.id };
       const { data, error } = await supabase.from("user_data").select("state").eq("user_id", user.id).maybeSingle();
       if (userRef.current !== user.id) return;
       const questionnaire = error ? null : questionnaireForAccount(data?.state, user.user_metadata?.["questionnaire"]);
-      setS((p) => {
-        // A new account never inherits data held on this device (privacy: shared devices / previous accounts).
-        // New accounts start empty: no demo meals, lab values or completed goals.
-        const fresh: State = { ...initial, meals: [], labs: [], actionsDone: {}, account };
-        const next = data?.state ? { ...fresh, ...migrate(data.state as any), account } : questionnaire ? { ...fresh, name: questionnaire.name, goals: questionnaire.goals, diet: questionnaire.diet, body: { ...fresh.body, ...questionnaire.body, steps: 0 }, onboarded: true, consent: { ...fresh.consent, healthDataAt: questionnaire.healthConsentAt ?? null } } : fresh;
-        localStorage.setItem(KEY, JSON.stringify(next));
-        if (!data && !error) push(next);
-        return next;
-      });
+      // A new account never inherits data held on this device (privacy: shared devices / previous accounts).
+      // New accounts start empty: no demo meals, lab values or completed goals.
+      const fresh: State = { ...initial, meals: [], labs: [], actionsDone: {}, account };
+      const next = data?.state ? { ...fresh, ...migrate(data.state as any), account } : questionnaire ? { ...fresh, name: questionnaire.name, goals: questionnaire.goals, diet: questionnaire.diet, body: { ...fresh.body, ...questionnaire.body, steps: 0 }, onboarded: true, consent: { ...fresh.consent, healthDataAt: questionnaire.healthConsentAt ?? null, healthVersion: questionnaire.healthConsentVersion ?? null } } : fresh;
+      latest.current = next;
+      localStorage.setItem(KEY, JSON.stringify(next));
+      setS(next);
+      // A new account's first save is held until consent is confirmed (see push), then sent automatically.
+      if (!data && !error) push(next);
+      void loadConsent(user.id);
     };
 
     supabase.auth.getUser().then(({ data }) => onUser(data.user));
@@ -178,11 +279,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (p.body && p.body.weightKg != null) {
         next.weightLog = { ...prev.weightLog, [today]: p.body.weightKg };
       }
+      latest.current = next;
       localStorage.setItem(KEY, JSON.stringify(next));
       push(next);
       return next;
     });
-  return <Ctx.Provider value={{ s, set }}>{children}</Ctx.Provider>;
+  const syncPaused = s.account !== null && consent !== null && consent !== "active";
+  const resumeSync = () => { if (userRef.current) void loadConsent(userRef.current); };
+  return <Ctx.Provider value={{ s, set, consent, grantConsent, withdrawConsent, forgetAccount, syncPaused, resumeSync }}>{children}</Ctx.Provider>;
 }
 
 /** Today's date key (local), matching the day-based logs. */

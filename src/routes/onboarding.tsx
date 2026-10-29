@@ -1,3 +1,4 @@
+import { HEALTH_CONSENT_VERSION } from "@/lib/consent-policy";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -36,7 +37,7 @@ const dietOptions = ["Mischkost", "Vegetarisch", "Vegan", "Pescetarisch"];
 
 function Onboarding() {
   useLanguage();
-  const { s, set } = useStore();
+  const { s, set, grantConsent } = useStore();
   const nav = useNavigate();
   const { step: editStep, from } = Route.useSearch();
   const returnToOrigin = () => from === "profile"
@@ -145,11 +146,13 @@ function Onboarding() {
     if (step < steps.length - 1) return setStep(step + 1);
     if (!s.account) {
       if (!profile.age || !profile.sex || !profile.activity) return;
-      saveQuestionnaire({ name: name.trim(), goals, diet, body: { age: profile.age, sex: profile.sex, activity: profile.activity, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) ?? 8000 }, healthConsentAt: new Date().toISOString() });
+      saveQuestionnaire({ name: name.trim(), goals, diet, body: { age: profile.age, sex: profile.sex, activity: profile.activity, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi) ?? 8000 }, healthConsentAt: new Date().toISOString(), healthConsentVersion: HEALTH_CONSENT_VERSION });
       nav({ to: "/login", search: { mode: "register" } });
       return;
     }
-    set({ name, goals, onboarded: true, consent: { ...s.consent, healthDataAt: s.consent.healthDataAt ?? new Date().toISOString() }, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? 0 } });
+    // Saved once the server has recorded the consent (the store holds the change until then).
+    set({ name, goals, onboarded: true, body: { ...s.body, ...profile, weightKg: w, heightCm: h, stepGoal: stepGoalFor(bmi), steps: s.body.steps ?? 0 } });
+    void grantConsent();
     nav({ to: "/heute" });
   };
 

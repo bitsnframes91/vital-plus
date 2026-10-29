@@ -8,6 +8,34 @@
       "when": 1791559927360,
       "tag": "0000_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793264804714,
+      "tag": "0001_security_consent_quota",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793265945878,
+      "tag": "0002_enforce_active_health_consent_on_writes",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793266045651,
+      "tag": "0003_restrict_consent_check_to_self",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793272525092,
+      "tag": "0004_account_deletion_challenges",
+      "breakpoints": true
     }
   ]
 }

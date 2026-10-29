@@ -52,7 +52,7 @@ function Nutrition() {
 
 function NutritionPage() {
   useLanguage();
-  const { s, set } = useStore();
+  const { s, set, consent } = useStore();
   const [profile, setProfile] = useState<NutritionProfile>({ age: s.body.age ?? null, sex: s.body.sex ?? null, activity: s.body.activity ?? null });
   const [name, setName] = useState("");
   const [label, setLabel] = useState("Abendessen");
@@ -118,18 +118,24 @@ function NutritionPage() {
   const sRef = useRef(s); sRef.current = s;
   const tried = useRef(new Set<string>());
   useEffect(() => {
+    // Each estimate counts against the user's AI limit, so the backfill needs consent and stops at the first refusal.
+    if (consent !== "active") return;
     const missing = todayMeals.filter((m) => (!m.micronutrients || m.omega3Mg === undefined || m.omega6Mg === undefined || m.omega9Mg === undefined) && !tried.current.has(m.id));
     if (!missing.length) return;
     missing.forEach((m) => tried.current.add(m.id));
     void (async () => {
       const found: Record<string, Pick<Meal, "micronutrients" | "omega3Mg" | "omega6Mg" | "omega9Mg">> = {};
       for (const m of missing) {
-        try { const r = await estimate({ data: { name: m.name } }); if (r.ok) found[m.id] = { micronutrients: m.micronutrients ?? r.micronutrients, omega3Mg: m.omega3Mg ?? r.omega3Mg, omega6Mg: m.omega6Mg ?? r.omega6Mg, omega9Mg: m.omega9Mg ?? r.omega9Mg }; } catch { /* keep unavailable */ }
+        try {
+          const r = await estimate({ data: { name: m.name } });
+          if (!r.ok) break;
+          found[m.id] = { micronutrients: m.micronutrients ?? r.micronutrients, omega3Mg: m.omega3Mg ?? r.omega3Mg, omega6Mg: m.omega6Mg ?? r.omega6Mg, omega9Mg: m.omega9Mg ?? r.omega9Mg };
+        } catch { /* keep unavailable */ }
       }
       if (Object.keys(found).length) set({ meals: sRef.current.meals.map((x) => found[x.id] ? { ...x, ...found[x.id] } : x) });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todayMeals.map((m) => `${m.id}:${Boolean(m.micronutrients)}:${m.omega3Mg}:${m.omega6Mg}:${m.omega9Mg}`).join()]);
+  }, [consent, todayMeals.map((m) => `${m.id}:${Boolean(m.micronutrients)}:${m.omega3Mg}:${m.omega6Mg}:${m.omega9Mg}`).join()]);
 
   // Diary: group meals by day, newest first.
   const days = todayMeals.length ? [today] : [];
