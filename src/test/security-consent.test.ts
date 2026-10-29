@@ -49,3 +49,16 @@ describe("account deletion", () => {
     expect(src.indexOf("deleteUser")).toBeGreaterThan(src.indexOf('from("app_feedback")'));
   });
 });
+
+describe("login code requests", () => {
+  it("treat an unregistered email like a sent code", async () => {
+    const { codeRequestFailed } = await import("@/lib/consent-policy");
+    expect(codeRequestFailed({ code: "otp_disabled" })).toBe(false);
+    expect(codeRequestFailed(null)).toBe(false);
+    expect(codeRequestFailed({ code: "over_email_send_rate_limit" })).toBe(true);
+  });
+  it("every login-code screen uses the neutral check", () => {
+    for (const f of ["src/routes/index.tsx", "src/routes/login.tsx", "src/components/MagicCodeEntry.tsx"])
+      expect(readFileSync(f, "utf8"), f).toContain("codeRequestFailed(");
+  });
+});

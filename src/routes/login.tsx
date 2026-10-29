@@ -1,4 +1,4 @@
-import { GENERIC_LOGIN_ERROR } from "@/lib/consent-policy";
+import { GENERIC_LOGIN_ERROR, codeRequestFailed } from "@/lib/consent-policy";
 import { PasswordResetForm } from "@/components/PasswordResetForm";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
@@ -52,7 +52,7 @@ function Login() {
     setMsg(null);
     const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: publicAppUrl("/heute") } });
     setBusy(false);
-    if (error) return setMsg("Senden nicht möglich – bitte in einer Minute erneut versuchen.");
+    if (codeRequestFailed(error)) return setMsg("Senden nicht möglich – bitte in einer Minute erneut versuchen.");
     setMagicSent(true);
   };
 
@@ -99,6 +99,12 @@ function Login() {
         <p className="text-ink/70"><Localized>{"Gib den Code hier ein. Danach ist dein Konto aktiv und du gelangst direkt zu Heute."}</Localized></p>
         <p className="text-ink/70"><Localized>{"Bitte prüfe auch deinen Spam-Ordner."}</Localized></p>
         <MagicCodeEntry email={email} type="signup" />
+        {/* Shown to everyone so it never reveals whether the email was already registered. */}
+        <div className="space-y-2 border-t border-border pt-3">
+          <p className="text-[13px] text-ink/70"><Localized>{"Kein Code erhalten oder schon ein Konto?"}</Localized></p>
+          <Link to="/" search={{ mode: "login" }} className="block w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4"><Localized>{"Zur Anmeldung"}</Localized></Link>
+          <Link to="/login" search={{ mode: "reset" }} className="block w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4"><Localized>{"Passwort vergessen?"}</Localized></Link>
+        </div>
       </div>
     </AppShell>
   );

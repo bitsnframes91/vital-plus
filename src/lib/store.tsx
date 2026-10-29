@@ -54,6 +54,10 @@ type CtxValue = {
   withdrawConsent: (deleteData: boolean) => Promise<boolean>;
   /** Drops the account's state and unsent saves from this device (after the account was deleted). */
   forgetAccount: () => void;
+  /** Signed in, and the server confirmed there is no active consent: changes stay on this device only. */
+  syncPaused: boolean;
+  /** Checks consent again and sends held changes if it is now active. */
+  resumeSync: () => void;
 } | null;
 const g = globalThis as unknown as { __fvStoreCtx?: React.Context<CtxValue> };
 const Ctx = g.__fvStoreCtx ?? (g.__fvStoreCtx = createContext<CtxValue>(null));
@@ -280,7 +284,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       push(next);
       return next;
     });
-  return <Ctx.Provider value={{ s, set, consent, grantConsent, withdrawConsent, forgetAccount }}>{children}</Ctx.Provider>;
+  const syncPaused = s.account !== null && consent !== null && consent !== "active";
+  const resumeSync = () => { if (userRef.current) void loadConsent(userRef.current); };
+  return <Ctx.Provider value={{ s, set, consent, grantConsent, withdrawConsent, forgetAccount, syncPaused, resumeSync }}>{children}</Ctx.Provider>;
 }
 
 /** Today's date key (local), matching the day-based logs. */

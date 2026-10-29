@@ -5,6 +5,7 @@ import { Localized } from "@/components/Localized";
 import { translateText } from "@/lib/language";
 import { Button } from "@/components/ui/button";
 import { publicAppUrl } from "@/lib/native-app";
+import { codeRequestFailed } from "@/lib/consent-policy";
 
 /** Users wait this long after a code went out before a new one can be requested. */
 export const RESEND_SECONDS = 30;
@@ -50,7 +51,7 @@ export function MagicCodeEntry({ email, type = "email" }: { email: string; type?
       ? await supabase.auth.resend({ type: "signup", email: email.trim(), options: { emailRedirectTo } })
       : await supabase.auth.signInWithOtp({ email: email.trim(), options: { shouldCreateUser: false, emailRedirectTo } });
     setBusy(false);
-    if (err) return setError("Senden nicht möglich – bitte in einer Minute erneut versuchen.");
+    if (codeRequestFailed(err)) return setError("Senden nicht möglich – bitte in einer Minute erneut versuchen.");
     setResent(true);
     setUntil(Date.now() + RESEND_SECONDS * 1000);
     setWait(RESEND_SECONDS);

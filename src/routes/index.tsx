@@ -10,7 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { MagicCodeEntry } from "@/components/MagicCodeEntry";
 import { useStore } from "@/lib/store";
 import { clearQuestionnaire } from "@/lib/questionnaire-draft";
-import { GENERIC_LOGIN_ERROR } from "@/lib/consent-policy";
+import { GENERIC_LOGIN_ERROR, codeRequestFailed } from "@/lib/consent-policy";
 import { VivoBrand } from "@/components/VivoBrand";
 import { LegalLinks } from "@/components/LegalLinks";
 import { publicAppUrl } from "@/lib/native-app";
@@ -52,7 +52,7 @@ function Home() {
     setBusy(true); setError(null);
     try {
       const { error: otpError } = await supabase.auth.signInWithOtp({ email: email.trim(), options: { shouldCreateUser: false, emailRedirectTo: publicAppUrl("/heute") } });
-      if (otpError) { setError("Senden nicht möglich – bitte in einer Minute erneut versuchen."); return; }
+      if (codeRequestFailed(otpError)) { setError("Senden nicht möglich – bitte in einer Minute erneut versuchen."); return; }
       setMagicSent(true);
     } catch { setError("Senden nicht möglich – bitte in einer Minute erneut versuchen."); }
     finally { setBusy(false); }

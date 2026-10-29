@@ -166,6 +166,28 @@ describe("signup save ordering", () => {
   });
 });
 
+describe("paused saving (Profile notice)", () => {
+  it("is paused only when the server reports no consent, and resumeSync sends held changes", async () => {
+    db.saved = { name: "Jonas", onboarded: true };
+    db.user = { id: "user-a", email: "j@example.com" };
+    mount();
+    expect(api!.syncPaused).toBe(false); // unknown while loading: no notice
+    await waitFor(() => expect(api?.consent).toBe("none"));
+    expect(api!.syncPaused).toBe(true);
+    act(() => api!.set({ name: "Jonas K." }));
+    await settle();
+    expect(db.log).not.toContain("upsert");
+
+    // Consent given elsewhere (another device or the web app): resumeSync picks it up.
+    db.status = "active";
+    act(() => api!.resumeSync());
+    await waitFor(() => expect(api!.syncPaused).toBe(false));
+    await settle();
+    expect(db.upserts).toHaveLength(1);
+    expect(db.upserts[0]!.state).toMatchObject({ name: "Jonas K." });
+  });
+});
+
 describe("withdrawal", () => {
   beforeEach(() => {
     db.status = "active";

@@ -28,3 +28,8 @@ export function quotaRefusal(result: QuotaResult): { status: number; error: stri
 
 /** Generic sign-in failure text: never reveals whether an email is registered. */
 export const GENERIC_LOGIN_ERROR = "E-Mail oder Passwort ist falsch.";
+
+/** Login codes for an unregistered email are refused with otp_disabled; screens treat that like a sent code. */
+export function codeRequestFailed(error: { code?: string | undefined } | null | undefined): boolean {
+  return !!error && error.code !== "otp_disabled";
+}
