@@ -29,6 +29,13 @@
       "when": 1793266045651,
       "tag": "0003_restrict_consent_check_to_self",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793272525092,
+      "tag": "0004_account_deletion_challenges",
+      "breakpoints": true
     }
   ]
 }
