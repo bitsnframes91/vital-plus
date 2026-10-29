@@ -18,6 +18,7 @@ vi.mock("@/integrations/supabase/client", () => ({
         return { data: { subscription: { unsubscribe: vi.fn() } } };
       },
     },
+    rpc: async () => ({ data: true, error: null }),
     from: () => ({
       select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: auth.saved ? { state: auth.saved } : null }) }) }),
       upsert: auth.upsert,
