@@ -45,7 +45,7 @@ function MenuRow({ category, title, sub, icon: Icon, onClick }: { category: stri
 function Profile() {
   useLanguage();
   const navigate = useNavigate();
-  const { s, set } = useStore();
+  const { s, set, syncPaused } = useStore();
   const { action } = Route.useSearch();
   const pathname = useLocation({ select: location => location.pathname });
   const [step, setStep] = useState<null | "confirm" | "code">(action === "delete" ? "confirm" : null);

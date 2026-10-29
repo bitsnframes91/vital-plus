@@ -18,7 +18,7 @@ export function setCachedConsent(userId: string, status: ConsentStatus) { cached
 /** Shows health screens only once the signed-in user has an active consent record for the current policy. */
 export function ConsentGate({ pathname, children }: { pathname: string; children: ReactNode }) {
   useLanguage();
-  const { s, set } = useStore();
+  const { s, set, resumeSync } = useStore();
   const userId = s.account?.userId ?? null;
   const [status, setStatus] = useState<ConsentStatus | null>(cached && cached.userId === userId ? cached.status : null);
   const [ok, setOk] = useState(false);
@@ -40,6 +40,7 @@ export function ConsentGate({ pathname, children }: { pathname: string; children
       if (!alive) return;
       setCachedConsent(userId, next);
       setStatus(next);
+      if (next === "active") resumeSync();
     })();
     return () => { alive = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -55,6 +56,7 @@ export function ConsentGate({ pathname, children }: { pathname: string; children
     set({ consent: { ...s.consent, healthDataAt: new Date().toISOString(), healthVersion: HEALTH_CONSENT_VERSION } });
     setCachedConsent(userId, "active");
     setStatus("active");
+    resumeSync();
   };
 
   return (
