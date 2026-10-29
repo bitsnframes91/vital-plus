@@ -6,7 +6,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { UserRound, LockKeyhole, Settings, Shield, MessageSquare, FileText, Mail, ChevronRight, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { deleteAccount } from "@/lib/account.functions";
+import { deleteAccount, requestAccountDeletionCode } from "@/lib/account.functions";
 import { AppShell } from "@/components/AppShell";
 import { ProfileMascot } from "@/components/ProfileMascot";
 import { useStore } from "@/lib/store";
@@ -45,7 +45,7 @@ function MenuRow({ category, title, sub, icon: Icon, onClick }: { category: stri
 function Profile() {
   useLanguage();
   const navigate = useNavigate();
-  const { s, set } = useStore();
+  const { s, set, syncPaused } = useStore();
   const { action } = Route.useSearch();
   const pathname = useLocation({ select: location => location.pathname });
   const [step, setStep] = useState<null | "confirm" | "code">(action === "delete" ? "confirm" : null);
@@ -55,29 +55,38 @@ function Profile() {
   useEffect(() => { if (action === "delete" && pathname === "/profil") setStep("confirm"); }, [action, pathname]);
   const openMenu = (section: string) => navigate({ to: "/profil/$section", params: { section } });
   const del = useServerFn(deleteAccount);
+  const requestCode = useServerFn(requestAccountDeletionCode);
+  const [resume, setResume] = useState(false);
   const close = () => { setStep(null); setCode(""); setErr(""); if (action) void navigate({ to: "/profil", search: {}, replace: true }); };
   const sendCode = async () => {
     setBusy(true); setErr("");
-    const { error } = await supabase.auth.reauthenticate();
-    setBusy(false);
-    if (error) {
-      const m = error.message.toLowerCase();
-      const secs = m.match(/after (\d+) seconds?/)?.[1];
-      if (secs) { setStep("code"); return setErr(`Ein Code wurde gerade erst gesendet. Bitte warte ${secs} Sekunden und versuche es dann erneut – oder nutze den letzten Code aus deinem Postfach.`); }
-      if (error.status === 429 || m.includes("rate limit")) { setStep("code"); return setErr("Es wurden in kurzer Zeit zu viele E-Mails gesendet. Bitte versuche es in etwa einer Stunde erneut – oder nutze den letzten Code aus deinem Postfach."); }
+    try {
+      const res = await requestCode();
+      setBusy(false);
+      if (res.ok) return setStep("code");
+      if (res.reason === "cooldown") { setStep("code"); return setErr("Ein Code wurde gerade erst gesendet. Bitte warte 60 Sekunden und versuche es dann erneut – oder nutze den letzten Code aus deinem Postfach."); }
+      if (res.reason === "limited") { setStep("code"); return setErr("Es wurden in kurzer Zeit zu viele E-Mails gesendet. Bitte versuche es in etwa einer Stunde erneut – oder nutze den letzten Code aus deinem Postfach."); }
       return setErr("Code konnte nicht gesendet werden. Bitte später erneut versuchen.");
+    } catch {
+      setBusy(false);
+      setErr("Code konnte nicht gesendet werden. Bitte später erneut versuchen.");
     }
-    setStep("code");
   };
   const confirmDelete = async () => {
     setBusy(true); setErr("");
     try {
-      await del({ data: { code } });
+      const res = await del({ data: { code: resume ? null : code } });
+      if (!res.ok) {
+        setBusy(false);
+        if (res.reason === "cleanup_failed") { setResume(true); return setErr("Das Löschen wurde bestätigt, aber noch nicht abgeschlossen. Bitte tippe erneut auf „Konto endgültig löschen“."); }
+        if (res.reason === "locked") return setErr("Zu viele falsche Versuche. Bitte fordere einen neuen Code an.");
+        return setErr("Der Code ist ungültig oder abgelaufen.");
+      }
       localStorage.removeItem("fv-health-v1");
       await supabase.auth.signOut();
       location.href = "/";
     } catch {
-      setErr("Der Code ist ungültig oder abgelaufen.");
+      setErr("Löschen nicht möglich. Bitte versuche es erneut.");
       setBusy(false);
     }
   };
@@ -89,6 +98,13 @@ function Profile() {
         <ProfileMascot />
       </header>
       <div className="space-y-4 px-4 pt-4">
+        {s.account && syncPaused && (
+          <div role="status" className="rounded-2xl border border-destructive/40 bg-card p-4 text-[13px]">
+            <p className="font-semibold text-foreground"><Localized>{"Deine Gesundheitsdaten werden gerade nicht gespeichert"}</Localized></p>
+            <p className="mt-1 text-muted-foreground"><Localized>{"Ohne deine Einwilligung zur Verarbeitung von Gesundheitsdaten sichern wir Änderungen nur auf diesem Gerät. Sobald du einwilligst, werden sie automatisch in deinem Konto gespeichert."}</Localized></p>
+            <Link to="/heute" className="mt-2 inline-block font-semibold text-fv-deep underline underline-offset-4"><Localized>{"Einwilligung erteilen →"}</Localized></Link>
+          </div>
+        )}
         <MenuRow category={translateText("Persönlich")} title={translateText("Gesundheitsprofil bearbeiten")} sub={translateText("Name, Größe, Gewicht, Ziele und mehr")} icon={UserRound} onClick={() => openMenu("personal")} />
         <MenuRow category={translateText("Konto")} title={translateText("Konto & Sicherheit")} sub={translateText("E-Mail-Adresse, Passwort, Konto löschen")} icon={LockKeyhole} onClick={() => s.account ? openMenu("security") : navigate({ to: "/login", search: { mode: "login" } })} />
         <MenuRow category={translateText("Einstellungen")} title={translateText("App-Einstellungen")} sub={translateText("Benachrichtigungen, Sprache, Design")} icon={Settings} onClick={() => openMenu("settings")} />
@@ -143,13 +159,13 @@ function Profile() {
               <DialogHeader><DialogTitle><Localized>{"Code eingeben"}</Localized></DialogTitle></DialogHeader>
               <p className="text-sm text-ink/60"><Localized>{"Wir haben einen Code an "}</Localized><Localized>{s.account?.email}</Localized><Localized>{" gesendet."}</Localized></p>
               <input
-                inputMode="numeric" maxLength={10} value={code} autoFocus
-                onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+                inputMode="numeric" maxLength={6} value={code} autoFocus
+                onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 className="w-full rounded-xl bg-muted px-3 py-3 text-center text-lg tracking-[0.4em] outline-none"
                 aria-label={translateText("Bestätigungscode")}
               />
               {err && <p className="text-sm text-destructive"><Localized>{err}</Localized></p>}
-              <Button disabled={busy || code.length < 6} onClick={confirmDelete} className="w-full rounded-full bg-destructive py-2.5 text-sm font-medium text-destructive-foreground disabled:opacity-50">
+              <Button disabled={busy || (!resume && code.length !== 6)} onClick={confirmDelete} className="w-full rounded-full bg-destructive py-2.5 text-sm font-medium text-destructive-foreground disabled:opacity-50">
                 <Localized>{busy ? "Wird gelöscht…" : "Konto endgültig löschen"}</Localized>
               </Button>
               <Button disabled={busy} onClick={sendCode} className="text-[13px] font-medium"><Localized>{"Code erneut senden"}</Localized></Button>

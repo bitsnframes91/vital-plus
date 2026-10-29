@@ -3370,5 +3370,41 @@
   "Konto konnte nicht vollständig gelöscht werden. Bitte versuche es erneut.": [
     "Account could not be fully deleted. Please try again.",
     "No se pudo eliminar la cuenta por completo. Inténtalo de nuevo."
+  ],
+  "Deine Gesundheitsdaten werden gerade nicht gespeichert": [
+    "Your health data is not being saved right now",
+    "Tus datos de salud no se están guardando en este momento"
+  ],
+  "Ohne deine Einwilligung zur Verarbeitung von Gesundheitsdaten sichern wir Änderungen nur auf diesem Gerät. Sobald du einwilligst, werden sie automatisch in deinem Konto gespeichert.": [
+    "Without your consent to process health data, changes are kept on this device only. As soon as you consent, they are saved to your account automatically.",
+    "Sin tu consentimiento para tratar datos de salud, los cambios solo se guardan en este dispositivo. En cuanto des tu consentimiento, se guardarán automáticamente en tu cuenta."
+  ],
+  "Einwilligung erteilen →": [
+    "Give consent →",
+    "Dar consentimiento →"
+  ],
+  "Kein Code erhalten oder schon ein Konto?": [
+    "No code received or already have an account?",
+    "¿No has recibido el código o ya tienes una cuenta?"
+  ],
+  "Zur Anmeldung": [
+    "Go to sign in",
+    "Ir a iniciar sesión"
+  ],
+  "Ein Code wurde gerade erst gesendet. Bitte warte 60 Sekunden und versuche es dann erneut – oder nutze den letzten Code aus deinem Postfach.": [
+    "A code was just sent. Please wait 60 seconds and try again – or use the latest code in your inbox.",
+    "Se acaba de enviar un código. Espera 60 segundos e inténtalo de nuevo, o usa el último código de tu bandeja de entrada."
+  ],
+  "Das Löschen wurde bestätigt, aber noch nicht abgeschlossen. Bitte tippe erneut auf „Konto endgültig löschen“.": [
+    "Deletion was confirmed but is not finished yet. Please tap “Delete account permanently” again.",
+    "La eliminación se confirmó, pero aún no ha terminado. Vuelve a pulsar «Eliminar cuenta permanentemente»."
+  ],
+  "Zu viele falsche Versuche. Bitte fordere einen neuen Code an.": [
+    "Too many wrong attempts. Please request a new code.",
+    "Demasiados intentos fallidos. Solicita un nuevo código."
+  ],
+  "Löschen nicht möglich. Bitte versuche es erneut.": [
+    "Deletion not possible. Please try again.",
+    "No se puede eliminar. Inténtalo de nuevo."
   ]
 }

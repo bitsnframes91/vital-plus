@@ -44,7 +44,7 @@ const initial: State = {
   waterLog: {},
 };
 
-type CtxValue = { s: State; set: (p: Partial<State>) => void } | null;
+type CtxValue = { s: State; set: (p: Partial<State>) => void; syncPaused: boolean; resumeSync: () => void } | null;
 const g = globalThis as unknown as { __fvStoreCtx?: React.Context<CtxValue> };
 const Ctx = g.__fvStoreCtx ?? (g.__fvStoreCtx = createContext<CtxValue>(null));
 const KEY = "fv-health-v1";
@@ -76,18 +76,47 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const userRef = useRef<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const [syncPaused, setSyncPaused] = useState(false);
+  // Health data is only sent to the account once an active consent exists (the server enforces this too).
+  const consentOk = useRef<boolean | null>(null);
+  const pending = useRef<State | null>(null);
+
+  const upload = (uid: string, next: State) => {
+    const { account: _a, ...state } = next;
+    // Query builders are lazy: the request is only sent once the promise is consumed.
+    supabase
+      .from("user_data")
+      .upsert({ user_id: uid, state: state as any, updated_at: new Date().toISOString() })
+      .then(({ error }) => {
+        if (!error) { if (pending.current === next) pending.current = null; return; }
+        console.error("Vitalplus: saving account data failed", error.message);
+        // Refused by the consent policy: keep the change pending until consent is granted.
+        if (error.code === "42501" || /consent|row-level security/i.test(error.message)) { consentOk.current = false; setSyncPaused(true); }
+      });
+  };
+
   const push = (next: State) => {
     const uid = userRef.current;
     if (!uid) return;
+    pending.current = next;
     if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      const { account: _a, ...state } = next;
-      // Query builders are lazy: the request is only sent once the promise is consumed.
-      supabase
-        .from("user_data")
-        .upsert({ user_id: uid, state: state as any, updated_at: new Date().toISOString() })
-        .then(({ error }) => { if (error) console.error("Vitalplus: saving account data failed", error.message); });
+    timer.current = setTimeout(async () => {
+      if (consentOk.current !== true) {
+        const { data, error } = await supabase.rpc("has_active_health_consent", { _user_id: uid });
+        if (userRef.current !== uid) return;
+        consentOk.current = !error && data === true;
+      }
+      if (!consentOk.current) { setSyncPaused(true); return; }
+      setSyncPaused(false);
+      if (pending.current) upload(uid, pending.current);
     }, 800);
+  };
+
+  /** Call after consent is recorded: saves any changes kept back while consent was missing. */
+  const resumeSync = () => {
+    consentOk.current = null;
+    if (pending.current) push(pending.current);
+    else setSyncPaused(false);
   };
 
   useEffect(() => {
@@ -103,6 +132,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const onUser = async (user: { id: string; email?: string; user_metadata?: Record<string, unknown> } | null, signedOut = false) => {
       if (!user) {
         userRef.current = null;
+        consentOk.current = null; pending.current = null; setSyncPaused(false);
         if (timer.current) clearTimeout(timer.current);
         setS((p) => {
           if (signedOut || p.account || hadAccountCache) {
@@ -116,9 +146,15 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (userRef.current === user.id) return;
       if (timer.current) clearTimeout(timer.current);
       userRef.current = user.id;
+      consentOk.current = null; pending.current = null;
       const account = { email: user.email ?? "", userId: user.id };
       const { data, error } = await supabase.from("user_data").select("state").eq("user_id", user.id).maybeSingle();
       if (userRef.current !== user.id) return;
+      void supabase.rpc("has_active_health_consent", { _user_id: user.id }).then(({ data: ok, error: cErr }) => {
+        if (userRef.current !== user.id || cErr) return;
+        if (consentOk.current === null) consentOk.current = ok === true;
+        if (ok !== true) setSyncPaused(true);
+      });
       const questionnaire = error ? null : questionnaireForAccount(data?.state, user.user_metadata?.["questionnaire"]);
       setS((p) => {
         // A new account never inherits data held on this device (privacy: shared devices / previous accounts).
@@ -157,7 +193,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       push(next);
       return next;
     });
-  return <Ctx.Provider value={{ s, set }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ s, set, syncPaused, resumeSync }}>{children}</Ctx.Provider>;
 }
 
 /** Today's date key (local), matching the day-based logs. */

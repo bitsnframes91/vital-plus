@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      account_deletion_challenges: {
+        Row: {
+          attempts: number
+          challenge_id: string | null
+          code_mac: string | null
+          consumed_at: string | null
+          deleting_until: string | null
+          expires_at: string | null
+          last_sent_at: string | null
+          state: string
+          updated_at: string
+          user_id: string
+          window_count: number
+          window_start: string
+        }
+        Insert: {
+          attempts?: number
+          challenge_id?: string | null
+          code_mac?: string | null
+          consumed_at?: string | null
+          deleting_until?: string | null
+          expires_at?: string | null
+          last_sent_at?: string | null
+          state?: string
+          updated_at?: string
+          user_id: string
+          window_count?: number
+          window_start?: string
+        }
+        Update: {
+          attempts?: number
+          challenge_id?: string | null
+          code_mac?: string | null
+          consumed_at?: string | null
+          deleting_until?: string | null
+          expires_at?: string | null
+          last_sent_at?: string | null
+          state?: string
+          updated_at?: string
+          user_id?: string
+          window_count?: number
+          window_start?: string
+        }
+        Relationships: []
+      }
       ai_usage: {
         Row: {
           created_at: string
@@ -112,6 +157,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      account_deletion_challenge_id: {
+        Args: { _user_id: string }
+        Returns: string
+      }
+      account_deletion_in_progress: {
+        Args: { _user_id: string }
+        Returns: boolean
+      }
+      consume_account_deletion_challenge: {
+        Args: { _challenge_id: string; _code_mac: string; _user_id: string }
+        Returns: string
+      }
       consume_ai_quota: {
         Args: { _kind: string; _version: string }
         Returns: string
@@ -123,6 +180,10 @@ export type Database = {
         Returns: boolean
       }
       health_consent_status: { Args: { _version: string }; Returns: string }
+      issue_account_deletion_challenge: {
+        Args: { _challenge_id: string; _code_mac: string; _user_id: string }
+        Returns: string
+      }
       withdraw_health_consent: {
         Args: { _delete_data: boolean }
         Returns: undefined
