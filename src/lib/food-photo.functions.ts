@@ -7,9 +7,10 @@ import { normalizeFoodPhoto } from "./food-photo/schema";
 export const mealFromPhoto = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => z.object({ base64: z.string().min(100).max(6_000_000).regex(/^[A-Za-z0-9+/=]+$/), mimeType: z.literal("image/jpeg"), language: z.enum(["de", "en", "es"]) }).parse(input))
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
     const key = process.env["LOVABLE_API_KEY"];
     if (!key) return { ok: false as const, error: "KI ist nicht konfiguriert." };
+    { const { enforceAiQuota } = await import("./ai-quota.server"); const refused = await enforceAiQuota(context.supabase, "meal_photo"); if (refused) return refused; }
     try {
       const { createResponsesCall } = await import("./food-photo/responses.server");
       const { result } = createResponsesCall(getRequest(), { baseURL: "https://ai.gateway.lovable.dev/v1", apiKey: key, model: "openai/gpt-6-astra" }, [{ role: "user", content: [

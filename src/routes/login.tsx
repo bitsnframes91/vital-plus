@@ -1,4 +1,4 @@
-import { accountExists } from "@/lib/account.functions";
+import { GENERIC_LOGIN_ERROR } from "@/lib/consent-policy";
 import { PasswordResetForm } from "@/components/PasswordResetForm";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText, languageLocale } from "@/lib/language";
@@ -63,8 +63,7 @@ function Login() {
       setBusy(false);
       if (error) {
         if (error.code === "email_not_confirmed") return setMsg("Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach.");
-        const { exists } = await accountExists({ data: { email } }).catch(() => ({ exists: true }));
-        return setMsg(exists ? "E-Mail oder Passwort ist falsch." : "Dieses Konto existiert nicht.");
+        return setMsg(GENERIC_LOGIN_ERROR);
       }
       if (!signed.user?.email_confirmed_at) { await supabase.auth.signOut(); return setMsg("Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach."); }
       navigate({ to: "/heute" });
@@ -72,11 +71,10 @@ function Login() {
       const questionnaire = readQuestionnaire();
       const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + "/heute", ...(questionnaire ? { data: { questionnaire } } : {}) } });
       setBusy(false);
-      if (error) return setMsg(error.message.includes("registered") ? "Für diese E-Mail gibt es bereits ein Konto." : "Konto konnte nicht angelegt werden (Passwort mind. 8 Zeichen).");
-      if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0)
-        return setMsg("Für diese E-Mail gibt es bereits ein Konto. Bitte melde dich an oder setze dein Passwort zurück.");
+      // An already-registered email gets the same "check your inbox" screen, so signup cannot be used to probe accounts.
+      if (error && !error.message.includes("registered")) return setMsg("Konto konnte nicht angelegt werden (Passwort mind. 8 Zeichen).");
       clearQuestionnaire();
-      if (!data.session) { setSent(true); return; }
+      if (error || !data.session) { setSent(true); return; }
       navigate({ to: "/heute" });
     }
   };

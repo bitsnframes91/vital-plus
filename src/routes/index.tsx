@@ -10,7 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { MagicCodeEntry } from "@/components/MagicCodeEntry";
 import { useStore } from "@/lib/store";
 import { clearQuestionnaire } from "@/lib/questionnaire-draft";
-import { accountExists } from "@/lib/account.functions";
+import { GENERIC_LOGIN_ERROR } from "@/lib/consent-policy";
 import { VivoBrand } from "@/components/VivoBrand";
 import { LegalLinks } from "@/components/LegalLinks";
 
@@ -63,8 +63,7 @@ function Home() {
       const { data: signed, error: authError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
       if (authError) {
         if (authError.code === "email_not_confirmed") { setError("Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach."); return; }
-        const { exists } = await accountExists({ data: { email: email.trim() } }).catch(() => ({ exists: true }));
-        setError(exists ? "E-Mail oder Passwort ist falsch." : "Dieses Konto existiert nicht."); return;
+        setError(GENERIC_LOGIN_ERROR); return;
       }
       if (!signed.user?.email_confirmed_at) { await supabase.auth.signOut(); setError("Bitte bestätige zuerst deine E-Mail über den Link in deinem Postfach."); return; }
       clearQuestionnaire();
