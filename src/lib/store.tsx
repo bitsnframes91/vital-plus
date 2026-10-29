@@ -150,6 +150,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       const account = { email: user.email ?? "", userId: user.id };
       const { data, error } = await supabase.from("user_data").select("state").eq("user_id", user.id).maybeSingle();
       if (userRef.current !== user.id) return;
+      void supabase.rpc("has_active_health_consent", { _user_id: user.id }).then(({ data: ok, error: cErr }) => {
+        if (userRef.current !== user.id || cErr) return;
+        if (consentOk.current === null) consentOk.current = ok === true;
+        if (ok !== true) setSyncPaused(true);
+      });
       const questionnaire = error ? null : questionnaireForAccount(data?.state, user.user_metadata?.["questionnaire"]);
       setS((p) => {
         // A new account never inherits data held on this device (privacy: shared devices / previous accounts).
