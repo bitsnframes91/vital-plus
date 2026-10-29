@@ -22,10 +22,21 @@ export const deleteAccount = createServerFn({ method: "POST" })
       throw new Error("Der Code ist ungültig oder abgelaufen.");
     }
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    await supabaseAdmin.from("user_data").delete().eq("user_id", context.userId);
+    // Each step is idempotent (deleting missing rows succeeds), so a retry after a partial failure completes the job.
+    // Feedback is anonymised rather than deleted: the message stays useful but is no longer linked to the person.
+    const steps = [
+      () => supabaseAdmin.from("user_data").delete().eq("user_id", context.userId),
+      () => supabaseAdmin.from("ai_usage").delete().eq("user_id", context.userId),
+      () => supabaseAdmin.from("health_consents").delete().eq("user_id", context.userId),
+      () => supabaseAdmin.from("app_feedback").update({ user_id: null }).eq("user_id", context.userId),
+    ];
+    for (const step of steps) {
+      const { error } = await step();
+      if (error) { console.error("deleteAccount cleanup failed", error.code); throw new Error("Konto konnte nicht vollständig gelöscht werden. Bitte versuche es erneut."); }
+    }
     const { error } = await supabaseAdmin.auth.admin.deleteUser(context.userId);
-    if (error) throw new Error("Konto konnte nicht gelöscht werden.");
-    return { ok: true };
+    if (error && error.status !== 404) throw new Error("Konto konnte nicht gelöscht werden. Bitte versuche es erneut.");
+    return { ok: true as const };
   });
 
 // Sends a password-reset link only to accounts whose email has been confirmed.
@@ -47,20 +58,4 @@ export const requestPasswordReset = createServerFn({ method: "POST" })
     const { error } = await supabaseAdmin.auth.resetPasswordForEmail(email, { redirectTo: data.redirectTo });
     if (error) throw new Error("Senden nicht möglich");
     return { ok: true };
-  });
-
-// Reports whether an account exists for the email, so sign-in can tell
-// "account deleted/never registered" apart from a wrong password.
-export const accountExists = createServerFn({ method: "POST" })
-  .inputValidator((d) => z.object({ email: z.string().trim().email().max(320) }).parse(d))
-  .handler(async ({ data }) => {
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const email = data.email.toLowerCase();
-    for (let page = 1; page <= 50; page++) {
-      const { data: list, error } = await supabaseAdmin.auth.admin.listUsers({ page, perPage: 1000 });
-      if (error) return { exists: true }; // fail closed: keep the generic error
-      if (list.users.some((u) => u.email?.toLowerCase() === email)) return { exists: true };
-      if (list.users.length < 1000) break;
-    }
-    return { exists: false };
   });
