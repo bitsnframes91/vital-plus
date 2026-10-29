@@ -15,7 +15,7 @@ type State = {
   supplements: Supplement[];
   labs: LabMarker[];
   actionsDone: Record<string, boolean>;
-  consent: { practitioner: boolean; analytics: boolean; healthDataAt?: string | null };
+  consent: { practitioner: boolean; analytics: boolean; healthDataAt?: string | null; healthVersion?: string | null };
   account: { email: string; userId: string } | null;
   aiPlan: { date: string; items: { title: string; detail: string; daily?: boolean; en?: { title: string; detail: string }; es?: { title: string; detail: string } }[] } | null;
   body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null; stepsDate?: string | null; sleepDate?: string | null; heightCm?: number | null; age?: number | null; sex?: "female" | "male" | "diverse" | "unspecified" | null; activity?: string | null; stepGoal?: number | null; targetWeightKg?: number | null };
@@ -149,7 +149,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         // A new account never inherits data held on this device (privacy: shared devices / previous accounts).
         // New accounts start empty: no demo meals, lab values or completed goals.
         const fresh: State = { ...initial, meals: [], labs: [], actionsDone: {}, account };
-        const next = data?.state ? { ...fresh, ...migrate(data.state as any), account } : questionnaire ? { ...fresh, name: questionnaire.name, goals: questionnaire.goals, diet: questionnaire.diet, body: { ...fresh.body, ...questionnaire.body, steps: 0 }, onboarded: true, consent: { ...fresh.consent, healthDataAt: questionnaire.healthConsentAt ?? null } } : fresh;
+        const next = data?.state ? { ...fresh, ...migrate(data.state as any), account } : questionnaire ? { ...fresh, name: questionnaire.name, goals: questionnaire.goals, diet: questionnaire.diet, body: { ...fresh.body, ...questionnaire.body, steps: 0 }, onboarded: true, consent: { ...fresh.consent, healthDataAt: questionnaire.healthConsentAt ?? null, healthVersion: questionnaire.healthConsentVersion ?? null } } : fresh;
         localStorage.setItem(KEY, JSON.stringify(next));
         if (!data && !error) push(next);
         return next;

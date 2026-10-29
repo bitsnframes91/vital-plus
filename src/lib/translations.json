@@ -3638,5 +3638,77 @@
   "Die Sprachauswertung ist fehlgeschlagen. Bitte versuche es erneut.": [
     "Voice analysis failed. Please try again.",
     "El análisis de voz falló. Inténtalo de nuevo."
+  ],
+  "Einwilligung widerrufen": [
+    "Consent withdrawn",
+    "Consentimiento retirado"
+  ],
+  "Deine Einwilligung ist nötig": [
+    "Your consent is required",
+    "Necesitamos tu consentimiento"
+  ],
+  "Du hast die Verarbeitung deiner Gesundheitsdaten widerrufen. Diese Bereiche sind pausiert, bis du erneut einwilligst.": [
+    "You withdrew consent to processing your health data. These areas are paused until you consent again.",
+    "Has retirado el consentimiento para tratar tus datos de salud. Estas secciones están en pausa hasta que vuelvas a consentir."
+  ],
+  "Um Gesundheitsfunktionen zu nutzen, brauchen wir deine ausdrückliche Einwilligung zur aktuellen Datenschutzerklärung.": [
+    "To use health features we need your explicit consent under the current privacy policy.",
+    "Para usar las funciones de salud necesitamos tu consentimiento expreso según la política de privacidad actual."
+  ],
+  "Einwilligen": [
+    "I consent",
+    "Doy mi consentimiento"
+  ],
+  "Zum Profil (Konto, Daten, Löschen)": [
+    "Go to Profile (account, data, deletion)",
+    "Ir al perfil (cuenta, datos, eliminación)"
+  ],
+  "Speichern nicht möglich. Bitte versuche es erneut.": [
+    "Could not save. Please try again.",
+    "No se pudo guardar. Inténtalo de nuevo."
+  ],
+  "Einwilligung zu Gesundheitsdaten": [
+    "Health data consent",
+    "Consentimiento de datos de salud"
+  ],
+  "Ein Widerruf löscht dein Konto nicht. KI-Auswertungen und das Speichern von Gesundheitsdaten werden gestoppt.": [
+    "Withdrawing does not delete your account. AI analyses and storing health data stop.",
+    "Retirarlo no elimina tu cuenta. Se detienen los análisis de IA y el guardado de datos de salud."
+  ],
+  "Widerrufen, Daten behalten": [
+    "Withdraw, keep data",
+    "Retirar, conservar datos"
+  ],
+  "Widerrufen und Gesundheitsdaten löschen": [
+    "Withdraw and delete health data",
+    "Retirar y eliminar datos de salud"
+  ],
+  "Widerruf nicht möglich. Bitte versuche es erneut.": [
+    "Withdrawal failed. Please try again.",
+    "No se pudo retirar. Inténtalo de nuevo."
+  ],
+  "Einwilligung widerrufen und gespeicherte Gesundheitsdaten löschen?": [
+    "Withdraw consent and delete stored health data?",
+    "¿Retirar el consentimiento y eliminar los datos de salud guardados?"
+  ],
+  "Einwilligung widerrufen? Deine gespeicherten Daten bleiben erhalten, werden aber nicht mehr verarbeitet.": [
+    "Withdraw consent? Your stored data is kept but no longer processed.",
+    "¿Retirar el consentimiento? Tus datos se conservan pero ya no se tratan."
+  ],
+  "Bitte erteile zuerst deine Einwilligung zur Verarbeitung von Gesundheitsdaten.": [
+    "Please first consent to processing of health data.",
+    "Primero da tu consentimiento para el tratamiento de datos de salud."
+  ],
+  "Zu viele Anfragen. Bitte warte eine Minute.": [
+    "Too many requests. Please wait a minute.",
+    "Demasiadas solicitudes. Espera un minuto."
+  ],
+  "Tageslimit für KI-Auswertungen erreicht. Morgen geht es weiter.": [
+    "Daily AI analysis limit reached. Try again tomorrow.",
+    "Límite diario de análisis de IA alcanzado. Vuelve mañana."
+  ],
+  "Konto konnte nicht vollständig gelöscht werden. Bitte versuche es erneut.": [
+    "Account could not be fully deleted. Please try again.",
+    "No se pudo eliminar la cuenta por completo. Inténtalo de nuevo."
   ]
 }

@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { setResponseStatus } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { mealPlanContext } from "./meal-plan-context";
@@ -48,7 +49,8 @@ export const analyzeLabPdf = createServerFn({ method: "POST" })
   .inputValidator((d) =>
     z.object({ filename: z.string().max(200), mimeType: z.enum(["application/pdf", "image/jpeg", "image/png", "image/webp"]).default("application/pdf"), base64: z.string().min(100).max(14_000_000), knownIds: z.array(z.string()).max(50), meals: z.array(z.object({ name: z.string().max(200), date: z.string().max(10), kcal: z.number().nonnegative(), protein: z.number().nonnegative(), fiber: z.number().nonnegative(), carbs: z.number().nonnegative(), fat: z.number().nonnegative() })).max(100).default([]) }).parse(d),
   )
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
+    { const { enforceAiQuota } = await import("./ai-quota.server"); const refused = await enforceAiQuota(context.supabase, "lab"); if (refused) return refused; }
     const prompt = `Du liest einen deutschen Laborbefund (Blutwerte). Extrahiere alle Messwerte.
 Bekannte Marker-IDs der App: ${data.knownIds.join(", ")} (vitd = Vitamin D 25-OH, ferritin = Ferritin, b12 = Holo-TC/Vitamin B12, omega = Omega-3-Index). Setze "id" auf die passende ID oder null.
 Erstelle außerdem 3–6 alltagstaugliche Empfehlungen (Ernährung, Lebensstil, Nachkontrolle) auf Deutsch, du-Form, ohne Diagnose, ohne Medikamente. Liefere zu jeder Empfehlung zusätzlich eine inhaltsgleiche englische ("en") und spanische ("es", tú-Form) Fassung.
@@ -77,11 +79,12 @@ export const mealFromVoice = createServerFn({ method: "POST" })
     const base64 = (d as { base64?: unknown } | null)?.base64;
     return { base64: typeof base64 === "string" ? base64 : "" };
   })
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
     const key = process.env["LOVABLE_API_KEY"];
     if (!key) return { ok: false as const, error: "KI ist nicht konfiguriert." };
     if (data.base64.length < 1000) return { ok: false as const, error: "Aufnahme war leer – bitte noch einmal." };
-    if (data.base64.length > 14_000_000) return { ok: false as const, error: "Die Aufnahme ist zu lang. Bitte fasse dich kürzer." };
+    if (data.base64.length > 14_000_000) { setResponseStatus(413); return { ok: false as const, error: "Die Aufnahme ist zu lang. Bitte fasse dich kürzer." }; }
+    { const { enforceAiQuota } = await import("./ai-quota.server"); const refused = await enforceAiQuota(context.supabase, "meal_voice"); if (refused) return refused; }
     let transcript = "";
     try {
       const bin = atob(data.base64);
@@ -125,7 +128,8 @@ Antworte NUR mit JSON: {"meals":[{"label":string,"name":string,"protein":number,
 export const mealNutrition = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ name: z.string().trim().min(2).max(200) }).parse(d))
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
+    { const { enforceAiQuota } = await import("./ai-quota.server"); const refused = await enforceAiQuota(context.supabase, "meal_text"); if (refused) return refused; }
     const r = await askJson([
       {
         type: "input_text",

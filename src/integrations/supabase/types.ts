@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_usage: {
+        Row: {
+          created_at: string
+          id: number
+          kind: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          kind: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          kind?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       app_feedback: {
         Row: {
           created_at: string
@@ -41,6 +62,33 @@ export type Database = {
         }
         Relationships: []
       }
+      health_consents: {
+        Row: {
+          consented_at: string
+          data_choice: string | null
+          id: string
+          policy_version: string
+          user_id: string
+          withdrawn_at: string | null
+        }
+        Insert: {
+          consented_at?: string
+          data_choice?: string | null
+          id?: string
+          policy_version: string
+          user_id?: string
+          withdrawn_at?: string | null
+        }
+        Update: {
+          consented_at?: string
+          data_choice?: string | null
+          id?: string
+          policy_version?: string
+          user_id?: string
+          withdrawn_at?: string | null
+        }
+        Relationships: []
+      }
       user_data: {
         Row: {
           state: Json
@@ -64,7 +112,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      consume_ai_quota: {
+        Args: { _kind: string; _version: string }
+        Returns: string
+      }
+      current_health_consent_version: { Args: never; Returns: string }
+      give_health_consent: { Args: { _version: string }; Returns: undefined }
+      has_active_health_consent: {
+        Args: { _user_id: string }
+        Returns: boolean
+      }
+      health_consent_status: { Args: { _version: string }; Returns: string }
+      withdraw_health_consent: {
+        Args: { _delete_data: boolean }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
