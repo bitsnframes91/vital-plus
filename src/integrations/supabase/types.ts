@@ -116,7 +116,12 @@ export type Database = {
         Args: { _kind: string; _version: string }
         Returns: string
       }
+      current_health_consent_version: { Args: never; Returns: string }
       give_health_consent: { Args: { _version: string }; Returns: undefined }
+      has_active_health_consent: {
+        Args: { _user_id: string }
+        Returns: boolean
+      }
       health_consent_status: { Args: { _version: string }; Returns: string }
       withdraw_health_consent: {
         Args: { _delete_data: boolean }
