@@ -936,7 +936,7 @@ export const privacyCopy: Record<"de" | "en" | "es", TermsCopy> = {
         { p: "Durante ese tiempo los datos no pueden volver a usarse para análisis, recomendaciones de productos, publicidad ni otras funciones habituales de la app." },
         { p: "Las copias de seguridad se eliminan o se sobrescriben a más tardar al finalizar el plazo documentado de conservación." },
         { p: "Si fuera necesaria una restauración desde una copia más antigua, debe impedirse técnicamente que datos personales ya eliminados vuelvan al tratamiento productivo." },
-        { p: "Plazo máximo de conservación de copias de seguridad: [plazo vinculante por indicar.]" },
+        { p: "El plazo máximo de conservación de las copias de seguridad se anunciará aquí una vez fijado de forma vinculante." },
         { h: "10.5 Ningún uso posterior tras la eliminación" },
         { p: "Tras la eliminación de los sistemas activos, la información personal de salud afectada ya no se usa para:" },
         { list: [
