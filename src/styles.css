@@ -425,4 +425,10 @@
 .privacy-bubble { top: calc(10px + env(safe-area-inset-top)); }
 @keyframes privacy-pop { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: none; } }
 .privacy-pop { animation: privacy-pop 200ms ease-out both; }
+
+/* Signup legal line over the mascot artwork: black, bold and ringed in white so
+   it stays readable without covering the artwork with a panel. */
+.legal-notice { color: var(--foreground); font-weight: 700; text-shadow: 0 0 2px var(--card), 0 0 2px var(--card), 1px 0 0 var(--card), -1px 0 0 var(--card), 0 1px 0 var(--card), 0 -1px 0 var(--card), 0 0 6px var(--card); }
+.legal-notice button { color: var(--foreground); font-weight: 700; }
+
 @media (prefers-reduced-motion: reduce) { .privacy-pop { animation: none; } }
