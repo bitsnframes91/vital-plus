@@ -21,7 +21,7 @@ export function AppSettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState(defaultSettings);
   const [ready, setReady] = useState(false);
   const [reminder, setReminder] = useState(false);
-  useEffect(() => { setSettings(parseSettings(localStorage.getItem(SETTINGS_KEY))); setReady(true); }, []);
+  useEffect(() => { setSettings({ ...parseSettings(localStorage.getItem(SETTINGS_KEY)), theme: "light" }); setReady(true); }, []);
   useEffect(() => {
     if (!ready) return;
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
