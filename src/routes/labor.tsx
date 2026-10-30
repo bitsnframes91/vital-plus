@@ -18,6 +18,7 @@ import { LaborMascot } from "@/components/LaborMascot";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { labInformation } from "@/lib/lab-information";
+import { europeanLabMarker } from "@/lib/lab-units";
 
 export const Route = createFileRoute("/labor")({
   staticData: { sitemap: false },
@@ -39,14 +40,15 @@ const toneMood: Record<"ok" | "warn" | "severe", StatusMood> = { ok: "good", war
 function Labs() {
   useLanguage();
   const { s, set } = useStore();
+  const displayedLabs = s.labs.map(europeanLabMarker);
   // New accounts start without lab values; offer the standard markers for manual entry.
-  const options: LabMarker[] = [...s.labs, ...catalog.filter((c) => !s.labs.some((l) => l.id === c.id)).map((c) => ({ ...c, history: [] }))];
+  const options: LabMarker[] = [...displayedLabs, ...catalog.filter((c) => !s.labs.some((l) => l.id === c.id)).map((c) => europeanLabMarker({ ...c, history: [] }))];
   const [marker, setMarker] = useState(options[0]?.id ?? "");
   const [value, setValue] = useState("");
   const analyze = useServerFn(analyzeLabPdf);
   const [busy, setBusy] = useState(false);
   const [infoMarkerId, setInfoMarkerId] = useState<string | null>(null);
-  const infoMarker = s.labs.find(m => m.id === infoMarkerId);
+  const infoMarker = displayedLabs.find(m => m.id === infoMarkerId);
   const info = infoMarker ? labInformation(infoMarker) : null;
   const [confirmAll, setConfirmAll] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -70,19 +72,26 @@ function Labs() {
       if (blob.size > 10 * 1024 * 1024) { setProgress(0); return setMsg({ ok: false, text: "Die Datei ist größer als 10 MB." }); }
       const r = await analyze({ data: { filename: file.name, mimeType: isPdf ? "application/pdf" as const : "image/jpeg" as const, base64: await blobToBase64(blob), knownIds: s.labs.map((l) => l.id), meals: s.meals.slice(-100).map(({ name, date, kcal, protein, fiber, carbs, fat }) => ({ name, date, kcal, protein, fiber, carbs, fat })) } });
       if (!r.ok) { setProgress(0); return setMsg({ ok: false, text: r.error }); }
-      let labs: LabMarker[] = [...s.labs];
+      let labs: LabMarker[] = [...displayedLabs];
       for (const m of r.markers) {
         const idx = labs.findIndex((l) => l.id === m.id || l.name.toLowerCase() === m.name.toLowerCase());
-        const point = { date: r.date, value: m.value };
-        if (idx >= 0) {
-          labs[idx] = { ...labs[idx]!, history: [...labs[idx]!.history.filter((h) => h.date !== r.date), point].sort((a, b) => a.date.localeCompare(b.date)) };
+        const incoming = europeanLabMarker({
+          id: `pdf-${m.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+          name: m.name, unit: m.unit,
+          target: [m.targetLow ?? 0, m.targetHigh ?? Math.max(m.value * 1.5, 1)],
+          history: [{ date: r.date, value: m.value }], retestWeeks: 12, note: "Aus deinem Laborbefund übernommen.",
+        });
+        const point = incoming.history[0];
+        if (!point) continue;
+        const existing = labs[idx];
+        if (existing) {
+          if (existing.unit !== incoming.unit) {
+            setProgress(0);
+            return setMsg({ ok: false, text: "Die Einheiten im Befund stimmen nicht mit den gespeicherten Werten überein. Bitte prüfe den Befund." });
+          }
+          labs[idx] = { ...existing, history: [...existing.history.filter((h) => h.date !== r.date), point].sort((a, b) => a.date.localeCompare(b.date)) };
         } else {
-          labs = [...labs, {
-            id: `pdf-${m.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
-            name: m.name, unit: m.unit,
-            target: [m.targetLow ?? 0, m.targetHigh ?? Math.max(m.value * 1.5, 1)],
-            history: [point], retestWeeks: 12, note: "Aus deinem Laborbefund übernommen.",
-          }];
+          labs = [...labs, incoming];
         }
       }
       set({ labs, aiPlan: r.plan.length ? { date: r.date, items: r.plan } : s.aiPlan });
@@ -104,7 +113,7 @@ function Labs() {
     const date = new Date().toISOString().slice(0, 10);
     const point = { date, value: v };
     if (s.labs.some((l) => l.id === marker)) {
-      set({ labs: s.labs.map((l) => (l.id === marker ? { ...l, history: [...l.history, point] } : l)) });
+      set({ labs: displayedLabs.map((l) => (l.id === marker ? { ...l, history: [...l.history, point] } : l)) });
     } else {
       const base = options.find((o) => o.id === marker);
       if (!base) return;
@@ -175,8 +184,9 @@ function Labs() {
         {s.labs.length === 0 && (
           <p className="card-surface p-5 text-[14px] text-ink/55"><Localized>{"Noch keine Laborwerte. Lade einen Befund hoch oder trage unten einen Standardwert ein."}</Localized></p>
         )}
-        {s.labs.map((m) => {
-          const last = m.history[m.history.length - 1]!;
+        {displayedLabs.map((m) => {
+          const last = m.history[m.history.length - 1];
+          if (!last) return null;
           const st = status(m);
           return (
             <div key={m.id} className="card-surface p-5">
@@ -223,7 +233,7 @@ function Labs() {
         <form onSubmit={add} className="card-surface space-y-3 p-5">
           <div className="eyebrow"><Localized>{"Neuen Wert eintragen"}</Localized></div>
           <select value={marker} onChange={(e) => setMarker(e.target.value)} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none">
-            {options.map((l) => <option key={l.id} value={l.id}><Localized>{l.name}</Localized><Localized>{" ("}</Localized><Localized>{l.unit}</Localized><Localized>{")"}</Localized></option>)}
+            {options.map((l) => <option key={l.id} value={l.id}><Localized>{l.name}</Localized>{l.unit && <> (<Localized>{l.unit}</Localized>)</>}</option>)}
           </select>
           <input value={value} onChange={(e) => setValue(e.target.value)} inputMode="decimal" placeholder={translateText("Wert")} className="w-full rounded-xl bg-muted px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-ring" />
           <button className="w-full rounded-full bg-fresh py-2.5 text-sm font-medium text-ink"><Localized>{"Speichern"}</Localized></button>

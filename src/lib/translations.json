@@ -1,4 +1,8 @@
 {
+  "Die Einheiten im Befund stimmen nicht mit den gespeicherten Werten überein. Bitte prüfe den Befund.": [
+    "The report units do not match the saved values. Please check the report.",
+    "Las unidades del informe no coinciden con los valores guardados. Revisa el informe."
+  ],
   "Essen fotografieren": [
     "Photograph food",
     "Fotografiar comida"
