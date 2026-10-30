@@ -13,6 +13,7 @@ import { clearQuestionnaire } from "@/lib/questionnaire-draft";
 import { GENERIC_LOGIN_ERROR } from "@/lib/consent-policy";
 import { VivoBrand } from "@/components/VivoBrand";
 import { LegalLinks } from "@/components/LegalLinks";
+import { PrivacyBubble } from "@/components/PrivacyBubble";
 
 export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
@@ -73,6 +74,7 @@ function Home() {
   };
   return <div className="min-h-screen bg-card font-sans text-foreground">
     <main className={`home-entry ${mode === "login" ? "home-entry-login" : ""}`}>
+      <PrivacyBubble />
       <img src={startseiteProduce.url} alt={translateText("Vitali mit frischem Obst und Gemüse")} width={768} height={1152} fetchPriority="high" className="home-produce" />
       <header className="home-entry-header relative z-10">
         <Link to="/" aria-label={translateText("fairvitalgo Startseite")} className="inline-block"><VivoBrand className="h-auto w-[190px] object-contain sm:w-[240px]" /></Link>
