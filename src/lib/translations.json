@@ -3794,5 +3794,77 @@
   "Wenn du dich vorher abmeldest, gehen diese nur hier gespeicherten Änderungen verloren.": [
     "If you sign out before then, these changes stored only on this device will be lost.",
     "Si cierras sesión antes, se perderán estos cambios guardados solo en este dispositivo."
+  ],
+  "KI-Auswertung durch Drittanbieter": [
+    "AI analysis by third-party providers",
+    "Análisis con IA por proveedores externos"
+  ],
+  "Für diese Funktion sendet Vital Plus Inhalte an externe KI-Dienste. Ohne deine Zustimmung wird nichts übertragen.": [
+    "For this feature, Vital Plus sends content to external AI services. Nothing is sent without your consent.",
+    "Para esta función, Vital Plus envía contenido a servicios de IA externos. Sin tu consentimiento no se envía nada."
+  ],
+  "Was gesendet wird: je nach Funktion dein Laborbefund (PDF oder Foto) mit deinen zuletzt erfassten Mahlzeiten, dein Essensfoto, deine Sprachaufnahme oder der eingegebene Name einer Mahlzeit. Ein Befund kann persönliche Angaben enthalten, die darauf stehen, z. B. Name und Geburtsdatum. Deine E-Mail-Adresse und Apple-Health-Werte werden nicht gesendet.": [
+    "What is sent: depending on the feature, your lab report (PDF or photo) with your recently logged meals, your food photo, your voice recording or the meal name you typed. A report may contain personal details printed on it, such as name and date of birth. Your email address and Apple Health values are not sent.",
+    "Qué se envía: según la función, tu informe de laboratorio (PDF o foto) con tus comidas registradas recientemente, tu foto de comida, tu grabación de voz o el nombre de la comida que escribiste. Un informe puede contener datos personales impresos, como nombre y fecha de nacimiento. Tu correo electrónico y los valores de Apple Salud no se envían."
+  ],
+  "An wen: über das KI-Gateway unseres Hosting-Anbieters Lovable an OpenAI (Auswertung von Befunden, Fotos und Mahlzeiten) und Google (Umwandlung von Sprache in Text). Die Verarbeitung kann außerhalb der EU stattfinden, z. B. in den USA.": [
+    "To whom: through the AI gateway of our hosting provider Lovable to OpenAI (analysis of reports, photos and meals) and Google (speech to text). Processing may take place outside the EU, for example in the United States.",
+    "A quién: a través de la pasarela de IA de nuestro proveedor de alojamiento Lovable a OpenAI (análisis de informes, fotos y comidas) y Google (conversión de voz a texto). El tratamiento puede realizarse fuera de la UE, por ejemplo en Estados Unidos."
+  ],
+  "Wozu: nur um das Ergebnis zu erstellen. Ergebnisse sind Schätzungen und ersetzen keine ärztliche Beratung.": [
+    "Why: only to produce the result. Results are estimates and do not replace medical advice.",
+    "Para qué: solo para generar el resultado. Los resultados son estimaciones y no sustituyen el consejo médico."
+  ],
+  "Freiwillig: Ohne Zustimmung kannst du Mahlzeiten und Laborwerte von Hand eintragen. Du kannst die Zustimmung jederzeit unter Profil → Meine Daten widerrufen.": [
+    "Optional: without consent you can enter meals and lab values manually. You can withdraw consent at any time under Profile → My data.",
+    "Voluntario: sin consentimiento puedes introducir comidas y valores de laboratorio a mano. Puedes retirar el consentimiento en cualquier momento en Perfil → Mis datos."
+  ],
+  "Nicht erlauben": [
+    "Don't allow",
+    "No permitir"
+  ],
+  "Wird gespeichert …": [
+    "Saving …",
+    "Guardando …"
+  ],
+  "Zustimmen und fortfahren": [
+    "Agree and continue",
+    "Aceptar y continuar"
+  ],
+  "Speichern nicht möglich. Bitte prüfe deine Internetverbindung und versuche es erneut.": [
+    "Could not save. Please check your internet connection and try again.",
+    "No se pudo guardar. Comprueba tu conexión a internet e inténtalo de nuevo."
+  ],
+  "Erlaubt. Befunde, Fotos, Sprachaufnahmen und Mahlzeitennamen werden zur Auswertung an OpenAI bzw. Google gesendet.": [
+    "Allowed. Reports, photos, voice recordings and meal names are sent to OpenAI or Google for analysis.",
+    "Permitido. Los informes, fotos, grabaciones de voz y nombres de comidas se envían a OpenAI o Google para su análisis."
+  ],
+  "Nicht erlaubt. Es werden keine Inhalte an KI-Dienste gesendet; du kannst Werte von Hand eintragen.": [
+    "Not allowed. No content is sent to AI services; you can enter values manually.",
+    "No permitido. No se envía contenido a servicios de IA; puedes introducir los valores a mano."
+  ],
+  "KI-Auswertung widerrufen": [
+    "Withdraw AI analysis",
+    "Retirar el análisis con IA"
+  ],
+  "KI-Auswertung erlauben …": [
+    "Allow AI analysis …",
+    "Permitir el análisis con IA …"
+  ],
+  "KI-Auswertung nicht mehr erlauben? Bereits übernommene Werte bleiben gespeichert.": [
+    "Stop allowing AI analysis? Values already accepted remain stored.",
+    "¿Dejar de permitir el análisis con IA? Los valores ya aceptados se mantienen guardados."
+  ],
+  "Automatische Nährwertschätzung ist aus. Trage kcal und Protein von Hand ein oder ": [
+    "Automatic nutrient estimation is off. Enter kcal and protein manually or ",
+    "La estimación automática de nutrientes está desactivada. Introduce kcal y proteínas a mano o "
+  ],
+  "erlaube die KI-Auswertung": [
+    "allow AI analysis",
+    "permite el análisis con IA"
+  ],
+  "Bitte erlaube zuerst die KI-Auswertung durch Drittanbieter (Profil → Meine Daten).": [
+    "Please first allow AI analysis by third-party providers (Profile → My data).",
+    "Primero permite el análisis con IA por proveedores externos (Perfil → Mis datos)."
   ]
 }

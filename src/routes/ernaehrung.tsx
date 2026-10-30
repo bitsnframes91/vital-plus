@@ -14,6 +14,7 @@ import { currentLanguage } from "@/lib/language";
 import { Camera, LoaderCircle, Minus, Plus } from "lucide-react";
 import { blobToBase64 } from "@/lib/record-wav";
 import { VoiceMealEntry, type VoiceMeal } from "@/components/VoiceMealEntry";
+import { useAiConsent } from "@/components/AiConsent";
 import { serverFetch } from "@/lib/server-fetch";
 import { Button } from "@/components/ui/button";
 import { NutritionProfileFields } from "@/components/NutritionProfileFields";
@@ -61,6 +62,9 @@ function NutritionPage() {
   const voice = useServerFn(mealFromVoice);
   const estimate = useServerFn(mealNutrition);
   const photoEstimate = useServerFn(mealFromPhoto);
+  // Nothing is sent to the AI providers until the user agreed to the AI notice.
+  const ai = useAiConsent();
+  const askAi = () => { if (ai.granted) return true; void ai.ensure(); return false; };
   const photoInput = useRef<HTMLInputElement>(null);
   const estimateVersion = useRef(0);
   const [photoBusy, setPhotoBusy] = useState(false);
@@ -102,11 +106,11 @@ function NutritionPage() {
   };
   useEffect(() => {
     const n = name.trim();
-    if (photoBusy || n.length < 3 || est?.name === n) return;
+    if (!ai.granted || photoBusy || n.length < 3 || est?.name === n) return;
     const t = setTimeout(() => { void runEstimate(n); }, 900);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, photoBusy]);
+  }, [name, photoBusy, ai.granted]);
 
   const today = todayISO();
   const todayMeals = s.meals.filter((m) => m.date === today);
@@ -119,7 +123,7 @@ function NutritionPage() {
   const tried = useRef(new Set<string>());
   useEffect(() => {
     // Each estimate counts against the user's AI limit, so the backfill needs consent and stops at the first refusal.
-    if (consent !== "active") return;
+    if (consent !== "active" || !ai.granted) return;
     const missing = todayMeals.filter((m) => (!m.micronutrients || m.omega3Mg === undefined || m.omega6Mg === undefined || m.omega9Mg === undefined) && !tried.current.has(m.id));
     if (!missing.length) return;
     missing.forEach((m) => tried.current.add(m.id));
@@ -135,7 +139,7 @@ function NutritionPage() {
       if (Object.keys(found).length) set({ meals: sRef.current.meals.map((x) => found[x.id] ? { ...x, ...found[x.id] } : x) });
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [consent, todayMeals.map((m) => `${m.id}:${Boolean(m.micronutrients)}:${m.omega3Mg}:${m.omega6Mg}:${m.omega9Mg}`).join()]);
+  }, [consent, ai.granted, todayMeals.map((m) => `${m.id}:${Boolean(m.micronutrients)}:${m.omega3Mg}:${m.omega6Mg}:${m.omega9Mg}`).join()]);
 
   // Diary: group meals by day, newest first.
   const days = todayMeals.length ? [today] : [];
@@ -154,7 +158,7 @@ function NutritionPage() {
     const n = name.trim();
     if (!n || estBusy || photoBusy) return;
     let e2 = est?.name === n ? est : null;
-    if (!e2) e2 = await runEstimate(n);
+    if (!e2 && ai.granted) e2 = await runEstimate(n);
     const meal: Meal = {
       id: crypto.randomUUID(), label, name: n,
       protein: Number(protein.replace(",", ".")) || e2?.protein || 0, kcal: Number(kcal.replace(",", ".")) || e2?.kcal || 0,
@@ -206,7 +210,8 @@ function NutritionPage() {
         <NutritionMascot message={todayMeals.length === 0 ? "Bitte gib ein, was du gegessen hast." : undefined} />
       </header>
       <div className="space-y-4 px-4 pt-4">
-        <VoiceMealEntry transcribe={(base64, signal) => voice({ data: { base64 }, signal, fetch: serverFetch })} onConfirm={saveVoiceMeals} />
+        <VoiceMealEntry beforeStart={askAi} transcribe={(base64, signal) => voice({ data: { base64 }, signal, fetch: serverFetch })} onConfirm={saveVoiceMeals} />
+        {ai.dialog}
 
         <div className="space-y-4">
           <div className="eyebrow px-1"><Localized>{"Ernährungstagebuch"}</Localized></div>
@@ -240,7 +245,7 @@ function NutritionPage() {
           <div className="flex items-center justify-between gap-3">
             <div className="eyebrow"><Localized>{"Mahlzeit hinzufügen"}</Localized></div>
             <Button type="button" size="icon" variant="secondary" className="size-9 shrink-0 rounded-full bg-fresh text-ink" disabled={photoBusy || estBusy}
-              onClick={() => photoInput.current?.click()} aria-label={translateText("Essen fotografieren")} title={translateText("Essen fotografieren")}><Camera className="size-4" /></Button>
+              onClick={() => { if (askAi()) photoInput.current?.click(); }} aria-label={translateText("Essen fotografieren")} title={translateText("Essen fotografieren")}><Camera className="size-4" /></Button>
             <input ref={photoInput} type="file" accept="image/*" capture="environment" className="sr-only" aria-label={translateText("Essensfoto auswählen")}
               onChange={event => { const file = event.target.files?.[0]; event.target.value = ""; if (file) void readPhoto(file); }} />
           </div>
@@ -259,6 +264,7 @@ function NutritionPage() {
           {(estBusy || photoBusy) && <div role="status" className="flex items-center gap-2 text-[12px] text-muted-foreground"><LoaderCircle className="size-5 motion-safe:animate-spin text-fresh" aria-hidden="true" /><Localized>{"Nährwerte werden berechnet…"}</Localized></div>}
           {photoFill > 0 && !photoBusy && <p className="text-[11px] text-muted-foreground"><Localized>{"Foto-Schätzung · Portionsgröße und Zutaten können abweichen."}</Localized></p>}
           {!estBusy && est?.name === name.trim() && <p className="text-[12px] text-ink/55"><Localized>{"Geschätzt: ca. "}</Localized><Localized>{est.kcal}</Localized><Localized>{" kcal · "}</Localized><Localized>{est.protein}</Localized><Localized>{" g Protein · "}</Localized><Localized>{est.carbs}</Localized><Localized>{" g KH · "}</Localized><Localized>{est.fat}</Localized><Localized>{" g Fett · "}</Localized><Localized>{est.fiber}</Localized><Localized>{" g Ballaststoffe"}</Localized></p>}
+          {!ai.granted && <p className="text-[12px] text-ink/55"><Localized>{"Automatische Nährwertschätzung ist aus. Trage kcal und Protein von Hand ein oder "}</Localized><button type="button" onClick={() => void ai.ensure()} className="font-semibold underline underline-offset-4"><Localized>{"erlaube die KI-Auswertung"}</Localized></button>.</p>}
           {estErr && <p className="text-[12px] text-destructive"><Localized>{estErr}</Localized></p>}
           <Button type="submit" disabled={estBusy || photoBusy} className="w-full rounded-full bg-fresh text-ink"><Localized>{estBusy || photoBusy ? "Berechne…" : "Speichern"}</Localized></Button>
         </form>

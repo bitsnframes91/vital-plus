@@ -18,6 +18,7 @@ import { LaborMascot } from "@/components/LaborMascot";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { labInformation } from "@/lib/lab-information";
+import { useAiConsent } from "@/components/AiConsent";
 
 export const Route = createFileRoute("/labor")({
   staticData: { sitemap: false },
@@ -44,6 +45,9 @@ function Labs() {
   const [marker, setMarker] = useState(options[0]?.id ?? "");
   const [value, setValue] = useState("");
   const analyze = useServerFn(analyzeLabPdf);
+  // Reports go to the AI providers only after the user agreed to the AI notice; manual entry always works.
+  const ai = useAiConsent();
+  const askAi = (e: React.MouseEvent) => { if (!ai.granted) { e.preventDefault(); void ai.ensure(); } };
   const [busy, setBusy] = useState(false);
   const [infoMarkerId, setInfoMarkerId] = useState<string | null>(null);
   const infoMarker = s.labs.find(m => m.id === infoMarkerId);
@@ -59,7 +63,7 @@ function Labs() {
   }, [busy]);
 
   const upload = async (file: File | undefined) => {
-    if (!file) return;
+    if (!file || !ai.granted) return;
     const isPdf = file.type === "application/pdf";
     if (!isPdf && !file.type.startsWith("image/")) return setMsg({ ok: false, text: "Bitte eine PDF-Datei oder ein Foto wählen." });
     setBusy(true);
@@ -131,8 +135,9 @@ function Labs() {
         </div>
         <LaborMascot message={s.labs.length === 0 ? "Lade deine Blutwerte hoch." : undefined} />
       </header>
+      {ai.dialog}
       <div className="space-y-3 px-4 pt-4">
-        <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
+        <label onClick={askAi} className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
           <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv text-ink"><Upload size={20} strokeWidth={2.2} aria-hidden="true" /></span>
           <div className="min-w-0 flex-1">
             <div className="text-[15px] font-medium"><Localized>{busy ? "Befund wird gelesen…" : "Laborbefund hochladen"}</Localized></div>
@@ -141,7 +146,7 @@ function Labs() {
           <input type="file" accept="application/pdf,image/*" className="sr-only" disabled={busy}
             onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
         </label>
-        <label className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
+        <label onClick={askAi} className={`card-surface flex cursor-pointer items-center gap-3 p-5 ${busy ? "opacity-60" : ""}`}>
           <span className="grid size-10 shrink-0 place-items-center rounded-full bg-fv text-ink"><Camera size={20} strokeWidth={2.2} aria-hidden="true" /></span>
           <div className="min-w-0 flex-1">
             <div className="text-[15px] font-medium"><Localized>{"Befund fotografieren"}</Localized></div>

@@ -1,5 +1,7 @@
 # App Store readiness — Vivo Health (iOS)
 
+> **Superseded for the 1.0.0 submission by [app-store-submission.md](app-store-submission.md)** (30 October 2026). This page predates HealthKit, iPad support and the AI consent; keep it for history only.
+
 Status: **not ready for submission.** The unsigned Simulator build is the first milestone only. Items below are marked:
 
 - ✅ done

@@ -1,7 +1,7 @@
 import { act, cleanup, render, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { StoreProvider, useStore } from "@/lib/store";
-import { HEALTH_CONSENT_VERSION } from "@/lib/consent-policy";
+import { AI_CONSENT_VERSION, HEALTH_CONSENT_VERSION, hasAiConsent } from "@/lib/consent-policy";
 import type { QuestionnaireDraft } from "@/lib/questionnaire-draft";
 
 // The server refuses user_data writes without active consent (42501). The store must never send a save
@@ -285,5 +285,40 @@ describe("account removal on this device", () => {
     act(() => db.listener?.("SIGNED_OUT"));
     expect(api!.consent).toBeNull();
     expect(api!.s.name).toBe("");
+  });
+});
+
+describe("AI consent", () => {
+  it("is saved right away so the server sees it on the next AI request", async () => {
+    db.saved = { name: "Jonas", onboarded: true, consent: { practitioner: false, analytics: false } };
+    db.status = "active";
+    db.user = { id: "old-user", email: "j@example.com" };
+    mount();
+    await waitFor(() => expect(api?.consent).toBe("active"));
+    let done = false;
+    await act(async () => {
+      done = await api!.grantAiConsent();
+    });
+    expect(done).toBe(true);
+    // Saved without waiting for the debounced save.
+    expect(db.upserts.at(-1)!.state).toMatchObject({ name: "Jonas", consent: { aiVersion: AI_CONSENT_VERSION } });
+    expect(hasAiConsent(api!.s.consent)).toBe(true);
+
+    act(() => api!.withdrawAiConsent());
+    await settle();
+    expect(hasAiConsent(db.saved!["consent"] as never)).toBe(false);
+  });
+
+  it("is not recorded without active health-data consent", async () => {
+    db.saved = { name: "Jonas", onboarded: true, consent: { practitioner: false, analytics: false } };
+    db.status = "withdrawn";
+    db.user = { id: "old-user", email: "j@example.com" };
+    mount();
+    await waitFor(() => expect(api?.consent).toBe("withdrawn"));
+    await act(async () => {
+      expect(await api!.grantAiConsent()).toBe(false);
+    });
+    expect(db.log).not.toContain("upsert");
+    expect(hasAiConsent(api!.s.consent)).toBe(false);
   });
 });

@@ -4,7 +4,7 @@ import { initialMeals, initialSupplements, labMarkers as seedLabs, type Meal, ty
 import { supabase } from "@/integrations/supabase/client";
 import { questionnaireForAccount } from "./questionnaire-draft";
 import { todayKey } from "./daily-goals";
-import { HEALTH_CONSENT_VERSION, canRecordLocalConsent, needsConsentPrompt, type ConsentStatus } from "./consent-policy";
+import { AI_CONSENT_VERSION, HEALTH_CONSENT_VERSION, canRecordLocalConsent, needsConsentPrompt, type AiConsentFields, type ConsentStatus } from "./consent-policy";
 
 // Health state: kept in the browser and synced to the signed-in user's Lovable Cloud account.
 type State = {
@@ -16,7 +16,7 @@ type State = {
   supplements: Supplement[];
   labs: LabMarker[];
   actionsDone: Record<string, boolean>;
-  consent: { practitioner: boolean; analytics: boolean; healthDataAt?: string | null; healthVersion?: string | null };
+  consent: { practitioner: boolean; analytics: boolean; healthDataAt?: string | null; healthVersion?: string | null } & AiConsentFields;
   account: { email: string; userId: string } | null;
   aiPlan: { date: string; items: { title: string; detail: string; daily?: boolean; en?: { title: string; detail: string }; es?: { title: string; detail: string } }[] } | null;
   body: { weightKg: number | null; waistCm: number | null; sleepHours: number | null; steps: number | null; stepsDate?: string | null; sleepDate?: string | null; heightCm?: number | null; age?: number | null; sex?: "female" | "male" | "diverse" | "unspecified" | null; activity?: string | null; stepGoal?: number | null; targetWeightKg?: number | null };
@@ -52,6 +52,9 @@ type CtxValue = {
   consent: ConsentStatus | null;
   grantConsent: () => Promise<boolean>;
   withdrawConsent: (deleteData: boolean) => Promise<boolean>;
+  /** Records consent to the AI notice and saves it before resolving, so the server sees it on the next AI request. */
+  grantAiConsent: () => Promise<boolean>;
+  withdrawAiConsent: () => void;
   /** Drops the account's state and unsent saves from this device (after the account was deleted). */
   forgetAccount: () => void;
   /** Signed in, and the server confirmed there is no active consent: changes stay on this device only. */
@@ -158,6 +161,22 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     return true;
   };
 
+  const grantAiConsent = async () => {
+    // AI requests also need active health-data consent; without it the account state cannot be saved.
+    const uid = userRef.current;
+    if (!uid || consentRef.current !== "active") return false;
+    const consent = { ...latest.current.consent, aiAt: new Date().toISOString(), aiVersion: AI_CONSENT_VERSION };
+    set({ consent });
+    // Saved at once instead of debounced: the server checks the stored consent on the next AI request.
+    const { account: _a, ...state } = { ...latest.current, consent };
+    const { error } = await supabase
+      .from("user_data")
+      .upsert({ user_id: uid, state: state as any, updated_at: new Date().toISOString() });
+    return !error && userRef.current === uid;
+  };
+
+  const withdrawAiConsent = () => set({ consent: { ...latest.current.consent, aiAt: null, aiVersion: null } });
+
   const withdrawConsent = async (deleteData: boolean) => {
     const uid = userRef.current;
     if (!uid) return false;
@@ -170,7 +189,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     const prev = latest.current;
     const next: State = deleteData
       ? { ...initial, meals: [], labs: [], actionsDone: {}, account: prev.account }
-      : { ...prev, consent: { ...prev.consent, healthDataAt: null, healthVersion: null } };
+      : { ...prev, consent: { ...prev.consent, healthDataAt: null, healthVersion: null, aiAt: null, aiVersion: null } };
     latest.current = next;
     localStorage.setItem(KEY, JSON.stringify(next));
     setS(next);
@@ -286,7 +305,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     });
   const syncPaused = s.account !== null && consent !== null && consent !== "active";
   const resumeSync = () => { if (userRef.current) void loadConsent(userRef.current); };
-  return <Ctx.Provider value={{ s, set, consent, grantConsent, withdrawConsent, forgetAccount, syncPaused, resumeSync }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ s, set, consent, grantConsent, withdrawConsent, grantAiConsent, withdrawAiConsent, forgetAccount, syncPaused, resumeSync }}>{children}</Ctx.Provider>;
 }
 
 /** Today's date key (local), matching the day-based logs. */

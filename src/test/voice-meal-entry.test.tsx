@@ -36,6 +36,18 @@ describe("Voice meal entry", () => {
   beforeEach(() => setVisibility("visible"));
   afterEach(() => { vi.useRealTimers(); setLanguage("de"); });
 
+  it("keeps the microphone off while AI consent is missing", () => {
+    const record = vi.fn();
+    const transcribe = vi.fn();
+    const beforeStart = vi.fn(() => false);
+    render(<VoiceMealEntry record={record} transcribe={transcribe} onConfirm={vi.fn()} beforeStart={beforeStart} />);
+    fireEvent.click(card());
+    expect(beforeStart).toHaveBeenCalledOnce();
+    expect(record).not.toHaveBeenCalled();
+    expect(transcribe).not.toHaveBeenCalled();
+    expect(card()).not.toBeDisabled();
+  });
+
   it("explains a denied microphone permission without uploading anything", async () => {
     const { record, transcribe } = setup();
     record.mockRejectedValueOnce(new MicError("denied"));

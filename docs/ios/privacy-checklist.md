@@ -1,5 +1,7 @@
 # iOS privacy checklist
 
+> **Update, 30 October 2026:** HealthKit (Apple Health) is now integrated with readings kept on the device, and AI features need a separate consent (see [app-store-submission.md](app-store-submission.md) §3 and §7). The privacy-policy items below (voice transcription, iOS specifics, public URL) are fixed in `src/lib/privacy-policy.ts` and the public `/datenschutz` page. Sections below that say "no HealthKit" are out of date.
+
 This is an engineering review of how the iOS build handles personal health data. **It is not a legal assessment.** GDPR and App Store compliance have not been confirmed and still need review by the data-protection officer / legal team.
 
 Legend: ✅ implemented and verified · 🟡 implemented, needs device test · ⬜ open

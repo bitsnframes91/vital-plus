@@ -64,10 +64,12 @@ const clock = (seconds: number) => `${Math.floor(seconds / 60)}:${String(Math.fl
  * Audio is only sent after the user stops a recording they started, and meals are only
  * saved after the user confirms the review.
  */
-export function VoiceMealEntry({ transcribe, onConfirm, record = startRecording }: {
+export function VoiceMealEntry({ transcribe, onConfirm, record = startRecording, beforeStart }: {
   transcribe: (base64Wav: string, signal: AbortSignal) => Promise<VoiceResult>;
   onConfirm: (meals: VoiceMeal[]) => void;
   record?: typeof startRecording;
+  /** Returns false to keep the microphone off, e.g. while AI consent is being asked for. */
+  beforeStart?: () => boolean;
 }) {
   useLanguage();
   const [phase, setPhase] = useState<Phase>("idle");
@@ -98,6 +100,7 @@ export function VoiceMealEntry({ transcribe, onConfirm, record = startRecording 
 
   const start = async () => {
     if (busy.current || recording.current) return;
+    if (beforeStart && !beforeStart()) return;
     busy.current = true;
     const id = ++session.current;
     setMessage(null);

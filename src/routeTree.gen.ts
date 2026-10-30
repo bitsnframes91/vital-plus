@@ -11,16 +11,20 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BestaetigtRouteImport } from './routes/bestaetigt'
+import { Route as DatenschutzRouteImport } from './routes/datenschutz'
 import { Route as ErnaehrungRouteImport } from './routes/ernaehrung'
 import { Route as GesundheitRouteImport } from './routes/gesundheit'
 import { Route as HeuteRouteImport } from './routes/heute'
+import { Route as ImpressumRouteImport } from './routes/impressum'
 import { Route as LaborRouteImport } from './routes/labor'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as NutzungsbedingungenRouteImport } from './routes/nutzungsbedingungen'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PlanRouteImport } from './routes/plan'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SupportRouteImport } from './routes/support'
 import { Route as TrendsRouteImport } from './routes/trends'
 import { Route as UhrRouteImport } from './routes/uhr'
 import { Route as ErnaehrungMineralienRouteImport } from './routes/ernaehrung.mineralien'
@@ -42,6 +46,11 @@ const BestaetigtRoute = BestaetigtRouteImport.update({
   path: '/bestaetigt',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DatenschutzRoute = DatenschutzRouteImport.update({
+  id: '/datenschutz',
+  path: '/datenschutz',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ErnaehrungRoute = ErnaehrungRouteImport.update({
   id: '/ernaehrung',
   path: '/ernaehrung',
@@ -57,6 +66,11 @@ const HeuteRoute = HeuteRouteImport.update({
   path: '/heute',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImpressumRoute = ImpressumRouteImport.update({
+  id: '/impressum',
+  path: '/impressum',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LaborRoute = LaborRouteImport.update({
   id: '/labor',
   path: '/labor',
@@ -65,6 +79,11 @@ const LaborRoute = LaborRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NutzungsbedingungenRoute = NutzungsbedingungenRouteImport.update({
+  id: '/nutzungsbedingungen',
+  path: '/nutzungsbedingungen',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -90,6 +109,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TrendsRoute = TrendsRouteImport.update({
@@ -147,16 +171,20 @@ const LovableEmailTransactionalPreviewRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bestaetigt': typeof BestaetigtRoute
+  '/datenschutz': typeof DatenschutzRoute
   '/ernaehrung': typeof ErnaehrungRouteWithChildren
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
+  '/impressum': typeof ImpressumRoute
   '/labor': typeof LaborRoute
   '/login': typeof LoginRoute
+  '/nutzungsbedingungen': typeof NutzungsbedingungenRoute
   '/onboarding': typeof OnboardingRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/support': typeof SupportRoute
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
   '/ernaehrung/mineralien': typeof ErnaehrungMineralienRoute
@@ -171,16 +199,20 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bestaetigt': typeof BestaetigtRoute
+  '/datenschutz': typeof DatenschutzRoute
   '/ernaehrung': typeof ErnaehrungRouteWithChildren
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
+  '/impressum': typeof ImpressumRoute
   '/labor': typeof LaborRoute
   '/login': typeof LoginRoute
+  '/nutzungsbedingungen': typeof NutzungsbedingungenRoute
   '/onboarding': typeof OnboardingRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/support': typeof SupportRoute
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
   '/ernaehrung/mineralien': typeof ErnaehrungMineralienRoute
@@ -196,16 +228,20 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/bestaetigt': typeof BestaetigtRoute
+  '/datenschutz': typeof DatenschutzRoute
   '/ernaehrung': typeof ErnaehrungRouteWithChildren
   '/gesundheit': typeof GesundheitRoute
   '/heute': typeof HeuteRoute
+  '/impressum': typeof ImpressumRoute
   '/labor': typeof LaborRoute
   '/login': typeof LoginRoute
+  '/nutzungsbedingungen': typeof NutzungsbedingungenRoute
   '/onboarding': typeof OnboardingRoute
   '/plan': typeof PlanRoute
   '/profil': typeof ProfilRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/support': typeof SupportRoute
   '/trends': typeof TrendsRoute
   '/uhr': typeof UhrRoute
   '/ernaehrung/mineralien': typeof ErnaehrungMineralienRoute
@@ -222,16 +258,20 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/bestaetigt'
+    | '/datenschutz'
     | '/ernaehrung'
     | '/gesundheit'
     | '/heute'
+    | '/impressum'
     | '/labor'
     | '/login'
+    | '/nutzungsbedingungen'
     | '/onboarding'
     | '/plan'
     | '/profil'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/support'
     | '/trends'
     | '/uhr'
     | '/ernaehrung/mineralien'
@@ -246,16 +286,20 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/bestaetigt'
+    | '/datenschutz'
     | '/ernaehrung'
     | '/gesundheit'
     | '/heute'
+    | '/impressum'
     | '/labor'
     | '/login'
+    | '/nutzungsbedingungen'
     | '/onboarding'
     | '/plan'
     | '/profil'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/support'
     | '/trends'
     | '/uhr'
     | '/ernaehrung/mineralien'
@@ -270,16 +314,20 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/bestaetigt'
+    | '/datenschutz'
     | '/ernaehrung'
     | '/gesundheit'
     | '/heute'
+    | '/impressum'
     | '/labor'
     | '/login'
+    | '/nutzungsbedingungen'
     | '/onboarding'
     | '/plan'
     | '/profil'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/support'
     | '/trends'
     | '/uhr'
     | '/ernaehrung/mineralien'
@@ -295,16 +343,20 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BestaetigtRoute: typeof BestaetigtRoute
+  DatenschutzRoute: typeof DatenschutzRoute
   ErnaehrungRoute: typeof ErnaehrungRouteWithChildren
   GesundheitRoute: typeof GesundheitRoute
   HeuteRoute: typeof HeuteRoute
+  ImpressumRoute: typeof ImpressumRoute
   LaborRoute: typeof LaborRoute
   LoginRoute: typeof LoginRoute
+  NutzungsbedingungenRoute: typeof NutzungsbedingungenRoute
   OnboardingRoute: typeof OnboardingRoute
   PlanRoute: typeof PlanRoute
   ProfilRoute: typeof ProfilRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SupportRoute: typeof SupportRoute
   TrendsRoute: typeof TrendsRoute
   UhrRoute: typeof UhrRoute
   LovableEmailAuthPreviewRoute: typeof LovableEmailAuthPreviewRoute
@@ -328,6 +380,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BestaetigtRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/datenschutz': {
+      id: '/datenschutz'
+      path: '/datenschutz'
+      fullPath: '/datenschutz'
+      preLoaderRoute: typeof DatenschutzRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ernaehrung': {
       id: '/ernaehrung'
       path: '/ernaehrung'
@@ -349,6 +408,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HeuteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/impressum': {
+      id: '/impressum'
+      path: '/impressum'
+      fullPath: '/impressum'
+      preLoaderRoute: typeof ImpressumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/labor': {
       id: '/labor'
       path: '/labor'
@@ -361,6 +427,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nutzungsbedingungen': {
+      id: '/nutzungsbedingungen'
+      path: '/nutzungsbedingungen'
+      fullPath: '/nutzungsbedingungen'
+      preLoaderRoute: typeof NutzungsbedingungenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -396,6 +469,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/trends': {
@@ -503,16 +583,20 @@ const ProfilRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BestaetigtRoute: BestaetigtRoute,
+  DatenschutzRoute: DatenschutzRoute,
   ErnaehrungRoute: ErnaehrungRouteWithChildren,
   GesundheitRoute: GesundheitRoute,
   HeuteRoute: HeuteRoute,
+  ImpressumRoute: ImpressumRoute,
   LaborRoute: LaborRoute,
   LoginRoute: LoginRoute,
+  NutzungsbedingungenRoute: NutzungsbedingungenRoute,
   OnboardingRoute: OnboardingRoute,
   PlanRoute: PlanRoute,
   ProfilRoute: ProfilRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SupportRoute: SupportRoute,
   TrendsRoute: TrendsRoute,
   UhrRoute: UhrRoute,
   LovableEmailAuthPreviewRoute: LovableEmailAuthPreviewRoute,
