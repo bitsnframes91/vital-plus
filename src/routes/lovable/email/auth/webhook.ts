@@ -9,10 +9,10 @@ import { EmailChangeEmail } from '@/lib/email-templates/email-change'
 import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
 
 // Configuration
-const SITE_NAME = "fairvitalgo"
+const SITE_NAME = "FairvitalGO"
 const SENDER_DOMAIN = "notify.fairvitalgo.de"
 const ROOT_DOMAIN = "fairvitalgo.de"
-const FROM_DOMAIN = "notify.fairvitalgo.de"
+const FROM_DOMAIN = "fairvitalgo.de"
 const SITE_URL = `https://${ROOT_DOMAIN}`
 
 // The SDK handler owns verification, dispatch, and retry semantics; this file
