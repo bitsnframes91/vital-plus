@@ -1,6 +1,6 @@
 // fairvitalgo app terms (AGB), shared by Profile and signup screens.
 // German is the source text; English and Spanish are full translations of it.
-export type TermsBlock = { h?: string; p?: string; list?: string[] };
+export type TermsBlock = { h?: string; p?: string; list?: string[]; items?: { label: string; text: string }[] };
 export type TermsSection = { title: string; blocks: TermsBlock[] };
 export type TermsCopy = { date: string; tagline: string; sections: TermsSection[]; closing: string[] };
 
