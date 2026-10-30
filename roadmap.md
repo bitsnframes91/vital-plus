@@ -48,3 +48,7 @@
 # fairvitalgo rebrand
 - [x] Replace the shared logo, browser/PWA icons and app wording across all languages, legal screens, metadata and emails; preserve shop ownership, existing URLs and device identifiers.
 - [x] Verify homepage and Today logo, installed-app icons, phone/tablet appearance and seven signed-in screens in German/English/Spanish; all 197 tests pass and build is clean. Existing URLs, draft/cooldown keys and HealthKit account hashes retain legacy identifiers for compatibility.
+
+# Email sender identity
+- [x] Set every app and auth email to FairvitalGO <noreply@fairvitalgo.de> delivered via notify.fairvitalgo.de; single shared config module, all seven templates render the brand, 201 tests pass, live login-code email delivered and the published app confirmed on the new sender.
+- [ ] Replace the remaining vital-plus.lovable.app references in robots.txt, the sitemap route, README, native-origins.ts and native-app.ts with the live URL; waiting for the user's go-ahead because native-origins.ts drives the iPhone app's server calls.
