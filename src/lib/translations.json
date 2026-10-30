@@ -739,9 +739,9 @@
     "Value",
     "Valor"
   ],
-  "Hinweis: Vitalplus stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.": [
-    "Note: Vitalplus does not diagnose conditions. Discuss abnormal values with your doctor. Lab integration is coming.",
-    "Nota: Vitalplus no realiza diagnósticos. Consulta los valores anómalos con tu médico. La conexión de laboratorio llegará próximamente."
+  "Hinweis: fairvitalgo stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.": [
+    "Note: fairvitalgo does not diagnose conditions. Discuss abnormal values with your doctor. Lab integration is coming.",
+    "Nota: fairvitalgo no realiza diagnósticos. Consulta los valores anómalos con tu médico. La conexión de laboratorio llegará próximamente."
   ],
   "Doppelt tippen zum Ändern": [
     "Double tap to change",
@@ -1007,13 +1007,13 @@
     "Terms and conditions, legal notice",
     "Condiciones generales, aviso legal"
   ],
-  "Vitalplus von Fairvital": [
-    "Vitalplus from Fairvital",
-    "Vitalplus de Fairvital"
+  "fairvitalgo von Fairvital": [
+    "fairvitalgo from Fairvital",
+    "fairvitalgo de Fairvital"
   ],
-  "Vitalplus Konto": [
-    "Vitalplus account",
-    "Cuenta Vitalplus"
+  "fairvitalgo Konto": [
+    "fairvitalgo account",
+    "Cuenta fairvitalgo"
   ],
   "Angemeldet als {email}.": [
     "Signed in as {email}.",
@@ -1283,9 +1283,9 @@
     "Close",
     "Cerrar"
   ],
-  "Dein Vitalplus-Konto – deine Werte auf allen Geräten.": [
-    "Your Vitalplus account – your values on all devices.",
-    "Tu cuenta Vitalplus: tus valores en todos tus dispositivos."
+  "Dein fairvitalgo-Konto – deine Werte auf allen Geräten.": [
+    "Your fairvitalgo account – your values on all devices.",
+    "Tu cuenta fairvitalgo: tus valores en todos tus dispositivos."
   ],
   "Neu hier": [
     "New here",
@@ -1323,9 +1323,9 @@
     "We sent you a password reset link.",
     "Te enviamos un enlace para restablecer tu contraseña."
   ],
-  "Lege ein neues Passwort für dein Vitalplus-Konto fest.": [
-    "Set a new password for your Vitalplus account.",
-    "Establece una nueva contraseña para tu cuenta Vitalplus."
+  "Lege ein neues Passwort für dein fairvitalgo-Konto fest.": [
+    "Set a new password for your fairvitalgo account.",
+    "Establece una nueva contraseña para tu cuenta fairvitalgo."
   ],
   "Neues Passwort": [
     "New password",
@@ -1407,9 +1407,9 @@
     "Your data, your decision.",
     "Tus datos, tu decisión."
   ],
-  "Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. Vitalplus ersetzt keine ärztliche Beratung.": [
-    "I consent to processing my health data for display in the app. Vitalplus does not replace medical advice.",
-    "Consiento el tratamiento de mis datos de salud para mostrarlos en la aplicación. Vitalplus no sustituye el consejo médico."
+  "Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. fairvitalgo ersetzt keine ärztliche Beratung.": [
+    "I consent to processing my health data for display in the app. fairvitalgo does not replace medical advice.",
+    "Consiento el tratamiento de mis datos de salud para mostrarlos en la aplicación. fairvitalgo no sustituye el consejo médico."
   ],
   "Los geht's": [
     "Let's go",
@@ -1547,13 +1547,13 @@
     "Got it",
     "Entendido"
   ],
-  "Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte Vitalplus zum Home-Bildschirm hinzufügen.": [
-    "Notifications are not supported here. On iPhone, add Vitalplus to your home screen.",
-    "Las notificaciones no son compatibles aquí. En iPhone, añade Vitalplus a tu pantalla de inicio."
+  "Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte fairvitalgo zum Home-Bildschirm hinzufügen.": [
+    "Notifications are not supported here. On iPhone, add fairvitalgo to your home screen.",
+    "Las notificaciones no son compatibles aquí. En iPhone, añade fairvitalgo a tu pantalla de inicio."
   ],
-  "Bitte erlaube Benachrichtigungen für Vitalplus in deinen Geräte- oder Browser-Einstellungen.": [
-    "Allow Vitalplus notifications in your device or browser settings.",
-    "Permite las notificaciones de Vitalplus en los ajustes del dispositivo o navegador."
+  "Bitte erlaube Benachrichtigungen für fairvitalgo in deinen Geräte- oder Browser-Einstellungen.": [
+    "Allow fairvitalgo notifications in your device or browser settings.",
+    "Permite las notificaciones de fairvitalgo en los ajustes del dispositivo o navegador."
   ],
   "Benachrichtigungen konnten nicht aktiviert werden.": [
     "Notifications could not be enabled.",
@@ -1599,9 +1599,9 @@
     "Daily at",
     "Cada día a las"
   ],
-  "Erinnerungen erscheinen, solange Vitalplus geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App.": [
-    "Reminders appear while Vitalplus is open or the next time you open it. No delivery while the app is closed.",
-    "Los recordatorios aparecen mientras Vitalplus está abierto o al volver a abrirlo. No se entregan con la app cerrada."
+  "Erinnerungen erscheinen, solange fairvitalgo geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App.": [
+    "Reminders appear while fairvitalgo is open or the next time you open it. No delivery while the app is closed.",
+    "Los recordatorios aparecen mientras fairvitalgo está abierto o al volver a abrirlo. No se entregan con la app cerrada."
   ],
   "Neuer Link wurde gesendet.": [
     "A new link was sent.",
@@ -1627,9 +1627,9 @@
     "Step ring",
     "Anillo de pasos"
   ],
-  "Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt Vitalplus deine selbst eingetragenen Schritte.": [
-    "Apple Health and Google Health Connect are not connected yet. Until then, Vitalplus shows your manually entered steps.",
-    "Apple Health y Google Health Connect aún no están conectados. Hasta entonces, Vitalplus muestra tus pasos introducidos manualmente."
+  "Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt fairvitalgo deine selbst eingetragenen Schritte.": [
+    "Apple Health and Google Health Connect are not connected yet. Until then, fairvitalgo shows your manually entered steps.",
+    "Apple Health y Google Health Connect aún no están conectados. Hasta entonces, fairvitalgo muestra tus pasos introducidos manualmente."
   ],
   "Schritte in Gesundheit eintragen →": [
     "Enter steps in Health →",
@@ -1763,9 +1763,9 @@
     "Live healthier. Be happier.",
     "Vive más sano. Sé más feliz."
   ],
-  "Vitalplus Startseite": [
-    "Vitalplus homepage",
-    "Página de inicio Vitalplus"
+  "fairvitalgo Startseite": [
+    "fairvitalgo homepage",
+    "Página de inicio fairvitalgo"
   ],
   "Ganzheitliches Leben in Bewegung — Forschung, Sport und Vitalität": [
     "Holistic living in motion — science, sport and vitality",
@@ -1843,9 +1843,9 @@
     "e.g. 175",
     "p. ej. 175"
   ],
-  "Vitalplus · Schritt": [
-    "Vitalplus · Step",
-    "Vitalplus · Paso"
+  "fairvitalgo · Schritt": [
+    "fairvitalgo · Step",
+    "fairvitalgo · Paso"
   ],
   "Wähle im Fragebogen, was dir wichtig ist – oder lade deinen Laborbefund hoch. Daraus entstehen dein Plan und deine Tagesziele.": [
     "Choose your questionnaire priorities or upload your lab report to create your plan and daily goals.",
@@ -1867,9 +1867,9 @@
     "Manage account",
     "Gestionar cuenta"
   ],
-  "Die offizielle Datenschutzerklärung für Vitalplus wurde noch nicht hinterlegt.": [
-    "Vitalplus’s official privacy policy has not yet been provided.",
-    "La política de privacidad oficial de Vitalplus aún no está disponible."
+  "Die offizielle Datenschutzerklärung für fairvitalgo wurde noch nicht hinterlegt.": [
+    "fairvitalgo’s official privacy policy has not yet been provided.",
+    "La política de privacidad oficial de fairvitalgo aún no está disponible."
   ],
   "Zurück zum Profil": [
     "Back to Profile",
@@ -1903,17 +1903,17 @@
     "Terms and conditions",
     "Condiciones generales"
   ],
-  "Die Nutzungsbedingungen für Vitalplus wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.": [
-    "Vitalplus’s terms have not yet been provided. Purchases take place exclusively in the Fairvital shop.",
-    "Las condiciones de Vitalplus aún no están disponibles. Las compras se realizan exclusivamente en la tienda Fairvital."
+  "Die Nutzungsbedingungen für fairvitalgo wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.": [
+    "fairvitalgo’s terms have not yet been provided. Purchases take place exclusively in the Fairvital shop.",
+    "Las condiciones de fairvitalgo aún no están disponibles. Las compras se realizan exclusivamente en la tienda Fairvital."
   ],
-  "Das offizielle Impressum für Vitalplus wurde noch nicht hinterlegt.": [
-    "Vitalplus’s official legal notice has not yet been provided.",
-    "El aviso legal oficial de Vitalplus aún no está disponible."
+  "Das offizielle Impressum für fairvitalgo wurde noch nicht hinterlegt.": [
+    "fairvitalgo’s official legal notice has not yet been provided.",
+    "El aviso legal oficial de fairvitalgo aún no está disponible."
   ],
-  "Vitalplus verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.": [
-    "Vitalplus uses open-source software including React, TanStack, Radix UI and Lucide. A complete license overview has not yet been provided.",
-    "Vitalplus utiliza software de código abierto como React, TanStack, Radix UI y Lucide. La lista completa de licencias aún no está disponible."
+  "fairvitalgo verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.": [
+    "fairvitalgo uses open-source software including React, TanStack, Radix UI and Lucide. A complete license overview has not yet been provided.",
+    "fairvitalgo utiliza software de código abierto como React, TanStack, Radix UI y Lucide. La lista completa de licencias aún no está disponible."
   ],
   "Zielgewicht in kg": [
     "Target weight in kg",
@@ -1927,9 +1927,9 @@
     "Download data",
     "Descargar datos"
   ],
-  "Hilf uns, die Vitalplus App zu verbessern.": [
-    "Help us improve the Vitalplus app.",
-    "Ayúdanos a mejorar la aplicación Vitalplus."
+  "Hilf uns, die fairvitalgo App zu verbessern.": [
+    "Help us improve the fairvitalgo app.",
+    "Ayúdanos a mejorar la aplicación fairvitalgo."
   ],
   "Feedback konnte nicht gesendet werden. Bitte später erneut versuchen.": [
     "Unable to send feedback. Try again later.",
@@ -3259,9 +3259,9 @@
     "Other",
     "Otros"
   ],
-  "Ich willige ausdrücklich ein, dass Vitalplus meine Gesundheitsdaten (z. B. Körperdaten, Mahlzeiten, Laborwerte und – falls freigegeben – Apple-Health-Werte) zur Darstellung und Auswertung in der App verarbeitet (Art. 9 Abs. 2 lit. a DSGVO). Apple-Health-Werte bleiben auf meinem Gerät. Ich kann die Einwilligung jederzeit widerrufen. Vitalplus ersetzt keine ärztliche Beratung.": [
-    "I explicitly consent to Vitalplus processing my health data (e.g. body data, meals, lab values and – if shared – Apple Health readings) to display and analyse it in the app (Art. 9(2)(a) GDPR). Apple Health readings stay on my device. I can withdraw this consent at any time. Vitalplus does not replace medical advice.",
-    "Doy mi consentimiento expreso para que Vitalplus trate mis datos de salud (p. ej., datos corporales, comidas, valores de laboratorio y, si los comparto, datos de Apple Health) para mostrarlos y analizarlos en la app (art. 9.2.a RGPD). Los datos de Apple Health permanecen en mi dispositivo. Puedo retirar este consentimiento en cualquier momento. Vitalplus no sustituye el consejo médico."
+  "Ich willige ausdrücklich ein, dass fairvitalgo meine Gesundheitsdaten (z. B. Körperdaten, Mahlzeiten, Laborwerte und – falls freigegeben – Apple-Health-Werte) zur Darstellung und Auswertung in der App verarbeitet (Art. 9 Abs. 2 lit. a DSGVO). Apple-Health-Werte bleiben auf meinem Gerät. Ich kann die Einwilligung jederzeit widerrufen. fairvitalgo ersetzt keine ärztliche Beratung.": [
+    "I explicitly consent to fairvitalgo processing my health data (e.g. body data, meals, lab values and – if shared – Apple Health readings) to display and analyse it in the app (Art. 9(2)(a) GDPR). Apple Health readings stay on my device. I can withdraw this consent at any time. fairvitalgo does not replace medical advice.",
+    "Doy mi consentimiento expreso para que fairvitalgo trate mis datos de salud (p. ej., datos corporales, comidas, valores de laboratorio y, si los comparto, datos de Apple Health) para mostrarlos y analizarlos en la app (art. 9.2.a RGPD). Los datos de Apple Health permanecen en mi dispositivo. Puedo retirar este consentimiento en cualquier momento. fairvitalgo no sustituye el consejo médico."
   ],
   "Mit der Registrierung akzeptierst du die": [
     "By signing up you accept the",

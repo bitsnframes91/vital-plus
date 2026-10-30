@@ -68,7 +68,7 @@ Exact files modified for this completion:
 - `roadmap.md`
 - `docs/apple-health-handoff.md`
 
-The first eight files are the runtime/test synchronization set. No change is needed to `sync.ts`, `device-state.ts`, `export-plan.ts` or `AppleHealthReadings.ts`: they consume the updated shared contract automatically. Retain Vitalplus spelling and current Gesundheit placement instead of copying the reference provider's branding changes.
+The first eight files are the runtime/test synchronization set. No change is needed to `sync.ts`, `device-state.ts`, `export-plan.ts` or `AppleHealthReadings.ts`: they consume the updated shared contract automatically. Retain fairvitalgo spelling and current Gesundheit placement instead of copying the reference provider's branding changes.
 
 The optional `getRequestStatus` check runs before a user-initiated synchronization. `shouldRequest` requests the current read/export types; failures or older native builds continue with existing permissions. This status does not prove read authorization. The verified normalizer accepts daily distance sums and average speed samples, preserves unsupported types and missing values, and stores only through the existing device-local provider.
 

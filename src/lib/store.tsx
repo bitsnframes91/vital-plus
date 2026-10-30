@@ -89,7 +89,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       .upsert({ user_id: uid, state: state as any, updated_at: new Date().toISOString() })
       .then(({ error }) => {
         if (!error) { if (pending.current === next) pending.current = null; return; }
-        console.error("Vitalplus: saving account data failed", error.message);
+        console.error("fairvitalgo: saving account data failed", error.message);
         // Refused by the consent policy: keep the change pending until consent is granted.
         if (error.code === "42501" || /consent|row-level security/i.test(error.message)) { consentOk.current = false; setSyncPaused(true); }
       });

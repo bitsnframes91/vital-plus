@@ -8,10 +8,10 @@ import type {
 } from "./bridge";
 import type { ExportSettings, LedgerEntry } from "./device-state";
 
-// Decides what Vital Plus writes to Apple Health. Inputs are only entries the user made in the app
+// Decides what fairvitalgo writes to Apple Health. Inputs are only entries the user made in the app
 // (meals, water, weight); imported Apple Health data never reaches this module.
 
-/** Vital Plus has no first-party activity record yet, so active energy is never written. */
+/** fairvitalgo has no first-party activity record yet, so active energy is never written. */
 export const ACTIVE_ENERGY_EXPORT_ENABLED = false;
 /** Exports cover at most the last 7 days, so enabling a type never uploads long histories. */
 export const EXPORT_WINDOW_DAYS = 7;

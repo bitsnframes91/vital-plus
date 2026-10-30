@@ -17,10 +17,10 @@ export const Route = createFileRoute("/onboarding")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "Willkommen — Vitalplus" },
+      { title: "Willkommen — fairvitalgo" },
       { name: "description", content: "Lege in wenigen Schritten dein Gesundheitsprofil an." },
-      { property: "og:title", content: "Willkommen — Vitalplus" },
-      { property: "og:description", content: "Starte mit Vitalplus und lege in wenigen Schritten dein persönliches Gesundheitsprofil an." },
+      { property: "og:title", content: "Willkommen — fairvitalgo" },
+      { property: "og:description", content: "Starte mit fairvitalgo und lege in wenigen Schritten dein persönliches Gesundheitsprofil an." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -127,7 +127,7 @@ function Onboarding() {
         <div className="space-y-3">
           <label className="flex items-start gap-3 rounded-2xl bg-card p-4 text-sm ring-1 ring-border">
             <input type="checkbox" checked={ok} onChange={(e) => setOk(e.target.checked)} className="mt-1 size-5 shrink-0 accent-[var(--fv-deep)]" />
-            <span className="text-ink/70"><Localized>{"Ich willige ausdrücklich ein, dass Vitalplus meine Gesundheitsdaten (z. B. Körperdaten, Mahlzeiten, Laborwerte und – falls freigegeben – Apple-Health-Werte) zur Darstellung und Auswertung in der App verarbeitet (Art. 9 Abs. 2 lit. a DSGVO). Apple-Health-Werte bleiben auf meinem Gerät. Ich kann die Einwilligung jederzeit widerrufen. Vitalplus ersetzt keine ärztliche Beratung."}</Localized></span>
+            <span className="text-ink/70"><Localized>{"Ich willige ausdrücklich ein, dass fairvitalgo meine Gesundheitsdaten (z. B. Körperdaten, Mahlzeiten, Laborwerte und – falls freigegeben – Apple-Health-Werte) zur Darstellung und Auswertung in der App verarbeitet (Art. 9 Abs. 2 lit. a DSGVO). Apple-Health-Werte bleiben auf meinem Gerät. Ich kann die Einwilligung jederzeit widerrufen. fairvitalgo ersetzt keine ärztliche Beratung."}</Localized></span>
           </label>
           <LegalLinks prefix="Mehr dazu in unseren" />
         </div>
@@ -160,7 +160,7 @@ function Onboarding() {
       <div className="mx-auto flex min-h-screen w-full max-w-[440px] flex-col bg-background sm:min-h-[860px] sm:overflow-hidden sm:rounded-[28px] sm:ring-1 sm:ring-border">
         <div className="relative overflow-hidden bg-header px-6 pb-10 pt-10">
           <div className="relative">
-            <div className="font-data text-[12px] uppercase tracking-normal text-on-ink/40"><Localized>{"Vitalplus · Schritt "}</Localized><Localized>{step + 1}</Localized><Localized>{"/"}</Localized><Localized>{steps.length}</Localized></div>
+            <div className="font-data text-[12px] uppercase tracking-normal text-on-ink/40"><Localized>{"fairvitalgo · Schritt "}</Localized><Localized>{step + 1}</Localized><Localized>{"/"}</Localized><Localized>{steps.length}</Localized></div>
             <div className="mt-3 flex gap-1">
               {steps.map((_, i) => <span key={i} className={`h-1 flex-1 rounded-full ${i <= step ? "bg-fv" : "bg-on-ink/15"}`} />)}
             </div>

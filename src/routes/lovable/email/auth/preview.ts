@@ -18,7 +18,7 @@ const EMAIL_TEMPLATES: Record<string, React.ComponentType<any>> = {
 }
 
 // Configuration
-const SITE_NAME = "Vitalplus"
+const SITE_NAME = "fairvitalgo"
 const ROOT_DOMAIN = "fairvital.de"
 
 // Sample data for preview mode ONLY (not used in actual email sending).
