@@ -16,8 +16,8 @@ Handelsregisternummer: 14087142` },
 
 Mitglied der Initiative "Fairness im Handel".` },
   { text: "Nähere Informationen: ", links: [{ label: "http://www.fairness-im-handel.de", href: "http://www.fairness-im-handel.de/" }] },
-  { text: `Kundenservice: Werktags 8:00-16:00:
-+49 2234 2190482` },
+  { text: `Kundenservice (7:00-15:00): +49 2234 2190482 
+` },
   { text: "E-Mail: ", links: [{ label: "info@fairvital.com", href: "mailto:info@fairvital.com", prefix: "" }, { prefix: ", Internet: ", label: "www.fairvital.com", href: "http://www.fairvital.com/" }] },
   { text: 'Mitglied der Initiative "Fairness im Handel".' },
   { text: "Informationen zur Initiative: ", links: [{ label: "fairness-im-handel.de", href: "http://www.fairness-im-handel.de/" }] },
