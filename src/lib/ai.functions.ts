@@ -141,3 +141,28 @@ Antworte NUR mit JSON: {"kcal":number,"protein":number,"fiber":number,"carbs":nu
     const num = (v: any) => Math.max(0, Math.round(Number(v) || 0));
     return { ok: true as const, kcal: num(r.data.kcal), protein: num(r.data.protein), fiber: num(r.data.fiber), carbs: num(r.data.carbs), fat: num(r.data.fat), ...parseOmegaAmounts(r.data), micronutrients: parseMicronutrients(r.data.micronutrients) };
   });
+
+// Manual lab entries get the same AI action plan as uploaded reports, built from the latest stored values.
+export const planFromLabValues = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d) =>
+    z.object({
+      markers: z.array(z.object({ name: z.string().max(120), unit: z.string().max(40), value: z.number().finite(), targetLow: z.number().finite(), targetHigh: z.number().finite() })).min(1).max(60),
+      meals: z.array(z.object({ name: z.string().max(200), date: z.string().max(10), kcal: z.number().nonnegative(), protein: z.number().nonnegative(), fiber: z.number().nonnegative(), carbs: z.number().nonnegative(), fat: z.number().nonnegative() })).max(100).default([]),
+    }).parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    { const { enforceAiQuota } = await import("./ai-quota.server"); const refused = await enforceAiQuota(context.supabase, "lab"); if (refused) return refused; }
+    const values = data.markers.map((m) => `- ${m.name}: ${m.value} ${m.unit} (Zielbereich ${m.targetLow}–${m.targetHigh})`).join("\n");
+    const prompt = `Hier sind manuell eingetragene Laborwerte (Blutwerte):
+${values}
+Erstelle 3–6 alltagstaugliche Empfehlungen (Ernährung, Lebensstil, Nachkontrolle) auf Deutsch, du-Form, ohne Diagnose, ohne Medikamente. Gehe besonders auf Werte außerhalb des Zielbereichs ein. Liefere zu jeder Empfehlung zusätzlich eine inhaltsgleiche englische ("en") und spanische ("es", tú-Form) Fassung.
+${mealPlanContext(data.meals)}
+Antworte NUR mit JSON in dieser Form:
+{"plan":[{"title":string,"detail":string,"en":{"title":string,"detail":string},"es":{"title":string,"detail":string}}]}`;
+    const r = await askJson([{ type: "input_text", text: prompt }]);
+    if (!r.ok) return r;
+    const plan: PlanItem[] = (Array.isArray(r.data.plan) ? r.data.plan : []).filter((p: any) => typeof p?.title === "string" && typeof p?.detail === "string").slice(0, 6);
+    if (!plan.length) return { ok: false as const, error: "Die KI hat keine verwertbare Antwort geliefert." };
+    return { ok: true as const, plan };
+  });

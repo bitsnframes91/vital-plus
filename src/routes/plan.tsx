@@ -125,7 +125,7 @@ function Plan() {
             <p className="mt-2 px-1 text-[12px] text-ink/50"><Localized>{"Einnahme bitte ärztlich abklären, besonders bei Vorerkrankungen oder Medikamenten."}</Localized></p>
           </section>
         )}
-        {s.aiPlan && (
+        {(s.aiPlan || deficient.length > 0) && (
           <section className="pt-5" aria-label={translateText("Empfehlungen bei niedrigen Werten")}>
             <h2 className="px-1 text-[18px] font-semibold"><Localized>{"Deine niedrigen Werte"}</Localized></h2>
             <p className="mb-3 px-1 text-[13px] text-ink/55"><Localized>{"Ergänzungen und Alltagstipps passend zu deinen gemessenen Werten."}</Localized></p>

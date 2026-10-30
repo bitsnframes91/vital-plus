@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { suggestedProducts, reportMarkers, todaySuggestion } from "@/lib/plan-products";
-import { catalogSpotlight, labMarkers, type LabMarker } from "@/lib/data";
+import { catalogSpotlight, labMarkers, status, type LabMarker } from "@/lib/data";
 import { routineTips } from "@/lib/deficiency-routines";
 
 describe("Fairvital plan suggestions", () => {
   it("does not recommend products before a personal plan exists", () => {
-    expect(suggestedProducts(null, labMarkers)).toEqual([]);
+    expect(suggestedProducts(null, labMarkers.filter((m) => status(m).tone === "ok"))).toEqual([]);
   });
   it("suggests matching products for every below-range marker with a catalog match", () => {
     expect(suggestedProducts({ items: [{}] }, labMarkers).map(({ marker, product }) => [marker.id, product.name])).toEqual([
@@ -69,4 +69,13 @@ describe("blood sugar product", () => {
   const fbs = (value: number) => ({ id: "pdf-fbs", name: "Nüchternblutzucker (FBS)", unit: "mg/dl", target: [60, 110] as [number, number], history: [{ date: "2025-01-25", value }], retestWeeks: 12, note: "" });
   it("suggests Chrom for high Nüchternblutzucker", () => expect(productForMarker(fbs(118))?.name).toBe("Chrom 200 µg"));
   it("suggests nothing for normal Nüchternblutzucker", () => expect(productForMarker(fbs(90))).toBeUndefined());
+});
+
+describe("manual lab entries", () => {
+  it("suggests the iron product for a manually entered low ferritin of 20 without an uploaded report", () => {
+    const ferritin = labMarkers.find((m) => m.id === "ferritin");
+    if (!ferritin) throw new Error("missing ferritin");
+    const manual = { ...ferritin, history: [{ date: "2026-10-30", value: 20 }] };
+    expect(suggestedProducts(null, [manual])[0]?.product.name).toBe("Eisen 20mg + C");
+  });
 });

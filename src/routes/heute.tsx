@@ -47,7 +47,10 @@ function Today() {
     const timer = setInterval(refresh, 30000);
     return () => clearInterval(timer);
   }, []);
-  const measured = reportMarkers(s.aiPlan, s.labs);
+  const outOfRange = s.labs.filter((m) => m.history.length && status(m).tone !== "ok");
+  const reported = reportMarkers(s.aiPlan, s.labs);
+  // Prefer a value outside its range (manual or uploaded), then the latest report's values.
+  const measured = [...outOfRange.sort((a, b) => (b.history.at(-1)?.date ?? "").localeCompare(a.history.at(-1)?.date ?? "")), ...reported];
   const featured = measured[0];
   const featuredProduct = featured ? productForMarker(featured) : undefined;
   const last = featured?.history.at(-1);
