@@ -4,7 +4,7 @@ import type { TermsCopy } from "@/lib/terms";
 
 export const privacyCopy: Record<"de" | "en" | "es", TermsCopy> = {
   de: {
-    date: "Stand: 30. Oktober 2026",
+    date: "\n",
     tagline: "fairvitalgo® – Deine Gesundheit. Deine Daten. Deine Privatsphäre.",
     sections: [
       { title: "Unser Datenschutzversprechen", blocks: [
