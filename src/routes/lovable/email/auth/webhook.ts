@@ -7,12 +7,13 @@ import { MagicLinkEmail } from '@/lib/email-templates/magic-link'
 import { RecoveryEmail } from '@/lib/email-templates/recovery'
 import { EmailChangeEmail } from '@/lib/email-templates/email-change'
 import { ReauthenticationEmail } from '@/lib/email-templates/reauthentication'
+import {
+  FROM_ADDRESS,
+  ROOT_DOMAIN,
+  SENDER_DOMAIN,
+  SITE_NAME,
+} from '@/lib/email-templates/sender'
 
-// Configuration
-const SITE_NAME = "FairvitalGO"
-const SENDER_DOMAIN = "notify.fairvitalgo.de"
-const ROOT_DOMAIN = "fairvitalgo.de"
-const FROM_DOMAIN = "fairvitalgo.de"
 const SITE_URL = `https://${ROOT_DOMAIN}`
 
 // The SDK handler owns verification, dispatch, and retry semantics; this file
@@ -24,7 +25,7 @@ export const Route = createFileRoute("/lovable/email/auth/webhook")({
       POST: ({ request }) => {
         const handler = createAuthEmailHandler({
           apiKey: process.env['LOVABLE_API_KEY']!,
-          from: { name: SITE_NAME, address: `noreply@${FROM_DOMAIN}` },
+          from: { name: SITE_NAME, address: FROM_ADDRESS },
           senderDomain: SENDER_DOMAIN,
           sendUrl: process.env['LOVABLE_SEND_URL'],
           emails: {
