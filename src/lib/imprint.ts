@@ -11,21 +11,6 @@ Vertretungsberechtigter Gesellschafter: Manju B.V.
 Registergericht: Kamer von Koophandel Zuid-Limburg
 
 Handelsregisternummer: 14087142` },
-  { title: "Umsatzsteuer-Identifikationsnummern:", text: `NL815372103B01
-
-DE246819800
-
-FR10813883899
-
-IT00196229991
-
-PL5263152365
-
-ESN0030810F
-
-CZ683817988
-
-GB273324707` },
   { text: "Plattform der EU-Kommission zur Online-Streitbeilegung: ", links: [{ label: "https://ec.europa.eu/consumers/odr", href: "https://ec.europa.eu/consumers/odr" }] },
   { text: `Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle weder verpflichtet noch bereit.
 
