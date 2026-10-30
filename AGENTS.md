@@ -40,6 +40,7 @@
 - Heute uses wellness-progress.ts and TodayWellnessGoals for live completion; missing Health measurements stay unassessed. Nutrition alerts mirror Ernährung via nutrition-alerts.ts. Neither writes plan history. Why: distinguish goals from clinical status and completed tasks.
 
 - Lab info uses bundled definitions and range-based causes. Why: avoid diagnosis.
+- Lab unit presentation and manual/imported entries use lab-units.ts to convert known legacy units with values and reference ranges together; unknown units stay unchanged and incompatible histories must not merge. Why: changing labels alone corrupts clinical meaning.
 - Capacitor origins (native-origins.ts) get CORS/CSRF; native-fetch uses the live URL. Why: iOS shells are cross-origin.
 - The start page opens its sign-in form via an optional `?mode=login` search param (annotated `{ mode?: "login" }`), and the password-reset screen returns there. Why: a required param would force every plain link to `/` to pass `search`, and users must land back where they started signing in.
 - Health-data consent is versioned server-side (health_consents + consent RPCs, HEALTH_CONSENT_VERSION in src/lib/consent-policy.ts); ConsentGate blocks health screens but never /profil, and every AI server function calls enforceAiQuota (DB-atomic consent + per-user limits). Why: consent and AI cost limits must hold against direct API calls.

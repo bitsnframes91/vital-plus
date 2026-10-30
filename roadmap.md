@@ -41,3 +41,6 @@
 - [x] Show consumed / recommended amounts on all five nutrition cards, with green smiling, orange neutral from 80%, and red angry over-limit indicators; verified food saves and account persistence.
 # Signup confirmation
 - [x] Offer a resend-code option on the confirmation screen after a 30-second wait; verified disabled countdown, timer reset and new-code request in German, English and Spanish in the live app with tests.
+
+# European lab units
+- [ ] Normalize report-specific units in Labor dropdown/cards and manual/import entries, preserving numerical meaning; verify conversion tests and signed-in UI without writing personal records.
