@@ -1,4 +1,4 @@
-import { KeyRound, Mail } from "lucide-react";
+import { KeyRound, Mail, ShieldCheck } from "lucide-react";
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText } from "@/lib/language";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
@@ -107,8 +107,22 @@ function Home() {
           {error && <p role="alert" className="mb-3 text-sm text-destructive"><Localized>{error}</Localized></p>}
           {!magicSent && <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : magic ? "Login-Code senden" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : magic ? sendMagicLink : signIn} />}
           {mode === "new" && <LegalLinks className="mt-3" prefix="Mit dem Start akzeptierst du die" />}
+          {mode === "new" && <PrivacyPromise />}
         </>}
       </div>
     </main>
   </div>;
+}
+
+/** Trust statement shown on the start page: what happens to a user's health data, in their own words. */
+function PrivacyPromise() {
+  return <section className="mt-4 rounded-xl border border-border/70 bg-card p-3 text-left">
+    <h2 className="flex items-start gap-1.5 text-[13px] font-semibold leading-snug text-foreground">
+      <ShieldCheck className="mt-px h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
+      <Localized>{"Deine Gesundheit. Deine Daten. Deine Privatsphäre."}</Localized>
+    </h2>
+    <p className="mt-1.5 text-[11px] leading-[1.5] text-muted-foreground"><Localized>{"Bei fairvitalgo® hat der Schutz deiner persönlichen Gesundheitsdaten höchste Priorität. Wir setzen auf die strengen Datenschutzstandards der DSGVO, eine sichere Datenverarbeitung und maximale Transparenz."}</Localized></p>
+    <p className="mt-1.5 text-[11px] leading-[1.5] text-muted-foreground"><Localized>{"Deine Daten gehören dir: Kein Datenverkauf, keine Nutzung für fremde Werbung und volle Kontrolle über deine persönlichen Informationen. Du kannst jederzeit die Löschung deiner Daten veranlassen."}</Localized></p>
+    <p className="mt-2 text-[11px] font-semibold text-foreground"><Localized>{"fairvitalgo® – Weil deine Gesundheit Privatsache ist."}</Localized></p>
+  </section>;
 }
