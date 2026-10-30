@@ -18,6 +18,7 @@ const numFields = { age: { label: "Alter in Jahren", key: "age", min: 18, max: 1
 import { PasswordResetForm } from "@/components/PasswordResetForm";
 import { AppSettingsControls } from "@/components/AppSettings";
 import { OpenSourceLicenses } from "@/components/OpenSourceLicenses";
+import { PrivacyStandards } from "@/components/PrivacyStandards";
 
 const titles: Record<string, string> = { personal: "Gesundheitsprofil bearbeiten", security: "Konto & Sicherheit", settings: "App-Einstellungen", privacy: "Meine Daten", help: "Kundenservice kontaktieren", legal: "Rechtliches", account: "Konto verwalten" };
 
@@ -113,7 +114,7 @@ function ProfileSubmenu() {
       {section === "settings" && <AppSettingsControls />}
       {section === "privacy" && <><div className="space-y-2">
         <Row title={translateText("Meine Daten herunterladen")} sub={translateText("Eine Kopie deiner Daten herunterladen")} icon={Download} green onClick={download} />
-      </div><Row title={translateText("Konto löschen")} sub={translateText("Alle Daten und dein Konto dauerhaft löschen")} icon={Trash2} danger onClick={deletion} /></>}
+      </div><Row title={translateText("Konto löschen")} sub={translateText("Alle Daten und dein Konto dauerhaft löschen")} icon={Trash2} danger onClick={deletion} /><PrivacyStandards /></>}
       {section === "help" && <><p className="text-sm leading-5 text-muted-foreground"><Localized>{"Wir sind für dich da. Wähle eine Option, um uns zu kontaktieren."}</Localized></p><div className="space-y-2">
         <Row title={translateText("Anrufen")} sub={translateText("+49 2234 2190482")} icon={Phone} green onClick={() => { window.location.href = "tel:+4922342190482"; }} />
         <Row title={translateText("E-Mail")} sub={translateText("service@fairvital.com")} icon={Mail} green onClick={() => { window.location.href = "mailto:service@fairvital.com"; }} />
