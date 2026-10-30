@@ -31,19 +31,7 @@ GB273324707` },
 
 Mitglied der Initiative "Fairness im Handel".` },
   { text: "Nähere Informationen: ", links: [{ label: "http://www.fairness-im-handel.de", href: "http://www.fairness-im-handel.de/" }] },
-  { title: "Kontoverbindungen:", text: `(D) Volksbank Mittelhessen
-
-IBAN: DE10 5139 0000 0006 5091 77
-
-BIC: VBMHDE5FXXX
-
-(A) Oberbank
-
-IBAN: AT64 1500 0003 5107 9207
-
-BIC: OBKLAT2LXXX
-
-Kundenservice: Werktags 8:00-16:00:
+  { text: `Kundenservice: Werktags 8:00-16:00:
 +49 2234 2190482` },
   { text: "E-Mail: ", links: [{ label: "info@fairvital.com", href: "mailto:info@fairvital.com", prefix: "" }, { prefix: ", Internet: ", label: "www.fairvital.com", href: "http://www.fairvital.com/" }] },
   { text: 'Mitglied der Initiative "Fairness im Handel".' },
