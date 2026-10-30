@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Home, Salad, HeartPulse, FlaskConical, ClipboardList, UserRound } from "lucide-react";
 import { ConfirmBanner } from "./ConfirmBanner";
 import { ConsentGate } from "./ConsentGate";
+import { PrivacyBubble } from "./PrivacyBubble";
 
 const tabs = [
   { to: "/heute", label: "Heute", d: "M3 11l9-8 9 8M5 10v10h14V10" },
@@ -81,7 +82,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen w-full bg-mist sm:grid sm:place-items-start sm:p-4 md:block md:p-0">
       <div className="relative mx-auto flex min-h-screen w-full max-w-[440px] flex-col overflow-hidden bg-background sm:h-[calc(100dvh-2rem)] sm:min-h-0 sm:rounded-[28px] sm:ring-1 sm:ring-border md:h-dvh md:max-w-none md:rounded-none md:ring-0">
-        <main className="flex-1 pb-28 sm:min-h-0 sm:overflow-y-auto md:pb-24"><div className="md:mx-auto md:w-full md:max-w-[1040px]"><ConfirmBanner />{guarded ? <ConsentGate pathname={pathname}><Localized>{children}</Localized></ConsentGate> : <Localized>{children}</Localized>}</div></main>
+        <main className="flex-1 pb-28 sm:min-h-0 sm:overflow-y-auto md:pb-24"><div className="md:mx-auto md:w-full md:max-w-[1040px]"><PrivacyBubble /><ConfirmBanner />{guarded ? <ConsentGate pathname={pathname}><Localized>{children}</Localized></ConsentGate> : <Localized>{children}</Localized>}</div></main>
         {showNav && (
         <nav aria-label={translateText("Hauptnavigation")} className="fixed bottom-0 left-1/2 z-30 w-full max-w-[440px] -translate-x-1/2 border-t border-border bg-card/95 px-2 pb-5 pt-3 backdrop-blur-md sm:absolute md:max-w-none">
           <div className="grid grid-cols-6 md:mx-auto md:max-w-[1040px]">
