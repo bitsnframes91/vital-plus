@@ -116,7 +116,7 @@ function Home() {
 
 /** Trust statement shown on the start page: what happens to a user's health data, in their own words. */
 function PrivacyPromise() {
-  return <section className="mt-4 rounded-xl border border-border/70 bg-card/90 p-3 text-left backdrop-blur-sm">
+  return <section className="mt-4 rounded-xl border border-border/70 bg-card p-3 text-left">
     <h2 className="flex items-start gap-1.5 text-[13px] font-semibold leading-snug text-foreground">
       <ShieldCheck className="mt-px h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
       <Localized>{"Deine Gesundheit. Deine Daten. Deine Privatsphäre."}</Localized>
