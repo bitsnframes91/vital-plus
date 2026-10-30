@@ -399,7 +399,7 @@
 .home-entry-header { padding: 32px 24px 0; }
 /* The mascot must always be shown whole: contain (never cover) and a box that
    stops below the header, so no part of Vitali is ever sliced off. */
-.home-produce { position: absolute; z-index: -1; width: 100%; height: calc(100svh - 190px); max-height: 100%; bottom: 0; object-fit: contain; object-position: center bottom; }
+.home-produce { position: absolute; z-index: -1; width: 100%; height: calc(100svh - 170px); max-height: 100%; bottom: 0; object-fit: contain; object-position: center bottom; }
 .home-entry-controls { width: 100%; max-width: 440px; margin: auto auto 0; padding: 24px 24px max(24px, env(safe-area-inset-bottom)); }
 .home-entry-login .home-entry-controls { background: linear-gradient(0deg, var(--card) 75%, transparent); padding-top: 48px; }
 .swipe-track { box-shadow: 0 4px 22px var(--border); }
