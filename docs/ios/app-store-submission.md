@@ -2,6 +2,8 @@
 
 Prepared on 30 October 2026 for a free, worldwide release on iPhone and iPad. German is the primary language, with English metadata. There are no in-app purchases or subscriptions, and the app will be released manually after approval.
 
+> **Update, 30 October 2026:** the app is now FairVital Go. Open items after the rebrand, including the privacy-policy accuracy questions, are in [fairvitalgo-app-store-readiness.md](fairvitalgo-app-store-readiness.md). Metadata below still uses the old name.
+
 This document replaces the open items in [app-store-readiness.md](app-store-readiness.md), which was written before HealthKit was added. **Nothing here has been submitted to App Review.**
 
 Legend:
