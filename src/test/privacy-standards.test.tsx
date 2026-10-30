@@ -28,8 +28,8 @@ it("translates every standard and every article into English and Spanish", () =>
     const copy = privacyStandards[lang];
     expect(copy.standards.length).toBe(de.standards.length);
     expect(copy.legal.length).toBe(de.legal.length);
-    copy.standards.forEach(([title], i) => expect(title).not.toBe(de.standards[i][0]));
-    copy.legal.forEach(([title], i) => expect(title).not.toBe(de.legal[i][0]));
+    de.standards.forEach(([title], i) => expect(copy.standards[i]?.[0]).not.toBe(title));
+    de.legal.forEach(([title], i) => expect(copy.legal[i]?.[0]).not.toBe(title));
   }
 });
 
