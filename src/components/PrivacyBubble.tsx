@@ -58,14 +58,14 @@ export function PrivacyBubble() {
         onClick={() => setOpen(true)}
         aria-haspopup="dialog"
         aria-expanded={open}
-        className="privacy-bubble absolute right-3 z-40 inline-flex items-center gap-1.5 rounded-full bg-fv px-3 py-1.5 font-data text-[11px] uppercase tracking-normal text-ink shadow-md ring-1 ring-ink/5 transition-transform active:scale-95"
+        className="privacy-bubble absolute right-3 z-50 inline-flex items-center gap-1.5 rounded-full bg-fv px-3 py-1.5 font-data text-[11px] uppercase tracking-normal text-ink shadow-md ring-1 ring-ink/5 transition-transform active:scale-95"
       >
         <ShieldCheck className="size-3.5" strokeWidth={2.2} aria-hidden="true" />
         <Localized>DSGVO</Localized>
       </button>
 
       {open && (
-        <div className="absolute inset-0 z-40 flex justify-center px-4 pt-[68px]">
+        <div className="absolute inset-0 z-50 flex justify-center px-4 pt-[68px]">
           <div className="absolute inset-0 bg-ink/10" onClick={close} aria-hidden="true" />
           <div
             role="dialog"
