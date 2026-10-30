@@ -99,9 +99,9 @@
     "App settings",
     "Ajustes de la app"
   ],
-  "Benachrichtigungen, Sprache, Design": [
-    "Notifications, language, appearance",
-    "Notificaciones, idioma, apariencia"
+  "Benachrichtigungen, Sprache, Erinnerungen": [
+    "Notifications, language, reminders",
+    "Notificaciones, idioma, recordatorios"
   ],
   "Heute": [
     "Today",
@@ -1539,10 +1539,6 @@
     "Time to log your meals and drink some water.",
     "Es hora de registrar tus comidas y beber algo de agua."
   ],
-  "Anzeige & Darstellung": [
-    "Display & appearance",
-    "Pantalla y apariencia"
-  ],
   "Alles klar": [
     "Got it",
     "Entendido"
@@ -1590,14 +1586,6 @@
   "Design": [
     "Appearance",
     "Diseño"
-  ],
-  "Hell": [
-    "Light",
-    "Claro"
-  ],
-  "Dunkel": [
-    "Dark",
-    "Oscuro"
   ],
   "Erinnerungen": [
     "Reminders",
