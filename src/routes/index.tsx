@@ -3,7 +3,7 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { translateText } from "@/lib/language";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import startseiteProduce from "@/assets/startseite-produce.png.asset.json";
+import startseiteProduce from "@/assets/startseite-produce-trimmed.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { SwipeAction } from "@/components/SwipeAction";
 import { supabase } from "@/integrations/supabase/client";
@@ -75,7 +75,7 @@ function Home() {
   return <div className="min-h-screen bg-card font-sans text-foreground">
     <main className={`home-entry ${mode === "login" ? "home-entry-login" : ""}`}>
       <PrivacyBubble />
-      <img src={startseiteProduce.url} alt={translateText("Vitali mit frischem Obst und Gemüse")} width={768} height={1152} fetchPriority="high" className="home-produce" />
+      <img src={startseiteProduce.url} alt={translateText("Vitali mit frischem Obst und Gemüse")} width={1024} height={1235} fetchPriority="high" className="home-produce" />
       <header className="home-entry-header relative z-10">
         <Link to="/" aria-label={translateText("fairvitalgo Startseite")} className="inline-block"><VivoBrand className="h-auto w-[190px] object-contain sm:w-[240px]" /></Link>
         <h1 className="sr-only">fairvitalgo</h1>
@@ -108,7 +108,7 @@ function Home() {
           ))}
           {error && <p role="alert" className="mb-3 text-sm text-destructive"><Localized>{error}</Localized></p>}
           {!magicSent && <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : magic ? "Login-Code senden" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : magic ? sendMagicLink : signIn} />}
-          {mode === "new" && <LegalLinks className="mt-3" prefix="Mit dem Start akzeptierst du die" />}
+          {mode === "new" && <LegalLinks className="mx-auto mt-3 w-fit rounded-full bg-card/85 px-3 py-1 backdrop-blur-md" prefix="Mit dem Start akzeptierst du die" />}
         </>}
       </div>
     </main>
