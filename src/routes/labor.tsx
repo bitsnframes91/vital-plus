@@ -10,7 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { useStore } from "@/lib/store";
 import { todayKey } from "@/lib/daily-goals";
 import { fmtDate, status, labMarkers as catalog, type LabMarker } from "@/lib/data";
-import { analyzeLabPdf } from "@/lib/ai.functions";
+import { analyzeLabPdf, planFromLabValues } from "@/lib/ai.functions";
 import { blobToBase64 } from "@/lib/record-wav";
 import { RangeBar } from "@/components/RangeBar";
 import { StatusFace, type StatusMood } from "@/components/StatusFace";
@@ -46,6 +46,7 @@ function Labs() {
   const [marker, setMarker] = useState(options[0]?.id ?? "");
   const [value, setValue] = useState("");
   const analyze = useServerFn(analyzeLabPdf);
+  const planFromValues = useServerFn(planFromLabValues);
   const [busy, setBusy] = useState(false);
   const [infoMarkerId, setInfoMarkerId] = useState<string | null>(null);
   const infoMarker = displayedLabs.find(m => m.id === infoMarkerId);
@@ -106,20 +107,40 @@ function Labs() {
     }
   };
 
-  const add = (e: React.FormEvent) => {
+  const add = async (e: React.FormEvent) => {
     e.preventDefault();
     const v = parseFloat(value.replace(",", "."));
     if (isNaN(v)) return;
     const date = new Date().toISOString().slice(0, 10);
     const point = { date, value: v };
+    let labs: LabMarker[];
     if (s.labs.some((l) => l.id === marker)) {
-      set({ labs: displayedLabs.map((l) => (l.id === marker ? { ...l, history: [...l.history, point] } : l)) });
+      labs = displayedLabs.map((l) => (l.id === marker ? { ...l, history: [...l.history.filter((h) => h.date !== date), point] } : l));
     } else {
       const base = options.find((o) => o.id === marker);
       if (!base) return;
-      set({ labs: [...s.labs, { ...base, history: [point] }] });
+      labs = [...s.labs, { ...base, history: [point] }];
     }
+    set({ labs });
     setValue("");
+    // Refresh the action plan automatically from all latest values.
+    const markers = labs.flatMap((l) => { const last = l.history.at(-1); return last ? [{ name: l.name, unit: l.unit, value: last.value, targetLow: l.target[0], targetHigh: l.target[1] }] : []; });
+    setBusy(true);
+    setProgress(6);
+    setMsg(null);
+    try {
+      const r = await planFromValues({ data: { markers, meals: s.meals.slice(-100).map(({ name, date, kcal, protein, fiber, carbs, fat }) => ({ name, date, kcal, protein, fiber, carbs, fat })) } });
+      if (!r.ok) { setProgress(0); return setMsg({ ok: false, text: r.error }); }
+      set({ labs, aiPlan: { date, items: r.plan } });
+      setMsg({ ok: true, text: "Wert gespeichert. Dein Plan wurde aktualisiert." });
+      setProgress(100);
+      setTimeout(() => setProgress(0), 4000);
+    } catch {
+      setProgress(0);
+      setMsg({ ok: false, text: "Wert gespeichert, aber der Plan konnte nicht aktualisiert werden." });
+    } finally {
+      setBusy(false);
+    }
   };
 
   const removeAll = () => {
