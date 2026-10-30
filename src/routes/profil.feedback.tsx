@@ -12,10 +12,10 @@ export const Route = createFileRoute("/profil/feedback")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "Feedback geben — Vitalplus" },
-      { name: "description", content: "Teile dein Feedback zur Vitalplus App: Sterne, Themen und Nachricht." },
-      { property: "og:title", content: "Feedback geben — Vitalplus" },
-      { property: "og:description", content: "Hilf uns, die Vitalplus App zu verbessern." },
+      { title: "Feedback geben — fairvitalgo" },
+      { name: "description", content: "Teile dein Feedback zur fairvitalgo App: Sterne, Themen und Nachricht." },
+      { property: "og:title", content: "Feedback geben — fairvitalgo" },
+      { property: "og:description", content: "Hilf uns, die fairvitalgo App zu verbessern." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -47,7 +47,7 @@ function FeedbackPage() {
   const submit = async () => {
     // Bots fill the hidden field; pretend success without storing anything.
     if (trap) { setDone(true); return; }
-    const last = Number(localStorage.getItem("vitalplus-feedback-at") || 0);
+    const last = Number(localStorage.getItem("fairvitalgo-feedback-at") || 0);
     if (Date.now() - last < 60_000) { setErr("Bitte warte eine Minute, bevor du erneut Feedback sendest."); return; }
     setBusy(true);
     setErr("");
@@ -64,7 +64,7 @@ function FeedbackPage() {
       setErr("Feedback konnte nicht gesendet werden. Bitte später erneut versuchen.");
       return;
     }
-    localStorage.setItem("vitalplus-feedback-at", String(Date.now()));
+    localStorage.setItem("fairvitalgo-feedback-at", String(Date.now()));
     setDone(true);
   };
 

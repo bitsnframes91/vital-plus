@@ -6,15 +6,15 @@ describe("Impressum heading names the app in every language", () => {
   afterEach(() => setLanguage("de"));
   it("keeps the German source heading", () => {
     setLanguage("de");
-    expect(imprintSections[0]!.title).toBe("Vitalplus von Fairvital");
-    expect(translateText("Vitalplus von Fairvital")).toBe("Vitalplus von Fairvital");
+    expect(imprintSections[0]?.title).toBe("fairvitalgo von Fairvital");
+    expect(translateText("fairvitalgo von Fairvital")).toBe("fairvitalgo von Fairvital");
   });
   it("English", () => {
     setLanguage("en");
-    expect(translateText("Vitalplus von Fairvital")).toBe("Vitalplus from Fairvital");
+    expect(translateText("fairvitalgo von Fairvital")).toBe("fairvitalgo from Fairvital");
   });
   it("Spanish", () => {
     setLanguage("es");
-    expect(translateText("Vitalplus von Fairvital")).toBe("Vitalplus de Fairvital");
+    expect(translateText("fairvitalgo von Fairvital")).toBe("fairvitalgo de Fairvital");
   });
 });

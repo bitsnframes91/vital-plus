@@ -18,9 +18,9 @@ export const Route = createFileRoute("/gesundheit")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "Gesundheit — Vitalplus" },
+      { title: "Gesundheit — fairvitalgo" },
       { name: "description", content: "Messwerte und Verläufe verständlich an einem Ort: Gewicht, Körperdaten, Schlaf, Schritte und Trends." },
-      { property: "og:title", content: "Gesundheit — Vitalplus" },
+      { property: "og:title", content: "Gesundheit — fairvitalgo" },
       { property: "og:description", content: "Messwerte und Verläufe verständlich an einem Ort." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

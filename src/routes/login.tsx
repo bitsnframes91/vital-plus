@@ -15,10 +15,10 @@ export const Route = createFileRoute("/login")({
   validateSearch: (search: Record<string, unknown>) => ({ mode: search["mode"] === "register" ? ("register" as const) : search["mode"] === "reset" ? ("reset" as const) : ("login" as const) }),
   head: () => ({
     meta: [
-      { title: "Anmelden — Vitalplus" },
-      { name: "description", content: "Mit E-Mail und Passwort bei Vitalplus anmelden oder ein Konto anlegen." },
-      { property: "og:title", content: "Anmelden — Vitalplus" },
-      { property: "og:description", content: "Dein Vitalplus-Konto – deine Werte auf allen Geräten." },
+      { title: "Anmelden — fairvitalgo" },
+      { name: "description", content: "Mit E-Mail und Passwort bei fairvitalgo anmelden oder ein Konto anlegen." },
+      { property: "og:title", content: "Anmelden — fairvitalgo" },
+      { property: "og:description", content: "Dein fairvitalgo-Konto – deine Werte auf allen Geräten." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -81,7 +81,7 @@ function Login() {
 
   if (initialMode === "reset") return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText("Passwort vergessen?")} sub={translateText("Deine Werte sicher gespeichert – auf allen Geräten.")} />
+      <PageHeader eyebrow={translateText("fairvitalgo Konto")} title={translateText("Passwort vergessen?")} sub={translateText("Deine Werte sicher gespeichert – auf allen Geräten.")} />
       <div className="card-surface mx-4 mt-4 space-y-4 p-5">
         <PasswordResetForm />
         <Link to="/" search={{ mode: "login" }} className="w-full text-center text-[13px] font-semibold text-ink/70 underline underline-offset-4"><Localized>{"Zurück zur Anmeldung"}</Localized></Link>
@@ -91,7 +91,7 @@ function Login() {
 
   if (sent) return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText("Bestätige deine E-Mail")} sub={translateText("Fast geschafft!")} />
+      <PageHeader eyebrow={translateText("fairvitalgo Konto")} title={translateText("Bestätige deine E-Mail")} sub={translateText("Fast geschafft!")} />
       <div className="card-surface mx-4 mt-4 space-y-2 p-5 text-sm">
         <p><Localized>{"Wir haben dir einen Bestätigungscode geschickt an:"}</Localized> <b>{email}</b></p>
         <p className="text-ink/70"><Localized>{"Gib den Code hier ein. Danach ist dein Konto aktiv und du gelangst direkt zu Heute."}</Localized></p>
@@ -109,7 +109,7 @@ function Login() {
 
   return (
     <AppShell>
-      <PageHeader eyebrow={translateText("Vitalplus Konto")} title={translateText(mode === "login" ? "Anmelden" : "Konto anlegen")} sub={translateText("Deine Werte sicher gespeichert – auf allen Geräten.")} />
+      <PageHeader eyebrow={translateText("fairvitalgo Konto")} title={translateText(mode === "login" ? "Anmelden" : "Konto anlegen")} sub={translateText("Deine Werte sicher gespeichert – auf allen Geräten.")} />
       <div className="card-surface mx-4 mt-4 space-y-3 p-5">
         {mode === "login" && magicSent ? (
           <div className="space-y-2 text-sm">

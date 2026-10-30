@@ -44,3 +44,7 @@
 
 # European lab units
 - [x] Normalize report-specific units in Labor dropdown/cards and manual/import entries, preserving numerical meaning; 19 tests passed and signed-in dropdown verified without writing personal records.
+
+# fairvitalgo rebrand
+- [x] Replace the shared logo, browser/PWA icons and app wording across all languages, legal screens, metadata and emails; preserve shop ownership, existing URLs and device identifiers.
+- [ ] Verify rebrand rendering, translation coverage and existing security/device tests.

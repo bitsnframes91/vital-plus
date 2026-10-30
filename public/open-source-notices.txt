@@ -1,4 +1,4 @@
-Vitalplus — Third-party software notices
+fairvitalgo — Third-party software notices
 Generated from installed production dependencies. Original notices are reproduced verbatim.
 
 @ai-sdk/gateway 4.0.104

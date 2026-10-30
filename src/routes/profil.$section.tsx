@@ -28,8 +28,8 @@ import { imprintSections } from "@/lib/imprint";
 export const Route = createFileRoute("/profil/$section")({
   staticData: { sitemap: false },
   head: ({ params }) => {
-    const title = `${titles[params.section] ?? "Profil"} — Vitalplus`;
-    const description = `Dein Vitalplus Profil: ${titles[params.section] ?? "Einstellungen"} verwalten.`;
+    const title = `${titles[params.section] ?? "Profil"} — fairvitalgo`;
+    const description = `Dein fairvitalgo Profil: ${titles[params.section] ?? "Einstellungen"} verwalten.`;
     return { meta: [{ title }, { name: "description", content: description }, { property: "og:title", content: title }, { property: "og:description", content: description }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] };
   },
   component: ProfileSubmenu,
@@ -105,7 +105,7 @@ function ProfileSubmenu() {
         <Row title={translateText("Gesundheitsziele")} sub={translateText(s.goals.join(", ") || "Nicht angegeben")} icon={Heart} onClick={() => openField("goals", "Gesundheitsziele")} />
       </div>}
       {(section === "security" || section === "account") && <>
-        {section === "account" && <h2 className="eyebrow"><Localized>{"Vitalplus Konto"}</Localized></h2>}
+        {section === "account" && <h2 className="eyebrow"><Localized>{"fairvitalgo Konto"}</Localized></h2>}
         <div className="space-y-px overflow-hidden rounded-lg"><div className="flex min-h-16 w-full items-center gap-3 rounded-lg bg-card px-3 py-3 text-left text-foreground"><span className="grid size-9 shrink-0 place-items-center rounded-full"><Mail className="size-5!" strokeWidth={1.6} /></span><span className="min-w-0 flex-1"><span className="block text-[13px] font-semibold leading-5"><Localized>{"E-Mail-Adresse"}</Localized></span><span className="block break-words text-[12px] font-normal leading-4 text-muted-foreground"><Localized>{s.account?.email ?? "Nicht angemeldet"}</Localized></span></span></div><Row title={translateText("Passwort ändern")} sub={translateText("Reset-Link per E-Mail")} icon={KeyRound} onClick={password} />
         {section === "account" && <Row title={translateText("Verbundene Apps")} sub={translateText("Apple Health, Health Connect")} icon={LayoutGrid} onClick={() => notice("Verbundene Apps", "Apple Health und Google Health Connect sind noch nicht verbunden. In dieser Web-App ist kein direkter Zugriff verfügbar.")} />}</div>
         <Row title={translateText("Konto löschen")} icon={Trash2} danger onClick={deletion} />

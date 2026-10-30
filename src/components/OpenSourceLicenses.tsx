@@ -7,21 +7,21 @@ import packages from "@/lib/open-source-licenses.json";
 
 const copy = {
   de: {
-    intro: "Vitalplus verwendet die unten aufgeführten Open-Source-Pakete. Die Übersicht enthält direkte und indirekte Produktionsabhängigkeiten dieser App-Version. Urheberrechte verbleiben bei den jeweiligen Rechteinhabern.",
+    intro: "fairvitalgo verwendet die unten aufgeführten Open-Source-Pakete. Die Übersicht enthält direkte und indirekte Produktionsabhängigkeiten dieser App-Version. Urheberrechte verbleiben bei den jeweiligen Rechteinhabern.",
     search: "Pakete oder Lizenzen suchen", count: "Pakete", direct: "Direkte Abhängigkeit", indirect: "Indirekte Abhängigkeit", download: "Lizenzhinweise herunterladen", empty: "Keine passenden Pakete gefunden.",
     original: "Originale Lizenz- und Urheberrechtshinweise werden unverändert in ihrer Originalsprache wiedergegeben. Maßgeblich sind die jeweiligen Lizenztexte; viele enthalten einen Haftungs- und Gewährleistungsausschluss.",
     missing: "Im installierten Paket wurde keine separate Lizenzdatei gefunden. Die Lizenzangabe stammt aus den Paketinformationen; zusätzliche Hinweise sind beim jeweiligen Projekt zu prüfen.",
     license: "Lizenz", notices: "Lizenztext und Urheberrechtshinweise",
   },
   en: {
-    intro: "Vitalplus uses the open-source packages listed below. This inventory includes direct and indirect production dependencies of this app version. Copyright remains with the respective rights holders.",
+    intro: "fairvitalgo uses the open-source packages listed below. This inventory includes direct and indirect production dependencies of this app version. Copyright remains with the respective rights holders.",
     search: "Search packages or licenses", count: "packages", direct: "Direct dependency", indirect: "Indirect dependency", download: "Download license notices", empty: "No matching packages found.",
     original: "Original license and copyright notices are reproduced unchanged in their original language. The individual license texts govern; many include warranty and liability disclaimers.",
     missing: "No separate license file was found in the installed package. The license identifier comes from its package metadata; consult the respective project for additional notices.",
     license: "License", notices: "License text and copyright notices",
   },
   es: {
-    intro: "Vitalplus utiliza los paquetes de código abierto indicados a continuación. Esta lista incluye las dependencias de producción directas e indirectas de esta versión de la app. Los derechos de autor pertenecen a sus respectivos titulares.",
+    intro: "fairvitalgo utiliza los paquetes de código abierto indicados a continuación. Esta lista incluye las dependencias de producción directas e indirectas de esta versión de la app. Los derechos de autor pertenecen a sus respectivos titulares.",
     search: "Buscar paquetes o licencias", count: "paquetes", direct: "Dependencia directa", indirect: "Dependencia indirecta", download: "Descargar avisos de licencia", empty: "No se encontraron paquetes coincidentes.",
     original: "Los avisos originales de licencia y derechos de autor se reproducen sin cambios en su idioma original. Rigen los textos de cada licencia; muchos incluyen exclusiones de garantía y responsabilidad.",
     missing: "No se encontró un archivo de licencia separado en el paquete instalado. El identificador de licencia procede de sus metadatos; consulta el proyecto correspondiente para obtener avisos adicionales.",
