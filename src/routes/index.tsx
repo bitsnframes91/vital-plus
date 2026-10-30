@@ -116,13 +116,13 @@ function Home() {
 
 /** Trust statement shown on the start page: what happens to a user's health data, in their own words. */
 function PrivacyPromise() {
-  return <section className="mt-5 rounded-2xl border border-border/70 bg-card/90 p-4 text-left backdrop-blur-sm">
-    <h2 className="flex items-start gap-2 text-[15px] font-semibold leading-snug text-foreground">
-      <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+  return <section className="mt-4 rounded-xl border border-border/70 bg-card/90 p-3 text-left backdrop-blur-sm">
+    <h2 className="flex items-start gap-1.5 text-[13px] font-semibold leading-snug text-foreground">
+      <ShieldCheck className="mt-px h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
       <Localized>{"Deine Gesundheit. Deine Daten. Deine Privatsphäre."}</Localized>
     </h2>
-    <p className="mt-2 text-xs leading-5 text-muted-foreground"><Localized>{"Bei fairvitalgo® hat der Schutz deiner persönlichen Gesundheitsdaten höchste Priorität. Wir setzen auf die strengen Datenschutzstandards der DSGVO, eine sichere Datenverarbeitung und maximale Transparenz."}</Localized></p>
-    <p className="mt-2 text-xs leading-5 text-muted-foreground"><Localized>{"Deine Daten gehören dir: Kein Datenverkauf, keine Nutzung für fremde Werbung und volle Kontrolle über deine persönlichen Informationen. Du kannst jederzeit die Löschung deiner Daten veranlassen."}</Localized></p>
-    <p className="mt-3 text-xs font-semibold text-foreground"><Localized>{"fairvitalgo® – Weil deine Gesundheit Privatsache ist."}</Localized></p>
+    <p className="mt-1.5 text-[11px] leading-[1.5] text-muted-foreground"><Localized>{"Bei fairvitalgo® hat der Schutz deiner persönlichen Gesundheitsdaten höchste Priorität. Wir setzen auf die strengen Datenschutzstandards der DSGVO, eine sichere Datenverarbeitung und maximale Transparenz."}</Localized></p>
+    <p className="mt-1.5 text-[11px] leading-[1.5] text-muted-foreground"><Localized>{"Deine Daten gehören dir: Kein Datenverkauf, keine Nutzung für fremde Werbung und volle Kontrolle über deine persönlichen Informationen. Du kannst jederzeit die Löschung deiner Daten veranlassen."}</Localized></p>
+    <p className="mt-2 text-[11px] font-semibold text-foreground"><Localized>{"fairvitalgo® – Weil deine Gesundheit Privatsache ist."}</Localized></p>
   </section>;
 }
