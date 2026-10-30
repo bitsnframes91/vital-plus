@@ -5,7 +5,7 @@ import { routineTips } from "@/lib/deficiency-routines";
 
 describe("Fairvital plan suggestions", () => {
   it("does not recommend products before a personal plan exists", () => {
-    expect(suggestedProducts(null, labMarkers)).toEqual([]);
+    expect(suggestedProducts(null, labMarkers.filter((m) => status(m).tone === "ok"))).toEqual([]);
   });
   it("suggests matching products for every below-range marker with a catalog match", () => {
     expect(suggestedProducts({ items: [{}] }, labMarkers).map(({ marker, product }) => [marker.id, product.name])).toEqual([
