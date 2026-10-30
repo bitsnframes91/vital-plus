@@ -25,7 +25,7 @@ describe("AI quota refusals", () => {
     const photo = readFileSync("src/lib/food-photo.functions.ts", "utf8");
     for (const k of ["lab", "meal_voice", "meal_text"]) expect(ai).toContain(`enforceAiQuota(context.supabase, "${k}")`);
     expect(photo).toContain('enforceAiQuota(context.supabase, "meal_photo")');
-    expect(ai.match(/requireSupabaseAuth\]/g)?.length).toBe(3);
+    expect(ai.match(/requireSupabaseAuth\]/g)?.length).toBe(4);
   });
 });
 

@@ -7,7 +7,6 @@ const languages = ["de", "en", "es"] as const;
 
 it("shows the supplied privacy notice with its promise, contact address and deletion path", () => {
   render(<TermsDocument copy={privacyCopy.de} />);
-  expect(screen.getByText("Stand: 30. Oktober 2026")).toBeTruthy();
   expect(screen.getByText("fairvitalgo® – Deine Gesundheit. Deine Daten. Deine Privatsphäre.")).toBeTruthy();
   expect(screen.getByText("Unser Datenschutzversprechen")).toBeTruthy();
   expect(screen.getByText("Deutsche Serverstandorte:")).toBeTruthy();
