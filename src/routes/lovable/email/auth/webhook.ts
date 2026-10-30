@@ -77,7 +77,7 @@ export const Route = createFileRoute("/lovable/email/auth/webhook")({
             reauthentication: {
               subject: 'Dein Bestätigungscode',
               render: (data) =>
-                React.createElement(ReauthenticationEmail, { token: data.token ?? '' }),
+                React.createElement(ReauthenticationEmail, { siteName: SITE_NAME, token: data.token ?? '' }),
             },
           },
         })

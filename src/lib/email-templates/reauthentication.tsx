@@ -11,17 +11,18 @@ import {
 } from '@react-email/components'
 
 interface ReauthenticationEmailProps {
+  siteName: string
   token: string
 }
 
-export const ReauthenticationEmail = ({ token }: ReauthenticationEmailProps) => (
+export const ReauthenticationEmail = ({ siteName, token }: ReauthenticationEmailProps) => (
   <Html lang="de" dir="ltr">
     <Head />
-    <Preview>Dein Bestätigungscode</Preview>
+    <Preview>Dein Bestätigungscode für {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
         <Heading style={h1}>Identität bestätigen</Heading>
-        <Text style={text}>Verwende den folgenden Code, um deine Identität zu bestätigen:</Text>
+        <Text style={text}>Verwende den folgenden Code, um deine Identität in der {siteName} App zu bestätigen:</Text>
         <Text style={codeStyle}>{token}</Text>
         <Text style={footer}>
           Dieser Code läuft in Kürze ab. Falls du ihn nicht angefordert hast,
