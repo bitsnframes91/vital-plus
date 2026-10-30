@@ -27,7 +27,7 @@ const messages: Record<NoticeKind, string> = {
   noMeal: "Keine Mahlzeit erkannt. Bitte beschreibe, was du gegessen hast.",
   recordingFailed: "Aufnahme fehlgeschlagen.",
   offline: "Keine Verbindung. Bitte prüfe deine Internetverbindung und versuche es erneut.",
-  unreachable: "Der Vital-Plus-Server ist gerade nicht erreichbar. Deine Internetverbindung ist aktiv – bitte versuche es später erneut.",
+  unreachable: "Der fairvitalgo-Server ist gerade nicht erreichbar. Deine Internetverbindung ist aktiv – bitte versuche es später erneut.",
   timeout: "Die Auswertung hat zu lange gedauert. Bitte versuche es erneut, gern mit einer kürzeren Aufnahme.",
   unauthorized: "Deine Anmeldung ist abgelaufen. Bitte melde dich erneut an und versuche es noch einmal.",
   rejected: "Der Server hat die Anfrage der App abgelehnt. Bitte aktualisiere die App oder versuche es später erneut.",

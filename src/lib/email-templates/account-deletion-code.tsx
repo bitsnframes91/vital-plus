@@ -9,12 +9,12 @@ interface Props {
 const AccountDeletionCodeEmail = ({ code }: Props) => (
   <Html lang="de" dir="ltr">
     <Head />
-    <Preview>Dein Code zum Löschen deines Vitalplus-Kontos</Preview>
+    <Preview>Dein Code zum Löschen deines FairvitalGO-Kontos</Preview>
     <Body style={main}>
       <Container style={container}>
         <Heading style={h1}>Konto löschen bestätigen</Heading>
         <Text style={text}>
-          Mit diesem Code bestätigst du, dass dein Vitalplus-Konto und alle gespeicherten Daten dauerhaft gelöscht werden:
+          Mit diesem Code bestätigst du, dass dein FairvitalGO-Konto und alle gespeicherten Daten dauerhaft gelöscht werden:
         </Text>
         <Text style={codeStyle}>{code ?? '------'}</Text>
         <Text style={footer}>

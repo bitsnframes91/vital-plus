@@ -10,9 +10,9 @@ export const Route = createFileRoute("/trends")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "Aktivitätstrends — Vital Plus" },
+      { title: "Aktivitätstrends — fairvitalgo" },
       { name: "description", content: "Deine Aktivitätstrends für Bewegung, Distanz, Geh- und Lauftempo verständlich erklärt." },
-      { property: "og:title", content: "Aktivitätstrends — Vital Plus" },
+      { property: "og:title", content: "Aktivitätstrends — fairvitalgo" },
       { property: "og:description", content: "Bewegung, Distanz und Tempo: deine Aktivität im zeitlichen Verlauf." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

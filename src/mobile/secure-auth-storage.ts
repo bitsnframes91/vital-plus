@@ -25,10 +25,10 @@ export function brokeredPreviewStorage() {
     setItem: (key: string, value: string) =>
       keychain
         .set({ key, value })
-        .catch(() => console.error("Vitalplus: secure session storage failed")),
+        .catch(() => console.error("fairvitalgo: secure session storage failed")),
     removeItem: (key: string) =>
       keychain
         .remove({ key })
-        .catch(() => console.error("Vitalplus: secure session removal failed")),
+        .catch(() => console.error("fairvitalgo: secure session removal failed")),
   };
 }

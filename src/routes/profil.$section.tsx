@@ -23,18 +23,20 @@ import { useAppleHealth } from "@/components/AppleHealth";
 import { buildDataExport, exportFileName, ExportIdentityError, isEmptyExport, loadServerCopy } from "@/lib/data-export";
 import { saveTextFile, type FileResult } from "@/lib/file-share";
 import { parseSettings, SETTINGS_KEY } from "@/lib/app-settings";
+import { PrivacyStandards } from "@/components/PrivacyStandards";
 
 const titles: Record<string, string> = { personal: "Gesundheitsprofil bearbeiten", security: "Konto & Sicherheit", settings: "App-Einstellungen", privacy: "Meine Daten", help: "Kundenservice kontaktieren", legal: "Rechtliches", account: "Konto verwalten" };
 
 import { privacyCopy } from "@/lib/privacy-policy";
 import { termsCopy } from "@/lib/terms";
+import { TermsDocument } from "@/components/TermsDocument";
 import { imprintSections } from "@/lib/imprint";
 
 export const Route = createFileRoute("/profil/$section")({
   staticData: { sitemap: false },
   head: ({ params }) => {
-    const title = `${titles[params.section] ?? "Profil"} — Vital Plus`;
-    const description = `Dein Vital-Plus-Profil: ${titles[params.section] ?? "Einstellungen"} verwalten.`;
+    const title = `${titles[params.section] ?? "Profil"} — fairvitalgo`;
+    const description = `Dein fairvitalgo Profil: ${titles[params.section] ?? "Einstellungen"} verwalten.`;
     return { meta: [{ title }, { name: "description", content: description }, { property: "og:title", content: title }, { property: "og:description", content: description }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] };
   },
   component: ProfileSubmenu,
@@ -63,7 +65,7 @@ function Row({ title, sub, icon: Icon, onClick, danger = false, green = false, d
 function ProfileSubmenu() {
   const language = useLanguage();
   const [doc, setDoc] = useState<"terms" | "privacy">("terms");
-  const terms = doc === "privacy" ? privacyCopy[language] : termsCopy[language];
+  const privacyDoc = doc === "privacy" ? privacyCopy[language] : null;
   const { section } = Route.useParams();
   const navigate = Route.useNavigate();
   const { s, set, consent } = useStore();
@@ -138,7 +140,7 @@ function ProfileSubmenu() {
         <Row title={translateText("Gesundheitsziele")} sub={translateText(s.goals.join(", ") || "Nicht angegeben")} icon={Heart} onClick={() => openField("goals", "Gesundheitsziele")} />
       </div>}
       {(section === "security" || section === "account") && <>
-        {section === "account" && <h2 className="eyebrow"><Localized>{"Vital Plus Konto"}</Localized></h2>}
+        {section === "account" && <h2 className="eyebrow"><Localized>{"fairvitalgo Konto"}</Localized></h2>}
         <div className="space-y-px overflow-hidden rounded-lg"><div className="flex min-h-16 w-full items-center gap-3 rounded-lg bg-card px-3 py-3 text-left text-foreground"><span className="grid size-9 shrink-0 place-items-center rounded-full"><Mail className="size-5!" strokeWidth={1.6} /></span><span className="min-w-0 flex-1"><span className="block text-[13px] font-semibold leading-5"><Localized>{"E-Mail-Adresse"}</Localized></span><span className="block break-words text-[12px] font-normal leading-4 text-muted-foreground"><Localized>{s.account?.email ?? "Nicht angemeldet"}</Localized></span></span></div><Row title={translateText("Passwort ändern")} sub={translateText("Reset-Link per E-Mail")} icon={KeyRound} onClick={password} />
         {section === "account" && <Row title={translateText("Verbundene Apps")} sub={translateText("Apple Health, Health Connect")} icon={LayoutGrid} onClick={() => notice("Verbundene Apps", "Apple Health verbindest du in der iPhone-App unter Gesundheit. Google Health Connect ist noch nicht verfügbar.")} />}</div>
         <Row title={translateText("Konto löschen")} icon={Trash2} danger onClick={deletion} />
@@ -146,7 +148,7 @@ function ProfileSubmenu() {
       {section === "settings" && <AppSettingsControls />}
       {section === "privacy" && <><div className="space-y-2">
         <Row title={translateText("Meine Daten herunterladen")} sub={translateText(exporting ? "Deine Daten werden vorbereitet …" : "Eine Kopie deiner Daten herunterladen")} icon={Download} green disabled={exporting} onClick={() => void download()} />
-      </div><Row title={translateText("Konto löschen")} sub={translateText("Alle Daten und dein Konto dauerhaft löschen")} icon={Trash2} danger onClick={deletion} /></>}
+      </div><Row title={translateText("Konto löschen")} sub={translateText("Alle Daten und dein Konto dauerhaft löschen")} icon={Trash2} danger onClick={deletion} /><PrivacyStandards /></>}
       {section === "help" && <><p className="text-sm leading-5 text-muted-foreground"><Localized>{"Wir sind für dich da. Wähle eine Option, um uns zu kontaktieren."}</Localized></p><div className="space-y-2">
         <Row title={translateText("Anrufen")} sub={translateText("+49 2234 2190482")} icon={Phone} green onClick={() => { window.location.href = "tel:+4922342190482"; }} />
         <Row title={translateText("E-Mail")} sub={translateText("service@fairvital.com")} icon={Mail} green onClick={() => { window.location.href = "mailto:service@fairvital.com"; }} />
@@ -169,11 +171,7 @@ function ProfileSubmenu() {
           <p className="whitespace-pre-line text-muted-foreground">{block.text}{"links" in block && block.links?.map(link => <span key={link.href}>{"prefix" in link ? link.prefix : ""}<a className="text-primary underline underline-offset-4" href={link.href} target={link.href.startsWith("mailto:") ? undefined : "_blank"} rel="noopener noreferrer">{link.label}</a></span>)}</p>
         </section>)}
       </article>}
-      {detail?.terms && <article className="space-y-5 break-words text-sm leading-6">
-        <p className="text-xs text-muted-foreground">{terms.date}</p>
-
-        {terms.sections.map(([title, text]) => <section key={title}><h2 className="mb-2 font-semibold text-foreground">{title}</h2><p className="text-muted-foreground">{text}</p></section>)}
-      </article>}
+      {detail?.terms && <TermsDocument copy={privacyDoc ?? termsCopy[language]} />}
       {detail?.text && <p className="text-sm leading-6 text-muted-foreground"><Localized>{detail.text}</Localized></p>}
       {detail && field && <form className="space-y-4" onSubmit={saveField}>
         {(field === "age" || field === "height" || field === "weight") && <label className="block text-sm"><Localized>{numFields[field].label}</Localized><input autoFocus type="text" inputMode="decimal" className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={draft} onChange={e => setDraft(e.target.value)} /></label>}

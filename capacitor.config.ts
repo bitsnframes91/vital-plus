@@ -4,7 +4,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
 const config: CapacitorConfig = {
   // Registered App Store bundle ID. Must match PRODUCT_BUNDLE_IDENTIFIER in the Xcode project.
   appId: "com.fairvital.vivohealth",
-  appName: "Vital Plus",
+  appName: "FairVital Go",
   webDir: "dist-mobile/client",
   // No `url`: the app ships its UI and never loads the website into the web view.
   // The scheme/hostname form the origin allowed by the server (NATIVE_APP_ORIGINS in src/start.ts).

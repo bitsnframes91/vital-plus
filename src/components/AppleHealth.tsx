@@ -613,7 +613,7 @@ export function AppleHealthIntro() {
           <DialogDescription className="text-[14px] leading-5">
             <Localized>
               {
-                "Vital Plus kann Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Schlaf sowie aktive und Ruheenergie aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone."
+                "fairvitalgo kann Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Schlaf sowie aktive und Ruheenergie aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone."
               }
             </Localized>
           </DialogDescription>
@@ -621,7 +621,7 @@ export function AppleHealthIntro() {
         <p className="text-[13px] leading-5 text-muted-foreground">
           <Localized>
             {
-              "Du entscheidest in Apple Health, welche Daten Vital Plus lesen darf. Du kannst die Verbindung jederzeit unter Gesundheit ändern."
+              "Du entscheidest in Apple Health, welche Daten fairvitalgo lesen darf. Du kannst die Verbindung jederzeit unter Gesundheit ändern."
             }
           </Localized>
         </p>
@@ -721,7 +721,7 @@ export function AppleHealthSection() {
           className="rounded-lg bg-card p-4 text-[13px] leading-5 text-muted-foreground"
         >
           <Localized>
-            {"Apple Health ist in der Vital Plus App auf dem iPhone verfügbar."}
+            {"Apple Health ist in der fairvitalgo App auf dem iPhone verfügbar."}
           </Localized>
         </p>
       </section>
@@ -789,7 +789,7 @@ export function AppleHealthSection() {
                   <Localized>{"Noch nicht synchronisiert"}</Localized>
                 )
               ) : (
-                <Localized>{"Vital Plus liest keine Daten aus Apple Health."}</Localized>
+                <Localized>{"fairvitalgo liest keine Daten aus Apple Health."}</Localized>
               )}
             </p>
           </div>
@@ -837,7 +837,7 @@ export function AppleHealthSection() {
           <p className="text-[13px] leading-5 text-foreground">
             <Localized>
               {
-                "Vital Plus kann weitere Daten aus Apple Health lesen. Apple Health fragt nur nach Datenarten, über die du noch nicht entschieden hast."
+                "fairvitalgo kann weitere Daten aus Apple Health lesen. Apple Health fragt nur nach Datenarten, über die du noch nicht entschieden hast."
               }
             </Localized>
           </p>
@@ -887,14 +887,14 @@ export function AppleHealthSection() {
           <p className="mt-2 text-[12px] leading-4 text-muted-foreground">
             <Localized>
               {
-                "„Keine Messwerte“ heißt: Apple Health hat für die letzten 7 Tage nichts geliefert. Entweder zeichnet kein Gerät diese Daten auf, oder das Lesen ist nicht erlaubt. Prüfe den Zugriff unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus."
+                "„Keine Messwerte“ heißt: Apple Health hat für die letzten 7 Tage nichts geliefert. Entweder zeichnet kein Gerät diese Daten auf, oder das Lesen ist nicht erlaubt. Prüfe den Zugriff unter Einstellungen › Datenschutz & Sicherheit › Health › FairVital Go."
               }
             </Localized>
           </p>
           <p className="mt-2 text-[12px] leading-4 text-muted-foreground">
             <Localized>
               {
-                "Vital Plus aktualisiert die Daten beim Öffnen, beim Zurückkehren in die App und wenn Apple Health neue Werte meldet, solange die App geöffnet ist."
+                "fairvitalgo aktualisiert die Daten beim Öffnen, beim Zurückkehren in die App und wenn Apple Health neue Werte meldet, solange die App geöffnet ist."
               }
             </Localized>
           </p>
@@ -909,7 +909,7 @@ export function AppleHealthSection() {
           <p className="mt-1 text-[12px] leading-4 text-muted-foreground">
             <Localized>
               {
-                "Nur Einträge, die du in Vital Plus machst, ab dem Tag des Einschaltens. Werte aus Apple Health werden nie zurückgeschrieben."
+                "Nur Einträge, die du in fairvitalgo machst, ab dem Tag des Einschaltens. Werte aus Apple Health werden nie zurückgeschrieben."
               }
             </Localized>
           </p>
@@ -931,7 +931,7 @@ export function AppleHealthSection() {
                   <p className="mt-1 text-[12px] leading-4 text-destructive">
                     <Localized>
                       {
-                        "Schreiben ist in Apple Health nicht erlaubt. Erlaube es unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus."
+                        "Schreiben ist in Apple Health nicht erlaubt. Erlaube es unter Einstellungen › Datenschutz & Sicherheit › Health › FairVital Go."
                       }
                     </Localized>
                   </p>
@@ -948,7 +948,7 @@ export function AppleHealthSection() {
               <p className="mt-1 text-[12px] leading-4 text-muted-foreground">
                 <Localized>
                   {
-                    "Nicht verfügbar: Vital Plus zeichnet noch keine Trainings auf. Aktive Energie wird nie aus Mahlzeiten geschätzt."
+                    "Nicht verfügbar: fairvitalgo zeichnet noch keine Trainings auf. Aktive Energie wird nie aus Mahlzeiten geschätzt."
                   }
                 </Localized>
               </p>
@@ -961,14 +961,14 @@ export function AppleHealthSection() {
         <p>
           <Localized>
             {
-              "Daten aus Apple Health bleiben auf diesem iPhone. Sie werden nicht in deinem Vital Plus Konto gespeichert und nicht an KI-Dienste oder Dritte gesendet."
+              "Daten aus Apple Health bleiben auf diesem iPhone. Sie werden nicht in deinem fairvitalgo Konto gespeichert und nicht an KI-Dienste oder Dritte gesendet."
             }
           </Localized>
         </p>
         <p className="mt-2">
           <Localized>
             {
-              "Die Freigabe für Apple Health gilt für dieses iPhone. Lese- und Schreibrechte änderst oder widerrufst du unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus."
+              "Die Freigabe für Apple Health gilt für dieses iPhone. Lese- und Schreibrechte änderst oder widerrufst du unter Einstellungen › Datenschutz & Sicherheit › Health › FairVital Go."
             }
           </Localized>
         </p>
@@ -983,7 +983,7 @@ export function AppleHealthSection() {
             <DialogDescription className="text-[13px] leading-5">
               <Localized>
                 {
-                  "Vital Plus löscht die auf diesem iPhone gespeicherten Apple-Health-Daten und speichert nichts mehr in Apple Health. Bereits gespeicherte Einträge bleiben in Apple Health. Die Berechtigungen widerrufst du in den iPhone-Einstellungen."
+                  "fairvitalgo löscht die auf diesem iPhone gespeicherten Apple-Health-Daten und speichert nichts mehr in Apple Health. Bereits gespeicherte Einträge bleiben in Apple Health. Die Berechtigungen widerrufst du in den iPhone-Einstellungen."
                 }
               </Localized>
             </DialogDescription>

@@ -24,9 +24,9 @@ export const Route = createFileRoute("/heute")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "Heute — Vital Plus" },
+      { title: "Heute — fairvitalgo" },
       { name: "description", content: "Dein persönliches Tages-Dashboard für Ernährung, Vitalstoffe und Laborwerte." },
-      { property: "og:title", content: "Heute — Vital Plus" },
+      { property: "og:title", content: "Heute — fairvitalgo" },
       { property: "og:description", content: "Messen, verstehen, handeln, überprüfen – dein Gesundheitsbegleiter von Fairvital." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -47,7 +47,10 @@ function Today() {
     const timer = setInterval(refresh, 30000);
     return () => clearInterval(timer);
   }, []);
-  const measured = reportMarkers(s.aiPlan, s.labs);
+  const outOfRange = s.labs.filter((m) => m.history.length && status(m).tone !== "ok");
+  const reported = reportMarkers(s.aiPlan, s.labs);
+  // Prefer a value outside its range (manual or uploaded), then the latest report's values.
+  const measured = [...outOfRange.sort((a, b) => (b.history.at(-1)?.date ?? "").localeCompare(a.history.at(-1)?.date ?? "")), ...reported];
   const featured = measured[0];
   const featuredProduct = featured ? productForMarker(featured) : undefined;
   const last = featured?.history.at(-1);
@@ -68,7 +71,7 @@ function Today() {
         <TodayMascot />
         <div className="relative">
           <div className="flex justify-center">
-            <Link to="/" aria-label={translateText("Vital Plus Startseite")}><VivoBrand className="h-[52px] w-auto object-contain" /></Link>
+            <Link to="/" aria-label={translateText("fairvitalgo Startseite")}><VivoBrand className="h-[58px] w-auto -translate-x-3 object-contain" /></Link>
           </div>
           <div className="today-mascot-greeting mt-7 flex items-center gap-3">
             <Button asChild variant="ghost" size="icon" className="size-11 shrink-0 rounded-full bg-warm-soft text-muted-foreground" title={translateText("Profil")}><Link to="/profil" aria-label={translateText("Profil")}><UserRound /></Link></Button>

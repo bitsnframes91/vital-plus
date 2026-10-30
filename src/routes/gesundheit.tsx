@@ -18,9 +18,9 @@ export const Route = createFileRoute("/gesundheit")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "Gesundheit — Vital Plus" },
+      { title: "Gesundheit — fairvitalgo" },
       { name: "description", content: "Messwerte und Verläufe verständlich an einem Ort: Gewicht, Körperdaten, Schlaf, Schritte und Trends." },
-      { property: "og:title", content: "Gesundheit — Vital Plus" },
+      { property: "og:title", content: "Gesundheit — fairvitalgo" },
       { property: "og:description", content: "Messwerte und Verläufe verständlich an einem Ort." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -211,8 +211,6 @@ function Health() {
         <HealthTrends />
         <div className="md:col-span-2"><AppleHealthSection /></div>
 
-        <div className="rounded-[20px] border border-dashed p-5 text-[13px] text-ink/50">
-          <div className="eyebrow mb-1"><Localized>{"Bald verfügbar"}</Localized></div><Localized>{"Google Health Connect und Wearables als automatische Datenquellen."}</Localized></div>
       </div>
     </AppShell>
   );

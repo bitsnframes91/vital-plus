@@ -1,7 +1,7 @@
 {
-  "Hinweis: Vital Plus stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.": [
-    "Note: Vital Plus does not diagnose conditions. Discuss abnormal values with your doctor. Lab integration is coming.",
-    "Nota: Vital Plus no realiza diagnósticos. Consulta los valores anómalos con tu médico. La conexión de laboratorio llegará próximamente."
+  "Hinweis: fairvitalgo stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.": [
+    "Note: fairvitalgo does not diagnose conditions. Discuss abnormal values with your doctor. Lab integration is coming.",
+    "Nota: fairvitalgo no realiza diagnósticos. Consulta los valores anómalos con tu médico. La conexión de laboratorio llegará próximamente."
   ],
   "Apple Health, Google Health Connect und Wearables als automatische Datenquellen.": [
     "Apple Health, Google Health Connect and wearables as automatic data sources.",
@@ -11,73 +11,73 @@
     "Apple Health and Google Health Connect are not connected yet. Manual steps do not replace measured energy, distance or speed. Trends require recorded measurements.",
     "Apple Health y Google Health Connect aún no están conectados. Los pasos manuales no sustituyen las mediciones de energía, distancia o velocidad. Las tendencias requieren mediciones registradas."
   ],
-  "Vital Plus Konto": [
-    "Vital Plus account",
-    "Cuenta Vital Plus"
+  "fairvitalgo Konto": [
+    "fairvitalgo account",
+    "Cuenta fairvitalgo"
   ],
-  "Dein Vital-Plus-Konto – deine Werte auf allen Geräten.": [
-    "Your Vital Plus account – your values on all devices.",
-    "Tu cuenta Vital Plus: tus valores en todos tus dispositivos."
+  "Dein fairvitalgo-Konto – deine Werte auf allen Geräten.": [
+    "Your fairvitalgo account – your values on all devices.",
+    "Tu cuenta fairvitalgo: tus valores en todos tus dispositivos."
   ],
-  "Lege ein neues Passwort für dein Vital-Plus-Konto fest.": [
-    "Set a new password for your Vital Plus account.",
-    "Establece una nueva contraseña para tu cuenta Vital Plus."
+  "Lege ein neues Passwort für dein fairvitalgo-Konto fest.": [
+    "Set a new password for your fairvitalgo account.",
+    "Establece una nueva contraseña para tu cuenta fairvitalgo."
   ],
-  "Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. Vital Plus ersetzt keine ärztliche Beratung.": [
-    "I consent to processing my health data for display in the app. Vital Plus does not replace medical advice.",
-    "Consiento el tratamiento de mis datos de salud para mostrarlos en la aplicación. Vital Plus no sustituye el consejo médico."
+  "Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. fairvitalgo ersetzt keine ärztliche Beratung.": [
+    "I consent to processing my health data for display in the app. fairvitalgo does not replace medical advice.",
+    "Consiento el tratamiento de mis datos de salud para mostrarlos en la aplicación. fairvitalgo no sustituye el consejo médico."
   ],
-  "Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte Vital Plus zum Home-Bildschirm hinzufügen.": [
-    "Notifications are not supported here. On iPhone, add Vital Plus to your home screen.",
-    "Las notificaciones no son compatibles aquí. En iPhone, añade Vital Plus a tu pantalla de inicio."
+  "Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte fairvitalgo zum Home-Bildschirm hinzufügen.": [
+    "Notifications are not supported here. On iPhone, add fairvitalgo to your home screen.",
+    "Las notificaciones no son compatibles aquí. En iPhone, añade fairvitalgo a tu pantalla de inicio."
   ],
-  "Bitte erlaube Benachrichtigungen für Vital Plus in deinen Geräte- oder Browser-Einstellungen.": [
-    "Allow Vital Plus notifications in your device or browser settings.",
-    "Permite las notificaciones de Vital Plus en los ajustes del dispositivo o navegador."
+  "Bitte erlaube Benachrichtigungen für fairvitalgo in deinen Geräte- oder Browser-Einstellungen.": [
+    "Allow fairvitalgo notifications in your device or browser settings.",
+    "Permite las notificaciones de fairvitalgo en los ajustes del dispositivo o navegador."
   ],
-  "Erinnerungen erscheinen, solange Vital Plus geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App.": [
-    "Reminders appear while Vital Plus is open or the next time you open it. No delivery while the app is closed.",
-    "Los recordatorios aparecen mientras Vital Plus está abierto o al volver a abrirlo. No se entregan con la app cerrada."
+  "Erinnerungen erscheinen, solange fairvitalgo geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App.": [
+    "Reminders appear while fairvitalgo is open or the next time you open it. No delivery while the app is closed.",
+    "Los recordatorios aparecen mientras fairvitalgo está abierto o al volver a abrirlo. No se entregan con la app cerrada."
   ],
   "Stundenverlauf erscheint, sobald Apple Health oder Google Health Connect verbunden ist.": [
     "Hourly trends appear once Apple Health or Google Health Connect is connected.",
     "La evolución por horas aparecerá al conectar Apple Health o Google Health Connect."
   ],
-  "Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt Vital Plus deine selbst eingetragenen Schritte.": [
-    "Apple Health and Google Health Connect are not connected yet. Until then, Vital Plus shows your manually entered steps.",
-    "Apple Health y Google Health Connect aún no están conectados. Hasta entonces, Vital Plus muestra tus pasos introducidos manualmente."
+  "Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt fairvitalgo deine selbst eingetragenen Schritte.": [
+    "Apple Health and Google Health Connect are not connected yet. Until then, fairvitalgo shows your manually entered steps.",
+    "Apple Health y Google Health Connect aún no están conectados. Hasta entonces, fairvitalgo muestra tus pasos introducidos manualmente."
   ],
-  "Vital Plus Startseite": [
-    "Vital Plus homepage",
-    "Página de inicio Vital Plus"
+  "fairvitalgo Startseite": [
+    "fairvitalgo homepage",
+    "Página de inicio fairvitalgo"
   ],
-  "Vital Plus · Schritt": [
-    "Vital Plus · Step",
-    "Vital Plus · Paso"
+  "fairvitalgo · Schritt": [
+    "fairvitalgo · Step",
+    "fairvitalgo · Paso"
   ],
-  "Die offizielle Datenschutzerklärung für Vital Plus wurde noch nicht hinterlegt.": [
-    "Vital Plus’s official privacy policy has not yet been provided.",
-    "La política de privacidad oficial de Vital Plus aún no está disponible."
+  "Die offizielle Datenschutzerklärung für fairvitalgo wurde noch nicht hinterlegt.": [
+    "fairvitalgo’s official privacy policy has not yet been provided.",
+    "La política de privacidad oficial de fairvitalgo aún no está disponible."
   ],
   "Apple Health und Google Health Connect sind noch nicht verbunden. In dieser Web-App ist kein direkter Zugriff verfügbar.": [
     "Apple Health and Google Health Connect are not connected yet. This web app cannot access them directly.",
     "Apple Health y Google Health Connect aún no están conectados. Esta aplicación web no tiene acceso directo."
   ],
-  "Die Nutzungsbedingungen für Vital Plus wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.": [
-    "Vital Plus’s terms have not yet been provided. Purchases take place exclusively in the Fairvital shop.",
-    "Las condiciones de Vital Plus aún no están disponibles. Las compras se realizan exclusivamente en la tienda Fairvital."
+  "Die Nutzungsbedingungen für fairvitalgo wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.": [
+    "fairvitalgo’s terms have not yet been provided. Purchases take place exclusively in the Fairvital shop.",
+    "Las condiciones de fairvitalgo aún no están disponibles. Las compras se realizan exclusivamente en la tienda Fairvital."
   ],
-  "Das offizielle Impressum für Vital Plus wurde noch nicht hinterlegt.": [
-    "Vital Plus’s official legal notice has not yet been provided.",
-    "El aviso legal oficial de Vital Plus aún no está disponible."
+  "Das offizielle Impressum für fairvitalgo wurde noch nicht hinterlegt.": [
+    "fairvitalgo’s official legal notice has not yet been provided.",
+    "El aviso legal oficial de fairvitalgo aún no está disponible."
   ],
-  "Vital Plus verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.": [
-    "Vital Plus uses open-source software including React, TanStack, Radix UI and Lucide. A complete license overview has not yet been provided.",
-    "Vital Plus utiliza software de código abierto como React, TanStack, Radix UI y Lucide. La lista completa de licencias aún no está disponible."
+  "fairvitalgo verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.": [
+    "fairvitalgo uses open-source software including React, TanStack, Radix UI and Lucide. A complete license overview has not yet been provided.",
+    "fairvitalgo utiliza software de código abierto como React, TanStack, Radix UI y Lucide. La lista completa de licencias aún no está disponible."
   ],
-  "Hilf uns, die Vital Plus App zu verbessern.": [
-    "Help us improve the Vital Plus app.",
-    "Ayúdanos a mejorar la aplicación Vital Plus."
+  "Hilf uns, die fairvitalgo App zu verbessern.": [
+    "Help us improve the fairvitalgo app.",
+    "Ayúdanos a mejorar la aplicación fairvitalgo."
   ],
   "Keine Internetverbindung. Anmeldung, Synchronisierung und KI-Funktionen sind erst wieder online verfügbar.": [
     "No internet connection. Sign-in, sync and AI features are available again once you are online.",
@@ -199,9 +199,9 @@
     "Active energy",
     "Energía activa"
   ],
-  "Aktive Energie ist Energie aus Bewegung, Ruheenergie der Grundumsatz, Nahrungsenergie die gegessene Energie. Werte aus Apple Health ändern dein Vital Plus Profil nicht.": [
-    "Active energy is energy from movement, resting energy is your basal metabolism, and dietary energy is the energy you ate. Apple Health values do not change your Vital Plus profile.",
-    "La energía activa procede del movimiento, la energía en reposo es tu metabolismo basal y la energía alimentaria es la que has comido. Los valores de Apple Health no cambian tu perfil de Vital Plus."
+  "Aktive Energie ist Energie aus Bewegung, Ruheenergie der Grundumsatz, Nahrungsenergie die gegessene Energie. Werte aus Apple Health ändern dein fairvitalgo Profil nicht.": [
+    "Active energy is energy from movement, resting energy is your basal metabolism, and dietary energy is the energy you ate. Apple Health values do not change your fairvitalgo profile.",
+    "La energía activa procede del movimiento, la energía en reposo es tu metabolismo basal y la energía alimentaria es la que has comido. Los valores de Apple Health no cambian tu perfil de fairvitalgo."
   ],
   "Apple Health": [
     "Apple Health",
@@ -211,9 +211,9 @@
     "Apple Health is not available on this device.",
     "Apple Health no está disponible en este dispositivo."
   ],
-  "Apple Health ist in der Vital Plus App auf dem iPhone verfügbar.": [
-    "Apple Health is available in the Vital Plus app on iPhone.",
-    "Apple Health está disponible en la app Vital Plus para iPhone."
+  "Apple Health ist in der fairvitalgo App auf dem iPhone verfügbar.": [
+    "Apple Health is available in the fairvitalgo app on iPhone.",
+    "Apple Health está disponible en la app fairvitalgo para iPhone."
   ],
   "Apple Health konnte nicht synchronisiert werden. Bitte versuche es erneut.": [
     "Apple Health could not be synced. Please try again.",
@@ -243,17 +243,17 @@
     "Apple Health data could not be saved on this iPhone.",
     "No se pudieron guardar los datos de Apple Health en este iPhone."
   ],
-  "Daten aus Apple Health bleiben auf diesem iPhone. Sie werden nicht in deinem Vital Plus Konto gespeichert und nicht an KI-Dienste oder Dritte gesendet.": [
-    "Data from Apple Health stays on this iPhone. It is not stored in your Vital Plus account and not sent to AI services or third parties.",
-    "Los datos de Apple Health permanecen en este iPhone. No se guardan en tu cuenta de Vital Plus ni se envían a servicios de IA ni a terceros."
+  "Daten aus Apple Health bleiben auf diesem iPhone. Sie werden nicht in deinem fairvitalgo Konto gespeichert und nicht an KI-Dienste oder Dritte gesendet.": [
+    "Data from Apple Health stays on this iPhone. It is not stored in your fairvitalgo account and not sent to AI services or third parties.",
+    "Los datos de Apple Health permanecen en este iPhone. No se guardan en tu cuenta de fairvitalgo ni se envían a servicios de IA ni a terceros."
   ],
-  "Die Freigabe für Apple Health gilt für dieses iPhone. Lese- und Schreibrechte änderst oder widerrufst du unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus.": [
-    "Apple Health access applies to this iPhone. Change or revoke read and write access in Settings › Privacy & Security › Health › Vital Plus.",
-    "El acceso a Apple Health se aplica a este iPhone. Cambia o revoca los permisos de lectura y escritura en Ajustes › Privacidad y seguridad › Salud › Vital Plus."
+  "Die Freigabe für Apple Health gilt für dieses iPhone. Lese- und Schreibrechte änderst oder widerrufst du unter Einstellungen › Datenschutz & Sicherheit › Health › FairVital Go.": [
+    "Apple Health access applies to this iPhone. Change or revoke read and write access in Settings › Privacy & Security › Health › FairVital Go.",
+    "El acceso a Apple Health se aplica a este iPhone. Cambia o revoca los permisos de lectura y escritura en Ajustes › Privacidad y seguridad › Salud › FairVital Go."
   ],
-  "Du entscheidest in Apple Health, welche Daten Vital Plus lesen darf. Du kannst die Verbindung jederzeit unter Gesundheit ändern.": [
-    "You decide in Apple Health which data Vital Plus may read. You can change the connection at any time under Health.",
-    "Tú decides en Apple Health qué datos puede leer Vital Plus. Puedes cambiar la conexión en cualquier momento en Salud."
+  "Du entscheidest in Apple Health, welche Daten fairvitalgo lesen darf. Du kannst die Verbindung jederzeit unter Gesundheit ändern.": [
+    "You decide in Apple Health which data fairvitalgo may read. You can change the connection at any time under Health.",
+    "Tú decides en Apple Health qué datos puede leer fairvitalgo. Puedes cambiar la conexión en cualquier momento en Salud."
   ],
   "Einige Einträge konnten nicht in Apple Health gespeichert werden.": [
     "Some entries could not be saved to Apple Health.",
@@ -307,17 +307,17 @@
     "Not connected",
     "No conectado"
   ],
-  "Nicht verfügbar: Vital Plus zeichnet noch keine Trainings auf. Aktive Energie wird nie aus Mahlzeiten geschätzt.": [
-    "Not available: Vital Plus does not record workouts yet. Active energy is never estimated from meals.",
-    "No disponible: Vital Plus aún no registra entrenamientos. La energía activa nunca se estima a partir de las comidas."
+  "Nicht verfügbar: fairvitalgo zeichnet noch keine Trainings auf. Aktive Energie wird nie aus Mahlzeiten geschätzt.": [
+    "Not available: fairvitalgo does not record workouts yet. Active energy is never estimated from meals.",
+    "No disponible: fairvitalgo aún no registra entrenamientos. La energía activa nunca se estima a partir de las comidas."
   ],
   "Noch nicht synchronisiert": [
     "Not synced yet",
     "Aún no sincronizado"
   ],
-  "Nur Einträge, die du in Vital Plus machst, ab dem Tag des Einschaltens. Werte aus Apple Health werden nie zurückgeschrieben.": [
-    "Only entries you make in Vital Plus, from the day you turn this on. Values from Apple Health are never written back.",
-    "Solo las entradas que haces en Vital Plus, desde el día en que lo activas. Los valores de Apple Health nunca se vuelven a escribir."
+  "Nur Einträge, die du in fairvitalgo machst, ab dem Tag des Einschaltens. Werte aus Apple Health werden nie zurückgeschrieben.": [
+    "Only entries you make in fairvitalgo, from the day you turn this on. Values from Apple Health are never written back.",
+    "Solo las entradas que haces en fairvitalgo, desde el día en que lo activas. Los valores de Apple Health nunca se vuelven a escribir."
   ],
   "Ruheenergie": [
     "Resting energy",
@@ -331,9 +331,9 @@
     "bpm",
     "lpm"
   ],
-  "Schreiben ist in Apple Health nicht erlaubt. Erlaube es unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus.": [
-    "Writing is not allowed in Apple Health. Allow it in Settings › Privacy & Security › Health › Vital Plus.",
-    "La escritura no está permitida en Apple Health. Permítela en Ajustes › Privacidad y seguridad › Salud › Vital Plus."
+  "Schreiben ist in Apple Health nicht erlaubt. Erlaube es unter Einstellungen › Datenschutz & Sicherheit › Health › FairVital Go.": [
+    "Writing is not allowed in Apple Health. Allow it in Settings › Privacy & Security › Health › FairVital Go.",
+    "La escritura no está permitida en Apple Health. Permítela en Ajustes › Privacidad y seguridad › Salud › FairVital Go."
   ],
   "Std.": [
     "h",
@@ -359,17 +359,13 @@
     "Connected",
     "Conectado"
   ],
-  "Vital Plus kann Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Schlaf sowie aktive und Ruheenergie aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone.": [
-    "Vital Plus can show steps, distance, walking and running speed, heart rate, sleep, and active and resting energy from Apple Health. This data stays on your iPhone.",
-    "Vital Plus puede mostrar pasos, distancia, velocidad al caminar y al correr, frecuencia cardiaca, sueño y energía activa y en reposo de Apple Health. Estos datos permanecen en tu iPhone."
+  "fairvitalgo liest keine Daten aus Apple Health.": [
+    "fairvitalgo does not read any data from Apple Health.",
+    "fairvitalgo no lee ningún dato de Apple Health."
   ],
-  "Vital Plus liest keine Daten aus Apple Health.": [
-    "Vital Plus does not read any data from Apple Health.",
-    "Vital Plus no lee ningún dato de Apple Health."
-  ],
-  "Vital Plus löscht die auf diesem iPhone gespeicherten Apple-Health-Daten und speichert nichts mehr in Apple Health. Bereits gespeicherte Einträge bleiben in Apple Health. Die Berechtigungen widerrufst du in den iPhone-Einstellungen.": [
-    "Vital Plus deletes the Apple Health data stored on this iPhone and stops saving to Apple Health. Entries already saved stay in Apple Health. Revoke the permissions in the iPhone settings.",
-    "Vital Plus borra los datos de Apple Health guardados en este iPhone y deja de guardar en Apple Health. Las entradas ya guardadas permanecen en Apple Health. Revoca los permisos en los ajustes del iPhone."
+  "fairvitalgo löscht die auf diesem iPhone gespeicherten Apple-Health-Daten und speichert nichts mehr in Apple Health. Bereits gespeicherte Einträge bleiben in Apple Health. Die Berechtigungen widerrufst du in den iPhone-Einstellungen.": [
+    "fairvitalgo deletes the Apple Health data stored on this iPhone and stops saving to Apple Health. Entries already saved stay in Apple Health. Revoke the permissions in the iPhone settings.",
+    "fairvitalgo borra los datos de Apple Health guardados en este iPhone y deja de guardar en Apple Health. Las entradas ya guardadas permanecen en Apple Health. Revoca los permisos en los ajustes del iPhone."
   ],
   "Wasser": [
     "Water",
@@ -387,9 +383,9 @@
     "“No data” means Apple Health returned no values. It can also mean that read access is not allowed.",
     "«Sin datos» significa que Apple Health no ha devuelto valores. También puede significar que el acceso de lectura no está permitido."
   ],
-  "Der Vital-Plus-Server ist gerade nicht erreichbar. Deine Internetverbindung ist aktiv – bitte versuche es später erneut.": [
-    "The Vital Plus server can't be reached right now. Your internet connection is working – please try again later.",
-    "El servidor de Vital Plus no está disponible en este momento. Tu conexión a internet funciona: inténtalo de nuevo más tarde."
+  "Der fairvitalgo-Server ist gerade nicht erreichbar. Deine Internetverbindung ist aktiv – bitte versuche es später erneut.": [
+    "The fairvitalgo server can't be reached right now. Your internet connection is working – please try again later.",
+    "El servidor de fairvitalgo no está disponible en este momento. Tu conexión a internet funciona: inténtalo de nuevo más tarde."
   ],
   "Die Auswertung hat zu lange gedauert. Bitte versuche es erneut, gern mit einer kürzeren Aufnahme.": [
     "The analysis took too long. Please try again, ideally with a shorter recording.",
@@ -422,14 +418,6 @@
   "Manuell erfasst": [
     "Entered manually",
     "Introducido manualmente"
-  ],
-  "Manuell korrigiert": [
-    "Corrected manually",
-    "Corregido manualmente"
-  ],
-  "Feld leeren, um wieder den Wert aus Apple Health zu verwenden.": [
-    "Clear the field to use the Apple Health value again.",
-    "Vacía el campo para volver a usar el valor de Apple Health."
   ],
   "Tägliche Messwerte aus Apple Health": [
     "Daily measurements from Apple Health",
@@ -466,6 +454,18 @@
   "km/h": [
     "km/h",
     "km/h"
+  ],
+  "fairvitalgo kann Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Schlaf sowie aktive und Ruheenergie aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone.": [
+    "fairvitalgo can show steps, distance, walking and running speed, heart rate, sleep, and active and resting energy from Apple Health. This data stays on your iPhone.",
+    "fairvitalgo puede mostrar pasos, distancia, velocidad al caminar y al correr, frecuencia cardiaca, sueño y energía activa y en reposo de Apple Health. Estos datos permanecen en tu iPhone."
+  ],
+  "Manuell korrigiert": [
+    "Corrected manually",
+    "Corregido manualmente"
+  ],
+  "Feld leeren, um wieder den Wert aus Apple Health zu verwenden.": [
+    "Clear the field to use the Apple Health value again.",
+    "Vacía el campo para volver a usar el valor de Apple Health."
   ],
   "Datenarten": [
     "Data types",
@@ -507,17 +507,17 @@
     "Request access",
     "Solicitar acceso"
   ],
-  "Vital Plus kann weitere Daten aus Apple Health lesen. Apple Health fragt nur nach Datenarten, über die du noch nicht entschieden hast.": [
-    "Vital Plus can read more data from Apple Health. Apple Health only asks about data types you have not decided on yet.",
-    "Vital Plus puede leer más datos de Apple Health. Apple Health solo pregunta por los tipos de datos sobre los que aún no has decidido."
+  "fairvitalgo kann weitere Daten aus Apple Health lesen. Apple Health fragt nur nach Datenarten, über die du noch nicht entschieden hast.": [
+    "fairvitalgo can read more data from Apple Health. Apple Health only asks about data types you have not decided on yet.",
+    "fairvitalgo puede leer más datos de Apple Health. Apple Health solo pregunta por los tipos de datos sobre los que aún no has decidido."
   ],
-  "„Keine Messwerte“ heißt: Apple Health hat für die letzten 7 Tage nichts geliefert. Entweder zeichnet kein Gerät diese Daten auf, oder das Lesen ist nicht erlaubt. Prüfe den Zugriff unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus.": [
-    "“No measurements” means Apple Health returned nothing for the last 7 days. Either no device records this data, or reading it is not allowed. Check access under Settings › Privacy & Security › Health › Vital Plus.",
-    "«Sin mediciones» significa que Apple Health no ha devuelto nada en los últimos 7 días. O ningún dispositivo registra estos datos, o la lectura no está permitida. Comprueba el acceso en Ajustes › Privacidad y seguridad › Salud › Vital Plus."
+  "„Keine Messwerte“ heißt: Apple Health hat für die letzten 7 Tage nichts geliefert. Entweder zeichnet kein Gerät diese Daten auf, oder das Lesen ist nicht erlaubt. Prüfe den Zugriff unter Einstellungen › Datenschutz & Sicherheit › Health › FairVital Go.": [
+    "“No measurements” means Apple Health returned nothing for the last 7 days. Either no device records this data, or reading it is not allowed. Check access under Settings › Privacy & Security › Health › FairVital Go.",
+    "«Sin mediciones» significa que Apple Health no ha devuelto nada en los últimos 7 días. O ningún dispositivo registra estos datos, o la lectura no está permitida. Comprueba el acceso en Ajustes › Privacidad y seguridad › Salud › FairVital Go."
   ],
-  "Vital Plus aktualisiert die Daten beim Öffnen, beim Zurückkehren in die App und wenn Apple Health neue Werte meldet, solange die App geöffnet ist.": [
-    "Vital Plus updates the data when you open the app, when you return to it, and when Apple Health reports new values while the app is open.",
-    "Vital Plus actualiza los datos al abrir la app, al volver a ella y cuando Apple Health informa de nuevos valores mientras la app está abierta."
+  "fairvitalgo aktualisiert die Daten beim Öffnen, beim Zurückkehren in die App und wenn Apple Health neue Werte meldet, solange die App geöffnet ist.": [
+    "fairvitalgo updates the data when you open the app, when you return to it, and when Apple Health reports new values while the app is open.",
+    "fairvitalgo actualiza los datos al abrir la app, al volver a ella y cuando Apple Health informa de nuevos valores mientras la app está abierta."
   ],
   "Noch keine Schritte für heute.": [
     "No steps today yet.",

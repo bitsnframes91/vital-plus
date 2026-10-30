@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useLanguage } from "@/components/Localized";
-import { LegalSections, PublicLegalPage, validateLegalSearch } from "@/components/PublicLegalPage";
+import { PublicLegalPage, validateLegalSearch } from "@/components/PublicLegalPage";
+import { TermsDocument } from "@/components/TermsDocument";
 import { privacyCopy } from "@/lib/privacy-policy";
 
 // Public privacy policy (App Store Connect "Privacy Policy URL"): the same text the app shows.
@@ -9,12 +10,12 @@ export const Route = createFileRoute("/datenschutz")({
   validateSearch: validateLegalSearch,
   head: () => ({
     meta: [
-      { title: "Datenschutzerklärung — Vital Plus" },
+      { title: "Datenschutzerklärung — fairvitalgo" },
       {
         name: "description",
-        content: "Wie Vital Plus personenbezogene Daten und Gesundheitsdaten verarbeitet.",
+        content: "Wie fairvitalgo personenbezogene Daten und Gesundheitsdaten verarbeitet.",
       },
-      { property: "og:title", content: "Datenschutzerklärung — Vital Plus" },
+      { property: "og:title", content: "Datenschutzerklärung — fairvitalgo" },
       { property: "og:type", content: "website" },
     ],
   }),
@@ -32,8 +33,8 @@ function Privacy() {
   const lang = Route.useSearch().lang ?? appLanguage;
   const copy = privacyCopy[lang];
   return (
-    <PublicLegalPage lang={lang} title={titles[lang]} date={copy.date}>
-      <LegalSections sections={copy.sections} />
+    <PublicLegalPage lang={lang} title={titles[lang]}>
+      <TermsDocument copy={copy} />
     </PublicLegalPage>
   );
 }

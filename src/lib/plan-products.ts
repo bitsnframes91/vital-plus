@@ -46,8 +46,8 @@ export function productForMarker(marker: LabMarker): Product | undefined {
 }
 
 // Offer only catalog matches for a measured value outside range in the product's direction, never for a normal value.
-export function suggestedProducts(plan: { items: unknown[] } | null, labs: LabMarker[]): { marker: LabMarker; product: Product }[] {
-  if (!plan?.items.length) return [];
+// Works for manual entries and uploaded reports alike; the plan argument is kept for call-site compatibility.
+export function suggestedProducts(_plan: { items: unknown[] } | null, labs: LabMarker[]): { marker: LabMarker; product: Product }[] {
   const seen = new Set<string>();
   return labs.flatMap((marker) => {
     const product = productForMarker(marker);

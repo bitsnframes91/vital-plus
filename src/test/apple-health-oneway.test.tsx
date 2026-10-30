@@ -98,7 +98,7 @@ afterEach(() => {
 });
 
 describe("one-way Apple Health data flow", () => {
-  it("reads only incoming measurements and writes only Vital Plus entries", () => {
+  it("reads only incoming measurements and writes only fairvitalgo entries", () => {
     expect([...READ_TYPES].sort()).toEqual([...INCOMING].sort());
     for (const type of OUTGOING) {
       expect(READ_TYPES as readonly string[]).not.toContain(type);

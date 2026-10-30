@@ -5,7 +5,7 @@ import type { User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { publicAppUrl } from "@/lib/native-app";
 
-// Apple identity is confirmed by Apple; only Google keeps Vitalplus's additional link.
+// Apple identity is confirmed by Apple; only Google keeps fairvitalgo's additional link.
 export function needsConfirm(u: Pick<User, "email" | "app_metadata" | "user_metadata"> | null) {
   if (!u?.email) return false;
   const p = u.app_metadata?.provider;

@@ -9,9 +9,9 @@ export const Route = createFileRoute("/impressum")({
   validateSearch: validateLegalSearch,
   head: () => ({
     meta: [
-      { title: "Impressum — Vital Plus" },
-      { name: "description", content: "Anbieterkennzeichnung der App Vital Plus." },
-      { property: "og:title", content: "Impressum — Vital Plus" },
+      { title: "Impressum — fairvitalgo" },
+      { name: "description", content: "Anbieterkennzeichnung der App fairvitalgo." },
+      { property: "og:title", content: "Impressum — fairvitalgo" },
       { property: "og:type", content: "website" },
     ],
   }),

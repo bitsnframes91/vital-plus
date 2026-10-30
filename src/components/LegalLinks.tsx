@@ -4,6 +4,7 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { translateText } from "@/lib/language";
 import { privacyCopy } from "@/lib/privacy-policy";
 import { termsCopy } from "@/lib/terms";
+import { TermsDocument } from "@/components/TermsDocument";
 
 type Doc = "terms" | "privacy";
 
@@ -11,7 +12,7 @@ type Doc = "terms" | "privacy";
 export function LegalLinks({ className = "", prefix = "Mit der Registrierung akzeptierst du die" }: { className?: string; prefix?: string | null }) {
   const language = useLanguage();
   const [doc, setDoc] = useState<Doc | null>(null);
-  const copy = doc === "privacy" ? privacyCopy[language] : termsCopy[language];
+  const privacyDoc = doc === "privacy" ? privacyCopy[language] : null;
   const link = "inline-flex min-h-11 items-center px-1 font-semibold text-foreground underline underline-offset-4";
   return <>
     <p className={`text-center text-xs leading-5 text-muted-foreground ${className}`}>
@@ -23,10 +24,7 @@ export function LegalLinks({ className = "", prefix = "Mit der Registrierung akz
     <Dialog open={doc !== null} onOpenChange={o => { if (!o) setDoc(null); }}>
       <DialogContent className="max-h-[85dvh] max-w-2xl overflow-y-auto rounded-2xl">
         <DialogHeader><DialogTitle>{translateText(doc === "privacy" ? "Datenschutzerklärung" : "Allgemeine Geschäftsbedingungen (AGB)")}</DialogTitle></DialogHeader>
-        <article className="space-y-5 break-words text-sm leading-6">
-          <p className="text-xs text-muted-foreground">{copy.date}</p>
-          {copy.sections.map(([title, text]) => <section key={title}><h2 className="mb-2 font-semibold text-foreground">{title}</h2><p className="text-muted-foreground">{text}</p></section>)}
-        </article>
+        {<TermsDocument copy={privacyDoc ?? termsCopy[language]} />}
       </DialogContent>
     </Dialog>
   </>;

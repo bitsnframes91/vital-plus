@@ -73,6 +73,8 @@ shows Apple Health steps only, without manual entry or "(aus deinem BMI)", and t
 imported-weight line are removed. Changed shared files: `bridge.ts`, `summary.ts`, `metrics.ts`, `AppleHealth.tsx`
 (intro text), `apple-health-translations.json`; page: `gesundheit.tsx`.
 
+The first eight files are the runtime/test synchronization set. No change is needed to `sync.ts`, `device-state.ts`, `export-plan.ts` or `AppleHealthReadings.ts`: they consume the updated shared contract automatically. Retain fairvitalgo spelling and current Gesundheit placement instead of copying the reference provider's branding changes.
+
 ## Manual sleep correction (mobile branch)
 
 Sleep entered on Gesundheit for today now corrects the Apple Health measurement instead of being hidden by it:

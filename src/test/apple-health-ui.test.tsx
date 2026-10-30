@@ -123,7 +123,7 @@ describe("Apple Health availability", () => {
     setHealthBridgeForTests(null);
     render(ui("user-a"));
     expect(
-      screen.getByText("Apple Health ist in der Vital Plus App auf dem iPhone verfügbar."),
+      screen.getByText("Apple Health ist in der fairvitalgo App auf dem iPhone verfügbar."),
     ).toBeInTheDocument();
     expect(screen.queryByText("Apple Health verbinden?")).not.toBeInTheDocument();
   });

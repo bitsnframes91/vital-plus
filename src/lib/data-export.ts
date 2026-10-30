@@ -2,7 +2,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { AccountHealthState } from "./apple-health/device-state";
 import type { AppSettings } from "./app-settings";
 
-// "Meine Daten herunterladen": a readable JSON copy of everything Vital Plus keeps for the signed-in
+// "Meine Daten herunterladen": a readable JSON copy of everything fairvitalgo keeps for the signed-in
 // account, split into what the account stores on the server and what exists only on this device.
 
 export const EXPORT_FORMAT = "vitalplus-meine-daten";
@@ -118,13 +118,13 @@ export function buildDataExport({
   return {
     format: EXPORT_FORMAT,
     formatVersion: EXPORT_FORMAT_VERSION,
-    app: "Vital Plus",
+    app: "fairvitalgo",
     exportedAt: exportedAt.toISOString(),
-    note: "Kopie deiner Vital-Plus-Daten. „server“ ist in deinem Vital-Plus-Konto gespeichert, „device“ nur auf diesem Gerät. Werte sind deine eigenen Eingaben bzw. Schätzungen und keine medizinischen Befunde.",
+    note: "Kopie deiner fairvitalgo-Daten. „server“ ist in deinem fairvitalgo-Konto gespeichert, „device“ nur auf diesem Gerät. Werte sind deine eigenen Eingaben bzw. Schätzungen und keine medizinischen Befunde.",
     account: { email: account.email, userId: account.userId },
     server: {
       description:
-        "In deinem Vital-Plus-Konto gespeichert und zwischen deinen Geräten synchronisiert.",
+        "In deinem fairvitalgo-Konto gespeichert und zwischen deinen Geräten synchronisiert.",
       consentStatus,
       consents: server.consents.map((c) => ({ ...c })),
       healthData:

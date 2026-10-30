@@ -86,7 +86,7 @@ export function PublicLegalPage({
           <h1 className="text-2xl font-bold">{title}</h1>
           {date && <p className="mt-1 text-xs text-muted-foreground">{date}</p>}
         </div>
-        <article className="space-y-5 break-words text-sm leading-6">{children}</article>
+        <div className="space-y-5 break-words text-sm leading-6">{children}</div>
         <footer className="flex flex-wrap gap-x-4 gap-y-1 border-t border-border pt-4 text-sm">
           {pages.map((p) => (
             <Link
@@ -107,19 +107,5 @@ export function PublicLegalPage({
         </footer>
       </main>
     </div>
-  );
-}
-
-/** Numbered sections of the bundled privacy policy or terms. */
-export function LegalSections({ sections }: { sections: readonly (readonly string[])[] }) {
-  return (
-    <>
-      {sections.map(([title, text]) => (
-        <section key={title}>
-          <h2 className="mb-2 font-semibold">{title}</h2>
-          <p className="text-muted-foreground">{text}</p>
-        </section>
-      ))}
-    </>
   );
 }

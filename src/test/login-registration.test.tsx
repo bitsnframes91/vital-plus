@@ -36,9 +36,9 @@ describe("Registration form", () => {
     auth.navigate.mockReset();
   });
 
-  it("shows Vital Plus branding and a swipe-to-register control", async () => {
+  it("shows fairvitalgo branding and a swipe-to-register control", async () => {
     await renderLogin("/login?mode=register");
-    expect(screen.getByText("Vital Plus Konto")).toBeInTheDocument();
+    expect(screen.getByText("fairvitalgo Konto")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Konto anlegen" })).toHaveAttribute("type", "submit");
     expect(screen.getByText("Nach rechts wischen")).toBeInTheDocument();
   });

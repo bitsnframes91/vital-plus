@@ -10,9 +10,9 @@ export const Route = createFileRoute("/uhr")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "Uhr — Vital Plus" },
-      { name: "description", content: "Vital Plus auf der Smartwatch: Tagesziele und Vitamin D auf einen Blick." },
-      { property: "og:title", content: "Uhr — Vital Plus" },
+      { title: "Uhr — fairvitalgo" },
+      { name: "description", content: "fairvitalgo auf der Smartwatch: Tagesziele und Vitamin D auf einen Blick." },
+      { property: "og:title", content: "Uhr — fairvitalgo" },
       { property: "og:description", content: "Glanceable Watch-Screens für Apple Watch und Wear OS." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

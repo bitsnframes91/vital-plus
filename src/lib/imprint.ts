@@ -1,6 +1,6 @@
 /** Verbatim legal text from https://fairvital.com/Impressum. The leading heading names this app and is localized. */
 export const imprintSections = [
-  { title: "Vitalplus von Fairvital", text: `Fairvital B.V.
+  { title: "fairvitalgo von Fairvital", text: `Fairvital B.V.
 
 Eurode Park 1-39, NL-6461 KB Kerkrade
 
@@ -11,40 +11,13 @@ Vertretungsberechtigter Gesellschafter: Manju B.V.
 Registergericht: Kamer von Koophandel Zuid-Limburg
 
 Handelsregisternummer: 14087142` },
-  { title: "Umsatzsteuer-Identifikationsnummern:", text: `NL815372103B01
-
-DE246819800
-
-FR10813883899
-
-IT00196229991
-
-PL5263152365
-
-ESN0030810F
-
-CZ683817988
-
-GB273324707` },
   { text: "Plattform der EU-Kommission zur Online-Streitbeilegung: ", links: [{ label: "https://ec.europa.eu/consumers/odr", href: "https://ec.europa.eu/consumers/odr" }] },
   { text: `Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle weder verpflichtet noch bereit.
 
 Mitglied der Initiative "Fairness im Handel".` },
   { text: "Nähere Informationen: ", links: [{ label: "http://www.fairness-im-handel.de", href: "http://www.fairness-im-handel.de/" }] },
-  { title: "Kontoverbindungen:", text: `(D) Volksbank Mittelhessen
-
-IBAN: DE10 5139 0000 0006 5091 77
-
-BIC: VBMHDE5FXXX
-
-(A) Oberbank
-
-IBAN: AT64 1500 0003 5107 9207
-
-BIC: OBKLAT2LXXX
-
-Kundenservice: Werktags 8:00-16:00:
-+49 2234 2190482` },
+  { text: `Kundenservice (7:00-15:00): +49 2234 2190482 
+` },
   { text: "E-Mail: ", links: [{ label: "info@fairvital.com", href: "mailto:info@fairvital.com", prefix: "" }, { prefix: ", Internet: ", label: "www.fairvital.com", href: "http://www.fairvital.com/" }] },
   { text: 'Mitglied der Initiative "Fairness im Handel".' },
   { text: "Informationen zur Initiative: ", links: [{ label: "fairness-im-handel.de", href: "http://www.fairness-im-handel.de/" }] },

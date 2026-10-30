@@ -20,7 +20,7 @@ import {
 // Keep it in sync with the AI section of src/lib/privacy-policy.ts and the providers in the AI server functions.
 export const AI_NOTICE_TITLE = "KI-Auswertung durch Drittanbieter";
 export const AI_NOTICE = [
-  "Für diese Funktion sendet Vital Plus Inhalte an externe KI-Dienste. Ohne deine Zustimmung wird nichts übertragen.",
+  "Für diese Funktion sendet fairvitalgo Inhalte an externe KI-Dienste. Ohne deine Zustimmung wird nichts übertragen.",
   "Was gesendet wird: je nach Funktion dein Laborbefund (PDF oder Foto) mit deinen zuletzt erfassten Mahlzeiten, dein Essensfoto, deine Sprachaufnahme oder der eingegebene Name einer Mahlzeit. Ein Befund kann persönliche Angaben enthalten, die darauf stehen, z. B. Name und Geburtsdatum. Deine E-Mail-Adresse und Apple-Health-Werte werden nicht gesendet.",
   "An wen: über das KI-Gateway unseres Hosting-Anbieters Lovable an OpenAI (Auswertung von Befunden, Fotos und Mahlzeiten) und Google (Umwandlung von Sprache in Text). Die Verarbeitung kann außerhalb der EU stattfinden, z. B. in den USA.",
   "Wozu: nur um das Ergebnis zu erstellen. Ergebnisse sind Schätzungen und ersetzen keine ärztliche Beratung.",

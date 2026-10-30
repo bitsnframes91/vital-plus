@@ -1,4 +1,8 @@
 {
+  "Die Einheiten im Befund stimmen nicht mit den gespeicherten Werten überein. Bitte prüfe den Befund.": [
+    "The report units do not match the saved values. Please check the report.",
+    "Las unidades del informe no coinciden con los valores guardados. Revisa el informe."
+  ],
   "Essen fotografieren": [
     "Photograph food",
     "Fotografiar comida"
@@ -99,9 +103,9 @@
     "App settings",
     "Ajustes de la app"
   ],
-  "Benachrichtigungen, Sprache, Design": [
-    "Notifications, language, appearance",
-    "Notificaciones, idioma, apariencia"
+  "Benachrichtigungen, Sprache, Erinnerungen": [
+    "Notifications, language, reminders",
+    "Notificaciones, idioma, recordatorios"
   ],
   "Heute": [
     "Today",
@@ -735,6 +739,10 @@
     "Value",
     "Valor"
   ],
+  "Hinweis: fairvitalgo stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.": [
+    "Note: fairvitalgo does not diagnose conditions. Discuss abnormal values with your doctor. Lab integration is coming.",
+    "Nota: fairvitalgo no realiza diagnósticos. Consulta los valores anómalos con tu médico. La conexión de laboratorio llegará próximamente."
+  ],
   "Doppelt tippen zum Ändern": [
     "Double tap to change",
     "Pulsa dos veces para cambiar"
@@ -999,9 +1007,13 @@
     "Terms and conditions, legal notice",
     "Condiciones generales, aviso legal"
   ],
-  "Vitalplus von Fairvital": [
-    "Vitalplus from Fairvital",
-    "Vitalplus de Fairvital"
+  "fairvitalgo von Fairvital": [
+    "fairvitalgo from Fairvital",
+    "fairvitalgo de Fairvital"
+  ],
+  "fairvitalgo Konto": [
+    "fairvitalgo account",
+    "Cuenta fairvitalgo"
   ],
   "Angemeldet als {email}.": [
     "Signed in as {email}.",
@@ -1271,6 +1283,10 @@
     "Close",
     "Cerrar"
   ],
+  "Dein fairvitalgo-Konto – deine Werte auf allen Geräten.": [
+    "Your fairvitalgo account – your values on all devices.",
+    "Tu cuenta fairvitalgo: tus valores en todos tus dispositivos."
+  ],
   "Neu hier": [
     "New here",
     "Soy nuevo"
@@ -1306,6 +1322,10 @@
   "Wir haben dir einen Link zum Zurücksetzen deines Passworts geschickt.": [
     "We sent you a password reset link.",
     "Te enviamos un enlace para restablecer tu contraseña."
+  ],
+  "Lege ein neues Passwort für dein fairvitalgo-Konto fest.": [
+    "Set a new password for your fairvitalgo account.",
+    "Establece una nueva contraseña para tu cuenta fairvitalgo."
   ],
   "Neues Passwort": [
     "New password",
@@ -1386,6 +1406,10 @@
   "Deine Daten, deine Entscheidung.": [
     "Your data, your decision.",
     "Tus datos, tu decisión."
+  ],
+  "Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. fairvitalgo ersetzt keine ärztliche Beratung.": [
+    "I consent to processing my health data for display in the app. fairvitalgo does not replace medical advice.",
+    "Consiento el tratamiento de mis datos de salud para mostrarlos en la aplicación. fairvitalgo no sustituye el consejo médico."
   ],
   "Los geht's": [
     "Let's go",
@@ -1519,13 +1543,17 @@
     "Time to log your meals and drink some water.",
     "Es hora de registrar tus comidas y beber algo de agua."
   ],
-  "Anzeige & Darstellung": [
-    "Display & appearance",
-    "Pantalla y apariencia"
-  ],
   "Alles klar": [
     "Got it",
     "Entendido"
+  ],
+  "Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte fairvitalgo zum Home-Bildschirm hinzufügen.": [
+    "Notifications are not supported here. On iPhone, add fairvitalgo to your home screen.",
+    "Las notificaciones no son compatibles aquí. En iPhone, añade fairvitalgo a tu pantalla de inicio."
+  ],
+  "Bitte erlaube Benachrichtigungen für fairvitalgo in deinen Geräte- oder Browser-Einstellungen.": [
+    "Allow fairvitalgo notifications in your device or browser settings.",
+    "Permite las notificaciones de fairvitalgo en los ajustes del dispositivo o navegador."
   ],
   "Benachrichtigungen konnten nicht aktiviert werden.": [
     "Notifications could not be enabled.",
@@ -1563,14 +1591,6 @@
     "Appearance",
     "Diseño"
   ],
-  "Hell": [
-    "Light",
-    "Claro"
-  ],
-  "Dunkel": [
-    "Dark",
-    "Oscuro"
-  ],
   "Erinnerungen": [
     "Reminders",
     "Recordatorios"
@@ -1578,6 +1598,10 @@
   "Täglich um": [
     "Daily at",
     "Cada día a las"
+  ],
+  "Erinnerungen erscheinen, solange fairvitalgo geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App.": [
+    "Reminders appear while fairvitalgo is open or the next time you open it. No delivery while the app is closed.",
+    "Los recordatorios aparecen mientras fairvitalgo está abierto o al volver a abrirlo. No se entregan con la app cerrada."
   ],
   "Neuer Link wurde gesendet.": [
     "A new link was sent.",
@@ -1602,6 +1626,10 @@
   "Schritte-Ring": [
     "Step ring",
     "Anillo de pasos"
+  ],
+  "Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt fairvitalgo deine selbst eingetragenen Schritte.": [
+    "Apple Health and Google Health Connect are not connected yet. Until then, fairvitalgo shows your manually entered steps.",
+    "Apple Health y Google Health Connect aún no están conectados. Hasta entonces, fairvitalgo muestra tus pasos introducidos manualmente."
   ],
   "Schritte in Gesundheit eintragen →": [
     "Enter steps in Health →",
@@ -1735,6 +1763,10 @@
     "Live healthier. Be happier.",
     "Vive más sano. Sé más feliz."
   ],
+  "fairvitalgo Startseite": [
+    "fairvitalgo homepage",
+    "Página de inicio fairvitalgo"
+  ],
   "Ganzheitliches Leben in Bewegung — Forschung, Sport und Vitalität": [
     "Holistic living in motion — science, sport and vitality",
     "Vida integral en movimiento: ciencia, deporte y vitalidad"
@@ -1811,6 +1843,10 @@
     "e.g. 175",
     "p. ej. 175"
   ],
+  "fairvitalgo · Schritt": [
+    "fairvitalgo · Step",
+    "fairvitalgo · Paso"
+  ],
   "Wähle im Fragebogen, was dir wichtig ist – oder lade deinen Laborbefund hoch. Daraus entstehen dein Plan und deine Tagesziele.": [
     "Choose your questionnaire priorities or upload your lab report to create your plan and daily goals.",
     "Elige tus prioridades en el cuestionario o sube tu informe para crear tu plan y tus objetivos diarios."
@@ -1830,6 +1866,10 @@
   "Konto verwalten": [
     "Manage account",
     "Gestionar cuenta"
+  ],
+  "Die offizielle Datenschutzerklärung für fairvitalgo wurde noch nicht hinterlegt.": [
+    "fairvitalgo’s official privacy policy has not yet been provided.",
+    "La política de privacidad oficial de fairvitalgo aún no está disponible."
   ],
   "Zurück zum Profil": [
     "Back to Profile",
@@ -1851,42 +1891,6 @@
     "Download a copy of your data",
     "Descargar una copia de tus datos"
   ],
-  "Deine Daten werden vorbereitet …": [
-    "Preparing your data …",
-    "Preparando tus datos …"
-  ],
-  "Bitte melde dich an, um deine Daten zu exportieren.": [
-    "Please sign in to export your data.",
-    "Inicia sesión para exportar tus datos."
-  ],
-  "Deine Anmeldung hat sich geändert. Bitte melde dich erneut an und versuche es noch einmal. Es wurde keine Datei erstellt.": [
-    "Your sign-in has changed. Please sign in again and try once more. No file was created.",
-    "Tu sesión ha cambiado. Vuelve a iniciar sesión e inténtalo de nuevo. No se ha creado ningún archivo."
-  ],
-  "Deine Kontodaten konnten nicht geladen werden. Bitte prüfe deine Internetverbindung und versuche es erneut. Es wurde keine Datei erstellt.": [
-    "Your account data could not be loaded. Please check your internet connection and try again. No file was created.",
-    "No se han podido cargar los datos de tu cuenta. Comprueba tu conexión a internet e inténtalo de nuevo. No se ha creado ningún archivo."
-  ],
-  "Für dein Konto sind noch keine Daten gespeichert. Es wurde keine Datei erstellt.": [
-    "No data has been stored for your account yet. No file was created.",
-    "Todavía no hay datos guardados en tu cuenta. No se ha creado ningún archivo."
-  ],
-  "Der Export ist fehlgeschlagen. Es wurde keine Datei gespeichert oder geteilt. Bitte versuche es erneut.": [
-    "The export failed. No file was saved or shared. Please try again.",
-    "La exportación ha fallado. No se ha guardado ni compartido ningún archivo. Inténtalo de nuevo."
-  ],
-  "Export abgebrochen. Es wurde keine Datei gespeichert oder geteilt.": [
-    "Export cancelled. No file was saved or shared.",
-    "Exportación cancelada. No se ha guardado ni compartido ningún archivo."
-  ],
-  "Deine Daten wurden exportiert.": [
-    "Your data has been exported.",
-    "Tus datos se han exportado."
-  ],
-  "Der Download deiner Daten wurde gestartet. Du findest die JSON-Datei in deinem Download-Ordner.": [
-    "The download of your data has started. You will find the JSON file in your downloads folder.",
-    "Se ha iniciado la descarga de tus datos. Encontrarás el archivo JSON en tu carpeta de descargas."
-  ],
   "Alle Daten und dein Konto dauerhaft löschen": [
     "Permanently delete all data and your account",
     "Eliminar permanentemente todos los datos y tu cuenta"
@@ -1899,6 +1903,18 @@
     "Terms and conditions",
     "Condiciones generales"
   ],
+  "Die Nutzungsbedingungen für fairvitalgo wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.": [
+    "fairvitalgo’s terms have not yet been provided. Purchases take place exclusively in the Fairvital shop.",
+    "Las condiciones de fairvitalgo aún no están disponibles. Las compras se realizan exclusivamente en la tienda Fairvital."
+  ],
+  "Das offizielle Impressum für fairvitalgo wurde noch nicht hinterlegt.": [
+    "fairvitalgo’s official legal notice has not yet been provided.",
+    "El aviso legal oficial de fairvitalgo aún no está disponible."
+  ],
+  "fairvitalgo verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.": [
+    "fairvitalgo uses open-source software including React, TanStack, Radix UI and Lucide. A complete license overview has not yet been provided.",
+    "fairvitalgo utiliza software de código abierto como React, TanStack, Radix UI y Lucide. La lista completa de licencias aún no está disponible."
+  ],
   "Zielgewicht in kg": [
     "Target weight in kg",
     "Peso objetivo en kg"
@@ -1910,6 +1926,10 @@
   "Daten herunterladen": [
     "Download data",
     "Descargar datos"
+  ],
+  "Hilf uns, die fairvitalgo App zu verbessern.": [
+    "Help us improve the fairvitalgo app.",
+    "Ayúdanos a mejorar la aplicación fairvitalgo."
   ],
   "Feedback konnte nicht gesendet werden. Bitte später erneut versuchen.": [
     "Unable to send feedback. Try again later.",
@@ -3239,9 +3259,9 @@
     "Other",
     "Otros"
   ],
-  "Ich willige ausdrücklich ein, dass Vitalplus meine Gesundheitsdaten (z. B. Körperdaten, Mahlzeiten, Laborwerte und – falls freigegeben – Apple-Health-Werte) zur Darstellung und Auswertung in der App verarbeitet (Art. 9 Abs. 2 lit. a DSGVO). Apple-Health-Werte bleiben auf meinem Gerät. Ich kann die Einwilligung jederzeit widerrufen. Vitalplus ersetzt keine ärztliche Beratung.": [
-    "I explicitly consent to Vitalplus processing my health data (e.g. body data, meals, lab values and – if shared – Apple Health readings) to display and analyse it in the app (Art. 9(2)(a) GDPR). Apple Health readings stay on my device. I can withdraw this consent at any time. Vitalplus does not replace medical advice.",
-    "Doy mi consentimiento expreso para que Vitalplus trate mis datos de salud (p. ej., datos corporales, comidas, valores de laboratorio y, si los comparto, datos de Apple Health) para mostrarlos y analizarlos en la app (art. 9.2.a RGPD). Los datos de Apple Health permanecen en mi dispositivo. Puedo retirar este consentimiento en cualquier momento. Vitalplus no sustituye el consejo médico."
+  "Ich willige ausdrücklich ein, dass fairvitalgo meine Gesundheitsdaten (z. B. Körperdaten, Mahlzeiten, Laborwerte und – falls freigegeben – Apple-Health-Werte) zur Darstellung und Auswertung in der App verarbeitet (Art. 9 Abs. 2 lit. a DSGVO). Apple-Health-Werte bleiben auf meinem Gerät. Ich kann die Einwilligung jederzeit widerrufen. fairvitalgo ersetzt keine ärztliche Beratung.": [
+    "I explicitly consent to fairvitalgo processing my health data (e.g. body data, meals, lab values and – if shared – Apple Health readings) to display and analyse it in the app (Art. 9(2)(a) GDPR). Apple Health readings stay on my device. I can withdraw this consent at any time. fairvitalgo does not replace medical advice.",
+    "Doy mi consentimiento expreso para que fairvitalgo trate mis datos de salud (p. ej., datos corporales, comidas, valores de laboratorio y, si los comparto, datos de Apple Health) para mostrarlos y analizarlos en la app (art. 9.2.a RGPD). Los datos de Apple Health permanecen en mi dispositivo. Puedo retirar este consentimiento en cualquier momento. fairvitalgo no sustituye el consejo médico."
   ],
   "Mit der Registrierung akzeptierst du die": [
     "By signing up you accept the",
@@ -3271,69 +3291,173 @@
     "Enter the code here. Your account is then active and you go straight to Today.",
     "Introduce el código aquí. Tu cuenta quedará activa y pasarás directamente a Hoy."
   ],
-  "Hinweis: Vital Plus stellt keine Diagnosen. Bitte besprich auffällige Werte mit deiner Ärztin oder deinem Arzt. Labor-Anbindung folgt.": [
-    "Note: Vital Plus does not diagnose conditions. Discuss abnormal values with your doctor. Lab integration is coming.",
-    "Nota: Vital Plus no realiza diagnósticos. Consulta los valores anómalos con tu médico. La conexión de laboratorio llegará próximamente."
+  "Einwilligung widerrufen": [
+    "Consent withdrawn",
+    "Consentimiento retirado"
   ],
-  "Vital Plus Konto": [
-    "Vital Plus account",
-    "Cuenta Vital Plus"
+  "Deine Einwilligung ist nötig": [
+    "Your consent is required",
+    "Necesitamos tu consentimiento"
   ],
-  "Dein Vital-Plus-Konto – deine Werte auf allen Geräten.": [
-    "Your Vital Plus account – your values on all devices.",
-    "Tu cuenta Vital Plus: tus valores en todos tus dispositivos."
+  "Du hast die Verarbeitung deiner Gesundheitsdaten widerrufen. Diese Bereiche sind pausiert, bis du erneut einwilligst.": [
+    "You withdrew consent to processing your health data. These areas are paused until you consent again.",
+    "Has retirado el consentimiento para tratar tus datos de salud. Estas secciones están en pausa hasta que vuelvas a consentir."
   ],
-  "Lege ein neues Passwort für dein Vital-Plus-Konto fest.": [
-    "Set a new password for your Vital Plus account.",
-    "Establece una nueva contraseña para tu cuenta Vital Plus."
+  "Um Gesundheitsfunktionen zu nutzen, brauchen wir deine ausdrückliche Einwilligung zur aktuellen Datenschutzerklärung.": [
+    "To use health features we need your explicit consent under the current privacy policy.",
+    "Para usar las funciones de salud necesitamos tu consentimiento expreso según la política de privacidad actual."
   ],
-  "Ich willige ein, dass meine Gesundheitsdaten zur Darstellung in der App verarbeitet werden. Vital Plus ersetzt keine ärztliche Beratung.": [
-    "I consent to processing my health data for display in the app. Vital Plus does not replace medical advice.",
-    "Consiento el tratamiento de mis datos de salud para mostrarlos en la aplicación. Vital Plus no sustituye el consejo médico."
+  "Einwilligen": [
+    "I consent",
+    "Doy mi consentimiento"
   ],
-  "Benachrichtigungen werden hier nicht unterstützt. Auf dem iPhone bitte Vital Plus zum Home-Bildschirm hinzufügen.": [
-    "Notifications are not supported here. On iPhone, add Vital Plus to your home screen.",
-    "Las notificaciones no son compatibles aquí. En iPhone, añade Vital Plus a tu pantalla de inicio."
+  "Zum Profil (Konto, Daten, Löschen)": [
+    "Go to Profile (account, data, deletion)",
+    "Ir al perfil (cuenta, datos, eliminación)"
   ],
-  "Bitte erlaube Benachrichtigungen für Vital Plus in deinen Geräte- oder Browser-Einstellungen.": [
-    "Allow Vital Plus notifications in your device or browser settings.",
-    "Permite las notificaciones de Vital Plus en los ajustes del dispositivo o navegador."
+  "Speichern nicht möglich. Bitte versuche es erneut.": [
+    "Could not save. Please try again.",
+    "No se pudo guardar. Inténtalo de nuevo."
   ],
-  "Erinnerungen erscheinen, solange Vital Plus geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App.": [
-    "Reminders appear while Vital Plus is open or the next time you open it. No delivery while the app is closed.",
-    "Los recordatorios aparecen mientras Vital Plus está abierto o al volver a abrirlo. No se entregan con la app cerrada."
+  "Einwilligung zu Gesundheitsdaten": [
+    "Health data consent",
+    "Consentimiento de datos de salud"
   ],
-  "Apple Health und Google Health Connect sind noch nicht verbunden. Bis dahin zeigt Vital Plus deine selbst eingetragenen Schritte.": [
-    "Apple Health and Google Health Connect are not connected yet. Until then, Vital Plus shows your manually entered steps.",
-    "Apple Health y Google Health Connect aún no están conectados. Hasta entonces, Vital Plus muestra tus pasos introducidos manualmente."
+  "Ein Widerruf löscht dein Konto nicht. KI-Auswertungen und das Speichern von Gesundheitsdaten werden gestoppt.": [
+    "Withdrawing does not delete your account. AI analyses and storing health data stop.",
+    "Retirarlo no elimina tu cuenta. Se detienen los análisis de IA y el guardado de datos de salud."
   ],
-  "Vital Plus Startseite": [
-    "Vital Plus homepage",
-    "Página de inicio Vital Plus"
+  "Widerrufen, Daten behalten": [
+    "Withdraw, keep data",
+    "Retirar, conservar datos"
   ],
-  "Vital Plus · Schritt": [
-    "Vital Plus · Step",
-    "Vital Plus · Paso"
+  "Widerrufen und Gesundheitsdaten löschen": [
+    "Withdraw and delete health data",
+    "Retirar y eliminar datos de salud"
   ],
-  "Die offizielle Datenschutzerklärung für Vital Plus wurde noch nicht hinterlegt.": [
-    "Vital Plus’s official privacy policy has not yet been provided.",
-    "La política de privacidad oficial de Vital Plus aún no está disponible."
+  "Widerruf nicht möglich. Bitte versuche es erneut.": [
+    "Withdrawal failed. Please try again.",
+    "No se pudo retirar. Inténtalo de nuevo."
   ],
-  "Die Nutzungsbedingungen für Vital Plus wurden noch nicht hinterlegt. Käufe erfolgen ausschließlich im Fairvital-Shop.": [
-    "Vital Plus’s terms have not yet been provided. Purchases take place exclusively in the Fairvital shop.",
-    "Las condiciones de Vital Plus aún no están disponibles. Las compras se realizan exclusivamente en la tienda Fairvital."
+  "Einwilligung widerrufen und gespeicherte Gesundheitsdaten löschen?": [
+    "Withdraw consent and delete stored health data?",
+    "¿Retirar el consentimiento y eliminar los datos de salud guardados?"
   ],
-  "Das offizielle Impressum für Vital Plus wurde noch nicht hinterlegt.": [
-    "Vital Plus’s official legal notice has not yet been provided.",
-    "El aviso legal oficial de Vital Plus aún no está disponible."
+  "Einwilligung widerrufen? Deine gespeicherten Daten bleiben erhalten, werden aber nicht mehr verarbeitet.": [
+    "Withdraw consent? Your stored data is kept but no longer processed.",
+    "¿Retirar el consentimiento? Tus datos se conservan pero ya no se tratan."
   ],
-  "Vital Plus verwendet Open-Source-Software, darunter React, TanStack, Radix UI und Lucide. Eine vollständige Lizenzübersicht wurde noch nicht hinterlegt.": [
-    "Vital Plus uses open-source software including React, TanStack, Radix UI and Lucide. A complete license overview has not yet been provided.",
-    "Vital Plus utiliza software de código abierto como React, TanStack, Radix UI y Lucide. La lista completa de licencias aún no está disponible."
+  "Bitte erteile zuerst deine Einwilligung zur Verarbeitung von Gesundheitsdaten.": [
+    "Please first consent to processing of health data.",
+    "Primero da tu consentimiento para el tratamiento de datos de salud."
   ],
-  "Hilf uns, die Vital Plus App zu verbessern.": [
-    "Help us improve the Vital Plus app.",
-    "Ayúdanos a mejorar la aplicación Vital Plus."
+  "Zu viele Anfragen. Bitte warte eine Minute.": [
+    "Too many requests. Please wait a minute.",
+    "Demasiadas solicitudes. Espera un minuto."
+  ],
+  "Tageslimit für KI-Auswertungen erreicht. Morgen geht es weiter.": [
+    "Daily AI analysis limit reached. Try again tomorrow.",
+    "Límite diario de análisis de IA alcanzado. Vuelve mañana."
+  ],
+  "Konto konnte nicht vollständig gelöscht werden. Bitte versuche es erneut.": [
+    "Account could not be fully deleted. Please try again.",
+    "No se pudo eliminar la cuenta por completo. Inténtalo de nuevo."
+  ],
+  "Deine Gesundheitsdaten werden gerade nicht gespeichert": [
+    "Your health data is not being saved right now",
+    "Tus datos de salud no se están guardando en este momento"
+  ],
+  "Ohne deine Einwilligung zur Verarbeitung von Gesundheitsdaten sichern wir Änderungen nur auf diesem Gerät. Sobald du einwilligst, werden sie automatisch in deinem Konto gespeichert.": [
+    "Without your consent to process health data, changes are kept on this device only. As soon as you consent, they are saved to your account automatically.",
+    "Sin tu consentimiento para tratar datos de salud, los cambios solo se guardan en este dispositivo. En cuanto des tu consentimiento, se guardarán automáticamente en tu cuenta."
+  ],
+  "Einwilligung erteilen →": [
+    "Give consent →",
+    "Dar consentimiento →"
+  ],
+  "Kein Code erhalten oder schon ein Konto?": [
+    "No code received or already have an account?",
+    "¿No has recibido el código o ya tienes una cuenta?"
+  ],
+  "Zur Anmeldung": [
+    "Go to sign in",
+    "Ir a iniciar sesión"
+  ],
+  "Ein Code wurde gerade erst gesendet. Bitte warte 60 Sekunden und versuche es dann erneut – oder nutze den letzten Code aus deinem Postfach.": [
+    "A code was just sent. Please wait 60 seconds and try again – or use the latest code in your inbox.",
+    "Se acaba de enviar un código. Espera 60 segundos e inténtalo de nuevo, o usa el último código de tu bandeja de entrada."
+  ],
+  "Das Löschen wurde bestätigt, aber noch nicht abgeschlossen. Bitte tippe erneut auf „Konto endgültig löschen“.": [
+    "Deletion was confirmed but is not finished yet. Please tap “Delete account permanently” again.",
+    "La eliminación se confirmó, pero aún no ha terminado. Vuelve a pulsar «Eliminar cuenta permanentemente»."
+  ],
+  "Zu viele falsche Versuche. Bitte fordere einen neuen Code an.": [
+    "Too many wrong attempts. Please request a new code.",
+    "Demasiados intentos fallidos. Solicita un nuevo código."
+  ],
+  "Löschen nicht möglich. Bitte versuche es erneut.": [
+    "Deletion not possible. Please try again.",
+    "No se puede eliminar. Inténtalo de nuevo."
+  ],
+  "DSGVO": [
+    "GDPR",
+    "RGPD"
+  ],
+  "Datenschutz": [
+    "Data protection",
+    "Protección de datos"
+  ],
+  "Deine Gesundheit. Deine Daten. Deine Privatsphäre.": [
+    "Your health. Your data. Your privacy.",
+    "Tu salud. Tus datos. Tu privacidad."
+  ],
+  "Wir setzen auf die strengen Datenschutzstandards der DSGVO, eine sichere Datenverarbeitung und maximale Transparenz. Deine Daten gehören dir: Kein Datenverkauf, keine Nutzung für fremde Werbung und volle Kontrolle über deine persönlichen Informationen. Du kannst jederzeit die Löschung deiner Daten veranlassen.": [
+    "We follow the strict data-protection standards of the GDPR, secure data processing and maximum transparency. Your data belongs to you: no sale of data, no use for third-party advertising and full control over your personal information. You can request the deletion of your data at any time.",
+    "Seguimos los estrictos estándares de protección de datos del RGPD, un tratamiento seguro de la información y la máxima transparencia. Tus datos son tuyos: ninguna venta de datos, ningún uso para publicidad de terceros y control total sobre tu información personal. Puedes solicitar la eliminación de tus datos en cualquier momento."
+  ],
+  "Wert gespeichert. Dein Plan wurde aktualisiert.": [
+    "Value saved. Your plan has been updated.",
+    "Valor guardado. Tu plan se ha actualizado."
+  ],
+  "Wert gespeichert, aber der Plan konnte nicht aktualisiert werden.": [
+    "Value saved, but the plan could not be updated.",
+    "Valor guardado, pero no se pudo actualizar el plan."
+  ],
+  "Deine Daten werden vorbereitet …": [
+    "Preparing your data …",
+    "Preparando tus datos …"
+  ],
+  "Bitte melde dich an, um deine Daten zu exportieren.": [
+    "Please sign in to export your data.",
+    "Inicia sesión para exportar tus datos."
+  ],
+  "Deine Anmeldung hat sich geändert. Bitte melde dich erneut an und versuche es noch einmal. Es wurde keine Datei erstellt.": [
+    "Your sign-in has changed. Please sign in again and try once more. No file was created.",
+    "Tu sesión ha cambiado. Vuelve a iniciar sesión e inténtalo de nuevo. No se ha creado ningún archivo."
+  ],
+  "Deine Kontodaten konnten nicht geladen werden. Bitte prüfe deine Internetverbindung und versuche es erneut. Es wurde keine Datei erstellt.": [
+    "Your account data could not be loaded. Please check your internet connection and try again. No file was created.",
+    "No se han podido cargar los datos de tu cuenta. Comprueba tu conexión a internet e inténtalo de nuevo. No se ha creado ningún archivo."
+  ],
+  "Für dein Konto sind noch keine Daten gespeichert. Es wurde keine Datei erstellt.": [
+    "No data has been stored for your account yet. No file was created.",
+    "Todavía no hay datos guardados en tu cuenta. No se ha creado ningún archivo."
+  ],
+  "Der Export ist fehlgeschlagen. Es wurde keine Datei gespeichert oder geteilt. Bitte versuche es erneut.": [
+    "The export failed. No file was saved or shared. Please try again.",
+    "La exportación ha fallado. No se ha guardado ni compartido ningún archivo. Inténtalo de nuevo."
+  ],
+  "Export abgebrochen. Es wurde keine Datei gespeichert oder geteilt.": [
+    "Export cancelled. No file was saved or shared.",
+    "Exportación cancelada. No se ha guardado ni compartido ningún archivo."
+  ],
+  "Deine Daten wurden exportiert.": [
+    "Your data has been exported.",
+    "Tus datos se han exportado."
+  ],
+  "Der Download deiner Daten wurde gestartet. Du findest die JSON-Datei in deinem Download-Ordner.": [
+    "The download of your data has started. You will find the JSON file in your downloads folder.",
+    "Se ha iniciado la descarga de tus datos. Encontrarás el archivo JSON en tu carpeta de descargas."
   ],
   "Keine Internetverbindung. Anmeldung, Synchronisierung und KI-Funktionen sind erst wieder online verfügbar.": [
     "No internet connection. Sign-in, sync and AI features are available again once you are online.",
@@ -3455,9 +3579,9 @@
     "Active energy",
     "Energía activa"
   ],
-  "Aktive Energie ist Energie aus Bewegung, Ruheenergie der Grundumsatz, Nahrungsenergie die gegessene Energie. Werte aus Apple Health ändern dein Vital Plus Profil nicht.": [
-    "Active energy is energy from movement, resting energy is your basal metabolism, and dietary energy is the energy you ate. Apple Health values do not change your Vital Plus profile.",
-    "La energía activa procede del movimiento, la energía en reposo es tu metabolismo basal y la energía alimentaria es la que has comido. Los valores de Apple Health no cambian tu perfil de Vital Plus."
+  "Aktive Energie ist Energie aus Bewegung, Ruheenergie der Grundumsatz, Nahrungsenergie die gegessene Energie. Werte aus Apple Health ändern dein fairvitalgo Profil nicht.": [
+    "Active energy is energy from movement, resting energy is your basal metabolism, and dietary energy is the energy you ate. Apple Health values do not change your fairvitalgo profile.",
+    "La energía activa procede del movimiento, la energía en reposo es tu metabolismo basal y la energía alimentaria es la que has comido. Los valores de Apple Health no cambian tu perfil de fairvitalgo."
   ],
   "Apple Health": [
     "Apple Health",
@@ -3467,9 +3591,9 @@
     "Apple Health is not available on this device.",
     "Apple Health no está disponible en este dispositivo."
   ],
-  "Apple Health ist in der Vital Plus App auf dem iPhone verfügbar.": [
-    "Apple Health is available in the Vital Plus app on iPhone.",
-    "Apple Health está disponible en la app Vital Plus para iPhone."
+  "Apple Health ist in der fairvitalgo App auf dem iPhone verfügbar.": [
+    "Apple Health is available in the fairvitalgo app on iPhone.",
+    "Apple Health está disponible en la app fairvitalgo para iPhone."
   ],
   "Apple Health konnte nicht synchronisiert werden. Bitte versuche es erneut.": [
     "Apple Health could not be synced. Please try again.",
@@ -3499,17 +3623,17 @@
     "Apple Health data could not be saved on this iPhone.",
     "No se pudieron guardar los datos de Apple Health en este iPhone."
   ],
-  "Daten aus Apple Health bleiben auf diesem iPhone. Sie werden nicht in deinem Vital Plus Konto gespeichert und nicht an KI-Dienste oder Dritte gesendet.": [
-    "Data from Apple Health stays on this iPhone. It is not stored in your Vital Plus account and not sent to AI services or third parties.",
-    "Los datos de Apple Health permanecen en este iPhone. No se guardan en tu cuenta de Vital Plus ni se envían a servicios de IA ni a terceros."
+  "Daten aus Apple Health bleiben auf diesem iPhone. Sie werden nicht in deinem fairvitalgo Konto gespeichert und nicht an KI-Dienste oder Dritte gesendet.": [
+    "Data from Apple Health stays on this iPhone. It is not stored in your fairvitalgo account and not sent to AI services or third parties.",
+    "Los datos de Apple Health permanecen en este iPhone. No se guardan en tu cuenta de fairvitalgo ni se envían a servicios de IA ni a terceros."
   ],
-  "Die Freigabe für Apple Health gilt für dieses iPhone. Lese- und Schreibrechte änderst oder widerrufst du unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus.": [
-    "Apple Health access applies to this iPhone. Change or revoke read and write access in Settings › Privacy & Security › Health › Vital Plus.",
-    "El acceso a Apple Health se aplica a este iPhone. Cambia o revoca los permisos de lectura y escritura en Ajustes › Privacidad y seguridad › Salud › Vital Plus."
+  "Die Freigabe für Apple Health gilt für dieses iPhone. Lese- und Schreibrechte änderst oder widerrufst du unter Einstellungen › Datenschutz & Sicherheit › Health › FairVital Go.": [
+    "Apple Health access applies to this iPhone. Change or revoke read and write access in Settings › Privacy & Security › Health › FairVital Go.",
+    "El acceso a Apple Health se aplica a este iPhone. Cambia o revoca los permisos de lectura y escritura en Ajustes › Privacidad y seguridad › Salud › FairVital Go."
   ],
-  "Du entscheidest in Apple Health, welche Daten Vital Plus lesen darf. Du kannst die Verbindung jederzeit unter Profil › Gesundheitsprofil bearbeiten ändern.": [
-    "You decide in Apple Health which data Vital Plus may read. You can change the connection at any time under Profile › Edit health profile.",
-    "Tú decides en Apple Health qué datos puede leer Vital Plus. Puedes cambiar la conexión en cualquier momento en Perfil › Editar perfil de salud."
+  "Du entscheidest in Apple Health, welche Daten fairvitalgo lesen darf. Du kannst die Verbindung jederzeit unter Profil › Gesundheitsprofil bearbeiten ändern.": [
+    "You decide in Apple Health which data fairvitalgo may read. You can change the connection at any time under Profile › Edit health profile.",
+    "Tú decides en Apple Health qué datos puede leer fairvitalgo. Puedes cambiar la conexión en cualquier momento en Perfil › Editar perfil de salud."
   ],
   "Einige Einträge konnten nicht in Apple Health gespeichert werden.": [
     "Some entries could not be saved to Apple Health.",
@@ -3563,17 +3687,17 @@
     "Not connected",
     "No conectado"
   ],
-  "Nicht verfügbar: Vital Plus zeichnet noch keine Trainings auf. Aktive Energie wird nie aus Mahlzeiten geschätzt.": [
-    "Not available: Vital Plus does not record workouts yet. Active energy is never estimated from meals.",
-    "No disponible: Vital Plus aún no registra entrenamientos. La energía activa nunca se estima a partir de las comidas."
+  "Nicht verfügbar: fairvitalgo zeichnet noch keine Trainings auf. Aktive Energie wird nie aus Mahlzeiten geschätzt.": [
+    "Not available: fairvitalgo does not record workouts yet. Active energy is never estimated from meals.",
+    "No disponible: fairvitalgo aún no registra entrenamientos. La energía activa nunca se estima a partir de las comidas."
   ],
   "Noch nicht synchronisiert": [
     "Not synced yet",
     "Aún no sincronizado"
   ],
-  "Nur Einträge, die du in Vital Plus machst, ab dem Tag des Einschaltens. Werte aus Apple Health werden nie zurückgeschrieben.": [
-    "Only entries you make in Vital Plus, from the day you turn this on. Values from Apple Health are never written back.",
-    "Solo las entradas que haces en Vital Plus, desde el día en que lo activas. Los valores de Apple Health nunca se vuelven a escribir."
+  "Nur Einträge, die du in fairvitalgo machst, ab dem Tag des Einschaltens. Werte aus Apple Health werden nie zurückgeschrieben.": [
+    "Only entries you make in fairvitalgo, from the day you turn this on. Values from Apple Health are never written back.",
+    "Solo las entradas que haces en fairvitalgo, desde el día en que lo activas. Los valores de Apple Health nunca se vuelven a escribir."
   ],
   "Ruheenergie": [
     "Resting energy",
@@ -3587,9 +3711,9 @@
     "bpm",
     "lpm"
   ],
-  "Schreiben ist in Apple Health nicht erlaubt. Erlaube es unter Einstellungen › Datenschutz & Sicherheit › Health › Vital Plus.": [
-    "Writing is not allowed in Apple Health. Allow it in Settings › Privacy & Security › Health › Vital Plus.",
-    "La escritura no está permitida en Apple Health. Permítela en Ajustes › Privacidad y seguridad › Salud › Vital Plus."
+  "Schreiben ist in Apple Health nicht erlaubt. Erlaube es unter Einstellungen › Datenschutz & Sicherheit › Health › FairVital Go.": [
+    "Writing is not allowed in Apple Health. Allow it in Settings › Privacy & Security › Health › FairVital Go.",
+    "La escritura no está permitida en Apple Health. Permítela en Ajustes › Privacidad y seguridad › Salud › FairVital Go."
   ],
   "Std.": [
     "h",
@@ -3615,17 +3739,17 @@
     "Connected",
     "Conectado"
   ],
-  "Vital Plus kann Schritte, Herzfrequenz, Gewicht, Schlaf, Energie und Wasser aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone.": [
-    "Vital Plus can show steps, heart rate, weight, sleep, energy and water from Apple Health. This data stays on your iPhone.",
-    "Vital Plus puede mostrar pasos, frecuencia cardiaca, peso, sueño, energía y agua de Apple Health. Estos datos permanecen en tu iPhone."
+  "fairvitalgo kann Schritte, Herzfrequenz, Gewicht, Schlaf, Energie und Wasser aus Apple Health anzeigen. Diese Daten bleiben auf deinem iPhone.": [
+    "fairvitalgo can show steps, heart rate, weight, sleep, energy and water from Apple Health. This data stays on your iPhone.",
+    "fairvitalgo puede mostrar pasos, frecuencia cardiaca, peso, sueño, energía y agua de Apple Health. Estos datos permanecen en tu iPhone."
   ],
-  "Vital Plus liest keine Daten aus Apple Health.": [
-    "Vital Plus does not read any data from Apple Health.",
-    "Vital Plus no lee ningún dato de Apple Health."
+  "fairvitalgo liest keine Daten aus Apple Health.": [
+    "fairvitalgo does not read any data from Apple Health.",
+    "fairvitalgo no lee ningún dato de Apple Health."
   ],
-  "Vital Plus löscht die auf diesem iPhone gespeicherten Apple-Health-Daten und speichert nichts mehr in Apple Health. Bereits gespeicherte Einträge bleiben in Apple Health. Die Berechtigungen widerrufst du in den iPhone-Einstellungen.": [
-    "Vital Plus deletes the Apple Health data stored on this iPhone and stops saving to Apple Health. Entries already saved stay in Apple Health. Revoke the permissions in the iPhone settings.",
-    "Vital Plus borra los datos de Apple Health guardados en este iPhone y deja de guardar en Apple Health. Las entradas ya guardadas permanecen en Apple Health. Revoca los permisos en los ajustes del iPhone."
+  "fairvitalgo löscht die auf diesem iPhone gespeicherten Apple-Health-Daten und speichert nichts mehr in Apple Health. Bereits gespeicherte Einträge bleiben in Apple Health. Die Berechtigungen widerrufst du in den iPhone-Einstellungen.": [
+    "fairvitalgo deletes the Apple Health data stored on this iPhone and stops saving to Apple Health. Entries already saved stay in Apple Health. Revoke the permissions in the iPhone settings.",
+    "fairvitalgo borra los datos de Apple Health guardados en este iPhone y deja de guardar en Apple Health. Las entradas ya guardadas permanecen en Apple Health. Revoca los permisos en los ajustes del iPhone."
   ],
   "Wasser": [
     "Water",
@@ -3643,9 +3767,9 @@
     "“No data” means Apple Health returned no values. It can also mean that read access is not allowed.",
     "«Sin datos» significa que Apple Health no ha devuelto valores. También puede significar que el acceso de lectura no está permitido."
   ],
-  "Der Vital-Plus-Server ist gerade nicht erreichbar. Deine Internetverbindung ist aktiv – bitte versuche es später erneut.": [
-    "The Vital Plus server can't be reached right now. Your internet connection is working – please try again later.",
-    "El servidor de Vital Plus no está disponible en este momento. Tu conexión a internet funciona: inténtalo de nuevo más tarde."
+  "Der fairvitalgo-Server ist gerade nicht erreichbar. Deine Internetverbindung ist aktiv – bitte versuche es später erneut.": [
+    "The fairvitalgo server can't be reached right now. Your internet connection is working – please try again later.",
+    "El servidor de fairvitalgo no está disponible en este momento. Tu conexión a internet funciona: inténtalo de nuevo más tarde."
   ],
   "Die Auswertung hat zu lange gedauert. Bitte versuche es erneut, gern mit einer kürzeren Aufnahme.": [
     "The analysis took too long. Please try again, ideally with a shorter recording.",
@@ -3675,78 +3799,6 @@
     "Voice analysis failed. Please try again.",
     "El análisis de voz falló. Inténtalo de nuevo."
   ],
-  "Einwilligung widerrufen": [
-    "Consent withdrawn",
-    "Consentimiento retirado"
-  ],
-  "Deine Einwilligung ist nötig": [
-    "Your consent is required",
-    "Necesitamos tu consentimiento"
-  ],
-  "Du hast die Verarbeitung deiner Gesundheitsdaten widerrufen. Diese Bereiche sind pausiert, bis du erneut einwilligst.": [
-    "You withdrew consent to processing your health data. These areas are paused until you consent again.",
-    "Has retirado el consentimiento para tratar tus datos de salud. Estas secciones están en pausa hasta que vuelvas a consentir."
-  ],
-  "Um Gesundheitsfunktionen zu nutzen, brauchen wir deine ausdrückliche Einwilligung zur aktuellen Datenschutzerklärung.": [
-    "To use health features we need your explicit consent under the current privacy policy.",
-    "Para usar las funciones de salud necesitamos tu consentimiento expreso según la política de privacidad actual."
-  ],
-  "Einwilligen": [
-    "I consent",
-    "Doy mi consentimiento"
-  ],
-  "Zum Profil (Konto, Daten, Löschen)": [
-    "Go to Profile (account, data, deletion)",
-    "Ir al perfil (cuenta, datos, eliminación)"
-  ],
-  "Speichern nicht möglich. Bitte versuche es erneut.": [
-    "Could not save. Please try again.",
-    "No se pudo guardar. Inténtalo de nuevo."
-  ],
-  "Einwilligung zu Gesundheitsdaten": [
-    "Health data consent",
-    "Consentimiento de datos de salud"
-  ],
-  "Ein Widerruf löscht dein Konto nicht. KI-Auswertungen und das Speichern von Gesundheitsdaten werden gestoppt.": [
-    "Withdrawing does not delete your account. AI analyses and storing health data stop.",
-    "Retirarlo no elimina tu cuenta. Se detienen los análisis de IA y el guardado de datos de salud."
-  ],
-  "Widerrufen, Daten behalten": [
-    "Withdraw, keep data",
-    "Retirar, conservar datos"
-  ],
-  "Widerrufen und Gesundheitsdaten löschen": [
-    "Withdraw and delete health data",
-    "Retirar y eliminar datos de salud"
-  ],
-  "Widerruf nicht möglich. Bitte versuche es erneut.": [
-    "Withdrawal failed. Please try again.",
-    "No se pudo retirar. Inténtalo de nuevo."
-  ],
-  "Einwilligung widerrufen und gespeicherte Gesundheitsdaten löschen?": [
-    "Withdraw consent and delete stored health data?",
-    "¿Retirar el consentimiento y eliminar los datos de salud guardados?"
-  ],
-  "Einwilligung widerrufen? Deine gespeicherten Daten bleiben erhalten, werden aber nicht mehr verarbeitet.": [
-    "Withdraw consent? Your stored data is kept but no longer processed.",
-    "¿Retirar el consentimiento? Tus datos se conservan pero ya no se tratan."
-  ],
-  "Bitte erteile zuerst deine Einwilligung zur Verarbeitung von Gesundheitsdaten.": [
-    "Please first consent to processing of health data.",
-    "Primero da tu consentimiento para el tratamiento de datos de salud."
-  ],
-  "Zu viele Anfragen. Bitte warte eine Minute.": [
-    "Too many requests. Please wait a minute.",
-    "Demasiadas solicitudes. Espera un minuto."
-  ],
-  "Tageslimit für KI-Auswertungen erreicht. Morgen geht es weiter.": [
-    "Daily AI analysis limit reached. Try again tomorrow.",
-    "Límite diario de análisis de IA alcanzado. Vuelve mañana."
-  ],
-  "Konto konnte nicht vollständig gelöscht werden. Bitte versuche es erneut.": [
-    "Account could not be fully deleted. Please try again.",
-    "No se pudo eliminar la cuenta por completo. Inténtalo de nuevo."
-  ],
   "Konto konnte nicht gelöscht werden. Bitte versuche es erneut.": [
     "Your account could not be deleted. Please try again.",
     "No se ha podido eliminar tu cuenta. Inténtalo de nuevo."
@@ -3754,42 +3806,6 @@
   "Die KI-Funktion ist gerade nicht verfügbar.": [
     "The AI feature is currently unavailable.",
     "La función de IA no está disponible en este momento."
-  ],
-  "Deine Gesundheitsdaten werden gerade nicht gespeichert": [
-    "Your health data is not being saved right now",
-    "Tus datos de salud no se están guardando en este momento"
-  ],
-  "Ohne deine Einwilligung zur Verarbeitung von Gesundheitsdaten sichern wir Änderungen nur auf diesem Gerät. Sobald du einwilligst, werden sie automatisch in deinem Konto gespeichert.": [
-    "Without your consent to process health data, changes are kept on this device only. As soon as you consent, they are saved to your account automatically.",
-    "Sin tu consentimiento para tratar datos de salud, los cambios solo se guardan en este dispositivo. En cuanto des tu consentimiento, se guardarán automáticamente en tu cuenta."
-  ],
-  "Einwilligung erteilen →": [
-    "Give consent →",
-    "Dar consentimiento →"
-  ],
-  "Kein Code erhalten oder schon ein Konto?": [
-    "No code received or already have an account?",
-    "¿No has recibido el código o ya tienes una cuenta?"
-  ],
-  "Zur Anmeldung": [
-    "Go to sign in",
-    "Ir a iniciar sesión"
-  ],
-  "Ein Code wurde gerade erst gesendet. Bitte warte 60 Sekunden und versuche es dann erneut – oder nutze den letzten Code aus deinem Postfach.": [
-    "A code was just sent. Please wait 60 seconds and try again – or use the latest code in your inbox.",
-    "Se acaba de enviar un código. Espera 60 segundos e inténtalo de nuevo, o usa el último código de tu bandeja de entrada."
-  ],
-  "Das Löschen wurde bestätigt, aber noch nicht abgeschlossen. Bitte tippe erneut auf „Konto endgültig löschen“.": [
-    "Deletion was confirmed but is not finished yet. Please tap “Delete account permanently” again.",
-    "La eliminación se confirmó, pero aún no ha terminado. Vuelve a pulsar «Eliminar cuenta permanentemente»."
-  ],
-  "Zu viele falsche Versuche. Bitte fordere einen neuen Code an.": [
-    "Too many wrong attempts. Please request a new code.",
-    "Demasiados intentos fallidos. Solicita un nuevo código."
-  ],
-  "Löschen nicht möglich. Bitte versuche es erneut.": [
-    "Deletion not possible. Please try again.",
-    "No se puede eliminar. Inténtalo de nuevo."
   ],
   "Wenn du dich vorher abmeldest, gehen diese nur hier gespeicherten Änderungen verloren.": [
     "If you sign out before then, these changes stored only on this device will be lost.",
@@ -3799,9 +3815,9 @@
     "AI analysis by third-party providers",
     "Análisis con IA por proveedores externos"
   ],
-  "Für diese Funktion sendet Vital Plus Inhalte an externe KI-Dienste. Ohne deine Zustimmung wird nichts übertragen.": [
-    "For this feature, Vital Plus sends content to external AI services. Nothing is sent without your consent.",
-    "Para esta función, Vital Plus envía contenido a servicios de IA externos. Sin tu consentimiento no se envía nada."
+  "Für diese Funktion sendet fairvitalgo Inhalte an externe KI-Dienste. Ohne deine Zustimmung wird nichts übertragen.": [
+    "For this feature, fairvitalgo sends content to external AI services. Nothing is sent without your consent.",
+    "Para esta función, fairvitalgo envía contenido a servicios de IA externos. Sin tu consentimiento no se envía nada."
   ],
   "Was gesendet wird: je nach Funktion dein Laborbefund (PDF oder Foto) mit deinen zuletzt erfassten Mahlzeiten, dein Essensfoto, deine Sprachaufnahme oder der eingegebene Name einer Mahlzeit. Ein Befund kann persönliche Angaben enthalten, die darauf stehen, z. B. Name und Geburtsdatum. Deine E-Mail-Adresse und Apple-Health-Werte werden nicht gesendet.": [
     "What is sent: depending on the feature, your lab report (PDF or photo) with your recently logged meals, your food photo, your voice recording or the meal name you typed. A report may contain personal details printed on it, such as name and date of birth. Your email address and Apple Health values are not sent.",
@@ -3866,5 +3882,9 @@
   "Bitte erlaube zuerst die KI-Auswertung durch Drittanbieter (Profil → Meine Daten).": [
     "Please first allow AI analysis by third-party providers (Profile → My data).",
     "Primero permite el análisis con IA por proveedores externos (Perfil → Mis datos)."
+  ],
+  "Wert gespeichert.": [
+    "Value saved.",
+    "Valor guardado."
   ]
 }

@@ -404,8 +404,10 @@
    short screens and an open keyboard may still scroll, nothing is clipped. vh lines are fallbacks. */
 .home-entry { position: relative; isolation: isolate; min-height: 100vh; min-height: calc(100svh - var(--shell-inset-top)); max-width: 1440px; margin-inline: auto; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
 .home-entry-header { padding: 32px 24px 0; }
-.home-entry-logo { display: block; width: min(230px, 60vw); height: auto; }
-.home-produce { position: absolute; z-index: -1; width: 100%; height: calc(100vh - 190px); height: calc(100svh - 190px - var(--shell-inset-top)); bottom: 0; object-fit: cover; object-position: center bottom; }
+.home-entry-logo { display: block; width: min(190px, 60vw); height: auto; }
+/* The mascot must always be shown whole: contain (never cover) and a box that
+   stops below the header, so no part of Vitali is ever sliced off. */
+.home-produce { position: absolute; z-index: -1; width: 100%; height: calc(100vh - 170px); height: calc(100svh - 170px - var(--shell-inset-top)); max-height: 100%; bottom: 0; object-fit: contain; object-position: center bottom; }
 .home-entry-controls { width: 100%; max-width: 440px; margin: auto auto 0; padding: 24px 24px max(24px, calc(env(safe-area-inset-bottom, 0px) + 12px)); }
 .home-entry-login .home-entry-controls { background: linear-gradient(0deg, var(--card) 75%, transparent); padding-top: 48px; }
 .home-entry-controls input { scroll-margin-bottom: 120px; }
@@ -425,7 +427,7 @@
 }
 @media (min-width: 600px) {
   .home-entry-header { padding: 44px 48px 0; }
-  .home-entry-logo { width: 280px; }
+  .home-entry-logo { width: 240px; }
   .home-produce { width: min(100%, 800px); height: calc(100vh - 200px); height: calc(100svh - 200px - var(--shell-inset-top)); left: 50%; transform: translateX(-50%); object-fit: contain; }
 }
 @media (min-width: 1024px) {
@@ -441,3 +443,16 @@
   .home-entry-header p { margin-top: 10px; font-size: 26px; }
   .home-entry-login .home-entry-controls { padding-top: 32px; }
 }
+
+/* DSGVO privacy bubble: pinned to the top-right of the app frame, clear of the
+   notch on installed iOS builds, with a short entrance only when motion is fine. */
+.privacy-bubble { top: calc(10px + env(safe-area-inset-top)); }
+@keyframes privacy-pop { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: none; } }
+.privacy-pop { animation: privacy-pop 200ms ease-out both; }
+
+/* Signup legal line over the mascot artwork: black, bold and ringed in white so
+   it stays readable without covering the artwork with a panel. */
+.legal-notice { color: var(--foreground); font-weight: 700; text-shadow: 0 0 2px var(--card), 0 0 2px var(--card), 1px 0 0 var(--card), -1px 0 0 var(--card), 0 1px 0 var(--card), 0 -1px 0 var(--card), 0 0 6px var(--card); }
+.legal-notice button { color: var(--foreground); font-weight: 700; }
+
+@media (prefers-reduced-motion: reduce) { .privacy-pop { animation: none; } }

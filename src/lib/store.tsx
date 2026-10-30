@@ -120,7 +120,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         .from("user_data")
         .upsert({ user_id: uid, state: state as any, updated_at: new Date().toISOString() });
       if (!error) return;
-      console.error("Vitalplus: saving account data failed", error.message);
+      console.error("fairvitalgo: saving account data failed", error.message);
       // Consent was withdrawn elsewhere (or a new policy applies): keep the change and check consent again.
       if (error.code === "42501" && userRef.current === uid) { held.current = true; void loadConsent(uid); }
     };

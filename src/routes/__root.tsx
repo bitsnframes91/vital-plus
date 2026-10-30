@@ -89,15 +89,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           ? "width=device-width, initial-scale=1, viewport-fit=cover"
           : "width=device-width, initial-scale=1",
       },
-      { title: "Vital Plus" },
+      { title: "fairvitalgo" },
       { name: "description", content: "Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#9dce4c" },
-      { name: "application-name", content: "Vital Plus" },
+      { name: "application-name", content: "fairvitalgo" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
-      { name: "apple-mobile-web-app-title", content: "Vital Plus" },
+      { name: "apple-mobile-web-app-title", content: "fairvitalgo" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
     ],
     links: [

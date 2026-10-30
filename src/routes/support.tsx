@@ -9,9 +9,9 @@ export const Route = createFileRoute("/support")({
   validateSearch: validateLegalSearch,
   head: () => ({
     meta: [
-      { title: "Support — Vital Plus" },
-      { name: "description", content: "Hilfe und Kontakt zur App Vital Plus." },
-      { property: "og:title", content: "Support — Vital Plus" },
+      { title: "Support — fairvitalgo" },
+      { name: "description", content: "Hilfe und Kontakt zur App fairvitalgo." },
+      { property: "og:title", content: "Support — fairvitalgo" },
       { property: "og:type", content: "website" },
     ],
   }),
@@ -31,7 +31,7 @@ const copy: Record<
 > = {
   de: {
     title: "Hilfe und Kontakt",
-    contact: "Du erreichst den Vital-Plus-Kundenservice von Fairvital per E-Mail oder Telefon.",
+    contact: "Du erreichst den fairvitalgo-Kundenservice von Fairvital per E-Mail oder Telefon.",
     email: "E-Mail",
     phone: "Telefon",
     faq: [
@@ -49,18 +49,18 @@ const copy: Record<
       ],
       [
         "Wie trenne ich Apple Health?",
-        "In den iOS-Einstellungen unter Health → Datenzugriff & Geräte → Vital Plus kannst du alle Freigaben ausschalten. Daten in Apple Health bleiben dabei unverändert.",
+        "In den iOS-Einstellungen unter Health → Datenzugriff & Geräte → FairVital Go kannst du alle Freigaben ausschalten. Daten in Apple Health bleiben dabei unverändert.",
       ],
       [
         "Ich habe mein Passwort vergessen.",
         "Auf der Anmeldeseite kannst du über „Passwort vergessen?“ einen Link zum Zurücksetzen anfordern oder dich mit einem Code per E-Mail anmelden.",
       ],
     ],
-    note: "Vital Plus ersetzt keine ärztliche Beratung, Diagnose oder Behandlung. Bei akuten Beschwerden wende dich an den örtlichen Notdienst.",
+    note: "fairvitalgo ersetzt keine ärztliche Beratung, Diagnose oder Behandlung. Bei akuten Beschwerden wende dich an den örtlichen Notdienst.",
   },
   en: {
     title: "Help and contact",
-    contact: "You can reach Fairvital's Vital Plus customer service by email or phone.",
+    contact: "You can reach Fairvital's fairvitalgo customer service by email or phone.",
     email: "Email",
     phone: "Phone",
     faq: [
@@ -78,19 +78,19 @@ const copy: Record<
       ],
       [
         "How do I disconnect Apple Health?",
-        "In iOS Settings under Health → Data Access & Devices → Vital Plus you can turn off all permissions. Data in Apple Health stays unchanged.",
+        "In iOS Settings under Health → Data Access & Devices → FairVital Go you can turn off all permissions. Data in Apple Health stays unchanged.",
       ],
       [
         "I forgot my password.",
         "On the sign-in screen, use “Forgot password?” to request a reset link, or sign in with a code sent to your email.",
       ],
     ],
-    note: "Vital Plus does not replace medical advice, diagnosis or treatment. For acute symptoms contact local emergency services.",
+    note: "fairvitalgo does not replace medical advice, diagnosis or treatment. For acute symptoms contact local emergency services.",
   },
   es: {
     title: "Ayuda y contacto",
     contact:
-      "Puedes contactar con el servicio de atención de Vital Plus de Fairvital por correo o teléfono.",
+      "Puedes contactar con el servicio de atención de fairvitalgo de Fairvital por correo o teléfono.",
     email: "Correo",
     phone: "Teléfono",
     faq: [
@@ -108,14 +108,14 @@ const copy: Record<
       ],
       [
         "¿Cómo desconecto Apple Salud?",
-        "En Ajustes de iOS, en Salud → Acceso a datos y dispositivos → Vital Plus, puedes desactivar todos los permisos. Los datos en Apple Salud no cambian.",
+        "En Ajustes de iOS, en Salud → Acceso a datos y dispositivos → FairVital Go, puedes desactivar todos los permisos. Los datos en Apple Salud no cambian.",
       ],
       [
         "He olvidado mi contraseña.",
         "En la pantalla de inicio de sesión, usa «¿Olvidaste tu contraseña?» para solicitar un enlace o inicia sesión con un código enviado a tu correo.",
       ],
     ],
-    note: "Vital Plus no sustituye el consejo médico, el diagnóstico ni el tratamiento. Ante síntomas agudos contacta con los servicios de emergencia locales.",
+    note: "fairvitalgo no sustituye el consejo médico, el diagnóstico ni el tratamiento. Ante síntomas agudos contacta con los servicios de emergencia locales.",
   },
 };
 

@@ -5,7 +5,7 @@ import { isNativeApp } from "@/lib/native-app";
 // on the web and in the hosted app there is no bridge at all.
 
 // One-way data flow. READ: measurements imported from Apple Health (read authorization, sync,
-// observers). WRITE: entries made in Vital Plus (weight, water, dietary energy), exported only when
+// observers). WRITE: entries made in fairvitalgo (weight, water, dietary energy), exported only when
 // the user turns an export on. Read and write permissions are independent in HealthKit.
 export const READ_TYPES = [
   "stepCount",

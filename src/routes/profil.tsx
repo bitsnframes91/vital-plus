@@ -18,9 +18,9 @@ export const Route = createFileRoute("/profil")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "Profil & Meine Daten — Vital Plus" },
-      { name: "description", content: "Dein Vital-Plus-Profil, deine Daten und Einstellungen verwalten." },
-      { property: "og:title", content: "Profil & Meine Daten — Vital Plus" },
+      { title: "Profil & Meine Daten — fairvitalgo" },
+      { name: "description", content: "Dein fairvitalgo Profil, deine Daten und Einstellungen verwalten." },
+      { property: "og:title", content: "Profil & Meine Daten — fairvitalgo" },
       { property: "og:description", content: "Du entscheidest, wer deine Gesundheitsdaten sieht." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -120,13 +120,13 @@ function Profile() {
         )}
         <MenuRow category={translateText("Persönlich")} title={translateText("Gesundheitsprofil bearbeiten")} sub={translateText("Name, Größe, Gewicht, Ziele und mehr")} icon={UserRound} onClick={() => openMenu("personal")} />
         <MenuRow category={translateText("Konto")} title={translateText("Konto & Sicherheit")} sub={translateText("E-Mail-Adresse, Passwort, Konto löschen")} icon={LockKeyhole} onClick={() => s.account ? openMenu("security") : navigate({ to: "/login", search: { mode: "login" } })} />
-        <MenuRow category={translateText("Einstellungen")} title={translateText("App-Einstellungen")} sub={translateText("Benachrichtigungen, Sprache, Design")} icon={Settings} onClick={() => openMenu("settings")} />
+        <MenuRow category={translateText("Einstellungen")} title={translateText("App-Einstellungen")} sub={translateText("Benachrichtigungen, Sprache, Erinnerungen")} icon={Settings} onClick={() => openMenu("settings")} />
         <MenuRow category={translateText("Privatsphäre")} title={translateText("Meine Daten")} sub={translateText("Deine Daten herunterladen")} icon={Shield} onClick={() => openMenu("privacy")} />
         <MenuRow category={translateText("Hilfe")} title={translateText("Kundenservice kontaktieren")} sub={translateText("Telefon oder E-Mail")} icon={MessageSquare} onClick={() => openMenu("help")} />
         <MenuRow category={translateText("Rechtliches")} title={translateText("Rechtliches")} sub={translateText("Allgemeine Geschäftsbedingungen, Impressum")} icon={FileText} onClick={() => openMenu("legal")} />
         <div className="border-t border-border pt-4">
         <div className="rounded-2xl border border-border bg-card p-4 text-[13px] text-muted-foreground">
-          <div className="eyebrow mb-1"><Localized>{"Vital Plus Konto"}</Localized></div>
+          <div className="eyebrow mb-1"><Localized>{"fairvitalgo Konto"}</Localized></div>
           <div className="mt-3 flex items-start gap-3">
           <span className="grid size-12 shrink-0 place-items-center rounded-full bg-fresh text-ink"><Mail className="size-6" strokeWidth={1.6} /></span>
           <div className="min-w-0 flex-1">

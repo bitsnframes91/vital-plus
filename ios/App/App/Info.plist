@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>de</string>
 	<key>CFBundleDisplayName</key>
-	<string>Vital Plus</string>
+	<string>FairVital Go</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -38,13 +38,13 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Vital Plus nutzt die Kamera nur, wenn du ein Foto deiner Mahlzeit oder deines Laborbefunds aufnimmst.</string>
+	<string>FairVital Go nutzt die Kamera nur, wenn du ein Foto deiner Mahlzeit oder deines Laborbefunds aufnimmst.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Vital Plus nutzt das Mikrofon nur, wenn du eine Mahlzeit per Sprache erfasst.</string>
+	<string>FairVital Go nutzt das Mikrofon nur, wenn du eine Mahlzeit per Sprache erfasst.</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>Vital Plus zeigt Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Schlaf sowie aktive und Ruheenergie aus Apple Health an. Diese Daten bleiben auf deinem iPhone und werden nicht an dein Konto oder an KI-Dienste gesendet.</string>
+	<string>FairVital Go zeigt Schritte, Strecke, Geh- und Laufgeschwindigkeit, Herzfrequenz, Schlaf sowie aktive und Ruheenergie aus Apple Health an. Diese Daten bleiben auf deinem iPhone und werden nicht an dein Konto oder an KI-Dienste gesendet.</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>Vital Plus speichert nur Werte, die du selbst in der App einträgst – Gewicht, Wasser und Nahrungsenergie –, und nur, wenn du das einschaltest.</string>
+	<string>FairVital Go speichert nur Werte, die du selbst in der App einträgst – Gewicht, Wasser und Nahrungsenergie –, und nur, wenn du das einschaltest.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

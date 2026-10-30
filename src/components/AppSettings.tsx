@@ -1,7 +1,7 @@
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText } from "@/lib/language";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { Clock, Globe, Moon, Sun } from "lucide-react";
+import { Clock, Globe } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { languages, setLanguage, validLanguage } from "@/lib/language";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,7 @@ export function AppSettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState(defaultSettings);
   const [ready, setReady] = useState(false);
   const [reminder, setReminder] = useState(false);
-  useEffect(() => { setSettings(parseSettings(localStorage.getItem(SETTINGS_KEY))); setReady(true); }, []);
+  useEffect(() => { setSettings({ ...parseSettings(localStorage.getItem(SETTINGS_KEY)), theme: "light" }); setReady(true); }, []);
   useEffect(() => {
     if (!ready) return;
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
@@ -65,9 +65,8 @@ export function AppSettingsControls() {
   };
   return <div className="space-y-3">
     <div className="rounded-lg bg-card px-4 py-4"><label htmlFor="app-language" className="mb-3 flex items-center gap-3 text-[13px] font-semibold"><Globe className="size-5" /><Localized>{"Sprache"}</Localized></label><div className="flex gap-2"><Select value={draftLanguage} onValueChange={value => setDraftLanguage(validLanguage(value))}><SelectTrigger id="app-language" className="min-w-0 flex-1" aria-label={translateText("Sprache")}><SelectValue /></SelectTrigger><SelectContent>{languages.map(language => <SelectItem key={language.value} value={language.value}><Localized>{language.label}</Localized></SelectItem>)}</SelectContent></Select><Button disabled={draftLanguage === settings.language} onClick={() => update({ language: draftLanguage })}><Localized>{"Übernehmen"}</Localized></Button></div></div>
-    <div className="rounded-lg bg-card px-4 py-4"><div className="flex items-center gap-3">{settings.theme === "dark" ? <Moon className="size-5 shrink-0" /> : <Sun className="size-5 shrink-0" />}<div className="flex-1"><label htmlFor="dark-mode" className="text-[13px] font-semibold"><Localized>{"Anzeige & Darstellung"}</Localized></label><p className="text-xs text-muted-foreground"><Localized>{settings.theme === "dark" ? "Dunkel" : "Hell"}</Localized></p></div><Switch id="dark-mode" checked={settings.theme === "dark"} onCheckedChange={dark => update({ theme: dark ? "dark" : "light" })} /></div></div>
     <div className="rounded-lg bg-card px-4 py-4"><div className="flex items-center gap-3"><Clock className="size-5 shrink-0" /><div className="flex-1"><label htmlFor="reminders" className="text-[13px] font-semibold"><Localized>{"Erinnerungen"}</Localized></label><p className="text-xs text-muted-foreground"><Localized>{settings.reminders ? "An" : "Aus"}</Localized></p></div><Switch id="reminders" checked={settings.reminders} onCheckedChange={enableReminders} /></div>
-      {settings.reminders && <div className="mt-4"><label htmlFor="reminder-time" className="text-xs font-medium"><Localized>{"Täglich um"}</Localized></label><input id="reminder-time" type="time" value={settings.reminderTime} onChange={e => { if (e.target.value) update({ reminderTime: e.target.value }); }} className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-foreground" /><p className="mt-2 text-xs leading-5 text-muted-foreground"><Localized>{"Erinnerungen erscheinen, solange Vital Plus geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App."}</Localized></p></div>}
+      {settings.reminders && <div className="mt-4"><label htmlFor="reminder-time" className="text-xs font-medium"><Localized>{"Täglich um"}</Localized></label><input id="reminder-time" type="time" value={settings.reminderTime} onChange={e => { if (e.target.value) update({ reminderTime: e.target.value }); }} className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-foreground" /><p className="mt-2 text-xs leading-5 text-muted-foreground"><Localized>{"Erinnerungen erscheinen, solange fairvitalgo geöffnet ist, oder beim nächsten Öffnen. Keine Zustellung bei geschlossener App."}</Localized></p></div>}
     </div>
   </div>;
 }

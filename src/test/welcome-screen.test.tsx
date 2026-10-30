@@ -21,12 +21,12 @@ describe("Welcome screen", () => {
     vi.spyOn(HomeRoute, "useSearch").mockReturnValue({} as never);
   });
 
-  it("shows the bundled Vital Plus logo", () => {
+  it("shows the bundled fairvitalgo logo", () => {
     render(<Home />);
-    const logo = screen.getByRole("img", { name: "Vital Plus" });
-    expect(logo.getAttribute("src")).toMatch(/vital-plus-logo\.webp/);
-    expect(logo).toHaveAttribute("width", "1178");
-    expect(screen.getByRole("heading", { level: 1, name: "Vital Plus" })).toBeInTheDocument();
+    const logo = screen.getByRole("img", { name: "fairvitalgo" });
+    expect(logo.getAttribute("src")).toMatch(/fairvitalgo-logo.webp/);
+    expect(logo).toHaveAttribute("width", "1114");
+    expect(screen.getByRole("heading", { level: 1, name: "fairvitalgo" })).toBeInTheDocument();
   });
 
   it("starts the questionnaire from the new-user swipe", async () => {

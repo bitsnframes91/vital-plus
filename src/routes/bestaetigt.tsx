@@ -9,10 +9,10 @@ export const Route = createFileRoute("/bestaetigt")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "E-Mail bestätigt — Vital Plus" },
-      { name: "description", content: "Bestätigung deines Vital-Plus-Kontos." },
-      { property: "og:title", content: "E-Mail bestätigt — Vital Plus" },
-      { property: "og:description", content: "Bestätigung deines Vital-Plus-Kontos." },
+      { title: "E-Mail bestätigt — fairvitalgo" },
+      { name: "description", content: "Bestätigung deines fairvitalgo-Kontos." },
+      { property: "og:title", content: "E-Mail bestätigt — fairvitalgo" },
+      { property: "og:description", content: "Bestätigung deines fairvitalgo-Kontos." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -40,7 +40,7 @@ function Confirmed() {
   }, []);
   return (
     <AppShell width="narrow">
-      <PageHeader eyebrow={translateText("Vital Plus Konto")} title={translateText(state === "ok" ? "Konto bestätigt" : state === "fail" ? "Link ungültig" : "Wird bestätigt …")} />
+      <PageHeader eyebrow={translateText("fairvitalgo Konto")} title={translateText(state === "ok" ? "Konto bestätigt" : state === "fail" ? "Link ungültig" : "Wird bestätigt …")} />
       <div className="card-surface mx-4 mt-4 space-y-3 p-5 text-sm">
         {state === "ok" && <p><Localized>{"Danke! Deine E-Mail-Adresse ist bestätigt und dein Profil ist jetzt aktiv."}</Localized></p>}
         {state === "fail" && <p><Localized>{"Der Link ist abgelaufen oder ungültig. Melde dich an und fordere über den Hinweis oben einen neuen Link an."}</Localized></p>}

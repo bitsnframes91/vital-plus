@@ -28,9 +28,9 @@ export const Route = createFileRoute("/ernaehrung")({
   staticData: { sitemap: false },
   head: () => ({
     meta: [
-      { title: "Ernährung — Vital Plus" },
+      { title: "Ernährung — fairvitalgo" },
       { name: "description", content: "Ernährungstagebuch: Mahlzeiten erfassen und Kalorien, Protein, Ballaststoffe, Kohlenhydrate und Fett im Blick behalten." },
-      { property: "og:title", content: "Ernährung — Vital Plus" },
+      { property: "og:title", content: "Ernährung — fairvitalgo" },
       { property: "og:description", content: "Mahlzeiten einfach erfassen und Nährwerte verstehen." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

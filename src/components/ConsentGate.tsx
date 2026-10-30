@@ -6,7 +6,7 @@ import { LegalLinks } from "@/components/LegalLinks";
 import { Button } from "@/components/ui/button";
 import { useAppleHealth } from "@/components/AppleHealth";
 
-export const CONSENT_TEXT = "Ich willige ausdrücklich ein, dass Vitalplus meine Gesundheitsdaten (z. B. Körperdaten, Mahlzeiten, Laborwerte und – falls freigegeben – Apple-Health-Werte) zur Darstellung und Auswertung in der App verarbeitet (Art. 9 Abs. 2 lit. a DSGVO). Apple-Health-Werte bleiben auf meinem Gerät. Ich kann die Einwilligung jederzeit widerrufen. Vitalplus ersetzt keine ärztliche Beratung.";
+export const CONSENT_TEXT = "Ich willige ausdrücklich ein, dass fairvitalgo meine Gesundheitsdaten (z. B. Körperdaten, Mahlzeiten, Laborwerte und – falls freigegeben – Apple-Health-Werte) zur Darstellung und Auswertung in der App verarbeitet (Art. 9 Abs. 2 lit. a DSGVO). Apple-Health-Werte bleiben auf meinem Gerät. Ich kann die Einwilligung jederzeit widerrufen. fairvitalgo ersetzt keine ärztliche Beratung.";
 
 // Account screens (profile, data export, deletion) never depend on health-data consent.
 const exempt = (p: string) => p === "/profil" || p.startsWith("/profil/");

@@ -3,7 +3,7 @@ import { Localized, useLanguage } from "@/components/Localized";
 import { translateText } from "@/lib/language";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import startseiteProduce from "@/assets/startseite-produce.png.asset.json";
+import startseiteProduce from "@/assets/startseite-produce-trimmed.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { SwipeAction } from "@/components/SwipeAction";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,6 +14,7 @@ import { GENERIC_LOGIN_ERROR, codeRequestFailed } from "@/lib/consent-policy";
 import { VivoBrand } from "@/components/VivoBrand";
 import { LegalLinks } from "@/components/LegalLinks";
 import { publicAppUrl } from "@/lib/native-app";
+import { PrivacyBubble } from "@/components/PrivacyBubble";
 
 export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
@@ -21,9 +22,9 @@ export const Route = createFileRoute("/")({
     search["mode"] === "login" ? { mode: "login" } : {},
   head: () => ({
     meta: [
-      { title: "Vital Plus — Gesünder leben. Glücklicher sein." },
-      { name: "description", content: "Vital Plus: dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
-      { property: "og:title", content: "Vital Plus — Gesünder leben. Glücklicher sein." },
+      { title: "fairvitalgo — Gesünder leben. Glücklicher sein." },
+      { name: "description", content: "fairvitalgo: dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
+      { property: "og:title", content: "fairvitalgo — Gesünder leben. Glücklicher sein." },
       { property: "og:description", content: "Dein persönlicher Begleiter für Ernährung, Vitalstoffe und gesundes Altern." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -74,10 +75,11 @@ function Home() {
   };
   return <div className="min-h-screen bg-card font-sans text-foreground">
     <main className={`home-entry ${mode === "login" ? "home-entry-login" : ""}`}>
-      <img src={startseiteProduce.url} alt={translateText("Vitali mit frischem Obst und Gemüse")} width={768} height={1152} fetchPriority="high" className="home-produce" />
+      <PrivacyBubble />
+      <img src={startseiteProduce.url} alt={translateText("Vitali mit frischem Obst und Gemüse")} width={1024} height={1235} fetchPriority="high" className="home-produce" />
       <header className="home-entry-header relative z-10">
-        <Link to="/" aria-label={translateText("Vital Plus Startseite")} className="inline-block"><VivoBrand className="home-entry-logo object-contain" /></Link>
-        <h1 className="sr-only">Vital Plus</h1>
+        <Link to="/" aria-label={translateText("fairvitalgo Startseite")} className="inline-block"><VivoBrand className="home-entry-logo object-contain" /></Link>
+        <h1 className="sr-only">fairvitalgo</h1>
         <p className="mt-5 text-[30px] font-semibold leading-tight sm:text-[40px]"><Localized>{"Gesünder leben."}</Localized><br /><Localized>{"Glücklicher sein."}</Localized></p>
       </header>
       <div className="home-entry-controls relative z-10">
@@ -107,7 +109,7 @@ function Home() {
           ))}
           {error && <p role="alert" className="mb-3 text-sm text-destructive"><Localized>{error}</Localized></p>}
           {!magicSent && <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : magic ? "Login-Code senden" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : magic ? sendMagicLink : signIn} />}
-          {mode === "new" && <LegalLinks className="mt-3" prefix="Mit dem Start akzeptierst du die" />}
+          {mode === "new" && <LegalLinks className="legal-notice mx-auto mt-3 px-1 py-1" prefix="Mit dem Start akzeptierst du die" />}
         </>}
       </div>
     </main>
