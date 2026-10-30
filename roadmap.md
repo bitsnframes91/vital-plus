@@ -11,7 +11,7 @@
 - [x] Redesign white Startseite with supplied produce mascot, top-left logo and swipe actions.
 - [x] Move new-user questionnaire before account creation; restore signup-bound answers only for a verified new account with no existing health row; tests passed.
 - [x] Verify questionnaire-to-registration swipe, email/password empty-input validation, signed-in swipe to Heute and desktop/tablet/mobile presentation; 12 tests passed, no page errors.
-- [ ] Verify a real signup confirmation email and password-based sign-in end-to-end; requires a new test account and access to its confirmation email. Existing signed-in session navigation is verified.
+- [ ] Verify a real signup confirmation email end-to-end; a login-code email was sent and delivered through notify.fairvitalgo.de on 30 Oct 2026, signup confirmation itself still untested.
 - [x] Replace Heute mascot with the supplied cheerful Vitali and Plan runner with the supplied target mascot; signed-in desktop/mobile animation, complete framing and reduced-motion fallbacks verified without page errors.
 - [x] Add the supplied doctor mascot to Gesundheit in the matching header position; signed-in desktop/mobile framing, playback and reduced-motion still fallback verified without page errors.
 - [x] Place the supplied salad mascot in Ernährung with matching header position, transparent animation and reduced-motion fallback; signed-in desktop/mobile playback verified without page errors.
@@ -48,3 +48,7 @@
 # fairvitalgo rebrand
 - [x] Replace the shared logo, browser/PWA icons and app wording across all languages, legal screens, metadata and emails; preserve shop ownership, existing URLs and device identifiers.
 - [x] Verify homepage and Today logo, installed-app icons, phone/tablet appearance and seven signed-in screens in German/English/Spanish; all 197 tests pass and build is clean. Existing URLs, draft/cooldown keys and HealthKit account hashes retain legacy identifiers for compatibility.
+
+# Email sender identity
+- [x] Set every app and auth email to FairvitalGO <noreply@fairvitalgo.de> delivered via notify.fairvitalgo.de; single shared config module, all seven templates render the brand, 201 tests pass, live login-code email delivered and the published app confirmed on the new sender.
+- [ ] Replace the remaining vital-plus.lovable.app references in robots.txt, the sitemap route, README, native-origins.ts and native-app.ts with the live URL; waiting for the user's go-ahead because native-origins.ts drives the iPhone app's server calls.
