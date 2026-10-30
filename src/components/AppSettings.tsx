@@ -1,7 +1,7 @@
 import { Localized, useLanguage } from "@/components/Localized";
 import { translateText } from "@/lib/language";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { Clock, Globe, Moon, Sun } from "lucide-react";
+import { Clock, Globe } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { languages, setLanguage, validLanguage } from "@/lib/language";
 import { Button } from "@/components/ui/button";
