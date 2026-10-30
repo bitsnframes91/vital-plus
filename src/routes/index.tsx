@@ -107,8 +107,22 @@ function Home() {
           {error && <p role="alert" className="mb-3 text-sm text-destructive"><Localized>{error}</Localized></p>}
           {!magicSent && <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : magic ? "Login-Code senden" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : magic ? sendMagicLink : signIn} />}
           {mode === "new" && <LegalLinks className="mt-3" prefix="Mit dem Start akzeptierst du die" />}
+          {mode === "new" && <PrivacyPromise />}
         </>}
       </div>
     </main>
   </div>;
+}
+
+/** Trust statement shown on the start page: what happens to a user's health data, in their own words. */
+function PrivacyPromise() {
+  return <section className="mt-5 rounded-2xl border border-border/70 bg-card/90 p-4 text-left backdrop-blur-sm">
+    <h2 className="flex items-start gap-2 text-[15px] font-semibold leading-snug text-foreground">
+      <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+      <Localized>{"Deine Gesundheit. Deine Daten. Deine Privatsphäre."}</Localized>
+    </h2>
+    <p className="mt-2 text-xs leading-5 text-muted-foreground"><Localized>{"Bei fairvitalgo® hat der Schutz deiner persönlichen Gesundheitsdaten höchste Priorität. Wir setzen auf die strengen Datenschutzstandards der DSGVO, eine sichere Datenverarbeitung und maximale Transparenz."}</Localized></p>
+    <p className="mt-2 text-xs leading-5 text-muted-foreground"><Localized>{"Deine Daten gehören dir: Kein Datenverkauf, keine Nutzung für fremde Werbung und volle Kontrolle über deine persönlichen Informationen. Du kannst jederzeit die Löschung deiner Daten veranlassen."}</Localized></p>
+    <p className="mt-3 text-xs font-semibold text-foreground"><Localized>{"fairvitalgo® – Weil deine Gesundheit Privatsache ist."}</Localized></p>
+  </section>;
 }
