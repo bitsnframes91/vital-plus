@@ -209,8 +209,6 @@ function Health() {
         </div>
         <div className="md:col-span-2"><AppleHealthSection /></div>
 
-        <div className="rounded-[20px] border border-dashed p-5 text-[13px] text-ink/50">
-          <div className="eyebrow mb-1"><Localized>{"Bald verfügbar"}</Localized></div><Localized>{"Google Health Connect und Wearables als automatische Datenquellen."}</Localized></div>
       </div>
     </AppShell>
   );
