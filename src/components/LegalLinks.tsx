@@ -12,12 +12,12 @@ export function LegalLinks({ className = "", prefix = "Mit der Registrierung akz
   const language = useLanguage();
   const [doc, setDoc] = useState<Doc | null>(null);
   const copy = doc === "privacy" ? privacyCopy[language] : termsCopy[language];
-  const link = "inline-flex min-h-11 items-center px-0.5 font-semibold text-foreground underline decoration-2 underline-offset-4";
+  const link = "inline-flex min-h-11 items-center px-1 font-semibold text-foreground underline underline-offset-4";
   return <>
-    <p className={`mx-auto max-w-[34ch] text-center text-sm leading-6 text-foreground/80 ${className}`}>
+    <p className={`text-center text-xs leading-5 text-muted-foreground ${className}`}>
       {prefix && <><Localized>{prefix}</Localized>{" "}</>}
       <button type="button" className={link} onClick={() => setDoc("terms")}><Localized>{"AGB"}</Localized></button>
-      {" "}<Localized>{"und"}</Localized>{" "}
+      <Localized>{"und"}</Localized>
       <button type="button" className={link} onClick={() => setDoc("privacy")}><Localized>{"Datenschutzerklärung"}</Localized></button>
     </p>
     <Dialog open={doc !== null} onOpenChange={o => { if (!o) setDoc(null); }}>
