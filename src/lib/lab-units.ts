@@ -11,7 +11,6 @@ export function europeanLabUnit(unit: string): { unit: string; factor: number } 
   if (key === "mg%") return { unit: "mg/dl", factor: 1 };
   if (key === "gm%" || key === "g%" || key === "gm/dl") return { unit: "g/dl", factor: 1 };
   if (key === "fl") return { unit: "fL", factor: 1 };
-  if (key === "g/l") return { unit: "G/l", factor: 1 };
   if (key === "t/l") return { unit: "T/l", factor: 1 };
   // Unknown units are retained rather than guessed. Europe has no single unit standard.
   return { unit, factor: 1 };

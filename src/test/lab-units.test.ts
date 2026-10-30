@@ -45,5 +45,6 @@ describe("European lab units", () => {
     expect(europeanLabUnit("unknown")).toEqual({ unit: "unknown", factor: 1 });
     expect(europeanLabUnit("mmol/l")).toEqual({ unit: "mmol/l", factor: 1 });
     expect(europeanLabUnit("g/dl")).toEqual({ unit: "g/dl", factor: 1 });
+    expect(europeanLabUnit("g/l")).toEqual({ unit: "g/l", factor: 1 });
   });
 });
