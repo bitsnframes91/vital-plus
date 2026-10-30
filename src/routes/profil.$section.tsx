@@ -24,6 +24,7 @@ const titles: Record<string, string> = { personal: "Gesundheitsprofil bearbeiten
 
 import { privacyCopy } from "@/lib/privacy-policy";
 import { termsCopy } from "@/lib/terms";
+import { TermsDocument } from "@/components/TermsDocument";
 import { imprintSections } from "@/lib/imprint";
 
 export const Route = createFileRoute("/profil/$section")({
@@ -47,7 +48,7 @@ function Row({ title, sub, icon: Icon, onClick, danger = false, green = false }:
 function ProfileSubmenu() {
   const language = useLanguage();
   const [doc, setDoc] = useState<"terms" | "privacy">("terms");
-  const terms = doc === "privacy" ? privacyCopy[language] : termsCopy[language];
+  const privacyDoc = doc === "privacy" ? privacyCopy[language] : null;
   const { section } = Route.useParams();
   const navigate = Route.useNavigate();
   const { s, set } = useStore();
@@ -137,11 +138,10 @@ function ProfileSubmenu() {
           <p className="whitespace-pre-line text-muted-foreground">{block.text}{"links" in block && block.links?.map(link => <span key={link.href}>{"prefix" in link ? link.prefix : ""}<a className="text-primary underline underline-offset-4" href={link.href} target={link.href.startsWith("mailto:") ? undefined : "_blank"} rel="noopener noreferrer">{link.label}</a></span>)}</p>
         </section>)}
       </article>}
-      {detail?.terms && <article className="space-y-5 break-words text-sm leading-6">
-        <p className="text-xs text-muted-foreground">{terms.date}</p>
-
-        {terms.sections.map(([title, text]) => <section key={title}><h2 className="mb-2 font-semibold text-foreground">{title}</h2><p className="text-muted-foreground">{text}</p></section>)}
-      </article>}
+      {detail?.terms && (privacyDoc ? <article className="space-y-5 break-words text-sm leading-6">
+        <p className="text-xs text-muted-foreground">{privacyDoc.date}</p>
+        {privacyDoc.sections.map(([title, text]) => <section key={title}><h2 className="mb-2 font-semibold text-foreground">{title}</h2><p className="text-muted-foreground">{text}</p></section>)}
+      </article> : <TermsDocument copy={termsCopy[language]} />)}
       {detail?.text && <p className="text-sm leading-6 text-muted-foreground"><Localized>{detail.text}</Localized></p>}
       {detail && field && <form className="space-y-4" onSubmit={saveField}>
         {(field === "age" || field === "height" || field === "weight") && <label className="block text-sm"><Localized>{numFields[field].label}</Localized><input autoFocus type="text" inputMode="decimal" className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={draft} onChange={e => setDraft(e.target.value)} /></label>}
