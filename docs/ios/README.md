@@ -69,7 +69,7 @@ Run in the Simulator (☐, needs Xcode): `bun run ios:open`, pick an iPhone simu
 | Variable | Where | Default | Purpose |
 |---|---|---|---|
 | `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` | `.env` (committed by Lovable; publishable values) | — | Supabase client (same as web) |
-| `VITE_NATIVE_WEB_ORIGIN` | build environment | `https://vital-plus.lovable.app` | Server functions, auth email links, CDN assets |
+| `VITE_NATIVE_WEB_ORIGIN` | build environment | `https://fairvitalgo.lovable.app` | Server functions, auth email links, CDN assets |
 
 No secret is bundled into the app. `LOVABLE_API_KEY` and the service-role key stay on the server.
 
@@ -143,7 +143,7 @@ git push origin ios-native-testflight-v1.0.0-<label>
 ## Device / Simulator test plan (☐ all pending)
 
 1. **Launch.** Expect: splash, then `/`. No content under the notch or Dynamic Island. Bottom nav sits above the home indicator.
-2. **Register.** The confirmation email link opens **the website** (`vital-plus.lovable.app/heute`), not the app. Then log in inside the app.
+2. **Register.** The confirmation email link opens **the website** (`fairvitalgo.lovable.app/heute`), not the app. Then log in inside the app.
 3. **Session.** Log in, kill the app, relaunch: still logged in (Keychain). Delete and reinstall: logged out.
 4. **Log out.** No previous profile or health data is visible. Log in as a second account: only that account's data.
 5. **Password reset.** The email link opens the website reset page.

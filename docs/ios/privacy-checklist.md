@@ -56,7 +56,7 @@ The iOS work adds **no new recipients**:
 ### Third parties already used by the web app (unchanged; included in App Privacy answers)
 - **Supabase / Lovable Cloud:** auth and the data store.
 - **Lovable AI Gateway:** uploaded lab, photo and voice content.
-- **Lovable CDN:** mascot, logo and product images, served via `vital-plus.lovable.app`.
+- **Lovable CDN:** mascot, logo and product images, served via `fairvitalgo.lovable.app`.
 - **Google Fonts:** `fonts.googleapis.com` / `fonts.gstatic.com` are loaded at startup, which sends the user's IP address to Google.
   - German courts have found this problematic without consent (LG München I, 3 O 17493/20).
   - **Recommendation:** self-host the font. That is a separate change affecting web and iOS.

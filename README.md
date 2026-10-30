@@ -4,7 +4,7 @@ Implement exactly the screenshot and nothing else
 
 This project was built with [Lovable](https://lovable.dev).
 
-**Live app**: https://vital-plus.lovable.app
+**Live app**: https://fairvitalgo.lovable.app
 
 ## Build with Lovable
 

@@ -8,7 +8,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import type { Plugin } from "vite";
 
 // Hosted app serving server functions, auth email links and CDN assets.
-const webOrigin = process.env["VITE_NATIVE_WEB_ORIGIN"] || "https://vital-plus.lovable.app";
+const webOrigin = process.env["VITE_NATIVE_WEB_ORIGIN"] || "https://fairvitalgo.lovable.app";
 
 // Lovable asset pointers (*.asset.json) hold root-relative URLs that the hosted app
 // serves; inside the app they would resolve against capacitor://localhost.

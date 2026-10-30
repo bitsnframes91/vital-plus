@@ -18,8 +18,8 @@ vi.mock("@/integrations/supabase/client", () => ({ supabase: { auth } }));
 vi.mock("@tanstack/react-router", () => ({ useNavigate: () => navigate }));
 vi.mock("@/lib/native-app", () => ({
   isNativeApp: true,
-  NATIVE_WEB_ORIGIN: "https://vital-plus.lovable.app",
-  publicAppUrl: (path: string) => `https://vital-plus.lovable.app${path}`,
+  NATIVE_WEB_ORIGIN: "https://fairvitalgo.lovable.app",
+  publicAppUrl: (path: string) => `https://fairvitalgo.lovable.app${path}`,
 }));
 vi.mock("@capacitor/status-bar", () => ({
   StatusBar: statusBar,
@@ -94,7 +94,7 @@ describe("six-digit email codes in the iOS app", () => {
       expect(call()).toHaveBeenCalledWith(
         expect.objectContaining({
           options: expect.objectContaining({
-            emailRedirectTo: "https://vital-plus.lovable.app/heute",
+            emailRedirectTo: "https://fairvitalgo.lovable.app/heute",
           }),
         }),
       );

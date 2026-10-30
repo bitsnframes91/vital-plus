@@ -33,7 +33,7 @@ vite.config.mobile.ts   → iOS: SPA mode, nitro:false, no PWA      → dist-mob
   - `spa.prerender.outputPath: "/index.html"`
   - `start.entry: "mobile/start"` and `client.entry: "mobile/client"`
   - a build-time flag `VITE_NATIVE_APP=true`
-- `src/mobile/start.ts` reuses the web `startInstance` options (same middleware, including Supabase bearer attachment). It only adds `serverFns.fetch`, which prefixes `/_serverFn/...` with `VITE_NATIVE_WEB_ORIGIN` (default `https://vital-plus.lovable.app`).
+- `src/mobile/start.ts` reuses the web `startInstance` options (same middleware, including Supabase bearer attachment). It only adds `serverFns.fetch`, which prefixes `/_serverFn/...` with `VITE_NATIVE_WEB_ORIGIN` (default `https://fairvitalgo.lovable.app`).
 - `src/mobile/client.tsx` is TanStack's default hydration plus `startNativeShell()`, which handles:
   - status bar style that follows the in-app theme
   - `vivohealth://` deep links, validated by `deepLinkPath`

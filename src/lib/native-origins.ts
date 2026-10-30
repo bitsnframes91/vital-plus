@@ -6,7 +6,7 @@ export const NATIVE_APP_ORIGINS = [
   "https://localhost",
 ] as const;
 
-export const PUBLISHED_APP_URL = "https://vital-plus.lovable.app";
+export const PUBLISHED_APP_URL = "https://fairvitalgo.lovable.app";
 
 export function isNativeAppOrigin(origin: string | null | undefined): boolean {
   return !!origin && (NATIVE_APP_ORIGINS as readonly string[]).includes(origin);

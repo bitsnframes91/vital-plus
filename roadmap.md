@@ -51,4 +51,4 @@
 
 # Email sender identity
 - [x] Set every app and auth email to FairvitalGO <noreply@fairvitalgo.de> delivered via notify.fairvitalgo.de; single shared config module, all seven templates render the brand, 201 tests pass, live login-code email delivered and the published app confirmed on the new sender.
-- [ ] Replace the remaining vital-plus.lovable.app references in robots.txt, the sitemap route, README, native-origins.ts and native-app.ts with the live URL; waiting for the user's go-ahead because native-origins.ts drives the iPhone app's server calls.
+- [x] Replaced the remaining vital-plus.lovable.app references (robots.txt, sitemap route, README, native-origins.ts, native-app.ts, vite.config.mobile.ts) with https://fairvitalgo.lovable.app after the user approved the switch for the iPhone app on 30 October 2026.

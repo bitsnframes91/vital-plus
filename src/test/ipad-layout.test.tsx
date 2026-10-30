@@ -15,7 +15,7 @@ vi.mock("@/lib/native-app", () => ({
   get isNativeApp() {
     return flags.native;
   },
-  NATIVE_WEB_ORIGIN: "https://vital-plus.lovable.app",
+  NATIVE_WEB_ORIGIN: "https://fairvitalgo.lovable.app",
   publicAppUrl: (p: string) => p,
 }));
 vi.mock("@tanstack/react-router", async (original) => ({

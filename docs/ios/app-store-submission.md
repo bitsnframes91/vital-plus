@@ -26,15 +26,15 @@ Legend:
 
 ## 2. Release dependency: publishing the web/server part
 
-The iOS app bundles its own interface but calls the **live** server (`vital-plus.lovable.app`) for AI, account deletion and password reset. The App Store also needs **public** privacy and support URLs. These are served by the web app:
+The iOS app bundles its own interface but calls the **live** server (`fairvitalgo.lovable.app`) for AI, account deletion and password reset. The App Store also needs **public** privacy and support URLs. These are served by the web app:
 
 | Page | URL (after publishing) |
 |---|---|
-| Privacy Policy (DE) | `https://vital-plus.lovable.app/datenschutz` |
-| Privacy Policy (EN) | `https://vital-plus.lovable.app/datenschutz?lang=en` |
-| Terms of Use | `https://vital-plus.lovable.app/nutzungsbedingungen` (`?lang=en`) |
-| Support | `https://vital-plus.lovable.app/support` (`?lang=en`) |
-| Legal notice | `https://vital-plus.lovable.app/impressum` |
+| Privacy Policy (DE) | `https://fairvitalgo.lovable.app/datenschutz` |
+| Privacy Policy (EN) | `https://fairvitalgo.lovable.app/datenschutz?lang=en` |
+| Terms of Use | `https://fairvitalgo.lovable.app/nutzungsbedingungen` (`?lang=en`) |
+| Support | `https://fairvitalgo.lovable.app/support` (`?lang=en`) |
+| Legal notice | `https://fairvitalgo.lovable.app/impressum` |
 
 Today these URLs return **404**, because the Lovable project publishes from `main` and this work is on `feature/ios-native-enhancements`.
 
@@ -158,9 +158,9 @@ Important: Vital Plus does not replace medical advice, diagnosis or treatment. A
 
 ### URLs
 
-- **Support URL:** `https://vital-plus.lovable.app/support` (EN: `?lang=en`)
-- **Marketing URL:** optional; leave empty or use `https://vital-plus.lovable.app/`
-- **Privacy Policy URL:** `https://vital-plus.lovable.app/datenschutz` (EN locale: `https://vital-plus.lovable.app/datenschutz?lang=en`)
+- **Support URL:** `https://fairvitalgo.lovable.app/support` (EN: `?lang=en`)
+- **Marketing URL:** optional; leave empty or use `https://fairvitalgo.lovable.app/`
+- **Privacy Policy URL:** `https://fairvitalgo.lovable.app/datenschutz` (EN locale: `https://fairvitalgo.lovable.app/datenschutz?lang=en`)
 - **License agreement:** keep Apple's **standard EULA**. The in-app terms refer to it in section 10.
 
 ## 5. App Review information

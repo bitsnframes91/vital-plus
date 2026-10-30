@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://vital-plus.lovable.app/sitemap.xml
+Sitemap: https://fairvitalgo.lovable.app/sitemap.xml

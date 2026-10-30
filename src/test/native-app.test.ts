@@ -11,7 +11,7 @@ describe("native deep links", () => {
   });
 
   it("accepts links to the hosted app origin", () => {
-    expect(deepLinkPath("https://vital-plus.lovable.app/ernaehrung")).toBe("/ernaehrung");
+    expect(deepLinkPath("https://fairvitalgo.lovable.app/ernaehrung")).toBe("/ernaehrung");
   });
 
   it("rejects foreign origins and unsafe paths", () => {

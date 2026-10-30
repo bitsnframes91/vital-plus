@@ -3,7 +3,7 @@ import { getRouterInstance } from "@tanstack/react-start";
 import { sitemapStaticPaths, sitemapXML, type SitemapEntry } from "@/lib/sitemap";
 
 
-const BASE_URL = "https://vital-plus.lovable.app";
+const BASE_URL = "https://fairvitalgo.lovable.app";
 
 export const Route = createFileRoute("/sitemap.xml")({
   staticData: { sitemap: false },
