@@ -65,12 +65,12 @@ export function PrivacyBubble() {
       </button>
 
       {open && (
-        <div className="absolute inset-0 z-50 flex justify-center px-4 pt-[68px]">
+        <div className="absolute inset-0 z-50 flex items-start justify-center px-4 pt-[68px]">
           <div className="absolute inset-0 bg-ink/10" onClick={close} aria-hidden="true" />
           <div
             role="dialog"
             aria-label={translateText("Datenschutz")}
-            className="privacy-pop relative w-full max-w-[340px] rounded-[22px] border border-border bg-card p-4 shadow-xl"
+            className="privacy-pop relative max-h-[calc(100%-88px)] w-full max-w-[340px] overflow-y-auto rounded-[22px] border border-border bg-card p-4 shadow-xl"
           >
             <button
               type="button"
