@@ -43,4 +43,4 @@
 - [x] Offer a resend-code option on the confirmation screen after a 30-second wait; verified disabled countdown, timer reset and new-code request in German, English and Spanish in the live app with tests.
 
 # European lab units
-- [ ] Normalize report-specific units in Labor dropdown/cards and manual/import entries, preserving numerical meaning; verify conversion tests and signed-in UI without writing personal records.
+- [x] Normalize report-specific units in Labor dropdown/cards and manual/import entries, preserving numerical meaning; 19 tests passed and signed-in dropdown verified without writing personal records.
