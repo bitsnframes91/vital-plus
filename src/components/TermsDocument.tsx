@@ -12,6 +12,7 @@ export function TermsDocument({ copy }: { copy: TermsCopy }) {
         {block.h && <h3 className="font-semibold text-foreground">{block.h}</h3>}
         {block.p && <p className="whitespace-pre-line text-muted-foreground">{block.p}</p>}
         {block.list && <ul className="ml-4 list-disc space-y-1 text-muted-foreground">{block.list.map(item => <li key={item}>{item}</li>)}</ul>}
+        {block.items && <ul className="ml-4 list-disc space-y-1 text-muted-foreground">{block.items.map(item => <li key={item.label}><span className="font-semibold text-foreground">{item.label}:</span> {item.text}</li>)}</ul>}
       </div>)}
     </section>)}
     <div className="space-y-2 border-t border-border pt-4">

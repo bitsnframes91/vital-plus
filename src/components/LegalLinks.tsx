@@ -24,10 +24,7 @@ export function LegalLinks({ className = "", prefix = "Mit der Registrierung akz
     <Dialog open={doc !== null} onOpenChange={o => { if (!o) setDoc(null); }}>
       <DialogContent className="max-h-[85dvh] max-w-2xl overflow-y-auto rounded-2xl">
         <DialogHeader><DialogTitle>{translateText(doc === "privacy" ? "Datenschutzerklärung" : "Allgemeine Geschäftsbedingungen (AGB)")}</DialogTitle></DialogHeader>
-        {privacyDoc ? <article className="space-y-5 break-words text-sm leading-6">
-          <p className="text-xs text-muted-foreground">{privacyDoc.date}</p>
-          {privacyDoc.sections.map(([title, text]) => <section key={title}><h2 className="mb-2 font-semibold text-foreground">{title}</h2><p className="text-muted-foreground">{text}</p></section>)}
-        </article> : <TermsDocument copy={termsCopy[language]} />}
+        {<TermsDocument copy={privacyDoc ?? termsCopy[language]} />}
       </DialogContent>
     </Dialog>
   </>;

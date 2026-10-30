@@ -138,10 +138,7 @@ function ProfileSubmenu() {
           <p className="whitespace-pre-line text-muted-foreground">{block.text}{"links" in block && block.links?.map(link => <span key={link.href}>{"prefix" in link ? link.prefix : ""}<a className="text-primary underline underline-offset-4" href={link.href} target={link.href.startsWith("mailto:") ? undefined : "_blank"} rel="noopener noreferrer">{link.label}</a></span>)}</p>
         </section>)}
       </article>}
-      {detail?.terms && (privacyDoc ? <article className="space-y-5 break-words text-sm leading-6">
-        <p className="text-xs text-muted-foreground">{privacyDoc.date}</p>
-        {privacyDoc.sections.map(([title, text]) => <section key={title}><h2 className="mb-2 font-semibold text-foreground">{title}</h2><p className="text-muted-foreground">{text}</p></section>)}
-      </article> : <TermsDocument copy={termsCopy[language]} />)}
+      {detail?.terms && <TermsDocument copy={privacyDoc ?? termsCopy[language]} />}
       {detail?.text && <p className="text-sm leading-6 text-muted-foreground"><Localized>{detail.text}</Localized></p>}
       {detail && field && <form className="space-y-4" onSubmit={saveField}>
         {(field === "age" || field === "height" || field === "weight") && <label className="block text-sm"><Localized>{numFields[field].label}</Localized><input autoFocus type="text" inputMode="decimal" className="mt-2 w-full rounded-lg border border-input bg-muted px-3 py-3 outline-none focus:ring-2 focus:ring-ring" value={draft} onChange={e => setDraft(e.target.value)} /></label>}
