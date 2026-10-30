@@ -47,4 +47,4 @@
 
 # fairvitalgo rebrand
 - [x] Replace the shared logo, browser/PWA icons and app wording across all languages, legal screens, metadata and emails; preserve shop ownership, existing URLs and device identifiers.
-- [ ] Verify rebrand rendering, translation coverage and existing security/device tests.
+- [x] Verify homepage and Today logo, installed-app icons, phone/tablet appearance and seven signed-in screens in German/English/Spanish; all 197 tests pass and build is clean. Existing URLs, draft/cooldown keys and HealthKit account hashes retain legacy identifiers for compatibility.
