@@ -108,7 +108,7 @@ function Home() {
           ))}
           {error && <p role="alert" className="mb-3 text-sm text-destructive"><Localized>{error}</Localized></p>}
           {!magicSent && <SwipeAction busy={busy} label={mode === "new" ? "Los geht’s" : magic ? "Login-Code senden" : "Anmelden"} onComplete={mode === "new" ? () => { clearQuestionnaire(); return navigate({ to: "/onboarding" }); } : magic ? sendMagicLink : signIn} />}
-          {mode === "new" && <LegalLinks className="mx-auto mt-3 w-fit rounded-full bg-card px-3 py-1" prefix="Mit dem Start akzeptierst du die" />}
+          {mode === "new" && <LegalLinks className="mx-auto mt-3 w-fit rounded-full bg-card/85 px-3 py-1 backdrop-blur-md" prefix="Mit dem Start akzeptierst du die" />}
         </>}
       </div>
     </main>
