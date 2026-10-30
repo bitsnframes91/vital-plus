@@ -107,7 +107,7 @@ function Profile() {
         )}
         <MenuRow category={translateText("Persönlich")} title={translateText("Gesundheitsprofil bearbeiten")} sub={translateText("Name, Größe, Gewicht, Ziele und mehr")} icon={UserRound} onClick={() => openMenu("personal")} />
         <MenuRow category={translateText("Konto")} title={translateText("Konto & Sicherheit")} sub={translateText("E-Mail-Adresse, Passwort, Konto löschen")} icon={LockKeyhole} onClick={() => s.account ? openMenu("security") : navigate({ to: "/login", search: { mode: "login" } })} />
-        <MenuRow category={translateText("Einstellungen")} title={translateText("App-Einstellungen")} sub={translateText("Benachrichtigungen, Sprache, Design")} icon={Settings} onClick={() => openMenu("settings")} />
+        <MenuRow category={translateText("Einstellungen")} title={translateText("App-Einstellungen")} sub={translateText("Benachrichtigungen, Sprache, Erinnerungen")} icon={Settings} onClick={() => openMenu("settings")} />
         <MenuRow category={translateText("Privatsphäre")} title={translateText("Meine Daten")} sub={translateText("Deine Daten herunterladen")} icon={Shield} onClick={() => openMenu("privacy")} />
         <MenuRow category={translateText("Hilfe")} title={translateText("Kundenservice kontaktieren")} sub={translateText("Telefon oder E-Mail")} icon={MessageSquare} onClick={() => openMenu("help")} />
         <MenuRow category={translateText("Rechtliches")} title={translateText("Rechtliches")} sub={translateText("Allgemeine Geschäftsbedingungen, Impressum")} icon={FileText} onClick={() => openMenu("legal")} />
