@@ -3414,5 +3414,13 @@
   "Wir setzen auf die strengen Datenschutzstandards der DSGVO, eine sichere Datenverarbeitung und maximale Transparenz. Deine Daten gehören dir: Kein Datenverkauf, keine Nutzung für fremde Werbung und volle Kontrolle über deine persönlichen Informationen. Du kannst jederzeit die Löschung deiner Daten veranlassen.": [
     "We follow the strict data-protection standards of the GDPR, secure data processing and maximum transparency. Your data belongs to you: no sale of data, no use for third-party advertising and full control over your personal information. You can request the deletion of your data at any time.",
     "Seguimos los estrictos estándares de protección de datos del RGPD, un tratamiento seguro de la información y la máxima transparencia. Tus datos son tuyos: ninguna venta de datos, ningún uso para publicidad de terceros y control total sobre tu información personal. Puedes solicitar la eliminación de tus datos en cualquier momento."
+  ],
+  "Wert gespeichert. Dein Plan wurde aktualisiert.": [
+    "Value saved. Your plan has been updated.",
+    "Valor guardado. Tu plan se ha actualizado."
+  ],
+  "Wert gespeichert, aber der Plan konnte nicht aktualisiert werden.": [
+    "Value saved, but the plan could not be updated.",
+    "Valor guardado, pero no se pudo actualizar el plan."
   ]
 }
