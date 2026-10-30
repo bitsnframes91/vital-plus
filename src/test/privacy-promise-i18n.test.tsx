@@ -19,7 +19,7 @@ describe("start-page privacy statement", () => {
     const entries = catalogue as Record<string, string[]>;
     for (const source of sources) {
       const entry = entries[source];
-      expect(entry, `missing catalogue entry: ${source}`).toBeDefined();
+      if (!entry) throw new Error(`missing catalogue entry: ${source}`);
       expect(entry).toHaveLength(2);
       expect(entry.every(value => typeof value === "string" && value.length > 0)).toBe(true);
     }
